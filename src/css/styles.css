@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+ol, ul {
+  padding-left: 30px;
+  text-align: left;
+}
+
+.app-header {
+  padding: 20px 0;
+  color: white;
+}
+
+.app-body {
+  padding: 20px;
+}
+
+#navbar {
+  z-index: 980;
+}
+
+#navbar img {
+  padding: 0;
+}
+
+#navbar img.uk-navbar-item {
+  padding: 0;
+}
