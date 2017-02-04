@@ -3,7 +3,7 @@ module.exports = {
     './src/index.js'
   ],
   output: {
-    path: __dirname,
+    path: .,
     publicPath: '/',
     filename: 'bundle.js'
   },
