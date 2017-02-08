@@ -17,6 +17,9 @@ ol, ul {
   padding: 20px;
 }
 
+
+/* NavBar */
+
 #navbar {
   z-index: 980;
 }
@@ -35,4 +38,25 @@ ol, ul {
 
 .ad-category {
   margin-right: 0.5em;
+}
+
+/* Login / Registration Form */
+
+.landing-form {
+  position:absolute;
+  top:50%;
+  left:50%;
+  padding:15px;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.form-login {
+  box-shadow: none;
+  border: 1px solid #e5e5e5;
+}
+
+.login-btn, .register-btn {
+  margin-bottom: 0;
 }
