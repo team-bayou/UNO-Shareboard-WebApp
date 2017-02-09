@@ -17,7 +17,7 @@ export default class RegisterForm extends Component {
             <input className="uk-input" type="password" placeholder="Password (again)" />
           </div>
           <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center login-btn" type="button">Register</button>
+            <button className="uk-button uk-button-secondary uk-align-center login-btn" type="submit" value="Register">Register</button>
           </div>
         </fieldset>
       </form>
