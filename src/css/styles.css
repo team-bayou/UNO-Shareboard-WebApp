@@ -18,6 +18,20 @@ ol, ul {
 }
 
 
+/*
+I think we should go for a black and white theme,
+so these are my attempts at replacing the default UI Kit
+blue with black
+*/
+
+.uk-tab>.uk-active>a {
+  border-color: #000000;
+}
+
+.uk-input:focus {
+  border-color: #000000;
+}
+
 /* NavBar */
 
 #navbar {
@@ -46,7 +60,6 @@ ol, ul {
   position:absolute;
   top:50%;
   left:50%;
-  padding:15px;
   -ms-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
@@ -54,13 +67,9 @@ ol, ul {
 
 .form-login {
   box-shadow: none;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #000000;
 }
 
 .login-btn, .register-btn {
   margin-bottom: 0;
-}
-
-.uk-tab>.uk-active>a {
-    border-color: #000000;
 }
