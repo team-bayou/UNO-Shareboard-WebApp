@@ -78,3 +78,7 @@ blue with black
 .login-btn, .register-btn {
   margin-bottom: 0;
 }
+
+.label-invalid {
+  color: #f0506e;
+}

@@ -53,14 +53,20 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Login</legend>
           <div className="uk-margin">
-            <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+            <div className="uk-form-controls">
+              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.state.emailStyle === this.inputValid}>E-mail must be a UNO e-mail address</label>
           </div>
           <div className="uk-margin">
-            <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+            <div className="uk-form-controls">
+              <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.state.passwordStyle === this.inputValid}>Password is invalid</label>
           </div>
           <div className="uk-margin">
             <button className="uk-button uk-button-secondary uk-align-center login-btn" type="submit" value="Login">Login</button>
