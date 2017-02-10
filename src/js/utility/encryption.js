@@ -24,7 +24,7 @@ module.exports = {
 
     // the following "accounts" and "salt" are for testing purposes
     const accounts = {
-      "myemail":"da4ff5e9fb1c6e7f29b616e00708c1781950a331724fba177dd8195a5f1dcc469a796c62b54901d05034a5427040e179d0ab1d1430fe3ddb808f3133c41c8e32"  // "mypass"
+      "myemail@email.com":"da4ff5e9fb1c6e7f29b616e00708c1781950a331724fba177dd8195a5f1dcc469a796c62b54901d05034a5427040e179d0ab1d1430fe3ddb808f3133c41c8e32"  // "mypass"
     };
     const salt = "7dh36teg5dh789697dh36teg5dh789697dh36teg5dh789697dh36teg5dh78969"; // salt used to generate the hash for the password "mypass"
 

@@ -3,6 +3,15 @@ import '../../css/styles.css';
 
 const encryption = require('../utility/encryption');
 
+
+function validateEmail(event) {
+  // regex from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+  // eslint-disable-next-line
+  const re = /^[A-z0-9_%+-]+.*[A-z0-9_%+-]+@(my.)*uno.edu$/;
+  return re.test(event);
+}
+
+
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +38,9 @@ export default class LoginForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const areSame = encryption.checkAccount(this.state.email, this.state.password);
-    console.log(areSame);
+    //console.log(areSame);
+
+    console.log(validateEmail(this.state.email));
   }
 
   render() {
