@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const encryption = require('../utility/encryption');
+
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +27,9 @@ export default class LoginForm extends Component {
   }
 
   handleSubmit(event) {
-    alert('An account was entered: ' + this.state.email + ' : ' + this.state.password);
     event.preventDefault();
+    const areSame = encryption.checkAccount(this.state.email, this.state.password);
+    console.log(areSame);
   }
 
   render() {
