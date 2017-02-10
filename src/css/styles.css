@@ -32,6 +32,11 @@ blue with black
   border-color: #000000;
 }
 
+.uk-form-danger:focus {
+  color: #f0506e;
+  border-color: #f0506e;
+}
+
 /* NavBar */
 
 #navbar {
