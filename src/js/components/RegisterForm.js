@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+
+function validateEmail(event) {
+  // eslint-disable-next-line
+  const re = /^[A-z0-9_%+-]+.*[A-z0-9_%+-]+@(my.)?uno.edu$/;
+  return re.test(event);
+}
+
+
 export default class RegisterForm extends Component {
   constructor(props) {
     super(props);
 
+    this.inputValid = "uk-input";
+    this.inputInvalid = "uk-input uk-form-danger";
+
     this.state = {
       email: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      emailStyle: this.inputValid,
+      passwordStyle: this.inputValid,
+      passwordConfirmStyle: this.inputValid
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -23,6 +37,36 @@ export default class RegisterForm extends Component {
     this.setState({
       [name]: value
     });
+
+    // We have to check the value directly because the state doesn't get
+    //   updated until render() is called again, which doesn't happen until
+    //   after this method finishes being called. So by checking state instead
+    //   of checking the value directly, we'd be one character behind.
+    if (name === "email") {
+      const style = validateEmail(value) ? this.inputValid : this.inputInvalid;
+      this.setState({
+        emailStyle: style
+      });
+    }
+
+    else if (name === "password") {
+      const style = value.length < 6 ? this.inputInvalid : this.inputValid;
+      this.setState({
+        passwordStyle: style
+      });
+
+      const confirmStyle = this.state.passwordConfirm !== "" && value !== this.state.passwordConfirm ? this.inputInvalid : this.inputValid;
+      this.setState({
+        passwordConfirmStyle: confirmStyle
+      });
+    }
+
+    else if (name === "passwordConfirm") {
+      const style = value === this.state.password ? this.inputValid : this.inputInvalid;
+      this.setState({
+        passwordConfirmStyle: style
+      });
+    }
   }
 
   handleSubmit(event) {
@@ -31,17 +75,26 @@ export default class RegisterForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Register</legend>
           <div className="uk-margin">
-            <input name="email" className="uk-input" type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+            <div className="uk-form-controls">
+              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.state.emailStyle === this.inputValid}>E-mail must be a UNO e-mail address</label>
           </div>
           <div className="uk-margin">
-            <input name="password" className="uk-input" type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+            <div className="uk-form-controls">
+              <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.state.passwordStyle === this.inputValid}>Password is too short (minimum 6 characters)</label>
           </div>
           <div className="uk-margin">
-            <input name="passwordConfirm" className="uk-input" type="password" placeholder="Password (again)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+            <div className="uk-form-controls">
+              <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Password (again)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.state.passwordConfirmStyle === this.inputValid}>Passwords don't match</label>
           </div>
           <div className="uk-margin">
             <button className="uk-button uk-button-secondary uk-align-center login-btn" type="submit" value="Register">Register</button>

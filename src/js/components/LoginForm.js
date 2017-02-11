@@ -3,17 +3,12 @@ import '../../css/styles.css';
 
 const encryption = require('../utility/encryption');
 
-function validateEmail(event) {
-  // eslint-disable-next-line
-  const re = /^[A-z0-9_%+-]+.*[A-z0-9_%+-]+@(my.)?uno.edu$/;
-  return re.test(event);
-}
-
-
 export default class LoginForm extends Component {
   constructor(props) {
     super(props);
 
+    this.emailExists = true;
+    this.passwordCorrect = true;
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
 
@@ -36,13 +31,6 @@ export default class LoginForm extends Component {
     this.setState({
       [name]: value
     });
-
-    if (name === "email") {
-      const es = validateEmail(value) ? this.inputValid : this.inputInvalid;
-      this.setState({
-        emailStyle: es
-      });
-    }
   }
 
   handleSubmit(event) {
@@ -60,13 +48,13 @@ export default class LoginForm extends Component {
             <div className="uk-form-controls">
               <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.state.emailStyle === this.inputValid}>E-mail must be a UNO e-mail address</label>
+            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail address</label>
           </div>
           <div className="uk-margin">
             <div className="uk-form-controls">
               <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.state.passwordStyle === this.inputValid}>Password is invalid</label>
+            <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
           </div>
           <div className="uk-margin">
             <button className="uk-button uk-button-secondary uk-align-center login-btn" type="submit" value="Login">Login</button>
