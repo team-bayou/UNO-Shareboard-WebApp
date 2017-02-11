@@ -35,8 +35,36 @@ export default class LoginForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const areSame = encryption.checkAccount(this.state.email, this.state.password);
-    console.log(areSame);
+
+    // We have to make sure we reset the states
+    //   because otherwise they'll stay in their
+    //   error state even after being fixed.
+    this.emailExists = true;
+    this.passwordCorrect = true;
+    this.setState({
+      emailStyle: this.inputValid,
+      passwordStyle: this.inputValid
+    });
+
+    const result = encryption.checkAccount(this.state.email, this.state.password);
+
+    if (!result.emailExists) {
+      this.emailExists = false;
+      this.setState({
+        emailStyle: this.inputInvalid
+      });
+    }
+
+    else if (!result.loginSuccessful) {
+      this.passwordCorrect = false;
+      this.setState({
+        passwordStyle: this.inputInvalid
+      });
+    }
+
+    else {
+      alert('Logged in successfully');
+    }
   }
 
   render() {

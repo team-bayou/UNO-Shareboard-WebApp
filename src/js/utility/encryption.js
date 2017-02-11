@@ -42,7 +42,17 @@ module.exports = {
     */
 
     const output = this.createHash(pass, salt);
-    return accounts[email] === output.hash;
+    //return accounts[email] === output.hash;
+
+    const emailExists = email in accounts;
+    let passwordCorrect = false;
+    if (emailExists)
+      passwordCorrect = accounts[email] === output.hash;
+
+    return {
+      emailExists: emailExists,
+      loginSuccessful: passwordCorrect
+    };
   }
 
 }
