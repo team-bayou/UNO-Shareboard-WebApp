@@ -10,7 +10,7 @@ export default class Advertisement extends Component {
       <div className="ad">
         <div className="uk-card uk-card-default uk-card-hover">
           <div className="ad-image uk-card-media-top">
-            <img src={logo} alt="" />
+            <img src={logo} alt=""/>
           </div>
           <div className="uk-card-header">
             <h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3>
@@ -24,7 +24,7 @@ export default class Advertisement extends Component {
           <div className="uk-card-footer">
             <a href="#" className="ad-details uk-button uk-button-text">Read more</a>
             <div className="ad-owner uk-float-right uk-width-auto">
-              <a href="#" title={this.props.ad.owner} data-uk-tooltip="pos: bottom"><img className="uk-border-circle" width="40" height="40" src={avatar} /></a>
+              <a href="#" title={this.props.ad.owner} data-uk-tooltip="pos: bottom"><img className="uk-border-circle" width="40" height="40" src={avatar} alt=""/></a>
             </div>
           </div>
         </div>

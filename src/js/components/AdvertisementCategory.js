@@ -9,27 +9,23 @@ export default class AdvertisementCategory extends Component {
   }
 
   render(){
-    this.setAttributes(this.props.category);
-
     return (
-      <div className="ad-category uk-label" style={{backgroundColor: this.state.color}}>{this.props.category.name}</div>
+      <div className="ad-category uk-label" style={{backgroundColor: this.getColor()}}>{this.props.category.name}</div>
     );
   }
 
-  setAttributes(category){
-    let color;
+  getColor(){
+    if (this.props.category.name === 'Outdoor')
+      return '#804000';
+    if (this.props.category.name === 'Books')
+      return '#004499';
+    if (this.props.category.name === 'Notes')
+      return '#ff3300';
+    if (this.props.category.name === 'Electronics')
+      return '#ffcc00';
+    if (this.props.category.name === 'Tools')
+      return '#009933';
 
-    if (category.name === 'Outdoor')
-      color = '#804000';
-    else if (category.name === 'Books')
-      color = '#004499';
-    else if (category.name === 'Notes')
-      color = '#ff3300';
-    else if (category.name === 'Electronics')
-      color = '#ffcc00';
-    else if (category.name === 'Tools')
-      color = '#009933';
-
-    this.state.color = color;
+    return '#666666';
   }
 }
