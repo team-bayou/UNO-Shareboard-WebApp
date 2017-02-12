@@ -56,14 +56,14 @@ export default class LoginForm extends Component {
 
     const result = encryption.checkAccount(this.state.email, this.state.password);
 
-    if (!result.emailExists) {
+    if (this.state.email !== "" && !result.emailExists) {
         this.emailExists = false;
         this.setState({
           emailStyle: this.inputInvalid
         });
     }
 
-    else if (!result.loginSuccessful) {
+    else if (this.state.password !== "" && !result.loginSuccessful) {
       this.passwordCorrect = false;
       this.setState({
         passwordStyle: this.inputInvalid
