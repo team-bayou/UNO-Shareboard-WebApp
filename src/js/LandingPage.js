@@ -3,7 +3,7 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import '../css/styles.css';
 
-export default class Landing extends Component {
+export default class LandingPage extends Component {
   render() {
     return (
       <div className="app landing-container">
