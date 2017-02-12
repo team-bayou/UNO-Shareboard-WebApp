@@ -11,7 +11,6 @@ ReactDOM.render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
     <Route path="/" component={LandingPage} />
     <Route path="advertisements" component={Advertisements} />
-    <Route path="app" component={App} />
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Ad from './Advertisement';
 
-class AdvertisementList extends Component {
+export default class AdvertisementList extends Component {
   render(){
     var ads = this.props.advertisements.map(
       ad => <Ad key={ad.key} ad={ad}/>
@@ -16,5 +16,3 @@ class AdvertisementList extends Component {
     );
   }
 }
-
-export default AdvertisementList;
