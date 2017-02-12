@@ -9,6 +9,7 @@ export default class LoginForm extends Component {
 
     this.emailExists = true;
     this.passwordCorrect = true;
+    this.emptyFields = false;
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
 
@@ -39,20 +40,26 @@ export default class LoginForm extends Component {
     // We have to make sure we reset the states
     //   because otherwise they'll stay in their
     //   error state even after being fixed.
-    this.emailExists = true;
-    this.passwordCorrect = true;
-    this.setState({
-      emailStyle: this.inputValid,
-      passwordStyle: this.inputValid
-    });
+    this.resetErrors();
 
     const result = encryption.checkAccount(this.state.email, this.state.password);
 
-    if (!result.emailExists) {
-      this.emailExists = false;
+    if (this.state.email === "" || this.state.password === "") {
+      this.emptyFields = true;
+
+      const es = this.state.email === "" ? this.inputInvalid : this.inputValid;
+      const ps = this.state.password === "" ? this.inputInvalid : this.inputValid;
       this.setState({
-        emailStyle: this.inputInvalid
+        emailStyle: es,
+        passwordStyle: ps
       });
+    }
+
+    else if (!result.emailExists) {
+        this.emailExists = false;
+        this.setState({
+          emailStyle: this.inputInvalid
+        });
     }
 
     else if (!result.loginSuccessful) {
@@ -67,11 +74,22 @@ export default class LoginForm extends Component {
     }
   }
 
+  resetErrors() {
+    this.emailExists = true;
+    this.passwordCorrect = true;
+    this.emptyFields = false;
+    this.setState({
+      emailStyle: this.inputValid,
+      passwordStyle: this.inputValid
+    });
+  }
+
   render() {
     return (
       <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
           <legend className="uk-legend">Login</legend>
+          <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
           <div className="uk-margin">
             <div className="uk-form-controls">
               <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />

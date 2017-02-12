@@ -42,7 +42,6 @@ module.exports = {
     */
 
     const output = this.createHash(pass, salt);
-    //return accounts[email] === output.hash;
 
     const emailExists = email in accounts;
     let passwordCorrect = false;
