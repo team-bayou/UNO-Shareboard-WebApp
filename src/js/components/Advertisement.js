@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AdCategoryList from './AdCategoryList';
+import AdCategoryList from './AdvertisementCategoryList';
 
 import logo from '../../media/images/light.jpg';
 import avatar from '../../media/images/avatar.jpg';
