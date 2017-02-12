@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import LandingPage from './js/pages/LandingPage';
-import App from './js/components/App';
 import Advertisements from './js/pages/AdvertisementsPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
