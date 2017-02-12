@@ -28,3 +28,11 @@ ol, ul {
 #navbar img.uk-navbar-item {
   padding: 0;
 }
+
+.ad-category-list {
+  margin-top: 0.5em;
+}
+
+.ad-category {
+  margin-right: 0.5em;
+}
