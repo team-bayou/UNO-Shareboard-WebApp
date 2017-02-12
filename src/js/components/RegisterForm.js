@@ -42,6 +42,12 @@ export default class RegisterForm extends Component {
     //   between empty field errors and invalid value errors.
     this.resetErrors();
 
+    // If errors existed before this current tick and the
+    //   previous call to resetErrors() cleared them,
+    //   we need to put them back since they're still
+    //   errors.
+    this.checkForExistingErrors();
+
     // For the following, we have to check the value directly because the state doesn't
     //   get updated until render() is called again, which doesn't happen until
     //   after this method finishes being called. So by checking state instead
@@ -79,7 +85,51 @@ export default class RegisterForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.checkForEmptyFields();
 
+    if (!this.emptyFields && this.emailValid && this.passwordValid && this.passwordMatch) {
+      // perform form submission
+      console.log("successfully registered");
+    }
+  }
+
+  // Reset all of our error indicators so that we have a clean form to
+  //   check for errors on.
+  resetErrors() {
+    this.emailValid = true;
+    this.passwordValid = true;
+    this.passwordMatch = true;
+    this.emptyFields = false;
+    this.setState({
+      emailStyle: this.inputValid,
+      passwordStyle: this.inputValid,
+      passwordConfirmStyle: this.inputValid
+    });
+  }
+
+  // Check our fields to see if any of them are invalid.
+  // Important to note that we only want to check a field if it isn't empty
+  //   because no one wants to be yelled at for doing something wrong
+  //   before they've even started trying.
+  checkForExistingErrors() {
+    const es = this.state.email !== "" && !validateEmail(this.state.email) ? this.inputInvalid : this.inputValid;
+    const ps = this.state.password !== "" && this.state.password.length < 6 ? this.inputInvalid : this.inputValid;
+    const pcs = this.state.passwordConfirm !== "" && this.state.password !== this.state.passwordConfirm ? this.inputInvalid : this.inputValid;
+    this.setState({
+      emailStyle: es,
+      passwordStyle: ps,
+      passwordConfirmStyle: pcs
+    });
+
+    this.emailValid = es === this.inputValid;
+    this.passwordValid = ps === this.inputValid;
+    this.passwordMatch = pcs === this.inputValid;
+  }
+
+  // Check our fields to see if any of them are empty.
+  // This is used when submitting the form to make sure all fields
+  //   are filled out before allowing the submission.
+  checkForEmptyFields() {
     if (this.state.email === "" || this.state.password === "" || this.state.passwordConfirm === "") {
       this.emptyFields = true;
 
@@ -92,18 +142,9 @@ export default class RegisterForm extends Component {
         passwordConfirmStyle: pcs
       });
     }
-  }
-
-  resetErrors() {
-    this.emailValid = true;
-    this.passwordValid = true;
-    this.passwordMatch = true;
-    this.emptyFields = false;
-    this.setState({
-      emailStyle: this.inputValid,
-      passwordStyle: this.inputValid,
-      passwordConfirmStyle: this.inputValid
-    });
+    else {
+      this.emptyFields = false;
+    }
   }
 
   render() {

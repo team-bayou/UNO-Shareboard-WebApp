@@ -29,9 +29,19 @@ export default class LoginForm extends Component {
     const value = target.value;
     const name = target.name;
 
+    const style = value === "" && this.emptyFields ? this.inputInvalid : this.inputValid;
     this.setState({
-      [name]: value
+      [name]: value,
+      [name + "Style"]: style
     });
+
+    // We can't simply check against "this.state" for both values because
+    //   "this.state" will not be updated for the currently being changed
+    //   field until after this method call has finished, so we'd be one
+    //   character behind, throwing the whole logic off.
+    if ((name === "email" && value !== "" && this.state.password !== "") ||
+        (name === "password" && value !== "" && this.state.email !== ""))
+      this.emptyFields = false;
   }
 
   handleSubmit(event) {
@@ -42,20 +52,11 @@ export default class LoginForm extends Component {
     //   error state even after being fixed.
     this.resetErrors();
 
+    this.checkForEmptyFields();
+
     const result = encryption.checkAccount(this.state.email, this.state.password);
 
-    if (this.state.email === "" || this.state.password === "") {
-      this.emptyFields = true;
-
-      const es = this.state.email === "" ? this.inputInvalid : this.inputValid;
-      const ps = this.state.password === "" ? this.inputInvalid : this.inputValid;
-      this.setState({
-        emailStyle: es,
-        passwordStyle: ps
-      });
-    }
-
-    else if (!result.emailExists) {
+    if (!result.emailExists) {
         this.emailExists = false;
         this.setState({
           emailStyle: this.inputInvalid
@@ -69,8 +70,9 @@ export default class LoginForm extends Component {
       });
     }
 
-    else {
-      alert('Logged in successfully');
+    if (!this.emptyFields && result.emailExists && result.loginSuccessful) {
+      // perform login
+      console.log('Logged in successfully');
     }
   }
 
@@ -82,6 +84,19 @@ export default class LoginForm extends Component {
       emailStyle: this.inputValid,
       passwordStyle: this.inputValid
     });
+  }
+
+  checkForEmptyFields() {
+    if (this.state.email === "" || this.state.password === "") {
+      this.emptyFields = true;
+
+      const es = this.state.email === "" ? this.inputInvalid : this.inputValid;
+      const ps = this.state.password === "" ? this.inputInvalid : this.inputValid;
+      this.setState({
+        emailStyle: es,
+        passwordStyle: ps
+      });
+    }
   }
 
   render() {
