@@ -4,7 +4,7 @@ import AdCategoryList from './AdvertisementCategoryList';
 import logo from '../../media/images/light.jpg';
 import avatar from '../../media/images/avatar.jpg';
 
-class Advertisement extends Component {
+export default class Advertisement extends Component {
   render(){
     return (
       <div className="ad">
@@ -41,5 +41,3 @@ class Advertisement extends Component {
     return this.props.ad.price;
   }
 }
-
-export default Advertisement;

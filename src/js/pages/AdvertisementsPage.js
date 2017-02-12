@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import NavBar from './NavBar';
-import AdList from './AdvertisementList';
+import NavBar from '../components/NavBar';
+import AdList from '../components/AdvertisementList';
 import '../../css/styles.css';
 
 const axios = require('axios');
@@ -12,7 +12,7 @@ axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
     console.log(error);
   });
 
-class App extends Component {
+export default class AdvertisementsPage extends Component {
   constructor(){
     super();
     this.state = {
@@ -79,5 +79,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

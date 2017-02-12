@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AdCategory from './AdvertisementCategory';
 
-class AdvertisementCategoryList extends Component {
+export default class AdvertisementCategoryList extends Component {
   render(){
     var categories = this.props.categories.map(
       category => <AdCategory key={category.key} category={category}/>
@@ -14,5 +14,3 @@ class AdvertisementCategoryList extends Component {
     );
   }
 }
-
-export default AdvertisementCategoryList;

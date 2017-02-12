@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AdvertisementCategory extends Component {
+export default class AdvertisementCategory extends Component {
   constructor(){
     super();
     this.state = {
@@ -33,5 +33,3 @@ class AdvertisementCategory extends Component {
     this.state.color = color;
   }
 }
-
-export default AdvertisementCategory;
