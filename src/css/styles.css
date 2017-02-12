@@ -59,9 +59,9 @@ blue with black
   margin-right: 0.5em;
 }
 
-/* Login / Registration Form */
+/* Landing Page */
 
-.landing-form {
+.landing-container {
   position:absolute;
   top:50%;
   left:50%;
@@ -70,12 +70,16 @@ blue with black
   transform: translate(-50%,-50%);
 }
 
-.form-login {
+.landing-form {
   box-shadow: none;
   border: 1px solid #000000;
 }
 
-.login-btn, .register-btn {
+.landing-header {
+  text-align: center;
+}
+
+.landing-submit-btn {
   margin-bottom: 0;
 }
 
