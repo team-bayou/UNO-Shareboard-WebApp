@@ -18,12 +18,14 @@ export default class UserVerificationForm extends Component {
 
     this.state = {
       verifycode: '',
+      password: '',
       username: '',
       firstname: '',
       lastname: '',
       phone: '',
 
       verifycodeStyle: this.inputValid,
+      passwordStyle: this.inputValid,
       usernameStyle: this.inputValid,
       firstnameStyle: this.inputValid,
       lastnameStyle: this.inputValid,
@@ -55,6 +57,13 @@ export default class UserVerificationForm extends Component {
       this.usernameValid = us === this.inputValid;
       this.setState({
         usernameStyle: us
+      });
+    }
+
+    else if (name === "password") {
+      const ps = value === "" && this.emptyFields ? this.inputInvalid : this.inputValid;
+      this.setState({
+        passwordStyle: ps
       });
     }
 
@@ -100,19 +109,22 @@ export default class UserVerificationForm extends Component {
     this.emptyFields = false;
     this.setState({
       verifycodeStyle: this.inputValid,
-      usernameStyle: this.inputValid
+      usernameStyle: this.inputValid,
+      passwordStyle: this.inputValid
     });
   }
 
   checkForEmptyFields() {
-    if (this.state.verifycode === "" || this.state.username === "") {
+    if (this.state.verifycode === "" || this.state.username === "" || this.state.password === "") {
       this.emptyFields = true;
 
       const vs = this.state.verifycode === "" ? this.inputInvalid : this.inputValid;
       const us = this.state.username === "" || !this.usernameValid ? this.inputInvalid : this.inputValid;
+      const ps = this.state.password === "" ? this.inputInvalid : this.inputValid;
       this.setState({
         verifycodeStyle: vs,
-        usernameStyle: us
+        usernameStyle: us,
+        passwordStyle: ps
       });
     }
     else {
@@ -124,7 +136,7 @@ export default class UserVerificationForm extends Component {
     return (
       <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
-          <legend className="uk-legend landing-header">Finalize Registration</legend>
+          <legend className="uk-legend landing-header">Verify Account</legend>
 
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
 
@@ -136,13 +148,21 @@ export default class UserVerificationForm extends Component {
 
           <div className="uk-margin">
             <div className="uk-form-controls">
-              <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
+              <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password (required)" value={this.state.password} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
           </div>
 
           <div className="uk-margin">
             <hr className="uk-divider-icon" />
+          </div>
+
+          <legend className="uk-legend landing-header">Profile Information</legend>
+
+          <div className="uk-margin">
+            <div className="uk-form-controls">
+              <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
+            </div>
+            <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
           </div>
 
           <div className="uk-margin">
