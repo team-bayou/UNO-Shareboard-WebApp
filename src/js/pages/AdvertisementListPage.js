@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import NavBar from '../components/NavBar';
 import AdList from '../components/AdvertisementList';
-import '../../css/styles.css';
 
 const axios = require('axios');
 axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
@@ -13,50 +12,50 @@ axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
   });
 
 export default class AdvertisementsPage extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       ads: [
         {
-          'key': '1',
+          'id': '1',
           'title': 'Literature for UNO class',
           'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
           'categories': [
-            {'key': '1', 'name': 'Books'},
-            {'key': '2', 'name': 'Notes'},
+            {'id': '1', 'title': 'Books'},
+            {'id': '2', 'title': 'Notes'},
           ],
           'owner': 'Stefan',
           'time_published': 'April 01, 2016',
           'trade_item': 'Math II',
         },
         {
-          'key': '2',
+          'id': '2',
           'title': 'Outdoor clothes',
           'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
           'categories': [
-            {'key': '1', 'name': 'Outdoor'},
+            {'id': '1', 'title': 'Outdoor'},
           ],
           'owner': 'Parker',
           'time_published': 'September 23, 2014',
           'price': '$ 150.00',
         },
         {
-          'key': '3',
+          'id': '3',
           'title': 'Different kinds of tools',
           'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
           'categories': [
-            {'key': '1', 'name': 'Tools'},
+            {'id': '1', 'title': 'Tools'},
           ],
           'owner': 'Rachel',
           'time_published': 'January 31, 2017',
           'price': '$ 375.95',
         },
         {
-          'key': '4',
+          'id': '4',
           'title': 'Different kinds of tools',
           'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
           'categories': [
-            {'key': '1', 'name': 'Tools'},
+            {'id': '1', 'title': 'Tools'},
           ],
           'owner': 'Rachel',
           'time_published': 'January 31, 2017',

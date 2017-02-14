@@ -10,20 +10,20 @@ export default class AdvertisementCategory extends Component {
 
   render(){
     return (
-      <div className="ad-category uk-label" style={{backgroundColor: this.getColor()}}>{this.props.category.name}</div>
+      <div className="ad-category uk-label" style={{backgroundColor: this.getColor()}}>{this.props.category.title}</div>
     );
   }
 
   getColor(){
-    if (this.props.category.name === 'Outdoor')
+    if (this.props.category.title === 'Outdoor')
       return '#804000';
-    if (this.props.category.name === 'Books')
+    if (this.props.category.title === 'Books')
       return '#004499';
-    if (this.props.category.name === 'Notes')
+    if (this.props.category.title === 'Notes')
       return '#ff3300';
-    if (this.props.category.name === 'Electronics')
+    if (this.props.category.title === 'Electronics')
       return '#ffcc00';
-    if (this.props.category.name === 'Tools')
+    if (this.props.category.title === 'Tools')
       return '#009933';
 
     return '#666666';
