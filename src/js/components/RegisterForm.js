@@ -179,7 +179,7 @@ export default class RegisterForm extends Component {
   }
 
   render() {
-
+    
     if (this.state.registrationSubmitted) {
       return (
         <div className="uk-text-center">
