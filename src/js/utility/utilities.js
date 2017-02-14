@@ -31,6 +31,16 @@ module.exports = {
     return re.test(email);
   },
 
+  validatePhone: function(number) {
+    try {
+      const stripped = validator.blacklist(number, '-(). ');
+      return validator.isMobilePhone(stripped, 'en-US');
+    }
+    catch (err) {
+      return false;
+    }
+  },
+
   // Escapes any entered HTML characters
   sanitizeInput: function(input) {
     let output = validator.escape(input);
