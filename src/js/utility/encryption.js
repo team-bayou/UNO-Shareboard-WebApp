@@ -28,6 +28,8 @@ module.exports = {
     };
     const salt = "7dh36teg5dh789697dh36teg5dh789697dh36teg5dh789697dh36teg5dh78969"; // salt used to generate the hash for the password "mypass"
 
+    console.log(this.generateSalt(16));
+
     /*
     TODO:
     What will actually happen at this part is as follows:
