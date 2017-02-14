@@ -17,6 +17,10 @@ ol, ul {
   padding: 20px;
 }
 
+.uk-icon::before {
+  background-image: url(/icons.svg);
+}
+
 
 /*
 I think we should go for a black and white theme,
@@ -86,4 +90,38 @@ blue with black
 .label-invalid {
   color: #f0506e;
   text-align: center;
+}
+
+/* Advertisement Details Page */
+.ad-item {
+  background-color: #1e87f0;
+  float: right;
+  font-size: 1.5em;
+}
+
+.ad-owner-contact .uk-icon-button {
+  color: white;
+  display: inherit;
+}
+
+.ad-owner-contact-email {
+  background-color: #f4c20d;
+}
+
+.ad-owner-contact-phone {
+  background-color: #4dc247;
+}
+
+.ad-owner-contact-phone:active,
+.ad-owner-contact-phone:focus,
+.ad-owner-contact-phone:hover {
+  color: #666;
+}
+
+.ad-owner-contact-facebook {
+  background-color: #3b5998;
+}
+
+.ad-owner-contact-twitter {
+  background-color: #55acee;
 }
