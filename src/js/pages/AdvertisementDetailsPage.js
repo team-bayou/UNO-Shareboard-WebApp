@@ -2,15 +2,6 @@ import React, { Component } from 'react';
 import NavBar from '../components/NavBar';
 import Ad from '../components/Advertisement';
 
-const axios = require('axios');
-axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 export default class AdvertisementDetailsPage extends Component {
   constructor(props){
     super(props);

@@ -7,12 +7,11 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "cookie-parser": "^1.4.3",
     "cors": "^2.8.1",
     "express": "^4.14.1",
-    "express-session": "^1.15.1",
     "morgan": "^1.8.0",
     "react": "^15.4.2",
+    "react-cookie": "^1.0.4",
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2",
     "react-scripts": "0.8.5"

@@ -5,15 +5,6 @@ import SellTradeButton from '../components/SellTradeButton'
 import AdvertisementFeed from '../components/AdvertisementFeed'
 import '../../css/styles.css';
 
-const axios = require('axios');
-axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 export default class HomePage extends Component {
   render() {
     return (
