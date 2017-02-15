@@ -7,7 +7,7 @@ import avatar from '../../media/images/avatar.jpg';
 export default class AdvertisementListElement extends Component {
   render(){
     return (
-      <div className="ad">
+      <div id={"ad-" + this.props.ad.id} className="ad">
         <div className="uk-card uk-card-default uk-card-hover">
           <div className="ad-image uk-card-media-top">
             <img src={logo} alt=""/>
@@ -18,11 +18,11 @@ export default class AdvertisementListElement extends Component {
             <AdCategoryList categories={this.props.ad.categories}/>
           </div>
           <div className="ad-description uk-card-body">
-          <div className="ad-price-item uk-card-badge uk-label">{this.getItem()}</div>
+          <div className="ad-item uk-card-badge uk-label">{this.getItem()}</div>
             <p>{this.props.ad.description}</p>
           </div>
           <div className="uk-card-footer">
-            <a href={"advertisements/" + this.props.ad.id} className="ad-details uk-button uk-button-text">Read more</a>
+            <a href={"/advertisements/" + this.props.ad.id} className="ad-details uk-button uk-button-text">Read more</a>
             <div className="ad-owner uk-float-right uk-width-auto">
               <a href="#" title={this.props.ad.owner} data-uk-tooltip="pos: bottom">
                 <img className="uk-border-circle" width="40" height="40" src={avatar} alt=""/>

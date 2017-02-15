@@ -66,7 +66,7 @@ export default class AdvertisementsPage extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div id="ad-list-page" className="app">
         <div className="app-header">
           <h1 className="uk-heading-divider uk-text-center">UNO-Shareboard</h1>
           <NavBar />

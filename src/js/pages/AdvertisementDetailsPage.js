@@ -29,6 +29,7 @@ export default class AdvertisementDetailsPage extends Component {
             'phone_number': '+1 504 123 4567',
             'facebook_id': '100000121504447',
             'twitter_handle': 's_steini',
+            'reviews': '42',
           },
           'time_published': 'April 01, 2016',
           'trade_item': 'Math II',
@@ -38,7 +39,7 @@ export default class AdvertisementDetailsPage extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div id="ad-details-page" className="app">
         <div className="app-header">
           <h1 className="uk-heading-divider uk-text-center">UNO-Shareboard</h1>
           <NavBar />
