@@ -9,35 +9,44 @@ module.exports = {
     return re.test(email);
   },
 
+  // When the user successfully logs in, we create cookies that will
+  //   keep the user logged in.
   // a: raw username
   // b: hash created from username + salt
   // c: hash created from salt + salt
-  bakeCookies: function(value) {
-    cookie.save("a", value);
+  // "user" is the username of the user being logged in
+  bakeCookies: function(user) {
+    cookie.save("a", user, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
+    // the salt below is an example salt
+    // the actual salt will be grabbed from the provided user account
     let salt = "7dh36teg5dh789697dh36teg5dh789697dh36teg5dh789697dh36teg5dh78969";
 
-    let valueToStore = encryption.createHash(value, salt);
-    cookie.save("b", valueToStore.hash);
+    let valueToStore = encryption.createHash(user, salt);
+    cookie.save("b", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
     valueToStore = encryption.createHash(salt, salt);
-    cookie.save("c", valueToStore.hash);
-  }
+    cookie.save("c", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+  },
 
   /*
-  Ideas for cookie storage:
-    store the username and salt of the currently logged in user,
-    potentially make a hash of the salt and username using the user's own
-    password salt and store those
+   * This method will try to load cookie "a."
+   * If cookie "a" doesn't exist, the user is not logged in.
+   * If cookie "a" does exist, we ask the back-end for the associated
+   *   salt and create hashes from the username and salt.
+   * If they match the hashes in cookies "b" and "c," respectively,
+   *   then the user is logged into a valid account.
+   * If "b" or "c" doesn't exist, the user is not logged in.
+   * If "b" and "c" do exist, but the created hashes don't match
+   *   "b" or "c," then the user is not validly logged in.
+   */
+  verifyCookies: function(user) {
+    //const verified = !cookie.load("a") || !cookie.load("b") || !cookie.load("c");
+    //const verified = cookie.load("a") && cookie.load("b") && cookie.load("c");
 
-    so:
-    username: <username>
-    salt: <user's existing salt>
-    username hash: <hash created out of username + salt>
-    salt hash: <hash created out of salt + salt>
-
-    maybe we don't store the salt, but just the username and two hashes
-    and then get the salt of the stored username to do the comparisons
-  */
+    // First thing we check is to make sure all three cookies exist and have values
+    if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c"))
+      return false;
+  }
 
 }

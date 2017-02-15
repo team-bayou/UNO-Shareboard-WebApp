@@ -12,30 +12,19 @@ import './css/styles.css';
 const cookie = require('react-cookie');
 const utilities = require('./js/utility/utilities');
 
-/*
-if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c")) {
-  console.log("never before visited");
-  utilities.bakeCookies("pawka");
-}
-else {
-  console.log(cookie.load("a"));
-  console.log(cookie.load("b"));
-  console.log(cookie.load("c"));
-}
-*/
-
+// This function should be used when you want to make sure
+//   the user is logged in before being able to view a page
 function verifyLoggedIn(nextState, replace, callback) {
-  if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c")) {
-    console.log("never before visited");
-    utilities.bakeCookies("pawka");
+  if (!cookie.load("a") || !utilities.verifyCookies(cookie.load("a"))) {
     replace("/");
   }
   callback();
 }
 
+// This function should be used when you want to make sure
+//   the user is logged out before being able to view a page
 function verifyNotLoggedIn(nextState, replace, callback) {
-  if (cookie.load("a") && cookie.load("b") && cookie.load("c")) {
-    console.log("already logged in");
+  if (utilities.verifyCookies(cookie.load("a"))) {
     replace("home");
   }
   callback();
