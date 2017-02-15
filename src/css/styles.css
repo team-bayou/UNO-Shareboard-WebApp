@@ -115,12 +115,6 @@ blue with black
   background-color: #4dc247;
 }
 
-#ad-details-page .ad-owner-phone:active,
-#ad-details-page .ad-owner-phone:focus,
-#ad-details-page .ad-owner-phone:hover {
-  color: #666;
-}
-
 #ad-details-page .ad-owner-facebook {
   background-color: #3b5998;
 }
