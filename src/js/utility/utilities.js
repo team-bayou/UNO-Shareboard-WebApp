@@ -41,12 +41,36 @@ module.exports = {
    *   "b" or "c," then the user is not validly logged in.
    */
   verifyCookies: function(user) {
-    //const verified = !cookie.load("a") || !cookie.load("b") || !cookie.load("c");
-    //const verified = cookie.load("a") && cookie.load("b") && cookie.load("c");
+
+    if (user) console.log(user);
+    else console.log("user no good");
 
     // First thing we check is to make sure all three cookies exist and have values
-    if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c"))
+    if (!this.allCookiesExist())
       return false;
+
+    return true;
+  },
+
+  clearCookies: function() {
+    if (cookie.load("a"))
+      cookie.remove("a");
+    if (cookie.load("b"))
+      cookie.remove("b");
+    if (cookie.load("c"))
+      cookie.remove("c");
+  },
+
+  anyCookiesExist: function() {
+    return cookie.load("a") || cookie.load("b") || cookie.load("c");
+  },
+
+  allCookiesExist: function() {
+    return cookie.load("a") && cookie.load("b") && cookie.load("c");
+  },
+
+  getCookie: function(c) {
+    return cookie.load(c);
   }
 
 }
