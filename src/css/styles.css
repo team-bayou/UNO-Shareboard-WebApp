@@ -122,3 +122,14 @@ blue with black
 #ad-details-page .ad-owner-twitter {
   background-color: #55acee;
 }
+
+/* Reviews Page */
+#reviews-page .review .uk-comment {
+  padding: 20px;
+}
+
+#reviews-page .review-rating .uk-icon-button {
+  background-color: orange;
+  color: white;
+  margin-right: 2px;
+}
