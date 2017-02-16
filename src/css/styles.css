@@ -18,7 +18,7 @@ ol, ul {
 }
 
 .uk-icon::before {
-  background-image: url(/icons.svg);
+  background-image: url("/icons.svg");
 }
 
 
@@ -93,35 +93,32 @@ blue with black
 }
 
 /* Advertisement Details Page */
-.ad-item {
-  background-color: #1e87f0;
+#ad-details-page .ad-item {
   float: right;
-  font-size: 1.5em;
 }
 
-.ad-owner-contact .uk-icon-button {
+#ad-details-page .ad-item span {
+  background-color: #1e87f0;
+  font-size: 1.2em;
+}
+
+#ad-details-page .ad-owner-contact .uk-icon-button {
   color: white;
   display: inherit;
 }
 
-.ad-owner-contact-email {
+#ad-details-page .ad-owner-email {
   background-color: #f4c20d;
 }
 
-.ad-owner-contact-phone {
+#ad-details-page .ad-owner-phone {
   background-color: #4dc247;
 }
 
-.ad-owner-contact-phone:active,
-.ad-owner-contact-phone:focus,
-.ad-owner-contact-phone:hover {
-  color: #666;
-}
-
-.ad-owner-contact-facebook {
+#ad-details-page .ad-owner-facebook {
   background-color: #3b5998;
 }
 
-.ad-owner-contact-twitter {
+#ad-details-page .ad-owner-twitter {
   background-color: #55acee;
 }
