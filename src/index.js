@@ -12,18 +12,31 @@ import './css/styles.css';
 const utilities = require('./js/utility/utilities');
 const axios = require('axios');
 
-
-
-let data = "";
-axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/stringResponse')
+/*
+axios.post('http://localhost:8090/service/v1/users/add', {
+    accountName: 'psprouse2',
+    passwordHash: 'hyfb398c762',
+    passwordSalt: '908welkkjcv2',
+    firstName: 'Parker2',
+    lastName: 'Sprouse2',
+    email: 'psprouse@uno.edu2',
+    phoneNumber: '50412345672'
+  })
   .then(function (response) {
     console.log(response);
-    data = response.data;
   })
   .catch(function (error) {
     console.log(error);
   });
 
+axios.get('http://localhost:8090/service/v1/users/2')
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+*/
 
 // This function should be used when you want to make sure
 //   the user is logged in before being able to view a page
