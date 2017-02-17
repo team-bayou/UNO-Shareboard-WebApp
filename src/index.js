@@ -10,64 +10,23 @@ import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
 const utilities = require('./js/utility/utilities');
-const axios = require('axios');
 
-/*
-axios.post('http://localhost:8090/service/v1/users/add', {
-    accountName: 'psprouse2',
-    passwordHash: 'hyfb398c762',
-    passwordSalt: '908welkkjcv2',
-    firstName: 'Parker2',
-    lastName: 'Sprouse2',
-    email: 'psprouse@uno.edu2',
-    phoneNumber: '50412345672'
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+function checkLoggedInStatus(nextState, replace, callback) {
+  utilities.verifyCookies(utilities.getCookie("a"), nextState.routes[0].path,
+    function(path) {
+      replace(path);
+    });
 
-axios.get('http://localhost:8090/service/v1/users/2')
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-*/
-
-// This function should be used when you want to make sure
-//   the user is logged in before being able to view a page
-function verifyLoggedIn(nextState, replace, callback) {
-  if (!utilities.verifyCookies(utilities.getCookie("a"))) {
-    utilities.clearCookies();
-    console.log("not logged in");
-    replace("/");
-  }
-  console.log("before 'verifyLoggedIn' callback");
-  callback();
-}
-
-// This function should be used when you want to make sure
-//   the user is logged out before being able to view a page
-function verifyNotLoggedIn(nextState, replace, callback) {
-  if (utilities.verifyCookies(utilities.getCookie("a"))) {
-    console.log("logged in");
-    replace("home");
-  }
-  console.log("before 'verifyNotLoggedIn' callback");
   callback();
 }
 
 ReactDOM.render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
-    <Route path="/" component={Landing} onEnter={verifyNotLoggedIn} />
-    <Route path="home" component={Home} onEnter={verifyLoggedIn} />
-    <Route path="advertisements" component={Advertisements} onEnter={verifyLoggedIn} />
-    <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={verifyLoggedIn} />
-    <Route path="users/:account_name/reviews" component={Reviews} onEnter={verifyLoggedIn} />
+    <Route path="/" component={Landing} onEnter={checkLoggedInStatus} />
+    <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
+    <Route path="users/:account_name/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
@@ -72,7 +73,9 @@ export default class LoginForm extends Component {
 
       if (!this.emptyFields && emailExists && loginSuccessful) {
         // perform login
-        //utilities.bakeCookies(this.state.email);
+        utilities.bakeCookies(this.state.email, function() {
+          browserHistory.push("home");
+        });
         console.log("logged in");
       }
     }.bind(this));

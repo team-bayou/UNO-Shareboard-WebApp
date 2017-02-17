@@ -1,5 +1,6 @@
 const cookie = require('react-cookie');
 const encryption = require('./encryption');
+const axios = require('axios');
 
 module.exports = {
 
@@ -15,18 +16,28 @@ module.exports = {
   // b: hash created from username + salt
   // c: hash created from salt + salt
   // "user" is the username of the user being logged in
-  bakeCookies: function(user) {
+  bakeCookies: function(user, callback) {
     cookie.save("a", user, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
-    // the salt below is an example salt
-    // the actual salt will be grabbed from the provided user account
-    let salt = "7dh36teg5dh789697dh36teg5dh789697dh36teg5dh789697dh36teg5dh78969";
+    const type = this.validateEmail(user) ? "email" : "accountName";
 
-    let valueToStore = encryption.createHash(user, salt);
-    cookie.save("b", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+    axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+      [type]: user
+    })
+    .then(function (response) {
+      const data = response.data;
 
-    valueToStore = encryption.createHash(salt, salt);
-    cookie.save("c", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+      let valueToStore = encryption.createHash(user, data.passwordSalt);
+      cookie.save("b", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+      valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
+      cookie.save("c", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+      callback();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   },
 
   /*
@@ -40,16 +51,47 @@ module.exports = {
    * If "b" and "c" do exist, but the created hashes don't match
    *   "b" or "c," then the user is not validly logged in.
    */
-  verifyCookies: function(user) {
+  verifyCookies: function(user, targetPath, callback) {
+    const type = this.validateEmail(user) ? "email" : "accountName";
 
-    if (user) console.log(user);
-    else console.log("user no good");
+    // If we're trying to access the login page or verify account page
+    // Requires: to be logged out
+    if (targetPath === "/" || targetPath === "verify") {
 
-    // First thing we check is to make sure all three cookies exist and have values
-    if (!this.allCookiesExist())
-      return false;
+    }
 
-    return true;
+    // If we're trying to access any other page on the site
+    // Requires: to be logged in
+    else {
+      if (!this.allCookiesExist()) {
+        this.clearCookies();
+        callback("/");
+        return;
+      }
+
+      axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+        [type]: user
+      })
+      .then(function (response) {
+        const data = response.data;
+
+
+        let valueToStore = encryption.createHash(user, data.passwordSalt);
+        cookie.load("b");
+
+        valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
+        cookie.save("c");
+
+
+        this.clearCookies();
+        callback("/");
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.clearCookies();
+        callback("/");
+      }.bind(this));
+    }
   },
 
   clearCookies: function() {

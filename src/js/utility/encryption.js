@@ -21,22 +21,24 @@ module.exports = {
     };
   },
 
-  checkAccount: function(email, pass, callback) {
-    // this will be get user by email
-    axios.get('https://uno-shareboard-dev.herokuapp.com/service/v1/users/1')
-      .then(function (response) {
-        const data = response.data;
-        console.log(data);
+  checkAccount: function(user, pass, callback) {
+    var utilities = require('./utilities');
+    const type = utilities.validateEmail(user) ? "email" : "accountName";
 
-        const output = this.createHash(pass, data.salt);
-        const passwordCorrect = data.hash === output.hash;
+    axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+      [type]: user
+    })
+    .then(function (response) {
+      const data = response.data;
+      const output = this.createHash(pass, data.passwordSalt);
+      const passwordCorrect = data.passwordHash === output.hash;
 
-        callback(true, passwordCorrect);
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-        callback(false, false);
-      });
+      callback(true, passwordCorrect);
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error);
+      callback(false, false);
+    });
   }
 
 }
