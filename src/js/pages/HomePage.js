@@ -23,8 +23,10 @@ export default class HomePage extends Component {
           <NavBar />
         </div>
         <div className="app-body uk-container">
-          <BuySeekButton />
-          <SellTradeButton />
+          <div className="uk-flex uk-flex-center">
+            <BuySeekButton />
+            <SellTradeButton />
+          </div>
           <AdvertisementFeed />
         </div>
       </div>

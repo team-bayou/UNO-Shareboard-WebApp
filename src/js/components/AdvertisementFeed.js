@@ -56,7 +56,7 @@ export default class AdvertisementFeed extends Component {
 
   render() {
     return (
-        <div className="app-body uk-container-small uk-align-right">
+        <div className="uk-container-small uk-align-center">
             <AdList advertisements={this.state.ads}/>
         </div>
     );
