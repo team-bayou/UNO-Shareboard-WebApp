@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import NavBar from '../components/NavBar';
+import BuySeekButton from '../components/BuySeekButton'
+import SellTradeButton from '../components/SellTradeButton'
+import AdvertisementFeed from '../components/AdvertisementFeed'
 import '../../css/styles.css';
 
 const axios = require('axios');
@@ -20,7 +23,11 @@ export default class HomePage extends Component {
           <NavBar />
         </div>
         <div className="app-body uk-container">
-          <h1>INSERT CONTENT HERE</h1>
+          <div className="uk-flex uk-flex-center">
+            <BuySeekButton />
+            <SellTradeButton />
+          </div>
+          <AdvertisementFeed />
         </div>
       </div>
     );
