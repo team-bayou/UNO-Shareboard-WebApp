@@ -1,4 +1,24 @@
 var crypto = require('crypto');
+var axios = require('axios');
+
+function afterAccountCheck(data) {
+  console.log(data);
+
+
+/*
+  const output = this.createHash(pass, salt);
+
+  const emailExists = email in accounts;
+  let passwordCorrect = false;
+  if (emailExists)
+    passwordCorrect = accounts[email] === output.hash;
+
+  return {
+    emailExists: emailExists,
+    loginSuccessful: passwordCorrect
+  };
+  */
+}
 
 module.exports = {
 
@@ -20,14 +40,7 @@ module.exports = {
     };
   },
 
-  checkAccount: function(email, pass) {
-
-    // the following "accounts" and "salt" are for testing purposes
-    const accounts = {
-      "myemail@uno.edu":"da4ff5e9fb1c6e7f29b616e00708c1781950a331724fba177dd8195a5f1dcc469a796c62b54901d05034a5427040e179d0ab1d1430fe3ddb808f3133c41c8e32"  // "mypass"
-    };
-    const salt = "7dh36teg5dh789697dh36teg5dh789697dh36teg5dh789697dh36teg5dh78969"; // salt used to generate the hash for the password "mypass"
-    
+  checkAccount: function(email, pass, callback) {
     /*
     TODO:
     What will actually happen at this part is as follows:
@@ -41,17 +54,14 @@ module.exports = {
       the database, then the user entered the correct password.
     */
 
-    const output = this.createHash(pass, salt);
-
-    const emailExists = email in accounts;
-    let passwordCorrect = false;
-    if (emailExists)
-      passwordCorrect = accounts[email] === output.hash;
-
-    return {
-      emailExists: emailExists,
-      loginSuccessful: passwordCorrect
-    };
+    axios.get('http://localhost:8090/service/v1/users/1')
+      .then(function (response) {
+        //console.log(response);
+        return afterAccountCheck(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
 }

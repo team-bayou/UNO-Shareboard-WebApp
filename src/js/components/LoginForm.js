@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const utilities = require('../utility/utilities');
 const encryption = require('../utility/encryption');
 
 export default class LoginForm extends Component {
@@ -54,26 +55,26 @@ export default class LoginForm extends Component {
 
     this.checkForEmptyFields();
 
-    const result = encryption.checkAccount(this.state.email, this.state.password);
+    encryption.checkAccount(this.state.email, this.state.password, function(result) {
+      if (this.state.email !== "" && !result.emailExists) {
+          this.emailExists = false;
+          this.setState({
+            emailStyle: this.inputInvalid
+          });
+      }
 
-    if (this.state.email !== "" && !result.emailExists) {
-        this.emailExists = false;
+      else if (this.state.password !== "" && !result.loginSuccessful) {
+        this.passwordCorrect = false;
         this.setState({
-          emailStyle: this.inputInvalid
+          passwordStyle: this.inputInvalid
         });
-    }
+      }
 
-    else if (this.state.password !== "" && !result.loginSuccessful) {
-      this.passwordCorrect = false;
-      this.setState({
-        passwordStyle: this.inputInvalid
-      });
-    }
-
-    if (!this.emptyFields && result.emailExists && result.loginSuccessful) {
-      // perform login
-      console.log('Logged in successfully');
-    }
+      if (!this.emptyFields && result.emailExists && result.loginSuccessful) {
+        // perform login
+        utilities.bakeCookies(this.state.email);
+      }
+    });
   }
 
   resetErrors() {
