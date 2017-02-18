@@ -74,7 +74,10 @@ module.exports = {
         if (cookie.load("b") === userHash.hash && cookie.load("c") === saltHash.hash) {
           replace("home");
           callback();
-          return;
+        }
+        else {
+          this.clearCookies();
+          callback();
         }
       })
       .catch(function (error) {
@@ -82,7 +85,6 @@ module.exports = {
         this.clearCookies();
         replace("/");
         callback();
-        return;
       }.bind(this));
 
     }
@@ -109,19 +111,15 @@ module.exports = {
         if (cookie.load("b") !== userHash.hash || cookie.load("c") !== saltHash.hash) {
           this.clearCookies();
           replace("/");
-          callback();
-          return;
         }
+        callback();
       }.bind(this))
       .catch(function (error) {
         console.log(error);
         this.clearCookies();
         replace("/");
         callback();
-        return;
       }.bind(this));
-
-      callback();
     }
   },
 
