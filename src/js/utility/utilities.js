@@ -51,12 +51,39 @@ module.exports = {
    * If "b" and "c" do exist, but the created hashes don't match
    *   "b" or "c," then the user is not validly logged in.
    */
-  verifyCookies: function(user, targetPath, callback) {
+  verifyCookies: function(user, targetPath, replace, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
 
     // If we're trying to access the login page or verify account page
     // Requires: to be logged out
     if (targetPath === "/" || targetPath === "verify") {
+      if (!user) {
+        callback();
+        return;
+      }
+
+      axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+        [type]: user
+      })
+      .then(function (response) {
+        const data = response.data;
+
+        const userHash = encryption.createHash(user, data.passwordSalt);
+        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
+
+        if (cookie.load("b") === userHash.hash && cookie.load("c") === saltHash.hash) {
+          replace("home");
+          callback();
+          return;
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        this.clearCookies();
+        replace("/");
+        callback();
+        return;
+      }.bind(this));
 
     }
 
@@ -65,7 +92,8 @@ module.exports = {
     else {
       if (!this.allCookiesExist()) {
         this.clearCookies();
-        callback("/");
+        replace("/");
+        callback();
         return;
       }
 
@@ -80,14 +108,20 @@ module.exports = {
 
         if (cookie.load("b") !== userHash.hash || cookie.load("c") !== saltHash.hash) {
           this.clearCookies();
-          callback("/");
+          replace("/");
+          callback();
+          return;
         }
       }.bind(this))
       .catch(function (error) {
         console.log(error);
         this.clearCookies();
-        callback("/");
+        replace("/");
+        callback();
+        return;
       }.bind(this));
+
+      callback();
     }
   },
 

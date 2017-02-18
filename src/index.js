@@ -12,12 +12,7 @@ import './css/styles.css';
 const utilities = require('./js/utility/utilities');
 
 function checkLoggedInStatus(nextState, replace, callback) {
-  utilities.verifyCookies(utilities.getCookie("a"), nextState.routes[0].path,
-    function(path) {
-      replace(path);
-    });
-
-  callback();
+  utilities.verifyCookies(utilities.getCookie("a"), nextState.routes[0].path, replace, callback);
 }
 
 ReactDOM.render((
