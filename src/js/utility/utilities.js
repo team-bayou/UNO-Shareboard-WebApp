@@ -1,6 +1,7 @@
 const cookie = require('react-cookie');
 const encryption = require('./encryption');
 const axios = require('axios');
+var constants = require('./constants');
 
 module.exports = {
 
@@ -17,21 +18,21 @@ module.exports = {
   // c: hash created from salt + salt
   // "user" is the username of the user being logged in
   bakeCookies: function(user, callback) {
-    cookie.save("a", user, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+    cookie.save(constants.COOKIE_A, user, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
     const type = this.validateEmail(user) ? "email" : "accountName";
 
-    axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+    axios.post(constants.HOST + '/service/v1/login', {
       [type]: user
     })
     .then(function (response) {
       const data = response.data;
 
       let valueToStore = encryption.createHash(user, data.passwordSalt);
-      cookie.save("b", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+      cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
       valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
-      cookie.save("c", valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+      cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
       callback();
     })
@@ -62,7 +63,7 @@ module.exports = {
         return;
       }
 
-      axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+      axios.post(constants.HOST + '/service/v1/login', {
         [type]: user
       })
       .then(function (response) {
@@ -71,8 +72,8 @@ module.exports = {
         const userHash = encryption.createHash(user, data.passwordSalt);
         const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
-        if (cookie.load("b") === userHash.hash && cookie.load("c") === saltHash.hash) {
-          replace("home");
+        if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
+          replace("/home");
           callback();
         }
         else {
@@ -99,7 +100,7 @@ module.exports = {
         return;
       }
 
-      axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+      axios.post(constants.HOST + '/service/v1/login', {
         [type]: user
       })
       .then(function (response) {
@@ -108,7 +109,7 @@ module.exports = {
         const userHash = encryption.createHash(user, data.passwordSalt);
         const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
-        if (cookie.load("b") !== userHash.hash || cookie.load("c") !== saltHash.hash) {
+        if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
           this.clearCookies();
           replace("/");
         }
@@ -124,18 +125,18 @@ module.exports = {
   },
 
   clearCookies: function() {
-    if (cookie.load("a"))
-      cookie.remove("a");
-    if (cookie.load("b"))
-      cookie.remove("b");
-    if (cookie.load("c"))
-      cookie.remove("c");
+    if (cookie.load(constants.COOKIE_A))
+      cookie.remove(constants.COOKIE_A);
+    if (cookie.load(constants.COOKIE_B))
+      cookie.remove(constants.COOKIE_B);
+    if (cookie.load(constants.COOKIE_C))
+      cookie.remove(constants.COOKIE_C);
   },
 
   allCookiesExist: function() {
     // These return values and how you use them are pretty fragile,
     //   so I'm gonna be verbose for the sake of accuracy.
-    if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c"))
+    if (!cookie.load(constants.COOKIE_A) || !cookie.load(constants.COOKIE_B) || !cookie.load(constants.COOKIE_C))
       return false;
     return true;
   },

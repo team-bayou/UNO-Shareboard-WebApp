@@ -56,29 +56,31 @@ export default class LoginForm extends Component {
 
     this.checkForEmptyFields();
 
-    encryption.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful) {
-      if (this.state.email !== "" && !emailExists) {
-          this.emailExists = false;
+    if (!this.emptyFields) {
+      encryption.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful) {
+        if (!emailExists) {
+            this.emailExists = false;
+            this.setState({
+              emailStyle: this.inputInvalid
+            });
+        }
+
+        else if (!loginSuccessful) {
+          this.passwordCorrect = false;
           this.setState({
-            emailStyle: this.inputInvalid
+            passwordStyle: this.inputInvalid
           });
-      }
+        }
 
-      else if (this.state.password !== "" && !loginSuccessful) {
-        this.passwordCorrect = false;
-        this.setState({
-          passwordStyle: this.inputInvalid
-        });
-      }
-
-      if (!this.emptyFields && emailExists && loginSuccessful) {
-        // perform login
-        utilities.bakeCookies(this.state.email, function() {
-          browserHistory.push("home");
-        });
-        console.log("logged in");
-      }
-    }.bind(this));
+        if (emailExists && loginSuccessful) {
+          // perform login
+          utilities.bakeCookies(this.state.email, function() {
+            browserHistory.push("/home");
+          });
+          console.log("logged in");
+        }
+      }.bind(this));
+    }
   }
 
   resetErrors() {

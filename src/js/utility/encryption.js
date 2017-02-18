@@ -1,5 +1,6 @@
 var crypto = require('crypto');
 var axios = require('axios');
+var constants = require('./constants');
 
 module.exports = {
 
@@ -22,10 +23,12 @@ module.exports = {
   },
 
   checkAccount: function(user, pass, callback) {
-    var utilities = require('./utilities');
+    // I don't know why, but the validateEmail call fails if I import utilities
+    //   outside of this method
+    const utilities = require('./utilities');
     const type = utilities.validateEmail(user) ? "email" : "accountName";
 
-    axios.post('https://uno-shareboard-dev.herokuapp.com/service/v1/login', {
+    axios.post(constants.HOST + '/service/v1/login', {
       [type]: user
     })
     .then(function (response) {
