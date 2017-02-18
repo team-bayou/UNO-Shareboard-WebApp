@@ -75,16 +75,13 @@ module.exports = {
       .then(function (response) {
         const data = response.data;
 
+        const userHash = encryption.createHash(user, data.passwordSalt);
+        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
-        let valueToStore = encryption.createHash(user, data.passwordSalt);
-        cookie.load("b");
-
-        valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
-        cookie.save("c");
-
-
-        this.clearCookies();
-        callback("/");
+        if (cookie.load("b") !== userHash.hash || cookie.load("c") !== saltHash.hash) {
+          this.clearCookies();
+          callback("/");
+        }
       }.bind(this))
       .catch(function (error) {
         console.log(error);
@@ -103,12 +100,12 @@ module.exports = {
       cookie.remove("c");
   },
 
-  anyCookiesExist: function() {
-    return cookie.load("a") || cookie.load("b") || cookie.load("c");
-  },
-
   allCookiesExist: function() {
-    return cookie.load("a") && cookie.load("b") && cookie.load("c");
+    // These return values and how you use them are pretty fragile,
+    //   so I'm gonna be verbose for the sake of accuracy.
+    if (!cookie.load("a") || !cookie.load("b") || !cookie.load("c"))
+      return false;
+    return true;
   },
 
   getCookie: function(c) {
