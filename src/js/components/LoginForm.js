@@ -57,7 +57,7 @@ export default class LoginForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
-      encryption.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful) {
+      utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful) {
         if (!emailExists) {
             this.emailExists = false;
             this.setState({

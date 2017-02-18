@@ -12,6 +12,7 @@ export default class RegisterForm extends Component {
     this.inputInvalid = "uk-input uk-form-danger";
     this.emptyFields = false;
     this.emailValid = true;
+    this.emailExists = false;
     this.passwordValid = true;
     this.passwordMatch = true;
 
@@ -21,7 +22,9 @@ export default class RegisterForm extends Component {
       passwordConfirm: '',
       emailStyle: this.inputValid,
       passwordStyle: this.inputValid,
-      passwordConfirmStyle: this.inputValid
+      passwordConfirmStyle: this.inputValid,
+      registrationSubmitted: false,
+      registrationFailed: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -88,8 +91,36 @@ export default class RegisterForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields && this.emailValid && this.passwordValid && this.passwordMatch) {
-      // perform form submission
-      console.log("successfully registered");
+      utilities.checkForExistingEmail(this.state.email, function(emailExists) {
+        if (emailExists) {
+          this.emailExists = true;
+          this.setState({
+            emailStyle: this.inputInvalid
+          });
+        }
+        else {
+          this.emailExists = false;
+          this.setState({
+            emailStyle: this.inputValid
+          });
+          console.log("successfully registered");
+
+          utilities.performRegistration(this.state.email, this.state.password, function(success) {
+            if (success) {
+              this.setState({
+                registrationSubmitted: true,
+                registrationFailed: false
+              });
+            }
+            else {
+              this.setState({
+                registrationFailed: true,
+                registrationSubmitted: false
+              });
+            }
+          }.bind(this));
+        }
+      }.bind(this));
     }
   }
 
@@ -148,34 +179,49 @@ export default class RegisterForm extends Component {
   }
 
   render() {
-    return (
-      <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
-        <fieldset className="uk-fieldset">
-          <legend className="uk-legend landing-header">Register</legend>
-          <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-          <div className="uk-margin">
-            <div className="uk-form-controls">
-              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+
+    if (registrationSubmitted) {
+      return (
+        <div className="uk-text-center">
+          <h2 className="uk-heading-line uk-text-center"><span>Success</span></h2>
+          <p>Registration completed successfully.</p>
+          <p>Please check your e-mail for instructions on verifying your account.</p>
+        </div>
+      );
+    }
+
+    else {
+      return (
+        <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
+          <fieldset className="uk-fieldset">
+            <legend className="uk-legend landing-header">Register</legend>
+            <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
+            <label className="uk-form-label label-invalid" hidden={!this.state.registrationFailed}>There was an error when submitting your registration<br />Please wait and try again, or contact us if the problem persists</label>
+            <div className="uk-margin">
+              <div className="uk-form-controls">
+                <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+              </div>
+              <label className="uk-form-label label-invalid" hidden={this.emailValid}>E-mail must be a UNO e-mail address</label>
+              <label className="uk-form-label label-invalid" hidden={!this.emailExists}>An account with that e-mail already exists</label>
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.emailValid}>E-mail must be a UNO e-mail address</label>
-          </div>
-          <div className="uk-margin">
-            <div className="uk-form-controls">
-              <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+            <div className="uk-margin">
+              <div className="uk-form-controls">
+                <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+              </div>
+              <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
-          </div>
-          <div className="uk-margin">
-            <div className="uk-form-controls">
-              <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Password (again)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+            <div className="uk-margin">
+              <div className="uk-form-controls">
+                <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Password (again)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+              </div>
+              <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
-          </div>
-          <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Register">Register</button>
-          </div>
-        </fieldset>
-      </form>
-    );
+            <div className="uk-margin">
+              <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Register">Register</button>
+            </div>
+          </fieldset>
+        </form>
+      );
+    }
   }
 }

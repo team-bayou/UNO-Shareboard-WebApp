@@ -1,7 +1,7 @@
 const cookie = require('react-cookie');
 const encryption = require('./encryption');
 const axios = require('axios');
-var constants = require('./constants');
+const constants = require('./constants');
 
 module.exports = {
 
@@ -10,6 +10,54 @@ module.exports = {
     const re = /^[A-z0-9_%+-]+.*[A-z0-9_%+-]+@(my.)?uno.edu$/;
     return re.test(email);
   },
+
+  checkAccount: function(user, pass, callback) {
+    const type = this.validateEmail(user) ? "email" : "accountName";
+
+    axios.post(constants.HOST + '/service/v1/login', {
+      [type]: user
+    })
+    .then(function (response) {
+      const data = response.data;
+      const output = encryption.createHash(pass, data.passwordSalt);
+      const passwordCorrect = data.passwordHash === output.hash;
+
+      callback(true, passwordCorrect);
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error);
+      callback(false, false);
+    });
+  },
+
+  checkForExistingEmail: function(email, callback) {
+    axios.post(constants.HOST + '/service/v1/login', {
+      email: email
+    })
+    .then(function (response) {
+      callback(true);
+    })
+    .catch(function (error) {
+      callback(false);
+    });
+  },
+
+  performRegistration: function(email, pass, callback) {
+    const hashingResult = encryption.createHash(pass);
+    axios.post(constants.HOST + '/service/v1/unverified_users/add', {
+        passwordHash: hashingResult.hash,
+        passwordSalt: hashingResult.salt,
+        email: email
+      })
+      .then(function (response) {
+        callback(true);
+      })
+      .catch(function (error) {
+        callback(false);
+      });
+  },
+
+
 
   // When the user successfully logs in, we create cookies that will
   //   keep the user logged in.
@@ -52,7 +100,8 @@ module.exports = {
    * If "b" and "c" do exist, but the created hashes don't match
    *   "b" or "c," then the user is not validly logged in.
    */
-  verifyCookies: function(user, targetPath, replace, callback) {
+  verifyCookies: function(targetPath, replace, callback) {
+    const user = cookie.load(constants.COOKIE_A);
     const type = this.validateEmail(user) ? "email" : "accountName";
 
     // If we're trying to access the login page or verify account page

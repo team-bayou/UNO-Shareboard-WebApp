@@ -1,6 +1,4 @@
 var crypto = require('crypto');
-var axios = require('axios');
-var constants = require('./constants');
 
 module.exports = {
 
@@ -20,28 +18,6 @@ module.exports = {
       salt: salt,
       hash: this.sha512(pass, salt)
     };
-  },
-
-  checkAccount: function(user, pass, callback) {
-    // I don't know why, but the validateEmail call fails if I import utilities
-    //   outside of this method
-    const utilities = require('./utilities');
-    const type = utilities.validateEmail(user) ? "email" : "accountName";
-
-    axios.post(constants.HOST + '/service/v1/login', {
-      [type]: user
-    })
-    .then(function (response) {
-      const data = response.data;
-      const output = this.createHash(pass, data.passwordSalt);
-      const passwordCorrect = data.passwordHash === output.hash;
-
-      callback(true, passwordCorrect);
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error);
-      callback(false, false);
-    });
   }
 
 }

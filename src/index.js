@@ -10,10 +10,9 @@ import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
 const utilities = require('./js/utility/utilities');
-const constants = require('./js/utility/constants');
 
 function checkLoggedInStatus(nextState, replace, callback) {
-  utilities.verifyCookies(utilities.getCookie(constants.COOKIE_A), nextState.routes[0].path, replace, callback);
+  utilities.verifyCookies(nextState.routes[0].path, replace, callback);
 }
 
 ReactDOM.render((
