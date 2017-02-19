@@ -13,13 +13,13 @@ export default class LoginForm extends Component {
     this.emptyFields = false;
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
+    this.unverifiedUser = false;
 
     this.state = {
       email: '',
       password: '',
       emailStyle: this.inputValid,
-      passwordStyle: this.inputValid,
-      unverifiedUser: false
+      passwordStyle: this.inputValid
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -75,8 +75,10 @@ export default class LoginForm extends Component {
         if (emailExists && loginSuccessful) {
           if (unverifiedUser) {
             console.log("user is not verified");
+            this.unverifiedUser = true;
             this.setState({
-              unverifiedUser: true
+              emailStyle: this.inputValid,
+              passwordStyle: this.inputValid
             });
           }
           else {
@@ -95,10 +97,10 @@ export default class LoginForm extends Component {
     this.emailExists = true;
     this.passwordCorrect = true;
     this.emptyFields = false;
+    this.unverifiedUser = false;
     this.setState({
       emailStyle: this.inputValid,
-      passwordStyle: this.inputValid,
-      unverifiedUser: false
+      passwordStyle: this.inputValid
     });
   }
 
@@ -121,7 +123,7 @@ export default class LoginForm extends Component {
         <fieldset className="uk-fieldset">
           <legend className="uk-legend landing-header">Login</legend>
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-          <label className="uk-form-label label-invalid" hidden={!this.state.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
+          <label className="uk-form-label label-invalid" hidden={!this.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
           <div className="uk-margin">
             <div className="uk-form-controls">
               <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
