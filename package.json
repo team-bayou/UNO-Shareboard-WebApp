@@ -9,6 +9,7 @@
     "axios": "^0.15.3",
     "cors": "^2.8.1",
     "express": "^4.14.1",
+    "helmet": "^3.4.0",
     "morgan": "^1.8.0",
     "react": "^15.4.2",
     "react-cookie": "^1.0.4",

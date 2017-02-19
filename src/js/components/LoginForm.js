@@ -18,7 +18,8 @@ export default class LoginForm extends Component {
       email: '',
       password: '',
       emailStyle: this.inputValid,
-      passwordStyle: this.inputValid
+      passwordStyle: this.inputValid,
+      unverifiedUser: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -56,7 +57,7 @@ export default class LoginForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
-      utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful) {
+      utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful, unverifiedUser) {
         if (!emailExists) {
             this.emailExists = false;
             this.setState({
@@ -72,11 +73,19 @@ export default class LoginForm extends Component {
         }
 
         if (emailExists && loginSuccessful) {
-          // perform login
-          utilities.bakeCookies(this.state.email, function() {
-            browserHistory.push("/home");
-          });
-          console.log("logged in");
+          if (unverifiedUser) {
+            console.log("user is not verified");
+            this.setState({
+              unverifiedUser: true
+            });
+          }
+          else {
+            // perform login
+            utilities.bakeCookies(this.state.email, function() {
+              browserHistory.push("/home");
+            });
+            console.log("logged in");
+          }
         }
       }.bind(this));
     }
@@ -88,7 +97,8 @@ export default class LoginForm extends Component {
     this.emptyFields = false;
     this.setState({
       emailStyle: this.inputValid,
-      passwordStyle: this.inputValid
+      passwordStyle: this.inputValid,
+      unverifiedUser: false
     });
   }
 
@@ -111,6 +121,7 @@ export default class LoginForm extends Component {
         <fieldset className="uk-fieldset">
           <legend className="uk-legend landing-header">Login</legend>
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
+          <label className="uk-form-label label-invalid" hidden={!this.state.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
           <div className="uk-margin">
             <div className="uk-form-controls">
               <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />

@@ -2,8 +2,28 @@ const cookie = require('react-cookie');
 const encryption = require('./encryption');
 const axios = require('axios');
 const constants = require('./constants');
+const validator = require('validator');
 
 module.exports = {
+
+
+  //======================//
+  //      GENERATORS      //
+  //======================//
+
+  generateRandomNumber: function(len) {
+    let code = "";
+    for (let i = 0; i < len; i++) {
+      let n = Math.floor(Math.random() * 9) + 1;
+      code += n + "";
+    }
+    return parseInt(code, 10);
+  },
+
+
+  //======================//
+  //      VALIDATION      //
+  //======================//
 
   validateEmail: function(email) {
     // eslint-disable-next-line
@@ -11,10 +31,31 @@ module.exports = {
     return re.test(email);
   },
 
+  // Escapes any entered HTML characters
+  sanitizeInput: function(input) {
+    let output = validator.escape(input);
+    return output;
+  },
+
+  // Escapes any entered HTML characters
+  //   and removes all whitespace from the string
+  sanitizeInputSpacing: function(input) {
+    let output = validator.escape(input);
+    output = validator.trim(output);
+    output = validator.blacklist(output, " ");
+    return output;
+  },
+
+
+  //=======================//
+  //   REQUEST UTILITIES   //
+  //=======================//
+
+  // Attempt to login a user by searching through the existing accounts
   checkAccount: function(user, pass, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
 
-    axios.post(constants.HOST + '/service/v1/login', {
+    axios.post(constants.HOST + '/service/v1/login/', {
       [type]: user
     })
     .then(function (response) {
@@ -25,17 +66,42 @@ module.exports = {
       callback(true, passwordCorrect);
     })
     .catch(function (error) {
-      console.log(error);
-      callback(false, false);
+
+      // If the user tried logging in with an email and it wasn't found in
+      //   the verified users table, check the unverified users table
+      if (type === "email") {
+        axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
+        .then(function (response) {
+          if (response.data) {
+            const data = response.data;
+            const output = encryption.createHash(pass, data.passwordSalt);
+            const passwordCorrect = data.passwordHash === output.hash;
+
+            callback(true, passwordCorrect, true);
+          }
+          else {
+            callback(false, false);
+          }
+        })
+        .catch(function (error) {
+          callback(false, false);
+        });
+      }
+
+      // If they didn't log in with an email, then we know they aren't
+      //   an unverified user
+      else {
+        callback(false, false);
+      }
+
     });
   },
 
+  // Check if the provided email is already associated
+  //   with an existing account
   checkForExistingEmail: function(email, callback) {
-    // We wanna check to see if a user has already signed up with the provided
-    //   email address.
-    
     // First we check the active users.
-    axios.post(constants.HOST + '/service/v1/login', {
+    axios.post(constants.HOST + '/service/v1/login/', {
       email: email
     })
     .then(function (response) {
@@ -48,7 +114,12 @@ module.exports = {
       //   but hasn't been verified yet.
       axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
       .then(function (response) {
-        callback(true);
+        if (response.data) {
+          callback(true);
+        }
+        else {
+          callback(false);
+        }
       })
       .catch(function (error) {
         callback(false);
@@ -57,12 +128,14 @@ module.exports = {
     });
   },
 
+  // Perform the registration operation by adding the user to the
+  //   unverified users table
   performRegistration: function(email, pass, callback) {
 
     const code = this.generateRandomNumber(9);
     const hashingResult = encryption.createHash(pass);
 
-    axios.post(constants.HOST + '/service/v1/unverified_users/add', {
+    axios.post(constants.HOST + '/service/v1/unverified_users/add/', {
         passwordHash: hashingResult.hash,
         passwordSalt: hashingResult.salt,
         email: email,
@@ -76,14 +149,10 @@ module.exports = {
       });
   },
 
-  generateRandomNumber: function(len) {
-    let code = "";
-    for (let i = 0; i < len; i++) {
-      let n = Math.floor(Math.random() * 9) + 1;
-      code += n + "";
-    }
-    return parseInt(code, 10);
-  },
+
+  //======================//
+  //   COOKIE UTILITIES   //
+  //======================//
 
   // When the user successfully logs in, we create cookies that will
   //   keep the user logged in.
@@ -96,7 +165,7 @@ module.exports = {
 
     const type = this.validateEmail(user) ? "email" : "accountName";
 
-    axios.post(constants.HOST + '/service/v1/login', {
+    axios.post(constants.HOST + '/service/v1/login/', {
       [type]: user
     })
     .then(function (response) {
@@ -115,17 +184,6 @@ module.exports = {
     });
   },
 
-  /*
-   * This method will try to load cookie "a."
-   * If cookie "a" doesn't exist, the user is not logged in.
-   * If cookie "a" does exist, we ask the back-end for the associated
-   *   salt and create hashes from the username and salt.
-   * If they match the hashes in cookies "b" and "c," respectively,
-   *   then the user is logged into a valid account.
-   * If "b" or "c" doesn't exist, the user is not logged in.
-   * If "b" and "c" do exist, but the created hashes don't match
-   *   "b" or "c," then the user is not validly logged in.
-   */
   verifyCookies: function(targetPath, replace, callback) {
     const user = cookie.load(constants.COOKIE_A);
     const type = this.validateEmail(user) ? "email" : "accountName";
@@ -138,7 +196,7 @@ module.exports = {
         return;
       }
 
-      axios.post(constants.HOST + '/service/v1/login', {
+      axios.post(constants.HOST + '/service/v1/login/', {
         [type]: user
       })
       .then(function (response) {
@@ -175,7 +233,7 @@ module.exports = {
         return;
       }
 
-      axios.post(constants.HOST + '/service/v1/login', {
+      axios.post(constants.HOST + '/service/v1/login/', {
         [type]: user
       })
       .then(function (response) {
