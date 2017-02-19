@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
-const encryption = require('../utility/encryption');
 
 export default class LoginForm extends Component {
   constructor(props) {

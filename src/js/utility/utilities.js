@@ -23,7 +23,7 @@ module.exports = {
       const passwordCorrect = data.passwordHash === output.hash;
 
       callback(true, passwordCorrect);
-    }.bind(this))
+    })
     .catch(function (error) {
       console.log(error);
       callback(false, false);
@@ -31,6 +31,10 @@ module.exports = {
   },
 
   checkForExistingEmail: function(email, callback) {
+    // We wanna check to see if a user has already signed up with the provided
+    //   email address.
+    
+    // First we check the active users.
     axios.post(constants.HOST + '/service/v1/login', {
       email: email
     })
@@ -38,16 +42,31 @@ module.exports = {
       callback(true);
     })
     .catch(function (error) {
-      callback(false);
+
+      // If the email wasn't found in the active users table, we check
+      //   the unverified users to see if an email was used to sign up
+      //   but hasn't been verified yet.
+      axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
+      .then(function (response) {
+        callback(true);
+      })
+      .catch(function (error) {
+        callback(false);
+      });
+
     });
   },
 
   performRegistration: function(email, pass, callback) {
+
+    const code = this.generateRandomNumber(9);
     const hashingResult = encryption.createHash(pass);
+
     axios.post(constants.HOST + '/service/v1/unverified_users/add', {
         passwordHash: hashingResult.hash,
         passwordSalt: hashingResult.salt,
-        email: email
+        email: email,
+        verificationCode: code
       })
       .then(function (response) {
         callback(true);
@@ -57,7 +76,14 @@ module.exports = {
       });
   },
 
-
+  generateRandomNumber: function(len) {
+    let code = "";
+    for (let i = 0; i < len; i++) {
+      let n = Math.floor(Math.random() * 9) + 1;
+      code += n + "";
+    }
+    return parseInt(code, 10);
+  },
 
   // When the user successfully logs in, we create cookies that will
   //   keep the user logged in.

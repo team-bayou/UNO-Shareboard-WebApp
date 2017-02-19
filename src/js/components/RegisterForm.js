@@ -131,6 +131,7 @@ export default class RegisterForm extends Component {
     this.passwordValid = true;
     this.passwordMatch = true;
     this.emptyFields = false;
+    this.emailExists = false;
     this.setState({
       emailStyle: this.inputValid,
       passwordStyle: this.inputValid,
@@ -180,10 +181,9 @@ export default class RegisterForm extends Component {
 
   render() {
 
-    if (registrationSubmitted) {
+    if (this.state.registrationSubmitted) {
       return (
         <div className="uk-text-center">
-          <h2 className="uk-heading-line uk-text-center"><span>Success</span></h2>
           <p>Registration completed successfully.</p>
           <p>Please check your e-mail for instructions on verifying your account.</p>
         </div>
