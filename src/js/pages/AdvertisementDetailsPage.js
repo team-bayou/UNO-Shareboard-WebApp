@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBar from '../components/NavBar';
+import AppHeader from '../components/AppHeader';
 import Ad from '../components/Advertisement';
 
 export default class AdvertisementDetailsPage extends Component {
@@ -30,11 +30,8 @@ export default class AdvertisementDetailsPage extends Component {
 
   render() {
     return (
-      <div id="ad-details-page" className="app">
-        <div className="app-header">
-          <h1 className="uk-heading-divider uk-text-center">UNO-Shareboard</h1>
-          <NavBar />
-        </div>
+      <div id="ad-details" className="app">
+        <AppHeader />
         <div className="app-body uk-container">
             <Ad key={this.state.ad.id} ad={this.state.ad}/>
         </div>

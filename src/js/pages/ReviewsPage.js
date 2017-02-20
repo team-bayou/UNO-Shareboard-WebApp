@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBar from '../components/NavBar';
+import AppHeader from '../components/AppHeader';
 import ReviewList from '../components/ReviewList';
 
 export default class ReviewsPage extends Component {
@@ -109,14 +109,11 @@ export default class ReviewsPage extends Component {
 
   render() {
     return (
-      <div id="reviews-page" className="app">
-        <div className="app-header">
-          <h1 className="uk-heading-divider uk-text-center">UNO-Shareboard</h1>
-          <NavBar />
-        </div>
+      <div id="reviews" className="app">
+        <AppHeader />
         <div className="app-body uk-container">
             <h1>Reviews of {this.state.reviews[0].reviewee.account_name}</h1>
-            <ReviewList reviews={this.state.reviews}/>
+            <ReviewList reviews={this.state.reviews} />
         </div>
       </div>
     );
