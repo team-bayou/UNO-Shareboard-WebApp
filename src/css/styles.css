@@ -1,3 +1,6 @@
+/*****************************************
+ * GENERAL
+ *****************************************/
 body {
   margin: 0;
   padding: 0;
@@ -21,13 +24,11 @@ ol, ul {
   background-image: url("/icons.svg");
 }
 
-
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
 blue with black
 */
-
 .uk-tab>.uk-active>a {
   border-color: #000000;
 }
@@ -41,8 +42,12 @@ blue with black
   border-color: #f0506e;
 }
 
-/* NavBar */
 
+
+/*****************************************
+ * COMPONENTS
+ *****************************************/
+/* NavBar */
 #navbar {
   z-index: 980;
 }
@@ -55,6 +60,7 @@ blue with black
   padding: 0;
 }
 
+/* Advertisement Categories */
 .ad-category-list {
   margin-top: 0.5em;
 }
@@ -63,9 +69,13 @@ blue with black
   margin-right: 0.5em;
 }
 
-/* Landing Page */
 
-.landing-container {
+
+/*****************************************
+ * PAGES
+ *****************************************/
+/* Landing Page */
+#landing {
   position:absolute;
   top:50%;
   left:50%;
@@ -92,43 +102,46 @@ blue with black
   text-align: center;
 }
 
+/* Home Page */
+
+
 /* Advertisement Details Page */
-#ad-details-page .ad-item {
+#ad-details .ad-item {
   float: right;
 }
 
-#ad-details-page .ad-item span {
+#ad-details .ad-item span {
   background-color: #1e87f0;
   font-size: 1.2em;
 }
 
-#ad-details-page .ad-owner-contact .uk-icon-button {
+#ad-details .ad-owner-contact .uk-icon-button {
   color: white;
   display: inherit;
 }
 
-#ad-details-page .ad-owner-email {
+#ad-details .ad-owner-email {
   background-color: #f4c20d;
 }
 
-#ad-details-page .ad-owner-phone {
+#ad-details .ad-owner-phone {
   background-color: #4dc247;
 }
 
-#ad-details-page .ad-owner-facebook {
+#ad-details .ad-owner-facebook {
   background-color: #3b5998;
 }
 
-#ad-details-page .ad-owner-twitter {
+#ad-details .ad-owner-twitter {
   background-color: #55acee;
 }
 
 /* Reviews Page */
-#reviews-page .review .uk-comment {
+#reviews .review .uk-comment {
   padding: 20px;
 }
 
-#reviews-page .review-rating .uk-icon-button {
+#reviews .review-rating .uk-icon-button {
   background-color: orange;
   color: white;
   margin-right: 2px;

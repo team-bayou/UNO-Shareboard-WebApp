@@ -6,15 +6,15 @@ import '../../css/styles.css';
 export default class LandingPage extends Component {
   render() {
     return (
-      <div className="app landing-container">
+      <div id="landing" className="app">
         <div className="app-body uk-container">
-          <div className="uk-card uk-card-default uk-width-large uk-align-center landing-form">
+          <div className="landing-form uk-card uk-card-default uk-width-large uk-align-center">
             <div className="uk-card-body">
-              <ul className="uk-child-width-expand" data-uk-tab data-uk-switcher="{connect:'#formcontainer'}">
+              <ul className="uk-child-width-expand" data-uk-tab data-uk-switcher="{connect:'#form-container'}">
                 <li><a href="#">Login</a></li>
                 <li><a href="#">Register</a></li>
               </ul>
-              <ul id="formcontainer" className="uk-switcher uk-margin">
+              <ul id="form-container" className="uk-switcher uk-margin">
                 <li><LoginForm /></li>
                 <li><RegisterForm /></li>
               </ul>
