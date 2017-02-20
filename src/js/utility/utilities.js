@@ -64,8 +64,6 @@ module.exports = {
         const output = encryption.createHash(pass, data.passwordSalt);
         const passwordCorrect = data.passwordHash === output.hash;
 
-        console.log(response.status);
-
         callback(true, passwordCorrect);
       }
       else {
@@ -74,7 +72,7 @@ module.exports = {
         if (type === "email") {
           axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
           .then(function (response) {
-            if (response.data) {
+            if (response.status === 200) {
               const data = response.data;
               const output = encryption.createHash(pass, data.passwordSalt);
               const passwordCorrect = data.passwordHash === output.hash;
@@ -139,7 +137,6 @@ module.exports = {
   // Perform the registration operation by adding the user to the
   //   unverified users table
   performRegistration: function(email, pass, callback) {
-
     const code = this.generateRandomNumber(9);
     const hashingResult = encryption.createHash(pass);
 
@@ -182,15 +179,19 @@ module.exports = {
     .then(function (response) {
       if (response.status === 200) {
         const data = response.data;
+
         cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
         let valueToStore = encryption.createHash(data.email, data.passwordSalt);
         cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
         valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
         cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
         callback();
       }
       else {
-        console.log("there was a problem creating cookies");
+        console.log("there was a problem creating cookies:\n\n" + response);
       }
     })
     .catch(function (error) {
@@ -199,18 +200,17 @@ module.exports = {
   },
 
   verifyCookies: function(targetPath, replace, callback) {
-    const user = cookie.load(constants.COOKIE_A);
-    //const type = this.validateEmail(user) ? "email" : "accountName";
+    const userID = cookie.load(constants.COOKIE_A);
 
     // If we're trying to access the login page or verify account page
     // Requires: to be logged out
     if (targetPath === "/" || targetPath === "verify") {
-      if (!user) {
+      if (!userID) {
         callback();
         return;
       }
 
-      axios.get(constants.HOST + '/service/v1/users/' + user + '/')
+      axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
       .then(function (response) {
         if (response.status === 200) {
           const data = response.data;
@@ -252,7 +252,7 @@ module.exports = {
         return;
       }
 
-      axios.get(constants.HOST + '/service/v1/users/' + user + '/')
+      axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
       .then(function (response) {
         if (response.status === 200) {
           const data = response.data;

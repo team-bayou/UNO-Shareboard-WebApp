@@ -74,7 +74,6 @@ export default class LoginForm extends Component {
 
         if (emailExists && loginSuccessful) {
           if (unverifiedUser) {
-            console.log("user is not verified");
             this.unverifiedUser = true;
             this.setState({
               emailStyle: this.inputValid,
@@ -86,7 +85,6 @@ export default class LoginForm extends Component {
             utilities.bakeCookies(this.state.email, function() {
               browserHistory.push("/home");
             });
-            console.log("logged in");
           }
         }
       }.bind(this));

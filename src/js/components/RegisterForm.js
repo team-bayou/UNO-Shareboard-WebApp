@@ -103,7 +103,6 @@ export default class RegisterForm extends Component {
           this.setState({
             emailStyle: this.inputValid
           });
-          console.log("successfully registered");
 
           utilities.performRegistration(this.state.email, this.state.password, function(success) {
             if (success) {
