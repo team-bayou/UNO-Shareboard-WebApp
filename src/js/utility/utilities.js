@@ -59,43 +59,46 @@ module.exports = {
       [type]: user
     })
     .then(function (response) {
-      const data = response.data;
-      const output = encryption.createHash(pass, data.passwordSalt);
-      const passwordCorrect = data.passwordHash === output.hash;
+      if (response.status === 200) {
+        const data = response.data;
+        const output = encryption.createHash(pass, data.passwordSalt);
+        const passwordCorrect = data.passwordHash === output.hash;
 
-      console.log(response.status);
+        console.log(response.status);
 
-      callback(true, passwordCorrect);
+        callback(true, passwordCorrect);
+      }
+      else {
+        // If the user tried logging in with an email and it wasn't found in
+        //   the verified users table, check the unverified users table
+        if (type === "email") {
+          axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
+          .then(function (response) {
+            if (response.data) {
+              const data = response.data;
+              const output = encryption.createHash(pass, data.passwordSalt);
+              const passwordCorrect = data.passwordHash === output.hash;
+
+              callback(true, passwordCorrect, true);
+            }
+            else {
+              callback(false, false);
+            }
+          })
+          .catch(function (error) {
+            callback(false, false);
+          });
+        }
+
+        // If they didn't log in with an email, then we know they aren't
+        //   an unverified user
+        else {
+          callback(false, false);
+        }
+      }
     })
     .catch(function (error) {
-
-      // If the user tried logging in with an email and it wasn't found in
-      //   the verified users table, check the unverified users table
-      if (type === "email") {
-        axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
-        .then(function (response) {
-          if (response.data) {
-            const data = response.data;
-            const output = encryption.createHash(pass, data.passwordSalt);
-            const passwordCorrect = data.passwordHash === output.hash;
-
-            callback(true, passwordCorrect, true);
-          }
-          else {
-            callback(false, false);
-          }
-        })
-        .catch(function (error) {
-          callback(false, false);
-        });
-      }
-
-      // If they didn't log in with an email, then we know they aren't
-      //   an unverified user
-      else {
-        callback(false, false);
-      }
-
+      callback(false, false);
     });
   },
 
@@ -107,28 +110,29 @@ module.exports = {
       email: email
     })
     .then(function (response) {
-      console.log("verified : " + response.status);
-      callback(true);
+      if (response.status === 200) {
+        callback(true);
+      }
+      else {
+        // If the email wasn't found in the active users table, we check
+        //   the unverified users to see if an email was used to sign up
+        //   but hasn't been verified yet.
+        axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
+        .then(function (response) {
+          if (response.status === 200) {
+            callback(true);
+          }
+          else {
+            callback(false);
+          }
+        })
+        .catch(function (error) {
+          callback(false);
+        });
+      }
     })
     .catch(function (error) {
-
-      // If the email wasn't found in the active users table, we check
-      //   the unverified users to see if an email was used to sign up
-      //   but hasn't been verified yet.
-      axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
-      .then(function (response) {
-        if (response.data) {
-          console.log("unverified : " + response.status);
-          callback(true);
-        }
-        else {
-          callback(false);
-        }
-      })
-      .catch(function (error) {
-        callback(false);
-      });
-
+      callback(false);
     });
   },
 
@@ -146,7 +150,12 @@ module.exports = {
         verificationCode: code
       })
       .then(function (response) {
-        callback(true);
+        if (response.status === 200) {
+          callback(true);
+        }
+        else {
+          callback(false);
+        }
       })
       .catch(function (error) {
         callback(false);
@@ -171,19 +180,18 @@ module.exports = {
       [type]: user
     })
     .then(function (response) {
-      const data = response.data;
-
-      cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
-
-      let valueToStore = encryption.createHash(data.email, data.passwordSalt);
-      cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
-
-      valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
-      cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
-
-      console.log(cookie.load("a"));
-
-      callback();
+      if (response.status === 200) {
+        const data = response.data;
+        cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+        let valueToStore = encryption.createHash(data.email, data.passwordSalt);
+        cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+        valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
+        cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+        callback();
+      }
+      else {
+        console.log("there was a problem creating cookies");
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -204,20 +212,27 @@ module.exports = {
 
       axios.get(constants.HOST + '/service/v1/users/' + user + '/')
       .then(function (response) {
-        const data = response.data;
+        if (response.status === 200) {
+          const data = response.data;
 
-        const userHash = encryption.createHash(data.email, data.passwordSalt);
-        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
+          const userHash = encryption.createHash(data.email, data.passwordSalt);
+          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
-        if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
-          replace("/home");
-          callback();
+          if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
+            replace("/home");
+            callback();
+          }
+          else {
+            this.clearCookies();
+            callback();
+          }
         }
         else {
           this.clearCookies();
+          replace("/");
           callback();
         }
-      })
+      }.bind(this))
       .catch(function (error) {
         console.log(error);
         this.clearCookies();
@@ -239,16 +254,21 @@ module.exports = {
 
       axios.get(constants.HOST + '/service/v1/users/' + user + '/')
       .then(function (response) {
-        const data = response.data;
-
-        const userHash = encryption.createHash(data.email, data.passwordSalt);
-        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
-
-        if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
+        if (response.status === 200) {
+          const data = response.data;
+          const userHash = encryption.createHash(data.email, data.passwordSalt);
+          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
+          if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
+            this.clearCookies();
+            replace("/");
+          }
+          callback();
+        }
+        else {
           this.clearCookies();
           replace("/");
+          callback();
         }
-        callback();
       }.bind(this))
       .catch(function (error) {
         console.log(error);
