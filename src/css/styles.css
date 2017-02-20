@@ -1,3 +1,6 @@
+/*****************************************
+ * GENERAL
+ *****************************************/
 body {
   margin: 0;
   padding: 0;
@@ -21,13 +24,11 @@ ol, ul {
   background-image: url("/icons.svg");
 }
 
-
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
 blue with black
 */
-
 .uk-tab>.uk-active>a {
   border-color: #000000;
 }
@@ -41,8 +42,12 @@ blue with black
   border-color: #f0506e;
 }
 
-/* NavBar */
 
+
+/*****************************************
+ * COMPONENTS
+ *****************************************/
+/* NavBar */
 #navbar {
   z-index: 980;
 }
@@ -55,6 +60,20 @@ blue with black
   padding: 0;
 }
 
+/* Advertisement Categories */
+.ad-category-list {
+  margin-top: 0.5em;
+}
+
+.ad-category {
+  margin-right: 0.5em;
+}
+
+
+
+/*****************************************
+ * PAGES
+ *****************************************/
 /* Landing Page */
 #landing {
   position:absolute;
@@ -83,14 +102,8 @@ blue with black
   text-align: center;
 }
 
-/* Advertisement Categories */
-.ad-category-list {
-  margin-top: 0.5em;
-}
+/* Home Page */
 
-.ad-category {
-  margin-right: 0.5em;
-}
 
 /* Advertisement Details Page */
 #ad-details .ad-item {
