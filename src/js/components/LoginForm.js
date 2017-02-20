@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
-const encryption = require('../utility/encryption');
+const utilities = require('../utility/utilities');
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class LoginForm extends Component {
     this.emptyFields = false;
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
+    this.unverifiedUser = false;
 
     this.state = {
       email: '',
@@ -54,25 +56,38 @@ export default class LoginForm extends Component {
 
     this.checkForEmptyFields();
 
-    const result = encryption.checkAccount(this.state.email, this.state.password);
+    if (!this.emptyFields) {
+      utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful, unverifiedUser) {
+        if (!emailExists) {
+            this.emailExists = false;
+            this.setState({
+              emailStyle: this.inputInvalid
+            });
+        }
 
-    if (this.state.email !== "" && !result.emailExists) {
-        this.emailExists = false;
-        this.setState({
-          emailStyle: this.inputInvalid
-        });
-    }
+        else if (!loginSuccessful) {
+          this.passwordCorrect = false;
+          this.setState({
+            passwordStyle: this.inputInvalid
+          });
+        }
 
-    else if (this.state.password !== "" && !result.loginSuccessful) {
-      this.passwordCorrect = false;
-      this.setState({
-        passwordStyle: this.inputInvalid
-      });
-    }
-
-    if (!this.emptyFields && result.emailExists && result.loginSuccessful) {
-      // perform login
-      console.log('Logged in successfully');
+        if (emailExists && loginSuccessful) {
+          if (unverifiedUser) {
+            this.unverifiedUser = true;
+            this.setState({
+              emailStyle: this.inputValid,
+              passwordStyle: this.inputValid
+            });
+          }
+          else {
+            // perform login
+            utilities.bakeCookies(this.state.email, function() {
+              browserHistory.push("/home");
+            });
+          }
+        }
+      }.bind(this));
     }
   }
 
@@ -80,6 +95,7 @@ export default class LoginForm extends Component {
     this.emailExists = true;
     this.passwordCorrect = true;
     this.emptyFields = false;
+    this.unverifiedUser = false;
     this.setState({
       emailStyle: this.inputValid,
       passwordStyle: this.inputValid
@@ -105,11 +121,12 @@ export default class LoginForm extends Component {
         <fieldset className="uk-fieldset">
           <legend className="uk-legend landing-header">Login</legend>
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
+          <label className="uk-form-label label-invalid" hidden={!this.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
           <div className="uk-margin">
             <div className="uk-form-controls">
-              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail / Username" value={this.state.email} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail address</label>
+            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail / username<br />Keep in mind that usernames are case-sensitive</label>
           </div>
           <div className="uk-margin">
             <div className="uk-form-controls">

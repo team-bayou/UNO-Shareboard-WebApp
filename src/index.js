@@ -9,13 +9,19 @@ import Reviews from './js/pages/ReviewsPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
+const utilities = require('./js/utility/utilities');
+
+function checkLoggedInStatus(nextState, replace, callback) {
+  utilities.verifyCookies(nextState.routes[0].path, replace, callback);
+}
+
 ReactDOM.render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
-    <Route path="/" component={Landing} />
-    <Route path="home" component={Home} />
-    <Route path="advertisements" component={Advertisements} />
-    <Route path="advertisements/:id" component={AdvertisementDetails} />
-    <Route path="users/:account_name/reviews" component={Reviews} />
+    <Route path="/" component={Landing} onEnter={checkLoggedInStatus} />
+    <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
+    <Route path="users/:account_name/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));

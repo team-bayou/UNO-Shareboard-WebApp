@@ -2,8 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
+const helmet = require('helmet');
 const app = express();
 
+// HTTP header protection
+app.use(helmet());
+
+// Enabling use of CORS - this may not be necessary
 app.use(cors());
 
 // Setup logger
