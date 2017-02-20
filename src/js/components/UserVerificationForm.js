@@ -1,20 +1,28 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
-const encryption = require('../utility/encryption');
 const utilities = require('../utility/utilities');
 const validatePhone = utilities.validatePhone;
+const validateEmail = utilities.validateEmail;
 
 export default class UserVerificationForm extends Component {
   constructor(props) {
     super(props);
 
+    let pageNeedsLoading = true;
     this.emailValid = true;
-    if (!props.email) {
-      // We also have check to see if the e-mail
-      //   exists in the database and hasn't already
-      //   been verified.
+    
+    if (!props.email || !validateEmail(props.email)) {
       this.emailValid = false;
+      pageNeedsLoading = false;
+    }
+    else {
+      utilities.checkForUnverifiedEmail(props.email, function (exists) {
+        this.emailValid = exists;
+        this.setState({
+          pageLoaded: true
+        });
+      }.bind(this));
     }
 
     this.emptyFields = false;
@@ -39,7 +47,9 @@ export default class UserVerificationForm extends Component {
       usernameStyle: this.inputValid,
       firstnameStyle: this.inputValid,
       lastnameStyle: this.inputValid,
-      phoneStyle: this.inputValid
+      phoneStyle: this.inputValid,
+
+      pageLoaded: !pageNeedsLoading
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -117,7 +127,7 @@ export default class UserVerificationForm extends Component {
     if (!this.emptyFields && this.usernameValid && (this.phone === "" || this.phoneNumberValid)) {
       // perform form submission
 
-      const result = encryption.checkAccount(this.props.email, this.state.password);
+      const result = utilities.checkAccount(this.props.email, this.state.password);
       if (!result.loginSuccessful) {
         this.passwordCorrect = false;
         this.setState({
@@ -177,78 +187,88 @@ export default class UserVerificationForm extends Component {
 
   render() {
 
-
-    if (!this.emailValid) {
+    if (!this.state.pageLoaded) {
       return (
         <div className="uk-text-center">
-          <h2 className="uk-heading-line uk-text-center"><span>Error</span></h2>
-          <p>The verification link that you clicked seems to be invalid.</p>
-          <p>Please try the link again, or contact us if you continue having problems.</p>
+          <p>Loading...</p>
         </div>
       );
     }
 
     else {
-      return (
-        <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
-          <fieldset className="uk-fieldset">
-            <legend className="uk-legend uk-text-center">Verify Account</legend>
 
-            <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+      if (!this.emailValid) {
+        return (
+          <div className="uk-text-center">
+            <h2 className="uk-heading-line uk-text-center"><span>Error</span></h2>
+            <p>The verification link that you clicked seems to be invalid.</p>
+            <p>Please try the link again, or contact us if you continue having problems.</p>
+          </div>
+        );
+      }
 
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code (required)" value={this.state.verifycode} onChange={this.handleInputChange} />
+      else {
+        return (
+          <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
+            <fieldset className="uk-fieldset">
+              <legend className="uk-legend uk-text-center">Verify Account</legend>
+
+              <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code (required)" value={this.state.verifycode} onChange={this.handleInputChange} />
+                </div>
+                <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
-            </div>
 
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password (required)" value={this.state.password} onChange={this.handleInputChange} />
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password (required)" value={this.state.password} onChange={this.handleInputChange} />
+                </div>
+                <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
-            </div>
 
-            <div className="uk-margin">
-              <hr className="uk-divider-icon" />
-            </div>
-
-            <legend className="uk-legend uk-text-center">Profile Information</legend>
-
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
+              <div className="uk-margin">
+                <hr className="uk-divider-icon" />
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
-            </div>
 
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="firstname" className="uk-input" type="text" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} />
+              <legend className="uk-legend uk-text-center">Profile Information</legend>
+
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
+                </div>
+                <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
               </div>
-            </div>
 
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="lastname" className="uk-input" type="text" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} />
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="firstname" className="uk-input" type="text" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} />
+                </div>
               </div>
-            </div>
 
-            <div className="uk-margin">
-              <div className="uk-form-controls">
-                <input name="phone" className={this.state.phoneStyle} type="tel" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="lastname" className="uk-input" type="text" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} />
+                </div>
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.phoneNumberValid}>Not a valid phone number</label>
-            </div>
 
-            <div className="uk-margin">
-              <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
-            </div>
+              <div className="uk-margin">
+                <div className="uk-form-controls">
+                  <input name="phone" className={this.state.phoneStyle} type="tel" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+                </div>
+                <label className="uk-form-label label-invalid" hidden={this.phoneNumberValid}>Not a valid phone number</label>
+              </div>
 
-          </fieldset>
-        </form>
-      );
+              <div className="uk-margin">
+                <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
+              </div>
+
+            </fieldset>
+          </form>
+        );
+      }
     }
   }
 }

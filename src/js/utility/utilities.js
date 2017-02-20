@@ -144,6 +144,21 @@ module.exports = {
     });
   },
 
+  checkForUnverifiedEmail: function(email, callback) {
+    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
+    .then(function (response) {
+      if (response.status === 200) {
+        callback(true);
+      }
+      else {
+        callback(false);
+      }
+    })
+    .catch(function (error) {
+      callback(false);
+    });
+  },
+
   // Perform the registration operation by adding the user to the
   //   unverified users table
   performRegistration: function(email, pass, callback) {
