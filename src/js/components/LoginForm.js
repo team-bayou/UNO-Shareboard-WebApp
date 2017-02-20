@@ -126,9 +126,9 @@ export default class LoginForm extends Component {
           <label className="uk-form-label label-invalid" hidden={!this.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
           <div className="uk-margin">
             <div className="uk-form-controls">
-              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail / Username" value={this.state.email} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail address</label>
+            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail / username<br />Keep in mind that usernames are case-sensitive</label>
           </div>
           <div className="uk-margin">
             <div className="uk-form-controls">

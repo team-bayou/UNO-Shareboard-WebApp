@@ -63,6 +63,8 @@ module.exports = {
       const output = encryption.createHash(pass, data.passwordSalt);
       const passwordCorrect = data.passwordHash === output.hash;
 
+      console.log(response.status);
+
       callback(true, passwordCorrect);
     })
     .catch(function (error) {
@@ -105,6 +107,7 @@ module.exports = {
       email: email
     })
     .then(function (response) {
+      console.log("verified : " + response.status);
       callback(true);
     })
     .catch(function (error) {
@@ -115,6 +118,7 @@ module.exports = {
       axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
       .then(function (response) {
         if (response.data) {
+          console.log("unverified : " + response.status);
           callback(true);
         }
         else {
@@ -156,13 +160,11 @@ module.exports = {
 
   // When the user successfully logs in, we create cookies that will
   //   keep the user logged in.
-  // a: raw username
+  // a: user's id
   // b: hash created from username + salt
   // c: hash created from salt + salt
-  // "user" is the username of the user being logged in
+  // "user" is the email or username of the user being logged in
   bakeCookies: function(user, callback) {
-    cookie.save(constants.COOKIE_A, user, { path: '/', maxAge: 60 * 60 * 24 * 7 });
-
     const type = this.validateEmail(user) ? "email" : "accountName";
 
     axios.post(constants.HOST + '/service/v1/login/', {
@@ -171,11 +173,15 @@ module.exports = {
     .then(function (response) {
       const data = response.data;
 
-      let valueToStore = encryption.createHash(user, data.passwordSalt);
+      cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+      let valueToStore = encryption.createHash(data.email, data.passwordSalt);
       cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
       valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
       cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+      console.log(cookie.load("a"));
 
       callback();
     })
@@ -186,7 +192,7 @@ module.exports = {
 
   verifyCookies: function(targetPath, replace, callback) {
     const user = cookie.load(constants.COOKIE_A);
-    const type = this.validateEmail(user) ? "email" : "accountName";
+    //const type = this.validateEmail(user) ? "email" : "accountName";
 
     // If we're trying to access the login page or verify account page
     // Requires: to be logged out
@@ -196,13 +202,11 @@ module.exports = {
         return;
       }
 
-      axios.post(constants.HOST + '/service/v1/login/', {
-        [type]: user
-      })
+      axios.get(constants.HOST + '/service/v1/users/' + user + '/')
       .then(function (response) {
         const data = response.data;
 
-        const userHash = encryption.createHash(user, data.passwordSalt);
+        const userHash = encryption.createHash(data.email, data.passwordSalt);
         const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
         if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
@@ -233,13 +237,11 @@ module.exports = {
         return;
       }
 
-      axios.post(constants.HOST + '/service/v1/login/', {
-        [type]: user
-      })
+      axios.get(constants.HOST + '/service/v1/users/' + user + '/')
       .then(function (response) {
         const data = response.data;
 
-        const userHash = encryption.createHash(user, data.passwordSalt);
+        const userHash = encryption.createHash(data.email, data.passwordSalt);
         const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
 
         if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
