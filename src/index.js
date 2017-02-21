@@ -15,6 +15,12 @@ function checkLoggedInStatus(nextState, replace, callback) {
   utilities.verifyCookies(nextState.routes[0].path, replace, callback);
 }
 
+function logout(nextState, replace, callback) {
+  utilities.clearCookies();
+  replace("/");
+  callback();
+}
+
 ReactDOM.render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
     <Route path="/" component={Landing} onEnter={checkLoggedInStatus} />
@@ -22,6 +28,7 @@ ReactDOM.render((
     <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
     <Route path="users/:account_name/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));
