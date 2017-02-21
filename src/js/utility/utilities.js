@@ -34,7 +34,10 @@ module.exports = {
   validatePhone: function(number) {
     try {
       const stripped = validator.blacklist(number, '-(). ');
-      return validator.isMobilePhone(stripped, 'en-US');
+      return {
+        isValid: validator.isMobilePhone(stripped, 'en-US'),
+        number: stripped
+      };
     }
     catch (err) {
       return false;
@@ -187,7 +190,59 @@ module.exports = {
   // Attempt to perform user verification by sending the user-entered
   //   info to the back-end and receiving a response stating whether
   //   or not the request was successful
-  performVerification: function() {
+  performVerification: function(info, callback) {
+
+    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + info.email + '/')
+    .then(function (response) {
+      if (response.status === 200) {
+        const data = response.data;
+        const output = encryption.createHash(info.password, data.passwordSalt);
+
+        console.log(parseInt(info.verificationCode, 10) === data.verificationCode);
+        console.log(output.hash === data.passwordHash);
+
+        const usr = {
+          email: info.email,
+          verifyCode: parseInt(info.verificationCode, 10),
+          passwordHash: output.hash,
+          username: info.username,
+          firstname: info.firstname,
+          lastname: info.lastname,
+          phone: this.validatePhone(info.phone).number
+        };
+        console.log(usr);
+        callback(true, true);
+
+        /*
+        axios.post(constants.HOST + '/service/v1/verify/add/', {
+            email: info.email,
+            verifyCode: info.verificationCode,
+            passwordHash: output.hash,
+            username: info.username,
+            firstname: info.firstname,
+            lastname: info.lastname,
+            phone: info.phone
+          })
+          .then(function (response) {
+            if (response.status === 200) {
+              callback(true, true);
+            }
+            else {
+              callback(false, false);
+            }
+          })
+          .catch(function (error) {
+            callback(false);
+          });
+          */
+      }
+      else {
+        callback(false, false);
+      }
+    }.bind(this))
+    .catch(function (error) {
+      callback(false, false);
+    });
 
   },
 

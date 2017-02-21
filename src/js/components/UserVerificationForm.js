@@ -88,7 +88,7 @@ export default class UserVerificationForm extends Component {
     }
 
     else if (name === "phone") {
-      const phs = value === "" || validatePhone(value) ? this.inputValid : this.inputInvalid;
+      const phs = value === "" || validatePhone(value).isValid ? this.inputValid : this.inputInvalid;
       this.phoneNumberValid = phs === this.inputValid;
       this.setState({
         phoneStyle: phs
@@ -115,7 +115,7 @@ export default class UserVerificationForm extends Component {
     });
 
     if (this.state.phone !== "") {
-      const phs = validatePhone(this.state.phone) ? this.inputValid : this.inputInvalid;
+      const phs = validatePhone(this.state.phone).isValid ? this.inputValid : this.inputInvalid;
       this.phoneNumberValid = phs === this.inputValid;
       this.setState({
         phoneStyle: phs
@@ -136,7 +136,7 @@ export default class UserVerificationForm extends Component {
         lastname: this.state.lastname,
         phone: this.state.phone
       };
-      
+
       utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
 
         if (!passwordCorrect) {
