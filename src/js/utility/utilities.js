@@ -184,6 +184,13 @@ module.exports = {
       });
   },
 
+  // Attempt to perform user verification by sending the user-entered
+  //   info to the back-end and receiving a response stating whether
+  //   or not the request was successful
+  performVerification: function() {
+
+  },
+
 
   //======================//
   //   COOKIE UTILITIES   //

@@ -89,6 +89,10 @@ blue with black
   border: 1px solid #000000;
 }
 
+.landing-header {
+  text-align: center;
+}
+
 .landing-submit-btn {
   margin-bottom: 0;
 }

@@ -11,7 +11,7 @@ export default class UserVerificationForm extends Component {
 
     let pageNeedsLoading = true;
     this.emailValid = true;
-    
+
     if (!props.email || !validateEmail(props.email)) {
       this.emailValid = false;
       pageNeedsLoading = false;
@@ -127,32 +127,43 @@ export default class UserVerificationForm extends Component {
     if (!this.emptyFields && this.usernameValid && (this.phone === "" || this.phoneNumberValid)) {
       // perform form submission
 
-      const result = utilities.checkAccount(this.props.email, this.state.password);
-      if (!result.loginSuccessful) {
-        this.passwordCorrect = false;
-        this.setState({
-          passwordStyle: this.inputInvalid
-        });
-        console.log("incorrect password");
-      }
+      const info = {
+        email: this.props.email,
+        verificationCode: this.state.verifycode,
+        password: this.state.password,
+        username: this.state.username,
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        phone: this.state.phone
+      };
+      
+      utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
 
-      /*
-      else if (verification code wrong) {
-        this.verificationCorrect = false;
-        this.setState({
-          verifycodeStyle: this.inputInvalid
-        });
-        console.log("incorrect verification code");
-      }
-      */
+        if (!passwordCorrect) {
+          this.passwordCorrect = false;
+          this.setState({
+            passwordStyle: this.inputInvalid
+          });
+          console.log("incorrect password");
+        }
 
-      else {
-        this.passwordCorrect = true;
-        this.setState({
-          passwordStyle: this.inputValid
-        });
-        console.log("successfully verified account");
-      }
+        else if (!verifyCodeCorrect) {
+          this.verificationCorrect = false;
+          this.setState({
+            verifycodeStyle: this.inputInvalid
+          });
+          console.log("incorrect verification code");
+        }
+
+        else {
+          this.passwordCorrect = true;
+          this.setState({
+            passwordStyle: this.inputValid
+          });
+          console.log("successfully verified account");
+        }
+
+      }.bind(this));
     }
   }
 
