@@ -250,7 +250,7 @@ module.exports = {
             if (response.status === constants.RESPONSE_OK) {
               callback(true, true);
             }
-            else if (reponse.status === constants.RESPONSE_UNAUTHORIZED) {
+            else if (response.status === constants.RESPONSE_UNAUTHORIZED) {
               if (response.data.errorMessage === "password") {
                 callback(false, true);
               }
@@ -330,7 +330,7 @@ module.exports = {
 
       axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
       .then(function (response) {
-        if (response.status === constnats.RESPONSE_OK) {
+        if (response.status === constants.RESPONSE_OK) {
           const data = response.data;
 
           const userHash = encryption.createHash(data.email, data.passwordSalt);
