@@ -30,6 +30,7 @@ export default class UserVerificationForm extends Component {
     this.phoneNumberValid = true;
     this.passwordCorrect = true;
     this.verificationCorrect = true;
+    this.usernameExists = false;
 
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
@@ -127,42 +128,58 @@ export default class UserVerificationForm extends Component {
     if (!this.emptyFields && this.usernameValid && (this.phone === "" || this.phoneNumberValid)) {
       // perform form submission
 
-      const info = {
-        email: this.props.email,
-        verificationCode: this.state.verifycode,
-        password: this.state.password,
-        username: this.state.username,
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        phone: this.state.phone
-      };
-
-      utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
-
-        if (!passwordCorrect) {
-          this.passwordCorrect = false;
+      utilities.checkForExistingUsername(this.state.username, function(usernameExists) {
+        if (usernameExists) {
+          this.usernameExists = true;
           this.setState({
-            passwordStyle: this.inputInvalid
+            usernameStyle: this.inputInvalid
           });
-          console.log("incorrect password");
         }
-
-        else if (!verifyCodeCorrect) {
-          this.verificationCorrect = false;
-          this.setState({
-            verifycodeStyle: this.inputInvalid
-          });
-          console.log("incorrect verification code");
-        }
-
         else {
-          this.passwordCorrect = true;
+          this.usernameExists = false;
           this.setState({
-            passwordStyle: this.inputValid
+            usernameStyle: this.inputValid
           });
-          console.log("successfully verified account");
-        }
 
+          const info = {
+            email: this.props.email,
+            verificationCode: this.state.verifycode,
+            password: this.state.password,
+            username: this.state.username,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            phone: this.state.phone
+          };
+          utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
+
+            if (!passwordCorrect) {
+              this.passwordCorrect = false;
+              this.setState({
+                passwordStyle: this.inputInvalid
+              });
+              console.log("incorrect password");
+            }
+
+            if (!verifyCodeCorrect) {
+              this.verificationCorrect = false;
+              this.setState({
+                verifycodeStyle: this.inputInvalid
+              });
+              console.log("incorrect verification code");
+            }
+
+            if (passwordCorrect && verifyCodeCorrect) {
+              this.passwordCorrect = true;
+              this.verificationCorrect = true;
+              this.setState({
+                passwordStyle: this.inputValid,
+                verifycodeStyle: this.inputValid
+              });
+              console.log("successfully verified account");
+            }
+
+          }.bind(this));
+        }
       }.bind(this));
     }
   }
@@ -251,6 +268,7 @@ export default class UserVerificationForm extends Component {
                   <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
                 </div>
                 <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
+                <label className="uk-form-label label-invalid" hidden={!this.usernameExists}>That username has already been taken</label>
               </div>
 
               <div className="uk-margin">

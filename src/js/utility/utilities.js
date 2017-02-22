@@ -68,29 +68,46 @@ module.exports = {
   checkAccount: function(user, pass, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
 
-    axios.post(constants.HOST + '/service/v1/login/', {
-      [type]: user
-    })
+    axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
     .then(function (response) {
-      if (response.status === 200) {
-        const data = response.data;
-        const output = encryption.createHash(pass, data.passwordSalt);
-        const passwordCorrect = data.passwordHash === output.hash;
+      const data = response.data;
+      const status = response.status;
 
-        callback(true, passwordCorrect);
+      // If the user was found by email / accountName
+      if (status === constants.RESPONSE_OK) {
+        const currentHash = encryption.createHash(pass, data.passwordSalt).hash;
+
+        // Try to log the user in using the provided info
+        axios.post(constants.HOST + '/service/v1/auth/login/', {
+          [type]: user,
+          passwordHash: currentHash
+        })
+        .then(function (response) {
+          if (status === constants.RESPONSE_OK) {
+            callback(true, true);
+          }
+          else {
+            callback(true, false);
+          }
+        })
+        .catch(function (error) {
+          callback(false, false);
+        });
       }
+
+      // If the user was not found in the verified users table
       else {
+
         // If the user tried logging in with an email and it wasn't found in
         //   the verified users table, check the unverified users table
         if (type === "email") {
           axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
           .then(function (response) {
-            if (response.status === 200) {
-              const data = response.data;
-              const output = encryption.createHash(pass, data.passwordSalt);
-              const passwordCorrect = data.passwordHash === output.hash;
-
-              callback(true, passwordCorrect, true);
+            if (response.status === constants.RESPONSE_OK) {
+              // The user may or may not have actually logged in successfully,
+              //   but it doesn't matter since we're not going to actually
+              //   allow them to log in, so just inform them that they are unverified
+              callback(true, true, true);
             }
             else {
               callback(false, false);
@@ -106,6 +123,7 @@ module.exports = {
         else {
           callback(false, false);
         }
+
       }
     })
     .catch(function (error) {
@@ -117,11 +135,9 @@ module.exports = {
   //   with an existing account
   checkForExistingEmail: function(email, callback) {
     // First we check the active users.
-    axios.post(constants.HOST + '/service/v1/login/', {
-      email: email
-    })
+    axios.get(constants.HOST + '/service/v1/users/email/' + email + '/')
     .then(function (response) {
-      if (response.status === 200) {
+      if (response.status === constants.RESPONSE_OK) {
         callback(true);
       }
       else {
@@ -130,7 +146,7 @@ module.exports = {
         //   but hasn't been verified yet.
         axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
         .then(function (response) {
-          if (response.status === 200) {
+          if (response.status === constants.RESPONSE_OK) {
             callback(true);
           }
           else {
@@ -147,10 +163,27 @@ module.exports = {
     });
   },
 
+  // Check if the provided username is already
+  //   associated with an existing account
+  checkForExistingUsername: function(username, callback) {
+    axios.get(constants.HOST + '/service/v1/users/accountName/' + username + '/')
+    .then(function (response) {
+      if (response.status === constants.RESPONSE_OK) {
+        callback(true);
+      }
+      else {
+        callback(false);
+      }
+    })
+    .catch(function (error) {
+      callback(false);
+    });
+  },
+
   checkForUnverifiedEmail: function(email, callback) {
     axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
     .then(function (response) {
-      if (response.status === 200) {
+      if (response.status === constants.RESPONSE_OK) {
         callback(true);
       }
       else {
@@ -175,7 +208,7 @@ module.exports = {
         verificationCode: code
       })
       .then(function (response) {
-        if (response.status === 200) {
+        if (response.status === constants.RESPONSE_OK) {
           callback(true);
         }
         else {
@@ -194,47 +227,47 @@ module.exports = {
 
     axios.get(constants.HOST + '/service/v1/unverified_users/email/' + info.email + '/')
     .then(function (response) {
-      if (response.status === 200) {
+      // There's no reason that this should ever not be 200 OK
+      if (response.status === constants.RESPONSE_OK) {
         const data = response.data;
-        const output = encryption.createHash(info.password, data.passwordSalt);
-
-        console.log(parseInt(info.verificationCode, 10) === data.verificationCode);
-        console.log(output.hash === data.passwordHash);
+        const currentHash = encryption.createHash(info.password, data.passwordSalt).hash;
 
         const usr = {
           email: info.email,
           verifyCode: parseInt(info.verificationCode, 10),
-          passwordHash: output.hash,
+          passwordHash: currentHash,
           username: info.username,
           firstname: info.firstname,
           lastname: info.lastname,
-          phone: this.validatePhone(info.phone).number
+          phone: this.validatePhone(info.phone).number,
+          userType: "standard"
         };
         console.log(usr);
         callback(true, true);
 
-        /*
-        axios.post(constants.HOST + '/service/v1/verify/add/', {
-            email: info.email,
-            verifyCode: info.verificationCode,
-            passwordHash: output.hash,
-            username: info.username,
-            firstname: info.firstname,
-            lastname: info.lastname,
-            phone: info.phone
-          })
+        axios.post(constants.HOST + '/service/v1/verify/add/', usr)
           .then(function (response) {
-            if (response.status === 200) {
+            if (response.status === constants.RESPONSE_OK) {
               callback(true, true);
+            }
+            else if (reponse.status === constants.RESPONSE_UNAUTHORIZED) {
+              if (response.data.errorMessage === "password") {
+                callback(false, true);
+              }
+              else if (response.data.errorMessage === "verify") {
+                callback(true, false);
+              }
+              else if (response.data.errorMessage === "both") {
+                callback(false, false);
+              }
             }
             else {
               callback(false, false);
             }
           })
           .catch(function (error) {
-            callback(false);
+            callback(false, false);
           });
-          */
       }
       else {
         callback(false, false);
@@ -260,11 +293,9 @@ module.exports = {
   bakeCookies: function(user, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
 
-    axios.post(constants.HOST + '/service/v1/login/', {
-      [type]: user
-    })
+    axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
     .then(function (response) {
-      if (response.status === 200) {
+      if (response.status === constants.RESPONSE_OK) {
         const data = response.data;
 
         cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
@@ -299,7 +330,7 @@ module.exports = {
 
       axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
       .then(function (response) {
-        if (response.status === 200) {
+        if (response.status === constnats.RESPONSE_OK) {
           const data = response.data;
 
           const userHash = encryption.createHash(data.email, data.passwordSalt);
@@ -341,7 +372,7 @@ module.exports = {
 
       axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
       .then(function (response) {
-        if (response.status === 200) {
+        if (response.status === constants.RESPONSE_OK) {
           const data = response.data;
           const userHash = encryption.createHash(data.email, data.passwordSalt);
           const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
