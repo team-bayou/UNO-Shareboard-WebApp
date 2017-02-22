@@ -80,18 +80,23 @@ module.exports = {
         // Try to log the user in using the provided info
         axios.post(constants.HOST + '/service/v1/auth/login/', {
           [type]: user,
-          passwordHash: currentHash
+          enteredPasswordHash: currentHash
         })
         .then(function (response) {
           if (status === constants.RESPONSE_OK) {
             callback(true, true);
           }
           else {
-            callback(true, false);
+            callback(false, false);
           }
         })
         .catch(function (error) {
-          callback(false, false);
+          if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
+            callback(true, false);
+          }
+          else {
+            callback(false, false);
+          }
         });
       }
 
@@ -234,39 +239,38 @@ module.exports = {
 
         const usr = {
           email: info.email,
-          verifyCode: parseInt(info.verificationCode, 10),
-          passwordHash: currentHash,
-          username: info.username,
-          firstname: info.firstname,
-          lastname: info.lastname,
-          phone: this.validatePhone(info.phone).number,
+          enteredVerificationCode: parseInt(info.verificationCode, 10),
+          enteredPasswordHash: currentHash,
+          accountName: info.username,
+          firstName: info.firstname,
+          lastName: info.lastname,
+          phoneNumber: this.validatePhone(info.phone).number,
           userType: "standard"
         };
-        console.log(usr);
-        callback(true, true);
-
-        axios.post(constants.HOST + '/service/v1/verify/add/', usr)
+        axios.post(constants.HOST + '/service/v1/auth/verify/', usr)
           .then(function (response) {
             if (response.status === constants.RESPONSE_OK) {
               callback(true, true);
-            }
-            else if (response.status === constants.RESPONSE_UNAUTHORIZED) {
-              if (response.data.errorMessage === "password") {
-                callback(false, true);
-              }
-              else if (response.data.errorMessage === "verify") {
-                callback(true, false);
-              }
-              else if (response.data.errorMessage === "both") {
-                callback(false, false);
-              }
             }
             else {
               callback(false, false);
             }
           })
           .catch(function (error) {
-            callback(false, false);
+            if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
+              if (error.response.data.errorMessage === "password") {
+                callback(false, true);
+              }
+              else if (error.response.data.errorMessage === "verify") {
+                callback(true, false);
+              }
+              else if (error.response.data.errorMessage === "both") {
+                callback(false, false);
+              }
+            }
+            else {
+              callback(false, false);
+            }
           });
       }
       else {

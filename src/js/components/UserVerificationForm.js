@@ -151,31 +151,20 @@ export default class UserVerificationForm extends Component {
             phone: this.state.phone
           };
           utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
+            
+            this.passwordCorrect = passwordCorrect;
+            this.verificationCorrect = verifyCodeCorrect;
 
-            if (!passwordCorrect) {
-              this.passwordCorrect = false;
-              this.setState({
-                passwordStyle: this.inputInvalid
-              });
-              console.log("incorrect password");
-            }
+            const passStyle = passwordCorrect ? this.inputValid : this.inputInvalid;
+            const verifyStyle = verifyCodeCorrect ? this.inputValid : this.inputInvalid;
 
-            if (!verifyCodeCorrect) {
-              this.verificationCorrect = false;
-              this.setState({
-                verifycodeStyle: this.inputInvalid
-              });
-              console.log("incorrect verification code");
-            }
+            this.setState({
+              passwordStyle: passStyle,
+              verifycodeStyle: verifyStyle
+            });
 
             if (passwordCorrect && verifyCodeCorrect) {
-              this.passwordCorrect = true;
-              this.verificationCorrect = true;
-              this.setState({
-                passwordStyle: this.inputValid,
-                verifycodeStyle: this.inputValid
-              });
-              console.log("successfully verified account");
+              console.log("successfully verified");
             }
 
           }.bind(this));
