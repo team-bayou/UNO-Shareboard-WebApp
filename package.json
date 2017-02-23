@@ -16,8 +16,6 @@
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2",
     "react-scripts": "0.8.5",
-    "sendgrid": "^4.7.1",
-    "sendgrid-rest": "^2.3.0",
     "validator": "^6.2.1"
   },
   "scripts": {
