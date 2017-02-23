@@ -12,6 +12,8 @@ import './css/styles.css';
 
 const utilities = require('./js/utility/utilities');
 
+utilities.sendVerificationEmail("poker158149@gmail.com", "MY_VERIFICATION_CODE");
+
 function checkLoggedInStatus(nextState, replace, callback) {
   utilities.verifyCookies(nextState.routes[0].path, replace, callback);
 }

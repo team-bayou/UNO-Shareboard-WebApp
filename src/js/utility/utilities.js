@@ -284,6 +284,37 @@ module.exports = {
   },
 
 
+  //=======================//
+  //    EMAIL UTILITIES    //
+  //=======================//
+
+  sendVerificationEmail: function(email, verifyCode) {
+    var helper = require('sendgrid').mail;
+    var from_email = new helper.Email(email);
+    var to_email = new helper.Email(email);
+    var subject = 'Hello World from the SendGrid Node.js Library!';
+    var content = new helper.Content('text/plain', 'Hello, Email! Here\'s your verification code: ' + verifyCode);
+    var mail = new helper.Mail(from_email, subject, to_email, content);
+
+    var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+    var request = sg.emptyRequest({
+      method: 'POST',
+      path: '/v3/mail/send',
+      body: mail.toJSON(),
+    });
+
+    sg.API(request)
+      .then(response => {
+        console.log(response.statusCode);
+        console.log(response.body);
+        console.log(response.headers);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  },
+
+
   //======================//
   //   COOKIE UTILITIES   //
   //======================//
