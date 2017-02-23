@@ -59,6 +59,11 @@ module.exports = {
     return output;
   },
 
+  cleanUnoEmail: function(email) {
+    let name = email.slice(0, email.indexOf("@"));
+    return name + "@uno.edu";
+  },
+
 
   //=======================//
   //   REQUEST UTILITIES   //
@@ -67,6 +72,8 @@ module.exports = {
   // Attempt to login a user by searching through the existing accounts
   checkAccount: function(user, pass, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
+    if (type === "email")
+      user = this.cleanUnoEmail(user);
 
     axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
     .then(function (response) {
@@ -139,6 +146,8 @@ module.exports = {
   // Check if the provided email is already associated
   //   with an existing account
   checkForExistingEmail: function(email, callback) {
+    email = this.cleanUnoEmail(email);
+
     // First we check the active users.
     axios.get(constants.HOST + '/service/v1/users/email/' + email + '/')
     .then(function (response) {
@@ -186,6 +195,8 @@ module.exports = {
   },
 
   checkForUnverifiedEmail: function(email, callback) {
+    email = this.cleanUnoEmail(email);
+
     axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
     .then(function (response) {
       if (response.status === constants.RESPONSE_OK) {
@@ -205,6 +216,8 @@ module.exports = {
   performRegistration: function(email, pass, callback) {
     const code = this.generateRandomNumber(9);
     const hashingResult = encryption.createHash(pass);
+
+    email = this.cleanUnoEmail(email);
 
     axios.post(constants.HOST + '/service/v1/unverified_users/add/', {
         passwordHash: hashingResult.hash,
@@ -229,8 +242,9 @@ module.exports = {
   //   info to the back-end and receiving a response stating whether
   //   or not the request was successful
   performVerification: function(info, callback) {
+    const email = this.cleanUnoEmail(info.email);
 
-    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + info.email + '/')
+    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
     .then(function (response) {
       // There's no reason that this should ever not be 200 OK
       if (response.status === constants.RESPONSE_OK) {
@@ -238,7 +252,7 @@ module.exports = {
         const currentHash = encryption.createHash(info.password, data.passwordSalt).hash;
 
         const usr = {
-          email: info.email,
+          email: email,
           enteredVerificationCode: parseInt(info.verificationCode, 10),
           enteredPasswordHash: currentHash,
           accountName: info.username,
@@ -296,6 +310,8 @@ module.exports = {
   // "user" is the email or username of the user being logged in
   bakeCookies: function(user, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
+    if (type === "email")
+      user = this.cleanUnoEmail(user);
 
     axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
     .then(function (response) {
