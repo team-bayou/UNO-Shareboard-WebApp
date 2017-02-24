@@ -10,6 +10,9 @@ module.exports = {
   //HOST: "http://localhost:8090",
   COOKIE_A: "a",
   COOKIE_B: "b",
-  COOKIE_C: "c"
+  COOKIE_C: "c",
+  RESPONSE_OK: 200,
+  RESPONSE_NO_CONTENT: 204,
+  RESPONSE_UNAUTHORIZED: 401
 
 }

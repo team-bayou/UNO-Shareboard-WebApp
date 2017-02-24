@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 import Landing from './js/pages/LandingPage';
+import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
 import Advertisements from './js/pages/AdvertisementListPage';
 import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
@@ -24,6 +25,7 @@ function logout(nextState, replace, callback) {
 ReactDOM.render((
   <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
     <Route path="/" component={Landing} onEnter={checkLoggedInStatus} />
+    <Route path="verify" component={UserVerificationPage} onEnter={checkLoggedInStatus} />
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
