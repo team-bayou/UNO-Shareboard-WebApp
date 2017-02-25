@@ -290,7 +290,7 @@ module.exports = {
 
     // If we're trying to access a page for guests
     // Requires: to be logged out
-    if (targetPath === "/" || targetPath === "verify") {
+    if (targetPath === "/" || targetPath === "verify" || targetPath === "resetpassword") {
       if (!userID) {
         this.clearCookies();
         callback();
