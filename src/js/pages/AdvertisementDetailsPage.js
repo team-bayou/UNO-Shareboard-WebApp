@@ -32,7 +32,7 @@ export default class AdvertisementDetailsPage extends Component {
   }
 
   render() {
-    if (this.state.ad === null)
+    if (!this.state.ad)
       return (<div>Loading...</div>);
 
     return (

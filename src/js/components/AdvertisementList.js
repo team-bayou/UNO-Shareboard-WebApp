@@ -31,9 +31,9 @@ export default class AdvertisementList extends Component {
   }
 
   render(){
-    if (this.state.ad === null)
+    if (!this.state.advertisements)
       return (<div>Loading...</div>);
-      
+
     var ads = this.state.advertisements.map(
       ad => <Ad key={ad.id} ad={ad}/>
     );
