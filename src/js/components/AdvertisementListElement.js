@@ -16,7 +16,7 @@ export default class AdvertisementListElement extends Component {
             <img src={logo} alt=""/>
           </div>
           <div className="uk-card-header">
-            <h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3>
+            <a href={"/advertisements/" + this.props.ad.id} className="uk-link-reset"><h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3></a>
             <p className="ad-time-published uk-text-meta uk-margin-remove-top">{utils.getDateTime(this.props.ad)}</p>
             <AdCategory category={this.props.ad.category}/>
           </div>

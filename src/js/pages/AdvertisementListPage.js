@@ -8,7 +8,8 @@ export default class AdvertisementsPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-            <AdList />
+          <h2 className="uk-heading-line uk-text-center"><span>List of advertisements</span></h2>
+          <AdList />
         </div>
       </div>
     );
