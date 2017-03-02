@@ -1,5 +1,6 @@
-const axios = require('axios');
-const constants = require('../utility/constants');
+import axios from 'axios';
+import constants from '../utility/constants';
+
 import React, { Component } from 'react';
 import Ad from './AdvertisementListElement';
 
@@ -30,6 +31,9 @@ export default class AdvertisementList extends Component {
   }
 
   render(){
+    if (this.state.ad === null)
+      return (<div>Loading...</div>);
+      
     var ads = this.state.advertisements.map(
       ad => <Ad key={ad.id} ad={ad}/>
     );

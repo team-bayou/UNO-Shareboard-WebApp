@@ -1,7 +1,8 @@
+import utils from '../utility/utilities';
+
 import React, { Component } from 'react';
 import AdCategory from './AdvertisementCategory';
 import AdOwnerDetails from './AdvertisementOwnerDetails';
-import utils from '../utility/utilities';
 
 import logo from '../../media/images/light.jpg';
 
