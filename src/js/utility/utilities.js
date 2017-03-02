@@ -436,6 +436,24 @@ module.exports = {
 
   getCookie: function(c) {
     return cookie.load(c);
-  }
+  },
 
+  //======================//
+  //    ADVERTISEMENTS    //
+  //======================//
+
+  getItem: function(ad){
+    if (!ad.price)
+      if (!ad.tradeItem)
+        return 'Free';
+      else
+        return ad.tradeItem;
+    return '$ ' + ad.price;
+  },
+
+  getDateTime: function(ad){
+    var t = new Date(ad.timePublished);
+
+    return t.toLocaleString();
+  }
 }
