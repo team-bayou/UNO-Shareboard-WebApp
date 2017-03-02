@@ -443,8 +443,8 @@ module.exports = {
   //======================//
 
   getItem: function(ad){
-    if (ad.price == null)
-      if (ad.tradeItem == null)
+    if (!ad.price)
+      if (!ad.tradeItem)
         return 'Free';
       else
         return ad.tradeItem;
