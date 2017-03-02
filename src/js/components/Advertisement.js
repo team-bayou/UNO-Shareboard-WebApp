@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import AdCategoryList from './AdvertisementCategoryList';
+import AdCategory from './AdvertisementCategory';
 import AdOwnerDetails from './AdvertisementOwnerDetails';
+import utils from '../utility/utilities';
 
 import logo from '../../media/images/light.jpg';
 
@@ -19,10 +20,10 @@ export default class Advertisement extends Component {
           <div className="uk-card-header">
             <div className="uk-column-1-2">
               <h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3>
-              <p className="ad-item uk-margin-remove">Price/Trade item: <span className="uk-label">{this.getItem()}</span></p>
+              <p className="ad-item uk-margin-remove">Price/Trade item: <span className="uk-label">{utils.getItem(this.props.ad)}</span></p>
             </div>
-              <p className="ad-time-published uk-text-meta uk-margin-remove-top">{this.props.ad.time_published}</p>
-              <AdCategoryList categories={this.props.ad.categories}/>
+              <p className="ad-time-published uk-text-meta uk-margin-remove-top">{utils.getDateTime(this.props.ad)}</p>
+              <AdCategory category={this.props.ad.category}/>
           </div>
           <div className="ad-description uk-card-body">
             <p>{this.props.ad.description}</p>
@@ -33,14 +34,5 @@ export default class Advertisement extends Component {
         </div>
       </div>
     );
-  }
-
-  getItem(){
-    if (this.props.ad.price == null)
-      if (this.props.ad.trade_item == null)
-        return 'Free';
-      else
-        return this.props.ad.trade_item;
-    return this.props.ad.price;
   }
 }
