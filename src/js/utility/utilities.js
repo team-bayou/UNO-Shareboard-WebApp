@@ -448,12 +448,11 @@ module.exports = {
         return 'Free';
       else
         return ad.tradeItem;
-    return '$ ' + ad.price;
+    return '$' + ad.price;
   },
 
   getDateTime: function(ad){
     var t = new Date(ad.timePublished);
-
-    return t.toLocaleString();
+    return t.toLocaleDateString();
   }
 }
