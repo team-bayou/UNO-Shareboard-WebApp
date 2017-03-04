@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
+import utils from '../utility/utilities';
+import constants from '../utility/constants';
+
 import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar.jpg';
 
 class NavBar extends Component {
   render(){
+    // Hint: Get user id from cookie.
+    var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
+
     return(
         <nav id="navbar" className="uk-navbar-container" data-uk-navbar data-uk-sticky>
           <div className="uk-navbar-left">
@@ -25,7 +31,7 @@ class NavBar extends Component {
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li className="uk-nav-header">Personal</li>
-                    <li><a href="#">Advertisements</a></li>
+                    <li><a href={routeToUserAds}>Advertisements</a></li>
                     <li><a href="#">Reviews</a></li>
                     <li><a href="#">Settings</a></li>
                     <li className="uk-nav-divider"></li>
