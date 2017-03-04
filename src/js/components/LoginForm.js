@@ -126,7 +126,7 @@ export default class LoginForm extends Component {
             <div className="uk-form-controls">
               <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail / Username" value={this.state.email} onChange={this.handleInputChange} />
             </div>
-            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail / username<br />Keep in mind that usernames are case-sensitive</label>
+            <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail / username</label>
           </div>
           <div className="uk-margin">
             <div className="uk-form-controls">

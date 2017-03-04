@@ -21,7 +21,7 @@ export default class Advertisement extends Component {
           <div className="uk-card-header">
             <div className="uk-column-1-2">
               <h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3>
-              <p className="ad-item uk-margin-remove">Price/Trade item: <span className="uk-label">{utils.getItem(this.props.ad)}</span></p>
+              <p className="ad-item uk-margin-remove">Price: <span className="uk-label">{utils.getItem(this.props.ad)}</span></p>
             </div>
               <p className="ad-time-published uk-text-meta uk-margin-remove-top">{utils.getDateTime(this.props.ad)}</p>
               <AdCategory category={this.props.ad.category}/>

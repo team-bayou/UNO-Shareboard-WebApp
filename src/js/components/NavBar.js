@@ -16,9 +16,9 @@ class NavBar extends Component {
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
-              <li><a href="/">Home</a></li>
-              <li><a href="/advertisements">Buy & Seek</a></li>
-              <li><a href="/home">Sell & Trade</a></li>
+              <li><a href="/home">Home</a></li>
+              <li><a href="/advertisements">Buy</a></li>
+              <li><a href="/advertisements">Sell</a></li>
             </ul>
           </div>
           <div className="uk-navbar-right">
