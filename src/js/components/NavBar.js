@@ -6,7 +6,7 @@ import constants from '../utility/constants';
 import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar.jpg';
 
-class NavBar extends Component {
+export default class NavBar extends Component {
   render(){
     // Get user id from cookie.
     var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
@@ -26,17 +26,17 @@ class NavBar extends Component {
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
               <li>
-                <a href="#">
-                  <span style={{marginRight: '20px'}}>Account</span>
+                <a href="/profile">
+                  <span style={{marginRight: '10px'}}>My Account</span>
                   <img style={{marginRight: '20px'}} className="uk-border-circle" width="40" height="40" src={avatar} alt=""/>
                 </a>
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
-                    <li><a href={routeToUserAds}>My Listings</a></li>
-                    <li><a href="#">My Reviews</a></li>
-                    <li><a href="#">Settings</a></li>
+                    <li><a href={routeToUserAds}><span data-uk-icon="icon: list"></span> My Listings</a></li>
+                    <li><a href="#"><span data-uk-icon="icon: comment"></span> My Reviews</a></li>
+                    <li><a href="#"><span data-uk-icon="icon: cog"></span> Settings</a></li>
                     <li className="uk-nav-divider"></li>
-                    <li><a href="/logout">Logout <span data-uk-icon="icon: sign-out"></span></a></li>
+                    <li><a href="/logout"><span data-uk-icon="icon: sign-out"></span> Logout</a></li>
                   </ul>
                 </div>
               </li>
@@ -47,5 +47,3 @@ class NavBar extends Component {
     );
   }
 }
-
-export default NavBar;

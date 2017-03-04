@@ -33,6 +33,14 @@ ol, ul {
   text-decoration: none;
 }
 
+.icon-link {
+  color: #666;
+}
+
+.icon-link:hover {
+  color: #666;
+}
+
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
@@ -126,6 +134,19 @@ blue with black
 
 .landing-submit-btn {
   margin-bottom: 0;
+}
+
+.landing-link {
+  color: #333;
+}
+
+.landing-link:hover {
+  color: #333;
+}
+
+.label-invalid {
+  color: #f0506e;
+  text-align: center;
 }
 
 /* Home Page */
