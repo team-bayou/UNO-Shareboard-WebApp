@@ -13,6 +13,7 @@ class NavBar extends Component {
 
     return(
         <nav id="navbar" className="uk-navbar-container" data-uk-navbar data-uk-sticky>
+
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
@@ -21,18 +22,18 @@ class NavBar extends Component {
               <li><a href="/advertisements">Sell</a></li>
             </ul>
           </div>
+
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
               <li>
                 <a href="#">
-                  <span style={{marginRight: '10px'}}>Account</span>
-                  <img style={{marginRight: '10px'}} className="uk-border-circle" width="40" height="40" src={avatar} alt=""/>
+                  <span style={{marginRight: '20px'}}>Account</span>
+                  <img style={{marginRight: '20px'}} className="uk-border-circle" width="40" height="40" src={avatar} alt=""/>
                 </a>
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
-                    <li className="uk-nav-header">Personal</li>
-                    <li><a href={routeToUserAds}>Advertisements</a></li>
-                    <li><a href="#">Reviews</a></li>
+                    <li><a href={routeToUserAds}>My Listings</a></li>
+                    <li><a href="#">My Reviews</a></li>
                     <li><a href="#">Settings</a></li>
                     <li className="uk-nav-divider"></li>
                     <li><a href="/logout">Logout <span data-uk-icon="icon: sign-out"></span></a></li>
@@ -41,6 +42,7 @@ class NavBar extends Component {
               </li>
             </ul>
           </div>
+
         </nav>
     );
   }

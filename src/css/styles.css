@@ -24,6 +24,15 @@ ol, ul {
   background-image: url("/icons.svg");
 }
 
+.header-link {
+  color: #333;
+}
+
+.header-link:hover {
+  color: #333;
+  text-decoration: none;
+}
+
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
