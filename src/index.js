@@ -6,6 +6,8 @@ import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
 import Advertisements from './js/pages/AdvertisementListPage';
 import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
+import AddAdvertisement from './js/pages/AddAdvertisementPage';
+import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import Reviews from './js/pages/ReviewsPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
@@ -28,8 +30,10 @@ ReactDOM.render((
     <Route path="verify" component={UserVerificationPage} onEnter={checkLoggedInStatus} />
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/add" component={AddAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
-    <Route path="users/:account_name/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>

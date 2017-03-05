@@ -1,15 +1,43 @@
+import api from '../utility/api';
+
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AdList from '../components/AdvertisementList';
 
 export default class AdvertisementsPage extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      advertisements: []
+    };
+  }
+
+  componentDidMount() {
+    let self = this;
+
+    // Try to get a list of all available advertisements.
+    api.getAdvertisements(function(response){
+      if (response){
+        self.setState({
+          advertisements: response
+        });
+      } else {
+        console.log("No advertisements found");
+      }
+    });
+  }
+
   render() {
+    if (!this.state.advertisements)
+      return (<div>Loading...</div>);
+
     return (
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>List of advertisements</span></h2>
-          <AdList />
+          <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>
     );

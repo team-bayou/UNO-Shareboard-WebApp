@@ -42,6 +42,28 @@ blue with black
   border-color: #f0506e;
 }
 
+.button-success {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  color: white;
+}
+
+.button-success:active,
+.button-success:focus,
+.button-success:hover {
+  background-color: #449d44;
+  border-color: #398439;
+  color: #fff;
+}
+
+.label-invalid {
+  color: #f0506e;
+  text-align: center;
+}
+
+.radio-invalid {
+  border: 1px solid #f0506e;
+}
 
 
 /*****************************************
@@ -97,13 +119,11 @@ blue with black
   margin-bottom: 0;
 }
 
-.label-invalid {
-  color: #f0506e;
-  text-align: center;
-}
-
 /* Home Page */
 
+/* User Advertisements Page */
+
+/* Add Advertisement Page */
 
 /* Advertisement Details Page */
 #ad-details .ad-item {
