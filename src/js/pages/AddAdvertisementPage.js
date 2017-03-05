@@ -5,6 +5,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
+import AddAdvertisementForm from '../components/AddAdvertisementForm';
 
 export default class AddAdvertisementPage extends Component {
   constructor(props){
@@ -81,81 +82,7 @@ export default class AddAdvertisementPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>Add advertisement</span></h2>
-          <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
-            <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-title">Title</label>
-                  <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-title" type="text" placeholder="Some title..." name="title" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-description">Description</label>
-                  <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="ad-description" placeholder="Some description..." name="description" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-categories">Select</label>
-                  <div className="uk-form-controls">
-                    <select className="uk-select" id="ad-categories" name="category" defaultValue="-1" onChange={this.handleInputChange}>
-                      <option disabled value="-1"> -- Select a category -- </option>
-                      {categories}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-margin">
-                <div className="uk-margin uk-grid-small uk-child-width-auto" data-uk-grid>
-                  <div>
-                  <label className="uk-form-label" htmlFor="ad-time-published">Time published</label>
-                    <div className="uk-form-controls">
-                      <input className="uk-input" id="ad-time-published" type="date" name="timePublished" onChange={this.handleInputChange}/>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="uk-form-label" htmlFor="ad-expiration-date">Expiration date</label>
-                    <div className="uk-form-controls">
-                      <input className="uk-input" id="ad-expiration-date" type="date" name="expirationDate" onChange={this.handleInputChange}/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-margin">
-                <div className="uk-form-label">Advertisement type</div>
-                <div className="ad-type uk-form-controls">
-                  <label><input className="uk-radio" type="radio" name="adType" value="offer" onChange={this.handleInputChange}/> Offer</label><br/>
-                  <label><input className="uk-radio" type="radio" name="adType" value="seek" onChange={this.handleInputChange}/> Seek</label>
-                </div>
-              </div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-price">Price</label>
-                  <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-price" type="number" step="0.01" placeholder="Some price ($)..." name="price" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-trade-item">Trade item</label>
-                  <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-trade-item" type="text" placeholder="Some trade item..." name="tradeItem" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin-large-top">
-                  <button className="uk-button uk-button-primary uk-button-large uk-width-1-1 uk-align-center submit-btn" type="submit" value="Submit">Submit</button>
-                </div>
-              </div>
-            </fieldset>
-          </form>
+          <AddAdvertisementForm categories={categories} handleInputChange={this.handleInputChange} handleSubmit={this.handleSubmit} />
         </div>
       </div>
     );
