@@ -13,18 +13,8 @@ export default class AddAdvertisementPage extends Component {
 
     this.state = {
       categories: [],
-      title: '',
-      description: '',
-      category: '',
-      owner: utils.getCookie(constants.COOKIE_A),
-      timePublished: '',
-      expirationDate: '',
-      adType: '',
-      price: '',
-      tradeItem: ''
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -44,21 +34,9 @@ export default class AddAdvertisementPage extends Component {
     });
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(event){
-    event.preventDefault();
-
+  handleSubmit(data){
     // Try to add new advertisement.
-    api.addAdvertisement(this.state, function(response){
+    api.addAdvertisement(data, function(response){
       if (response){
         // Get user id from cookie.
         // Redirect to page of user's advertisements.
@@ -82,7 +60,7 @@ export default class AddAdvertisementPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>Add advertisement</span></h2>
-          <AddAdvertisementForm categories={categories} handleInputChange={this.handleInputChange} handleSubmit={this.handleSubmit} />
+          <AddAdvertisementForm categories={categories} ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
         </div>
       </div>
     );
