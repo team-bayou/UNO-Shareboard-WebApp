@@ -8,7 +8,7 @@ import avatar from '../../media/images/avatar.jpg';
 
 class NavBar extends Component {
   render(){
-    // Hint: Get user id from cookie.
+    // Get user id from cookie.
     var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
 
     return(

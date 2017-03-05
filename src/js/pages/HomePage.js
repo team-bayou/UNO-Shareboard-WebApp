@@ -1,5 +1,4 @@
-import axios from 'axios';
-import constants from '../utility/constants';
+import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
@@ -19,18 +18,16 @@ export default class HomePage extends Component {
   componentDidMount() {
     let self = this;
 
-    // Try to get a list of available advertisements.
-    axios.get(constants.HOST + '/service/v1/advertisements')
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          self.setState({
-            advertisements: response.data
-          });
-        }
-        else {
-          console.log("No advertisements found");
-        }
-      });
+    // Try to get a list of all available advertisements.
+    api.getAdvertisements(function(response){
+      if (response){
+        self.setState({
+          advertisements: response
+        });
+      } else {
+        console.log("No advertisements found");
+      }
+    });
   }
 
   render() {

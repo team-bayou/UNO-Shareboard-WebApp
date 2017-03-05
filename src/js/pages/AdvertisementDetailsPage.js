@@ -1,5 +1,4 @@
-import axios from 'axios';
-import constants from '../utility/constants';
+import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
@@ -10,36 +9,35 @@ export default class AdvertisementDetailsPage extends Component {
     super(props);
 
     this.state = {
-      ad: null
+      advertisement: null
     };
   }
 
   componentDidMount() {
     let self = this;
 
-    // Try to get a list of available advertisements.
-    axios.get(constants.HOST + '/service/v1/advertisements/' + this.props.params.id)
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          self.setState({
-            ad: response.data
-          });
-        }
-        else {
-          console.log("No advertisement found");
-        }
-      });
+    // Try to get an advertisement by id.
+    api.getAdvertisement(this.props.params.id, function(response){
+      if (response){
+        self.setState({
+          advertisement: response
+        });
+      }
+      else {
+        console.log("No advertisement found");
+      }
+    });
   }
 
   render() {
-    if (!this.state.ad)
+    if (!this.state.advertisement)
       return (<div>Loading...</div>);
 
     return (
       <div id="ad-details" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-            <Ad key={this.state.ad.id} ad={this.state.ad}/>
+            <Ad key={this.state.advertisement.id} ad={this.state.advertisement}/>
         </div>
       </div>
     );

@@ -1,5 +1,4 @@
-import axios from 'axios';
-import constants from '../utility/constants';
+import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
@@ -17,18 +16,16 @@ export default class UserAdvertisementsPage extends Component {
   componentDidMount() {
     let self = this;
 
-    // Try to get a list of available advertisements.
-    axios.get(constants.HOST + '/service/v1/advertisements/users/' + this.props.params.id)
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          self.setState({
-            advertisements: response.data
-          });
-        }
-        else {
-          console.log("No advertisements found");
-        }
-      });
+    // Try to get a list of user's advertisements.
+    api.getUserAdvertisements(this.props.params.id, function(response){
+      if (response){
+        self.setState({
+          advertisements: response
+        });
+      } else {
+        console.log("No advertisements found");
+      }
+    });
   }
 
   render() {
@@ -51,7 +48,7 @@ export default class UserAdvertisementsPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>List of your personal advertisements</span></h2>
-          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-1">Create advertisement</a>
+          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-1 uk-margin-large-bottom">Create advertisement</a>
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>
