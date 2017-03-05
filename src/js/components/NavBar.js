@@ -19,12 +19,20 @@ export default class NavBar extends Component {
             <ul className="uk-navbar-nav">
               <li>
                 <a href="/home">
-                  <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: home"></span>
+                  <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: home"></span>
                   Home
                 </a>
               </li>
-              <li><a href="/advertisements">Buy</a></li>
-              <li><a href="/advertisements">Sell</a></li>
+              <li>
+                <a href="/advertisements">
+                  Buy / Seek
+                </a>
+              </li>
+              <li>
+                <a href="/advertisements">
+                  Sell / Offer
+                </a>
+              </li>
             </ul>
           </div>
 
