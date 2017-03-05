@@ -24,7 +24,7 @@ export default class AdvertisementListElement extends Component {
           </div>
           <div className="ad-description uk-card-body">
           <div className="ad-item uk-card-badge uk-label">{utils.getItem(this.props.ad)}</div>
-            <p>{this.props.ad.description}</p>
+            <p className="uk-text-truncate">{this.props.ad.description}</p>
           </div>
           <div className="uk-card-footer">
             <a href={"/advertisements/" + this.props.ad.id} className="ad-details uk-button uk-button-text">Details</a>

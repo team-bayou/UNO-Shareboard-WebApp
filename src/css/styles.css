@@ -39,6 +39,7 @@ ol, ul {
 
 .icon-link:hover {
   color: #666;
+  text-decoration: none;
 }
 
 /*
@@ -88,6 +89,9 @@ blue with black
  *****************************************/
 /* NavBar */
 #navbar {
+  background-color: #f8f8f8;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
   z-index: 980;
 }
 
@@ -99,6 +103,14 @@ blue with black
   padding: 0;
 }
 
+.uk-navbar-nav>li>a {
+  color: #666;
+}
+
+.uk-navbar-nav>li>a:hover {
+  background-color: #f1f1f1;
+}
+
 /* Advertisement Categories */
 .ad-category-list {
   margin-top: 0.5em;
@@ -106,6 +118,10 @@ blue with black
 
 .ad-category {
   margin-right: 0.5em;
+}
+
+.ad-image {
+  border-bottom: 1px solid #e5e5e5;
 }
 
 

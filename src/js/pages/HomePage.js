@@ -45,7 +45,10 @@ export default class HomePage extends Component {
           </div>
 
           <div className="uk-flex uk-flex-center uk-margin">
-            <a href="#" className="icon-link" data-uk-icon="icon: question" data-uk-toggle="target: #whatisthis; mode: click"></a>
+            <a href="#" className="icon-link" data-uk-toggle="target: #whatisthis; mode: click">
+              <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: question"></span>
+              What are these?
+            </a>
           </div>
 
           <div className="uk-flex uk-flex-center uk-margin" id="whatisthis" hidden>

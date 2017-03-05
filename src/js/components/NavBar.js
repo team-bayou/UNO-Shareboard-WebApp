@@ -17,7 +17,12 @@ export default class NavBar extends Component {
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
-              <li><a href="/home">Home</a></li>
+              <li>
+                <a href="/home">
+                  <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: home"></span>
+                  Home
+                </a>
+              </li>
               <li><a href="/advertisements">Buy</a></li>
               <li><a href="/advertisements">Sell</a></li>
             </ul>
