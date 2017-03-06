@@ -10,6 +10,7 @@ export default class NavBar extends Component {
   render(){
     // Get user id from cookie.
     var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
+    var routeToUserReviews = "/users/" + utils.getCookie(constants.COOKIE_A) + "/reviews";
 
     return(
         <nav id="navbar" className="uk-navbar-container" data-uk-navbar data-uk-sticky>
@@ -46,7 +47,7 @@ export default class NavBar extends Component {
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li><a href={routeToUserAds}><span data-uk-icon="icon: list"></span> My Listings</a></li>
-                    <li><a href="#"><span data-uk-icon="icon: comments"></span> My Reviews</a></li>
+                    <li><a href={routeToUserReviews}><span data-uk-icon="icon: comments"></span> My Reviews</a></li>
                     <li><a href="#"><span data-uk-icon="icon: cog"></span> Settings</a></li>
                     <li className="uk-nav-divider"></li>
                     <li><a href="/logout"><span data-uk-icon="icon: sign-out"></span> Logout</a></li>
