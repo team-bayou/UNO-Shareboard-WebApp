@@ -138,7 +138,7 @@ export default class LoginForm extends Component {
             <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Login">Login</button>
           </div>
           <div className="uk-margin-top uk-text-center">
-            <a href="/resetpassword" className="landing-link">Forgot Password?</a>
+            <a href="/resetpassword">Forgot Password?</a>
           </div>
         </fieldset>
       </form>

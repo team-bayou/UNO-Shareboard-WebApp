@@ -55,6 +55,18 @@ blue with black
   border-color: #000000;
 }
 
+.uk-textarea:focus {
+  border-color: #000000;
+}
+
+.uk-select:focus {
+  border-color: #000000;
+}
+
+.uk-radio:checked, .uk-radio:focus, .uk-radio:active {
+  background-color: #000000;
+}
+
 .uk-form-danger:focus {
   color: #f0506e;
   border-color: #f0506e;
