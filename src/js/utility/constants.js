@@ -4,8 +4,7 @@
 
 module.exports = {
 
-  HOST: process.env.BACKEND,
-  //HOST: "https://uno-shareboard-dev.herokuapp.com",
+  HOST: "https://uno-shareboard-dev.herokuapp.com",
   //HOST: "https://uno-shareboard-staging.herokuapp.com",
   //HOST: "https://uno-shareboard-prod.herokuapp.com",
   //HOST: "http://localhost:8090",
