@@ -12,9 +12,6 @@ import Reviews from './js/pages/ReviewsPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
-var b = process.env.BACKEND;
-console.log(b);
-
 const utilities = require('./js/utility/utilities');
 
 function checkLoggedInStatus(nextState, replace, callback) {
