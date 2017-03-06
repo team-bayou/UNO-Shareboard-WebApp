@@ -38,11 +38,43 @@ export default class HomePage extends Component {
       <div id="home" className="app">
         <AppHeader />
         <div className="app-body uk-container">
+
           <div className="uk-flex uk-flex-center">
             <BuySeekButton />
             <SellTradeButton />
           </div>
-          <h2 className="uk-heading-line uk-text-center"><span>List of recently added advertisements</span></h2>
+
+          <div className="uk-flex uk-flex-center uk-margin">
+            <a href="#" className="icon-link" data-uk-toggle="target: #whatisthis; mode: click">
+              <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: question"></span>
+              What are these?
+            </a>
+          </div>
+
+          <div className="uk-flex uk-flex-center uk-margin" id="whatisthis" hidden>
+            <div className="uk-placeholder uk-background-muted uk-width-1-2@m">
+
+              {/*}
+              <div className="uk-grid-match uk-child-width-1-2@m" data-uk-grid>
+                <div>
+                  <p><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</p>
+                </div>
+                <div>
+                  <p><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</p>
+                </div>
+              </div>
+              {*/}
+
+              <dl className="uk-description-list">
+                <dd><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
+                <hr />
+                <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
+              </dl>
+
+            </div>
+          </div>
+
+          <h2 className="uk-heading-line uk-text-center"><span>Recent Listings</span></h2>
           <AdvertisementFeed advertisements={this.state.advertisements}/>
         </div>
       </div>

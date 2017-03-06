@@ -30,13 +30,13 @@ export default class AdvertisementsPage extends Component {
 
   render() {
     if (!this.state.advertisements)
-      return (<div>Loading...</div>);
+      return (<div className="uk-text-center">Loading...</div>);
 
     return (
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>List of advertisements</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>Current Listings</span></h2>
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>

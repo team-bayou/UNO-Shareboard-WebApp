@@ -49,7 +49,7 @@ export default class AddAdvertisementPage extends Component {
 
   render() {
     if (!this.state.categories)
-      return (<div>Loading...</div>);
+      return (<div className="uk-text-center">Loading...</div>);
 
     var categories = this.state.categories.map(
       category => <option key={category.id} value={category.id}>{category.title}</option>
@@ -59,7 +59,7 @@ export default class AddAdvertisementPage extends Component {
       <div id="ad-add" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>Add advertisement</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>Create Advertisement</span></h2>
           <AddAdvertisementForm categories={categories} ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
         </div>
       </div>

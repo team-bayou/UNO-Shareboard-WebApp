@@ -24,6 +24,24 @@ ol, ul {
   background-image: url("/icons.svg");
 }
 
+.header-link {
+  color: #333;
+}
+
+.header-link:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.icon-link {
+  color: #666;
+}
+
+.icon-link:hover {
+  color: #666;
+  text-decoration: none;
+}
+
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
@@ -35,6 +53,18 @@ blue with black
 
 .uk-input:focus {
   border-color: #000000;
+}
+
+.uk-textarea:focus {
+  border-color: #000000;
+}
+
+.uk-select:focus {
+  border-color: #000000;
+}
+
+.uk-radio:checked, .uk-radio:focus, .uk-radio:active {
+  background-color: #000000;
 }
 
 .uk-form-danger:focus {
@@ -71,6 +101,9 @@ blue with black
  *****************************************/
 /* NavBar */
 #navbar {
+  background-color: #f8f8f8;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
   z-index: 980;
 }
 
@@ -82,6 +115,14 @@ blue with black
   padding: 0;
 }
 
+.uk-navbar-nav>li>a {
+  color: #666;
+}
+
+.uk-navbar-nav>li>a:hover {
+  background-color: #f1f1f1;
+}
+
 /* Advertisement Categories */
 .ad-category-list {
   margin-top: 0.5em;
@@ -89,6 +130,10 @@ blue with black
 
 .ad-category {
   margin-right: 0.5em;
+}
+
+.ad-image {
+  border-bottom: 1px solid #e5e5e5;
 }
 
 
@@ -117,6 +162,19 @@ blue with black
 
 .landing-submit-btn {
   margin-bottom: 0;
+}
+
+.landing-link {
+  color: #333;
+}
+
+.landing-link:hover {
+  color: #333;
+}
+
+.label-invalid {
+  color: #f0506e;
+  text-align: center;
 }
 
 /* Home Page */

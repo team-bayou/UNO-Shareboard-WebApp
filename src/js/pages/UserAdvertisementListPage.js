@@ -30,15 +30,20 @@ export default class UserAdvertisementsPage extends Component {
 
   render() {
     if (!this.state.advertisements)
-      return (<div>Loading...</div>);
+      return (<div className="uk-text-center">Loading...</div>);
 
     if (this.state.advertisements.length === 0)
       return (
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center">You do not have any advertisements yet.</h2>
-          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-1">Create advertisement</a>
+          <h2 className="uk-heading-line uk-text-center"><span>Your Current Listings</span></h2>
+          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Advertisement</a>
+
+          <div className="uk-margin uk-text-center">
+            You do not currently have any listings.
+          </div>
+
         </div>
       </div>
       );
@@ -47,8 +52,8 @@ export default class UserAdvertisementsPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>List of your personal advertisements</span></h2>
-          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-1 uk-margin-large-bottom">Create advertisement</a>
+          <h2 className="uk-heading-line uk-text-center"><span>Your Current Listings</span></h2>
+          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Advertisement</a>
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>
