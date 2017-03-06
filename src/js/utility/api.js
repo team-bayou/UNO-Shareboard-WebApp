@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const cookie = require('react-cookie');
 const axios = require('axios');
 const constants = require('./constants');
