@@ -112,7 +112,7 @@ export default class ReviewsPage extends Component {
       <div id="reviews" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-            <h2 className="uk-heading-line uk-text-center"><span>Reviews of {this.state.reviews[0].reviewee.account_name}</span></h2>
+            <h2 className="uk-heading-line uk-text-center"><span>Your reviews</span></h2>
             <ReviewList reviews={this.state.reviews} />
         </div>
       </div>
