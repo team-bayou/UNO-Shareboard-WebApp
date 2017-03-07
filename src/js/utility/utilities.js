@@ -3,6 +3,7 @@ const encryption = require('./encryption');
 const axios = require('axios');
 const constants = require('./constants');
 const validator = require('validator');
+const api = require('./api');
 
 module.exports = {
 
@@ -148,66 +149,31 @@ module.exports = {
   checkForExistingEmail: function(email, callback) {
     email = this.cleanUnoEmail(email);
 
-    // First we check the active users.
-    axios.get(constants.HOST + '/service/v1/users/email/' + email + '/')
-    .then(function (response) {
-      if (response.status === constants.RESPONSE_OK) {
+    api.checkForVerifiedEmail(email, function(exists) {
+      if (exists) {
         callback(true);
       }
       else {
-        // If the email wasn't found in the active users table, we check
-        //   the unverified users to see if an email was used to sign up
-        //   but hasn't been verified yet.
-        axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
-        .then(function (response) {
-          if (response.status === constants.RESPONSE_OK) {
-            callback(true);
-          }
-          else {
-            callback(false);
-          }
-        })
-        .catch(function (error) {
-          callback(false);
+        api.checkForUnverifiedEmail(email, function(exists) {
+          callback(exists);
         });
       }
-    })
-    .catch(function (error) {
-      callback(false);
     });
   },
 
   // Check if the provided username is already
   //   associated with an existing account
   checkForExistingUsername: function(username, callback) {
-    axios.get(constants.HOST + '/service/v1/users/accountName/' + username + '/')
-    .then(function (response) {
-      if (response.status === constants.RESPONSE_OK) {
-        callback(true);
-      }
-      else {
-        callback(false);
-      }
-    })
-    .catch(function (error) {
-      callback(false);
+    api.checkForExistingUsername(username, function(exists) {
+      callback(exists);
     });
   },
 
   checkForUnverifiedEmail: function(email, callback) {
     email = this.cleanUnoEmail(email);
 
-    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
-    .then(function (response) {
-      if (response.status === constants.RESPONSE_OK) {
-        callback(true);
-      }
-      else {
-        callback(false);
-      }
-    })
-    .catch(function (error) {
-      callback(false);
+    api.checkForUnverifiedEmail(email, function(exists) {
+      callback(exists);
     });
   },
 
