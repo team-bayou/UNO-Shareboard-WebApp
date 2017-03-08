@@ -11,7 +11,7 @@ module.exports = {
   //======================//
   //      CATEGORIES      //
   //======================//
-  getCategories: function(callback){
+  getCategories: function(callback) {
     axios.get(constants.HOST + '/service/v1/categories')
       .then(function (response) {
         if (response.status === constants.RESPONSE_OK) {
@@ -26,7 +26,7 @@ module.exports = {
   //======================//
   //    ADVERTISEMENTS    //
   //======================//
-  getAdvertisements: function(callback){
+  getAdvertisements: function(callback) {
     axios.get(constants.HOST + '/service/v1/advertisements')
       .then(function (response) {
         if (response.status === constants.RESPONSE_OK) {
@@ -38,7 +38,7 @@ module.exports = {
     });
   },
 
-  getUserAdvertisements: function(id, callback){
+  getUserAdvertisements: function(id, callback) {
     axios.get(constants.HOST + '/service/v1/advertisements/users/' + id)
       .then(function (response) {
         if (response.status === constants.RESPONSE_OK) {
@@ -50,7 +50,7 @@ module.exports = {
     });
   },
 
-  getAdvertisement: function(id, callback){
+  getAdvertisement: function(id, callback) {
     axios.get(constants.HOST + '/service/v1/advertisements/' + id)
       .then(function (response) {
         if (response.status === constants.RESPONSE_OK) {
@@ -62,7 +62,7 @@ module.exports = {
     });
   },
 
-  addAdvertisement: function(data, callback){
+  addAdvertisement: function(data, callback) {
     axios.post(constants.HOST + '/service/v1/advertisements/add', {
       title: data.title,
       description: data.description,
@@ -92,7 +92,7 @@ module.exports = {
   checkForVerifiedEmail: function(email, callback) {
     axios.get(constants.HOST + '/service/v1/users/email/' + email + '/')
     .then(function (response) {
-      callback(response.status === constants.RESPONSE_OK);
+      callback(response.status === constants.RESPONSE_OK, response);
     })
     .catch(function (error) {
       callback(false);

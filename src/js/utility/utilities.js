@@ -76,72 +76,27 @@ module.exports = {
     if (type === "email")
       user = this.cleanUnoEmail(user);
 
-    axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
-    .then(function (response) {
-      const data = response.data;
-      const status = response.status;
-
-      // If the user was found by email / accountName
-      if (status === constants.RESPONSE_OK) {
-        const currentHash = encryption.createHash(pass, data.passwordSalt).hash;
-
-        // Try to log the user in using the provided info
-        axios.post(constants.HOST + '/service/v1/auth/login/', {
-          [type]: user,
-          enteredPasswordHash: currentHash
-        })
-        .then(function (response) {
-          if (status === constants.RESPONSE_OK) {
-            callback(true, true);
-          }
-          else {
-            callback(false, false);
-          }
-        })
-        .catch(function (error) {
-          if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
-            callback(true, false);
-          }
-          else {
-            callback(false, false);
-          }
-        });
-      }
-
-      // If the user was not found in the verified users table
-      else {
-
-        // If the user tried logging in with an email and it wasn't found in
-        //   the verified users table, check the unverified users table
-        if (type === "email") {
-          axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
-          .then(function (response) {
-            if (response.status === constants.RESPONSE_OK) {
-              // The user may or may not have actually logged in successfully,
-              //   but it doesn't matter since we're not going to actually
-              //   allow them to log in, so just inform them that they are unverified
-              callback(true, true, true);
+    if (type === "email") {
+      api.checkForVerifiedEmail(user, function(exists) {
+        if (!exists) {
+          api.checkForUnverifiedEmail(user, function(exists) {
+            if (!exists) {
+              
             }
-            else {
-              callback(false, false);
-            }
-          })
-          .catch(function (error) {
-            callback(false, false);
           });
         }
-
-        // If they didn't log in with an email, then we know they aren't
-        //   an unverified user
         else {
-          callback(false, false);
+          // try logging in
         }
-
-      }
-    })
-    .catch(function (error) {
-      callback(false, false);
-    });
+      });
+    }
+    else {
+      api.checkForExistingUsername(user, function(exists) {
+        if (exists) {
+          api.attemptLogin();
+        }
+      });
+    }
   },
 
   // Check if the provided email is already associated
