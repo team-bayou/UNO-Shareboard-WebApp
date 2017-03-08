@@ -14,6 +14,7 @@ app.use(cors());
 // Setup logger
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
+/* This is not working properly at the moment
 // redirect to https
 app.use((req, res, next) => {
   if (!req.secure) {
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+*/
 
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '../build')));
