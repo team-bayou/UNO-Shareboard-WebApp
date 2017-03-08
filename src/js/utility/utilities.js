@@ -76,72 +76,27 @@ module.exports = {
     if (type === "email")
       user = this.cleanUnoEmail(user);
 
-    axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
-    .then(function (response) {
-      const data = response.data;
-      const status = response.status;
-
-      // If the user was found by email / accountName
-      if (status === constants.RESPONSE_OK) {
-        const currentHash = encryption.createHash(pass, data.passwordSalt).hash;
-
-        // Try to log the user in using the provided info
-        axios.post(constants.HOST + '/service/v1/auth/login/', {
-          [type]: user,
-          enteredPasswordHash: currentHash
-        })
-        .then(function (response) {
-          if (status === constants.RESPONSE_OK) {
-            callback(true, true);
-          }
-          else {
-            callback(false, false);
-          }
-        })
-        .catch(function (error) {
-          if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
-            callback(true, false);
-          }
-          else {
-            callback(false, false);
-          }
-        });
-      }
-
-      // If the user was not found in the verified users table
-      else {
-
-        // If the user tried logging in with an email and it wasn't found in
-        //   the verified users table, check the unverified users table
-        if (type === "email") {
-          axios.get(constants.HOST + '/service/v1/unverified_users/email/' + user + '/')
-          .then(function (response) {
-            if (response.status === constants.RESPONSE_OK) {
-              // The user may or may not have actually logged in successfully,
-              //   but it doesn't matter since we're not going to actually
-              //   allow them to log in, so just inform them that they are unverified
-              callback(true, true, true);
+    if (type === "email") {
+      api.checkForVerifiedEmail(user, function(exists) {
+        if (!exists) {
+          api.checkForUnverifiedEmail(user, function(exists) {
+            if (!exists) {
+              
             }
-            else {
-              callback(false, false);
-            }
-          })
-          .catch(function (error) {
-            callback(false, false);
           });
         }
-
-        // If they didn't log in with an email, then we know they aren't
-        //   an unverified user
         else {
-          callback(false, false);
+          // try logging in
         }
-
-      }
-    })
-    .catch(function (error) {
-      callback(false, false);
-    });
+      });
+    }
+    else {
+      api.checkForExistingUsername(user, function(exists) {
+        if (exists) {
+          api.attemptLogin();
+        }
+      });
+    }
   },
 
   // Check if the provided email is already associated
@@ -180,28 +135,14 @@ module.exports = {
   // Perform the registration operation by adding the user to the
   //   unverified users table
   performRegistration: function(email, pass, callback) {
+    email = this.cleanUnoEmail(email);
+
     const code = this.generateRandomNumber(9);
     const hashingResult = encryption.createHash(pass);
 
-    email = this.cleanUnoEmail(email);
-
-    axios.post(constants.HOST + '/service/v1/unverified_users/add/', {
-        passwordHash: hashingResult.hash,
-        passwordSalt: hashingResult.salt,
-        email: email,
-        verificationCode: code
-      })
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(true);
-        }
-        else {
-          callback(false);
-        }
-      })
-      .catch(function (error) {
-        callback(false);
-      });
+    api.addUnverifiedUser(email, hashingResult, code, function(success) {
+      callback(success);
+    });
   },
 
   // Attempt to perform user verification by sending the user-entered
@@ -210,14 +151,10 @@ module.exports = {
   performVerification: function(info, callback) {
     const email = this.cleanUnoEmail(info.email);
 
-    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
-    .then(function (response) {
-      // There's no reason that this should ever not be 200 OK
-      if (response.status === constants.RESPONSE_OK) {
-        const data = response.data;
-        const currentHash = encryption.createHash(info.password, data.passwordSalt).hash;
-
-        const usr = {
+    api.checkForUnverifiedEmail(email, function(exists, response) {
+      if (exists) {
+        const currentHash = encryption.createHash(info.password, response.data.passwordSalt).hash;
+        const user = {
           email: email,
           enteredVerificationCode: parseInt(info.verificationCode, 10),
           enteredPasswordHash: currentHash,
@@ -227,39 +164,14 @@ module.exports = {
           phoneNumber: this.validatePhone(info.phone).number,
           userType: "standard"
         };
-        axios.post(constants.HOST + '/service/v1/auth/verify/', usr)
-          .then(function (response) {
-            if (response.status === constants.RESPONSE_OK) {
-              callback(true, true);
-            }
-            else {
-              callback(false, false);
-            }
-          })
-          .catch(function (error) {
-            if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
-              if (error.response.data.errorMessage === "password") {
-                callback(false, true);
-              }
-              else if (error.response.data.errorMessage === "verify") {
-                callback(true, false);
-              }
-              else if (error.response.data.errorMessage === "both") {
-                callback(false, false);
-              }
-            }
-            else {
-              callback(false, false);
-            }
-          });
+        api.attemptVerification(user, function(passCorrect, codeCorrect) {
+          callback(passCorrect, codeCorrect);
+        });
       }
       else {
-        callback(false, false);
+        callback(false);
       }
-    }.bind(this))
-    .catch(function (error) {
-      callback(false, false);
-    });
+    }.bind(this));
 
   },
 
