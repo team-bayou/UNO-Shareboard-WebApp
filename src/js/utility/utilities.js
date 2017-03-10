@@ -73,10 +73,10 @@ module.exports = {
   // Attempt to login a user by searching through the existing accounts
   checkAccount: function(user, pass, callback) {
     const type = this.validateEmail(user) ? "email" : "accountName";
-    if (type === "email")
-      user = this.cleanUnoEmail(user);
 
     if (type === "email") {
+      user = this.cleanUnoEmail(user);
+      
       api.checkForVerifiedEmail(user, function(exists, response) {
         if (exists) {
           const currentHash = encryption.createHash(pass, response.data.passwordSalt).hash;
