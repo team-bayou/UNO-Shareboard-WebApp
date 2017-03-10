@@ -77,23 +77,35 @@ module.exports = {
       user = this.cleanUnoEmail(user);
 
     if (type === "email") {
-      api.checkForVerifiedEmail(user, function(exists) {
-        if (!exists) {
-          api.checkForUnverifiedEmail(user, function(exists) {
-            if (!exists) {
-              
-            }
+      api.checkForVerifiedEmail(user, function(exists, response) {
+        if (exists) {
+          const currentHash = encryption.createHash(pass, response.data.passwordSalt).hash;
+          api.attemptLogin(user, currentHash, type, function(success) {
+            callback(true, success, false);
           });
         }
         else {
-          // try logging in
+          api.checkForUnverifiedEmail(user, function(exists) {
+            if (exists) {
+              callback(true, true, true);
+            }
+            else {
+              callback(false, false, false);
+            }
+          });
         }
       });
     }
     else {
-      api.checkForExistingUsername(user, function(exists) {
+      api.checkForExistingUsername(user, function(exists, response) {
         if (exists) {
-          api.attemptLogin();
+          const currentHash = encryption.createHash(pass, response.data.passwordSalt).hash;
+          api.attemptLogin(user, currentHash, type, function(success) {
+            callback(true, success, false);
+          });
+        }
+        else {
+          callback(false, false, false);
         }
       });
     }

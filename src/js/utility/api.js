@@ -6,6 +6,24 @@ const constants = require('./constants');
 const encryption = require('./encryption');
 import utils from './utilities';
 
+
+/*
+ * Our three "checkForX" methods all used the exact same call,
+ *   but only changed the endpoint that was being hit.
+ * This method takes care of the call for us and simply requires that
+ *   we give it the endpoint we want to check, as well as the callback
+ */
+function performCheckGet(endpoint, callback) {
+  axios.get(endpoint)
+  .then(function (response) {
+    callback(response.status === constants.RESPONSE_OK, response);
+  })
+  .catch(function (error) {
+    callback(false);
+  });
+}
+
+
 module.exports = {
 
   //======================//
@@ -90,37 +108,28 @@ module.exports = {
   //======================//
 
   checkForVerifiedEmail: function(email, callback) {
-    axios.get(constants.HOST + '/service/v1/users/email/' + email + '/')
-    .then(function (response) {
-      callback(response.status === constants.RESPONSE_OK, response);
-    })
-    .catch(function (error) {
-      callback(false);
-    });
+    performCheckGet(constants.HOST + '/service/v1/users/email/' + email + '/', callback);
   },
 
   checkForUnverifiedEmail: function(email, callback) {
-    axios.get(constants.HOST + '/service/v1/unverified_users/email/' + email + '/')
-    .then(function (response) {
-      callback(response.status === constants.RESPONSE_OK, response);
-    })
-    .catch(function (error) {
-      callback(false);
-    });
+    performCheckGet(constants.HOST + '/service/v1/unverified_users/email/' + email + '/', callback);
   },
 
   checkForExistingUsername: function(username, callback) {
-    axios.get(constants.HOST + '/service/v1/users/accountName/' + username + '/')
+    performCheckGet(constants.HOST + '/service/v1/users/accountName/' + username + '/', callback);
+  },
+
+  attemptLogin: function(user, hash, type, callback) {
+    axios.post(constants.HOST + '/service/v1/auth/login/', {
+      [type]: user,
+      enteredPasswordHash: hash
+    })
     .then(function (response) {
       callback(response.status === constants.RESPONSE_OK);
     })
     .catch(function (error) {
       callback(false);
     });
-  },
-
-  attemptLogin: function() {
-
   },
 
   addUnverifiedUser: function(email, pass, code, callback) {
