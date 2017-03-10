@@ -76,7 +76,7 @@ module.exports = {
 
     if (type === "email") {
       user = this.cleanUnoEmail(user);
-      
+
       api.checkForVerifiedEmail(user, function(exists, response) {
         if (exists) {
           const currentHash = encryption.createHash(pass, response.data.passwordSalt).hash;
@@ -234,13 +234,13 @@ module.exports = {
     // Requires: to be logged out
     if (targetPath === "/" || targetPath === "verify") {
       if (!userID) {
+        this.clearCookies();
         callback();
         return;
       }
 
-      axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
+      api.getUserByID(userID, function(success, response) {
+        if (success) {
           const data = response.data;
 
           const userHash = encryption.createHash(data.email, data.passwordSalt);
@@ -257,17 +257,9 @@ module.exports = {
         }
         else {
           this.clearCookies();
-          replace("/");
           callback();
         }
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-        this.clearCookies();
-        replace("/");
-        callback();
-      }.bind(this));
-
+      });
     }
 
     // If we're trying to access any other page on the site
@@ -280,12 +272,13 @@ module.exports = {
         return;
       }
 
-      axios.get(constants.HOST + '/service/v1/users/' + userID + '/')
-      .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
+      api.getUserByID(userID, function(success, response) {
+        if (success) {
           const data = response.data;
+
           const userHash = encryption.createHash(data.email, data.passwordSalt);
           const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
+
           if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
             this.clearCookies();
             replace("/");
@@ -297,13 +290,7 @@ module.exports = {
           replace("/");
           callback();
         }
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-        this.clearCookies();
-        replace("/");
-        callback();
-      }.bind(this));
+      });
     }
   },
 

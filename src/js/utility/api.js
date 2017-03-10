@@ -119,6 +119,10 @@ module.exports = {
     performCheckGet(constants.HOST + '/service/v1/users/accountName/' + username + '/', callback);
   },
 
+  getUserByID: function(id, callback) {
+    performCheckGet(constants.HOST + '/service/v1/users/' + id + '/', callback);
+  },
+
   attemptLogin: function(user, hash, type, callback) {
     axios.post(constants.HOST + '/service/v1/auth/login/', {
       [type]: user,
@@ -150,12 +154,8 @@ module.exports = {
   attemptVerification: function(user, callback) {
     axios.post(constants.HOST + '/service/v1/auth/verify/', user)
       .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(true, true);
-        }
-        else {
-          callback(false, false);
-        }
+        const success = response.status === constants.RESPONSE_OK;
+        callback(success, success);
       })
       .catch(function (error) {
         if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
@@ -174,10 +174,5 @@ module.exports = {
         }
       });
   },
-
-
-  //=================//
-  //     COOKIES     //
-  //=================//
 
 }
