@@ -1,6 +1,5 @@
 const cookie = require('react-cookie');
 const encryption = require('./encryption');
-const axios = require('axios');
 const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
@@ -203,28 +202,40 @@ module.exports = {
     if (type === "email")
       user = this.cleanUnoEmail(user);
 
-    axios.get(constants.HOST + '/service/v1/users/' + type + '/' + user + '/')
-    .then(function (response) {
-      if (response.status === constants.RESPONSE_OK) {
-        const data = response.data;
+    if (type === "email") {
+      api.checkForVerifiedEmail(user, function(success, response) {
+        if (success) {
+          const data = response.data;
 
-        cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+          cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
-        let valueToStore = encryption.createHash(data.email, data.passwordSalt);
-        cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+          let valueToStore = encryption.createHash(data.email, data.passwordSalt);
+          cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
-        valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
-        cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+          valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
+          cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
 
-        callback();
-      }
-      else {
-        console.log("there was a problem creating cookies:\n\n" + response);
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+          callback();
+        }
+      });
+    }
+    else {
+      api.checkForExistingUsername(user, function(success, response) {
+        if (success) {
+          const data = response.data;
+
+          cookie.save(constants.COOKIE_A, data.id, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+          let valueToStore = encryption.createHash(data.email, data.passwordSalt);
+          cookie.save(constants.COOKIE_B, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+          valueToStore = encryption.createHash(data.passwordSalt, data.passwordSalt);
+          cookie.save(constants.COOKIE_C, valueToStore.hash, { path: '/', maxAge: 60 * 60 * 24 * 7 });
+
+          callback();
+        }
+      });
+    }
   },
 
   verifyCookies: function(targetPath, replace, callback) {
