@@ -182,6 +182,8 @@ export default class UserVerificationForm extends Component {
     this.usernameValid = true;
     this.phoneNumberValid = true;
     this.emptyFields = false;
+    this.passwordCorrect = true;
+    this.verificationCorrect = true;
     this.setState({
       verifycodeStyle: this.inputValid,
       usernameStyle: this.inputValid,
