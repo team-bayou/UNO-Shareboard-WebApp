@@ -124,16 +124,56 @@ blue with black
 }
 
 /* Advertisement Categories */
-.ad-category-list {
-  margin-top: 0.5em;
-}
-
 .ad-category {
   margin-right: 0.5em;
 }
 
-.ad-image {
+.ad-category:active,
+.ad-category:focus,
+.ad-category:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.ad-images {
   border-bottom: 1px solid #e5e5e5;
+}
+
+/* Slideshow */
+* {
+  box-sizing:border-box
+}
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.slide {
+    display: none;
+}
+
+.slide img {
+  width: 100%;
+}
+
+/* Slideshow fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
 

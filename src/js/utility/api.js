@@ -32,12 +32,7 @@ module.exports = {
   getCategories: function(callback) {
     axios.get(constants.HOST + '/service/v1/categories')
       .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(response.data);
-        }
-        else {
-          callback(null);
-        }
+        callback(response.status === constants.RESPONSE_OK ? response.data : null);
     });
   },
 
@@ -47,36 +42,28 @@ module.exports = {
   getAdvertisements: function(callback) {
     axios.get(constants.HOST + '/service/v1/advertisements')
       .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(response.data);
-        }
-        else {
-          callback(null);
-        }
+          callback(response.status === constants.RESPONSE_OK ? response.data : null);
     });
   },
 
   getUserAdvertisements: function(id, callback) {
     axios.get(constants.HOST + '/service/v1/advertisements/users/' + id)
       .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(response.data);
-        }
-        else {
-          callback(null);
-        }
+        callback(response.status === constants.RESPONSE_OK ? response.data : null);
+    });
+  },
+
+  getCategoryAdvertisements: function(id, callback) {
+    axios.get(constants.HOST + '/service/v1/advertisements/categories/' + id)
+      .then(function (response) {
+        callback(response.status === constants.RESPONSE_OK ? response.data : null);
     });
   },
 
   getAdvertisement: function(id, callback) {
     axios.get(constants.HOST + '/service/v1/advertisements/' + id)
       .then(function (response) {
-        if (response.status === constants.RESPONSE_OK) {
-          callback(response.data);
-        }
-        else {
-          callback(null);
-        }
+        callback(response.status === constants.RESPONSE_OK ? response.data : null);
     });
   },
 
@@ -93,12 +80,7 @@ module.exports = {
       tradeItem: data.tradeItem
     })
     .then(function (response) {
-      if (response.status === constants.RESPONSE_OK) {
-        callback(response.data);
-      }
-      else {
-        callback(null);
-      }
+      callback(response.status === constants.RESPONSE_OK ? response.data : null);
     });
   },
 
