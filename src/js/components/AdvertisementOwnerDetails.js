@@ -4,7 +4,7 @@ import avatar from '../../media/images/avatar.jpg';
 
 export default class AdvertisementOwnerDetails extends Component {
   render(){
-    var routeToUser = "/users/" + this.props.owner.accountName;
+    var routeToUser = "/users/" + this.props.owner.id;
     var routeToReviews = routeToUser + "/reviews";
 
     return (

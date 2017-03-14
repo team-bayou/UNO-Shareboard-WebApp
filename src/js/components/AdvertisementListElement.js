@@ -7,7 +7,7 @@ import avatar from '../../media/images/avatar.jpg';
 
 export default class AdvertisementListElement extends Component {
   render(){
-    var routeToUser = "/users/" + this.props.ad.owner.accountName;
+    var routeToUser = "/users/" + this.props.ad.owner.id;
 
     return (
       <div id={"ad-" + this.props.ad.id} className="ad">
