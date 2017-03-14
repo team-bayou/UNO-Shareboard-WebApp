@@ -8,13 +8,22 @@ import utils from './utilities';
 
 
 /*
- * Our three "checkForX" methods all used the exact same call,
- *   but only changed the endpoint that was being hit.
+ * Our GET methods all use the exact same call, except the endpoint that is being hit.
  * This method takes care of the call for us and simply requires that
  *   we give it the endpoint we want to check, as well as the callback
  */
 function performCheckGet(endpoint, callback) {
   axios.get(endpoint)
+  .then(function (response) {
+    callback(response.status === constants.RESPONSE_OK, response);
+  })
+  .catch(function (error) {
+    callback(false);
+  });
+}
+
+function performCheckPost(endpoint, data, callback) {
+  axios.post(endpoint, data)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
@@ -30,45 +39,30 @@ module.exports = {
   //      CATEGORIES      //
   //======================//
   getCategories: function(callback) {
-    axios.get(constants.HOST + '/service/v1/categories')
-      .then(function (response) {
-        callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    performCheckGet(constants.HOST + '/service/v1/categories', callback);
   },
 
   //======================//
   //    ADVERTISEMENTS    //
   //======================//
   getAdvertisements: function(callback) {
-    axios.get(constants.HOST + '/service/v1/advertisements')
-      .then(function (response) {
-          callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    performCheckGet(constants.HOST + '/service/v1/advertisements', callback);
   },
 
   getUserAdvertisements: function(id, callback) {
-    axios.get(constants.HOST + '/service/v1/advertisements/users/' + id)
-      .then(function (response) {
-        callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    performCheckGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
   },
 
   getCategoryAdvertisements: function(id, callback) {
-    axios.get(constants.HOST + '/service/v1/advertisements/categories/' + id)
-      .then(function (response) {
-        callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    performCheckGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
   },
 
   getAdvertisement: function(id, callback) {
-    axios.get(constants.HOST + '/service/v1/advertisements/' + id)
-      .then(function (response) {
-        callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    performCheckGet(constants.HOST + '/service/v1/advertisements/' + id, callback);
   },
 
   addAdvertisement: function(data, callback) {
-    axios.post(constants.HOST + '/service/v1/advertisements/add', {
+    performCheckPost(constants.HOST + '/service/v1/advertisements/add', {
       title: data.title,
       description: data.description,
       categoryId: data.category,
@@ -78,10 +72,7 @@ module.exports = {
       adType: data.adType,
       price: data.price,
       tradeItem: data.tradeItem
-    })
-    .then(function (response) {
-      callback(response.status === constants.RESPONSE_OK ? response.data : null);
-    });
+    }, callback);
   },
 
 

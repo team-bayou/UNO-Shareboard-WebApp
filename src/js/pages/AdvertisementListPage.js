@@ -17,10 +17,10 @@ export default class AdvertisementsPage extends Component {
     let self = this;
 
     // Try to get a list of all available advertisements.
-    api.getAdvertisements(function(response){
-      if (response){
+    api.getAdvertisements(function(exists, response){
+      if (exists && response){
         self.setState({
-          advertisements: response
+          advertisements: response.data
         });
       } else {
         console.log("No advertisements found");
