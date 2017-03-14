@@ -17,10 +17,10 @@ export default class AdvertisementDetailsPage extends Component {
     let self = this;
 
     // Try to get an advertisement by id.
-    api.getAdvertisement(this.props.params.id, function(response){
-      if (response){
+    api.getAdvertisement(this.props.params.id, function(exists, response){
+      if (exists && response){
         self.setState({
-          advertisement: response
+          advertisement: response.data
         });
       }
       else {

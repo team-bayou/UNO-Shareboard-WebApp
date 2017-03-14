@@ -18,11 +18,11 @@ export default class CategoryAdvertisementsPage extends Component {
     let self = this;
 
     // Try to get a list of category's advertisements.
-    api.getCategoryAdvertisements(this.props.params.id, function(response){
-      if (response){
+    api.getCategoryAdvertisements(this.props.params.id, function(exists, response){
+      if (exists && response){
         self.setState({
-          category: response[0].category.title,
-          advertisements: response
+          category: response.data[0].category.title,
+          advertisements: response.data
         });
       } else {
         console.log("No advertisements found");

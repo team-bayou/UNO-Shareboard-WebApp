@@ -17,10 +17,10 @@ export default class UserAdvertisementsPage extends Component {
     let self = this;
 
     // Try to get a list of user's advertisements.
-    api.getUserAdvertisements(this.props.params.id, function(response){
-      if (response){
+    api.getUserAdvertisements(this.props.params.id, function(exists, response){
+      if (exists && response){
         self.setState({
-          advertisements: response
+          advertisements: response.data
         });
       } else {
         console.log("No advertisements found");

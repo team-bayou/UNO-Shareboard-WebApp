@@ -22,10 +22,10 @@ export default class AddAdvertisementPage extends Component {
     let self = this;
 
     // Try to get a list of available categories.
-    api.getCategories(function(response){
-      if (response){
+    api.getCategories(function(exists, response){
+      if (exists && response){
           self.setState({
-            categories: response
+            categories: response.data
           });
       }
       else {
@@ -36,8 +36,8 @@ export default class AddAdvertisementPage extends Component {
 
   handleSubmit(data){
     // Try to add new advertisement.
-    api.addAdvertisement(data, function(response){
-      if (response){
+    api.addAdvertisement(data, function(exists, response){
+      if (exists && response){
         // Get user id from cookie.
         // Redirect to page of user's advertisements.
         browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements");
