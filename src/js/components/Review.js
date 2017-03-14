@@ -4,7 +4,7 @@ import avatar from '../../media/images/avatar.jpg';
 
 export default class Review extends Component {
   render(){
-    var routeToUser = "/users/" + this.props.review.reviewer.account_name;
+    var routeToUser = "/users/" + this.props.review.reviewer.id;
 
     return (
       <div id={"review-" + this.props.review.id} className="review">
