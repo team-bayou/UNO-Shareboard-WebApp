@@ -74,7 +74,7 @@ export default class HomePage extends Component {
             </div>
           </div>
 
-          <h2 className="uk-heading-line uk-text-center"><span>Recent Listings</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Recent Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdvertisementFeed advertisements={this.state.advertisements}/>
         </div>
       </div>

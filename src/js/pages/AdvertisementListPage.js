@@ -36,7 +36,7 @@ export default class AdvertisementsPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>Current Listings</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>
