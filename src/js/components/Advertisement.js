@@ -3,20 +3,43 @@ import utils from '../utility/utilities';
 import React, { Component } from 'react';
 import AdCategory from './AdvertisementCategory';
 import AdOwnerDetails from './AdvertisementOwnerDetails';
+import Slideshow from './Slideshow';
 
-import logo from '../../media/images/light.jpg';
+import img1 from '../../media/images/light.jpg';
+import img2 from '../../media/images/avatar.jpg';
 
 export default class Advertisement extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      images: [
+        {
+          imageId: 1,
+          imageData: img1
+        },
+        {
+          imageId: 2,
+          imageData: img2
+        },
+        {
+          imageId: 3,
+          imageData: img1
+        },
+        {
+          imageId: 4,
+          imageData: img2
+        }
+      ]
+    };
+  }
+
   render(){
     return (
       <div id={"ad-" + this.props.ad.id} className="ad">
         <div className="uk-card uk-card-default uk-card-hover">
-          <div className="ad-image uk-card-media-top uk-text-center">
-            <div className="uk-inline uk-visible-toggle">
-              <img src={logo} alt=""/>
-              <a className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-large" href="#" data-uk-slidenav-previous></a>
-              <a className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-large" href="#" data-uk-slidenav-next></a>
-            </div>
+          <div className="ad-images uk-card-media-top uk-text-center">
+              <Slideshow images={this.state.images}/>
           </div>
           <div className="uk-card-header">
             <div className="uk-column-1-2">

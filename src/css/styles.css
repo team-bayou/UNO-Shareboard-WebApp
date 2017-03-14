@@ -135,8 +135,45 @@ blue with black
   text-decoration: none;
 }
 
-.ad-image {
+.ad-images {
   border-bottom: 1px solid #e5e5e5;
+}
+
+/* Slideshow */
+* {
+  box-sizing:border-box
+}
+
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.slide {
+    display: none;
+}
+
+.slide img {
+  width: 100%;
+}
+
+/* Slideshow fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
 
