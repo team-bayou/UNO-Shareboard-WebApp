@@ -35,7 +35,8 @@ ReactDOM.render((
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/reviews" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviewer" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviewee" component={Reviews} onEnter={checkLoggedInStatus} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>

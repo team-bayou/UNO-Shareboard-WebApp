@@ -123,6 +123,15 @@ blue with black
   background-color: #f1f1f1;
 }
 
+#navbar .uk-navbar-dropdown-nav > li > a {
+  margin-left: 0px;
+}
+
+#navbar .navbar-listings,
+#navbar .navbar-reviews {
+  width: 300px;
+}
+
 /* Advertisement Categories */
 .ad-category {
   margin-right: 0.5em;

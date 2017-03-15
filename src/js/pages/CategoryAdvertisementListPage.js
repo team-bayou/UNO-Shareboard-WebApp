@@ -38,7 +38,7 @@ export default class CategoryAdvertisementsPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of category \"" + this.state.category + "\""}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of Category \"" + this.state.category + "\" (" + this.state.advertisements.length + ")"}</span></h2>
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>
