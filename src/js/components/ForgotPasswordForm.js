@@ -84,7 +84,7 @@ export default class LoginForm extends Component {
       return (
         <div className="uk-text-center">
           <h2 className="uk-heading-line uk-text-center"><span>E-mail Sent</span></h2>
-          <p>An e-mail has been sent to the provided address with instructions on resetting your password.</p>
+          <p>An e-mail has been sent to the provided e-mail address with instructions on how to reset your password.</p>
         </div>
       );
     }

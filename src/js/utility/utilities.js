@@ -144,7 +144,13 @@ module.exports = {
   // Check if the provided email is already associated
   //   with an existing account
   checkForExistingEmail: function(email, callback) {
-    email = this.cleanUnoEmail(email);
+    if (this.validateEmail(email)) {
+      email = this.cleanUnoEmail(email);
+    }
+    else {
+      callback(false);
+      return;
+    }
 
     api.checkForVerifiedEmail(email, function(exists, response) {
       if (exists) {
@@ -167,8 +173,14 @@ module.exports = {
   },
 
   checkForUnverifiedEmail: function(email, callback) {
-    email = this.cleanUnoEmail(email);
-
+    if (this.validateEmail(email)) {
+      email = this.cleanUnoEmail(email);
+    }
+    else {
+      callback(false);
+      return;
+    }
+    
     api.checkForUnverifiedEmail(email, function(exists) {
       callback(exists);
     });
