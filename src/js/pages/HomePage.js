@@ -2,8 +2,9 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import BuySeekButton from '../components/BuySeekButton'
-import SellTradeButton from '../components/SellTradeButton'
+import BuySeekButton from '../components/BuySeekButton';
+import SellOfferButton from '../components/SellOfferButton';
+import CreateButton from '../components/CreateButton';
 import AdvertisementFeed from '../components/AdvertisementFeed'
 
 export default class HomePage extends Component {
@@ -40,8 +41,15 @@ export default class HomePage extends Component {
         <div className="app-body uk-container">
 
           <div className="uk-flex uk-flex-center">
-            <BuySeekButton />
-            <SellTradeButton />
+            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+              <BuySeekButton />
+            </div>
+            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+              <SellOfferButton />
+            </div>
+            <div className="uk-margin-small-left">
+              <CreateButton href={"/advertisements/add"} name={"Create advertisement"} />
+            </div>
           </div>
 
           <div className="uk-flex uk-flex-center uk-margin">
@@ -69,6 +77,8 @@ export default class HomePage extends Component {
                 <dd><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
                 <hr />
                 <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
+                <hr />
+                <dd><strong>CREATE ADVERTISEMENT</strong><br />Create a new advertisement with all necessary information on demand</dd>
               </dl>
 
             </div>
