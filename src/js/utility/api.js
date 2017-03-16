@@ -75,6 +75,17 @@ module.exports = {
     }, callback);
   },
 
+  //======================//
+  //       REVIEWS        //
+  //======================//
+  getReviewerReviews: function(id, callback) {
+    performCheckGet(constants.HOST + '/service/v1/reviews/reviewer/' + id, callback);
+  },
+
+  getRevieweeReviews: function(id, callback) {
+    performCheckGet(constants.HOST + '/service/v1/reviews/reviewee/' + id, callback);
+  },
+
 
   //======================//
   //     USER ACCOUNT     //

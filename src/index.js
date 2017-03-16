@@ -9,7 +9,8 @@ import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
 import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
-import Reviews from './js/pages/ReviewsPage';
+import ReviewerReviews from './js/pages/ReviewerReviewsPage';
+import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -35,8 +36,8 @@ ReactDOM.render((
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/reviewer" component={Reviews} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/reviewee" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviewer" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviewee" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>
