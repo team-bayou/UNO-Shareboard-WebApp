@@ -180,7 +180,7 @@ module.exports = {
       callback(false);
       return;
     }
-    
+
     api.checkForUnverifiedEmail(email, function(exists) {
       callback(exists);
     });
@@ -302,7 +302,7 @@ module.exports = {
 
     // If we're trying to access a page for guests
     // Requires: to be logged out
-    if (targetPath === "/" || targetPath === "verify" || targetPath === "resetpassword") {
+    if (targetPath === "/" || targetPath === "verify" || targetPath === "forgotpassword" || targetPath === "resetpassword") {
       if (!userID) {
         this.clearCookies();
         callback();

@@ -4,7 +4,7 @@ import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
 
-export default class LoginForm extends Component {
+export default class ForgotPasswordForm extends Component {
   constructor(props) {
     super(props);
 
