@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import AdCategory from './AdvertisementCategory';
+import AdTradeItem from './AdvertisementTradeItem';
+import AdHeader from './AdvertisementHeader';
 import utils from '../utility/utilities';
 
 import logo from '../../media/images/light.jpg';
@@ -17,13 +19,9 @@ export default class AdvertisementListElement extends Component {
             <img src={logo} alt=""/>
             </a>
           </div>
-          <div className="uk-card-header">
-            <a href={"/advertisements/" + this.props.ad.id} className="uk-link-reset"><h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3></a>
-            <p className="ad-time-published uk-text-meta uk-margin-remove-top">{utils.getDateTime(this.props.ad)}</p>
-            <AdCategory category={this.props.ad.category}/>
-          </div>
+          <AdTradeItem ad={this.props.ad} />
+          <AdHeader ad={this.props.ad} />
           <div className="ad-description uk-card-body">
-          <div className="ad-item uk-card-badge uk-label">{utils.getItem(this.props.ad)}</div>
             <p className="uk-text-truncate">{this.props.ad.description}</p>
           </div>
           <div className="uk-card-footer">

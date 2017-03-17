@@ -2,6 +2,8 @@ import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AdCategory from './AdvertisementCategory';
+import AdTradeItem from './AdvertisementTradeItem';
+import AdHeader from './AdvertisementHeader';
 import AdOwnerDetails from './AdvertisementOwnerDetails';
 import Slideshow from './Slideshow';
 
@@ -41,14 +43,8 @@ export default class Advertisement extends Component {
           <div className="ad-images uk-card-media-top uk-text-center">
               <Slideshow images={this.state.images}/>
           </div>
-          <div className="uk-card-header">
-            <div className="uk-column-1-2">
-              <h3 className="ad-title uk-card-title uk-margin-remove-bottom">{this.props.ad.title}</h3>
-              <p className="ad-item uk-margin-remove">Price: <span className="uk-label">{utils.getItem(this.props.ad)}</span></p>
-            </div>
-              <p className="ad-time-published uk-text-meta uk-margin-remove-top">{utils.getDateTime(this.props.ad)}</p>
-              <AdCategory category={this.props.ad.category}/>
-          </div>
+          <AdTradeItem ad={this.props.ad} />
+          <AdHeader ad={this.props.ad} />
           <div className="ad-description uk-card-body">
             <p>{this.props.ad.description}</p>
           </div>

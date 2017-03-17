@@ -233,13 +233,13 @@ blue with black
 /* Add Advertisement Page */
 
 /* Advertisement Details Page */
-#ad-details .ad-item {
-  float: right;
-}
-
-#ad-details .ad-item span {
-  background-color: #1e87f0;
-  font-size: 1.2em;
+.ad-item span {
+  border-radius: 2px;
+  color: #E77600;
+  display: inline-block;
+  line-height: 1.5;
+  text-transform: uppercase;
+  vertical-align: middle;
 }
 
 #ad-details .ad-owner-contact .uk-icon-button {
