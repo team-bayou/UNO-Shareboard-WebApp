@@ -183,7 +183,19 @@ module.exports = {
         callback(false);
       }
     }.bind(this));
+  },
 
+  verifyAdmin: function(targetPath, replace, callback) {
+    this.verifyLoggedIn(cookie.load(constants.COOKIE_A), function(loggedIn, response) {
+      if (!loggedIn) {
+        this.clearCookies();
+        replace("/");
+      }
+      else if (response.data.userType !== "admin") {
+        replace("/home");
+      }
+      callback();
+    }.bind(this));
   },
 
 
@@ -241,7 +253,7 @@ module.exports = {
   verifyCookies: function(targetPath, replace, callback) {
     const userID = cookie.load(constants.COOKIE_A);
 
-    // If we're trying to access the login page or verify account page
+    // If we're trying to access a page for guests
     // Requires: to be logged out
     if (targetPath === "/" || targetPath === "verify") {
       if (!userID) {
@@ -250,21 +262,10 @@ module.exports = {
         return;
       }
 
-      api.getUserByID(userID, function(success, response) {
-        if (success) {
-          const data = response.data;
-
-          const userHash = encryption.createHash(data.email, data.passwordSalt);
-          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
-
-          if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
-            replace("/home");
-            callback();
-          }
-          else {
-            this.clearCookies();
-            callback();
-          }
+      this.verifyLoggedIn(userID, function(loggedIn) {
+        if (loggedIn) {
+          replace("/home");
+          callback();
         }
         else {
           this.clearCookies();
@@ -283,17 +284,8 @@ module.exports = {
         return;
       }
 
-      api.getUserByID(userID, function(success, response) {
-        if (success) {
-          const data = response.data;
-
-          const userHash = encryption.createHash(data.email, data.passwordSalt);
-          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
-
-          if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
-            this.clearCookies();
-            replace("/");
-          }
+      this.verifyLoggedIn(userID, function(loggedIn) {
+        if (loggedIn) {
           callback();
         }
         else {
@@ -303,6 +295,29 @@ module.exports = {
         }
       });
     }
+  },
+
+  verifyLoggedIn: function(id, callback) {
+    if (!id) {
+      callback(false);
+      return;
+    }
+
+    api.getUserByID(id, function(success, response) {
+      if (success) {
+        const data = response.data;
+
+        const userHash = encryption.createHash(data.email, data.passwordSalt).hash;
+        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt).hash;
+
+        if (cookie.load(constants.COOKIE_B) === userHash && cookie.load(constants.COOKIE_C) === saltHash)
+          callback(true, response);
+        else
+          callback(false, response);
+      }
+      else
+        callback(false, response);
+    });
   },
 
   clearCookies: function() {

@@ -10,6 +10,7 @@ import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
 import Reviews from './js/pages/ReviewsPage';
+import Admin from './js/pages/AdminPage'
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -17,6 +18,10 @@ const utilities = require('./js/utility/utilities');
 
 function checkLoggedInStatus(nextState, replace, callback) {
   utilities.verifyCookies(nextState.routes[0].path, replace, callback);
+}
+
+function checkAdmin(nextState, replace, callback) {
+  utilities.verifyAdmin(nextState.routes[0].path, replace, callback);
 }
 
 function logout(nextState, replace, callback) {
@@ -37,6 +42,7 @@ ReactDOM.render((
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviewer" component={Reviews} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviewee" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="admin" component={Admin} onEnter={checkAdmin} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>
