@@ -115,13 +115,13 @@ module.exports = {
   checkForExistingEmail: function(email, callback) {
     email = this.cleanUnoEmail(email);
 
-    api.checkForVerifiedEmail(email, function(exists) {
+    api.checkForVerifiedEmail(email, function(exists, response) {
       if (exists) {
-        callback(true);
+        callback(true, response);
       }
       else {
         api.checkForUnverifiedEmail(email, function(exists) {
-          callback(exists);
+          callback(exists, response, true);
         });
       }
     });
@@ -130,8 +130,8 @@ module.exports = {
   // Check if the provided username is already
   //   associated with an existing account
   checkForExistingUsername: function(username, callback) {
-    api.checkForExistingUsername(username, function(exists) {
-      callback(exists);
+    api.checkForExistingUsername(username, function(exists, response) {
+      callback(exists, response);
     });
   },
 
