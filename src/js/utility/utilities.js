@@ -185,17 +185,15 @@ module.exports = {
     }.bind(this));
   },
 
-  verifyAdmin: function(targetPath, replace, callback) {
+  verifyAdmin: function(callback) {
     this.verifyLoggedIn(cookie.load(constants.COOKIE_A), function(loggedIn, response) {
-      if (!loggedIn) {
-        this.clearCookies();
-        replace("/");
-      }
-      else if (response.data.userType !== "admin") {
-        replace("/home");
-      }
-      callback();
-    }.bind(this));
+      if (!loggedIn)
+        callback(false, false);
+      else if (response.data.userType !== "admin")
+        callback(true, false);
+      else
+        callback(true, true);
+    });
   },
 
 

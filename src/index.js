@@ -21,7 +21,16 @@ function checkLoggedInStatus(nextState, replace, callback) {
 }
 
 function checkAdmin(nextState, replace, callback) {
-  utilities.verifyAdmin(nextState.routes[0].path, replace, callback);
+  utilities.verifyAdmin(function(loggedIn, isAdmin) {
+    if (!loggedIn) {
+      utilities.clearCookies();
+      replace("/");
+    }
+    else if (loggedIn && !isAdmin) {
+      replace("/home");
+    }
+    callback();
+  });
 }
 
 function logout(nextState, replace, callback) {
