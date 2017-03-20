@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import FindUserForm from '../components/FindUserForm';
+import EditCategories from '../components/EditCategories';
 
 export default class AdminPage extends Component {
   render() {
@@ -20,6 +21,7 @@ export default class AdminPage extends Component {
             </div>
             <div>
               <h3 className="uk-heading-line uk-text-center"><span>Ad Categories</span></h3>
+              <EditCategories />
             </div>
           </div>
 

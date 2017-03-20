@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EditUserForm from './EditUserForm';
 import '../../css/styles.css';
 
 export default class FindUserResult extends Component {
@@ -61,10 +62,7 @@ export default class FindUserResult extends Component {
 
           <div id="edit-user" data-uk-modal="center: true">
             <div className="uk-modal-dialog uk-modal-body">
-              <p>Hello</p>
-              <p className="uk-text-right">
-                <button className="uk-button uk-button-secondary uk-modal-close" type="button">Save</button>
-              </p>
+              <EditUserForm user={this.props.user} />
             </div>
           </div>
 
