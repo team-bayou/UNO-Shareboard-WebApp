@@ -314,3 +314,7 @@ blue with black
 .user-result-subnav a {
   color: #666;
 }
+
+.admin-edit-field:focus {
+  border: 1px solid black;
+}
