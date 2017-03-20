@@ -18,7 +18,7 @@ function performCheckGet(endpoint, callback) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false);
+    callback(false, response);
   });
 }
 
@@ -28,7 +28,18 @@ function performCheckPost(endpoint, data, callback) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false);
+    callback(false, response);
+  });
+}
+
+function performDelete(endpoint, callback) {
+  axios.delete(endpoint)
+  .then(function (response) {
+    callback(response.status === constants.RESPONSE_OK ||
+      response.status === constants.RESPONSE_NO_CONTENT, response);
+  })
+  .catch(function (error) {
+    callback(false, response);
   });
 }
 
@@ -73,6 +84,10 @@ module.exports = {
       price: data.price,
       tradeItem: data.tradeItem
     }, callback);
+  },
+
+  deleteCategory: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/categories/' + id + '/delete', callback);
   },
 
 

@@ -27,7 +27,15 @@ export default class EditCategories extends Component {
 
   performDelete(event) {
     event.preventDefault();
-    console.log("deleted category " + this.catToDelete);
+    api.deleteCategory(this.catToDelete, function(success, response) {
+      if (success) {
+        window.location.reload();
+        console.log("successfully deleted category " + this.catToDelete);
+      }
+      else {
+        console.log(response);
+      }
+    });
   }
 
   setDeleteTarget(event) {
