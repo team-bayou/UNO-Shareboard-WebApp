@@ -143,6 +143,12 @@ module.exports = {
     });
   },
 
+  getUserByID: function(id, callback) {
+    api.getUserByID(id, function(success, response) {
+      callback(success, response);
+    });
+  },
+
   // Perform the registration operation by adding the user to the
   //   unverified users table
   performRegistration: function(email, pass, callback) {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FindUserResult from './FindUserResult';
 import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
@@ -9,7 +10,6 @@ export default class FindUserForm extends Component {
 
     this.state = {
       email: '',
-      username: '',
       userid: '',
 
       userFound: false,
@@ -34,11 +34,9 @@ export default class FindUserForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    // We check first if an e-mail or username is being used to search
     if (this.state.email !== "") {
-
-      const type = utilities.validateEmail(this.state.email) ? "email" : "username";
-
-      if (type === "email") {
+      if (utilities.validateEmail(this.state.email)) {
         utilities.checkForExistingEmail(this.state.email, function(exists, response) {
           if (exists) {
             this.setState({
@@ -74,11 +72,26 @@ export default class FindUserForm extends Component {
           }
         }.bind(this));
       }
-
     }
 
+    // If not, we check for an ID
     else if (this.state.userid !== "") {
-
+      utilities.getUserByID(this.state.userid, function(exists, response) {
+        if (exists) {
+          this.setState({
+            userFound: true,
+            searchSubmitted: true,
+            foundUser: response.data
+          });
+        }
+        else {
+          this.setState({
+            userFound: false,
+            searchSubmitted: true,
+            foundUser: null
+          });
+        }
+      }.bind(this));
     }
 
   }
@@ -89,7 +102,6 @@ export default class FindUserForm extends Component {
 
         <form className="uk-grid-medium uk-text-center" onSubmit={this.handleSubmit} data-uk-grid>
           <label className="uk-form-label uk-width-1-1"><strong>Note:</strong> Prioritizes e-mail / username over ID</label>
-
           <div className="uk-width-1-2@m">
             <label className="uk-form-label" htmlFor="email">By E-mail or Username</label>
             <div className="uk-form-controls">
@@ -107,10 +119,12 @@ export default class FindUserForm extends Component {
           </div>
         </form>
 
-        <div className="uk-placeholder uk-text-center uk-text-break" hidden={!this.state.searchSubmitted}>
-          <span hidden={this.state.userFound}>User not found</span>
+        <div className="uk-panel user-result-container" hidden={!this.state.searchSubmitted}>
+          <div className="uk-padding-small uk-text-center" hidden={this.state.userFound}>
+            User not found
+          </div>
           <div hidden={!this.state.userFound}>
-            {JSON.stringify(this.state.foundUser)}
+            <FindUserResult user={this.state.foundUser} />
           </div>
         </div>
 

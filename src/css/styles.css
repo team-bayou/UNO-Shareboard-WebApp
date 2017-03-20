@@ -273,3 +273,44 @@ blue with black
   color: white;
   margin-right: 2px;
 }
+
+
+/* Administration Page */
+
+.user-result-container {
+  border: 1px solid #e5e5e5;
+}
+
+.user-result-table {
+  padding: 0;
+  margin: 0;
+}
+
+.user-result-table td.user-result-title {
+  font-weight: bold;
+  text-align: right;
+  border-right: 1px solid #e5e5e5;
+}
+
+.user-result-table td.user-result-content {
+  text-align: left;
+}
+
+.user-result-table td.user-result-first {
+  border-top: 1px solid #e5e5e5;
+}
+
+.user-result-table td.user-result-last {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.user-result-subnav {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px !important;
+  margin-top: 10px !important;
+}
+
+.user-result-subnav a {
+  color: #666;
+}
