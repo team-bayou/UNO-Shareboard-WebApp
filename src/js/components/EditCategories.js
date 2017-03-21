@@ -10,7 +10,8 @@ export default class EditCategories extends Component {
     super(props);
 
     this.state = {
-      categories: null
+      categories: null,
+      showColorPicker: false
     }
 
     this.catToDelete = -1;
@@ -23,6 +24,9 @@ export default class EditCategories extends Component {
 
     this.addNewCategory = this.addNewCategory.bind(this);
     this.handleNewCategoryEdit = this.handleNewCategoryEdit.bind(this);
+
+    this.showColorPicker = this.showColorPicker.bind(this);
+    this.closeColorPicker = this.closeColorPicker.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +35,19 @@ export default class EditCategories extends Component {
         categories: response.data
       });
     }.bind(this));
+  }
+
+  showColorPicker(event) {
+    console.log(event.currentTarget.name);
+    this.setState({
+      showColorPicker: true
+    });
+  }
+
+  closeColorPicker(event) {
+    this.setState({
+      showColorPicker: false
+    });
   }
 
   performDelete(event) {
@@ -111,7 +128,7 @@ export default class EditCategories extends Component {
         cat =>
         <tr key={cat.id}>
           <td>
-            <a id={"cat" + cat.id} href="#confirm-delete" className="uk-link-reset" data-uk-icon="icon: close" onClick={this.setDeleteTarget} data-uk-toggle></a>
+            <a id={"cat" + cat.id} href="#confirm-delete" className="uk-link-reset" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle></a>
           </td>
           <td style={{backgroundColor: cat.color}}></td>
           <td className="uk-text-nowrap">
@@ -125,9 +142,6 @@ export default class EditCategories extends Component {
 
       return (
         <div className="uk-overflow-auto">
-          {
-            //<ChromePicker />
-          }
           <table className="uk-table uk-table-small uk-table-middle">
             <thead>
               <tr>
@@ -141,10 +155,10 @@ export default class EditCategories extends Component {
               {cats}
               <tr>
                 <td>
-                  <a id="newcat" href="#" className="uk-link-reset" data-uk-icon="icon: check" onClick={this.addNewCategory}></a>
+                  <a id="newcat" href="#" className="uk-link-reset" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory}></a>
                 </td>
                 <td className="uk-table-link">
-                  <a className="uk-link-reset">&nbsp;</a>
+                  <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
                   {
                     //<input name="newcatcolor" className="uk-input uk-form-blank uk-form-width-xsmall admin-edit-field" type="text" placeholder="New Color" onChange={this.handleNewCategoryEdit} disabled />
                   }
@@ -173,6 +187,18 @@ export default class EditCategories extends Component {
               </p>
             </div>
           </div>
+
+          <div className="color-picker" hidden={!this.state.showColorPicker}>
+            <ChromePicker onChangeComplete={(color, event) => console.log(color.hex)}/>
+            <div className="uk-text-center color-picker-btn-container">
+              <a className="uk-icon-button color-picker-accept" data-uk-icon="icon: check; ratio: 1.5" onClick={this.closeColorPicker}></a>
+              <a className="uk-icon-button color-picker-cancel" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker}></a>
+            </div>
+            {
+              //<button className="uk-button uk-button-secondary color-picker-select-btn" type="button" onClick={this.closeColorPicker}>Select</button>
+            }
+          </div>
+
         </div>
       );
     }

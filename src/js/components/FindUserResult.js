@@ -6,6 +6,7 @@ export default class FindUserResult extends Component {
     super(props);
 
     this.state = {
+      id: '',
       editEmail: '',
       editUsername: '',
       editFirstName: '',
@@ -23,14 +24,15 @@ export default class FindUserResult extends Component {
   componentWillReceiveProps(newProps) {
     if (this.props.user !== newProps.user) {
       this.setState({
-        editEmail: newProps.user.email,
-        editUsername: newProps.user.accountName,
-        editFirstName: newProps.user.firstName,
-        editLastName: newProps.user.lastName,
-        editPhoneNumber: newProps.user.phoneNumber,
-        editUserType: newProps.user.userType,
-        editFacebookID: newProps.user.facebookId,
-        editTwitterID: newProps.user.twitterHandle
+        id: newProps.user.id,
+        editEmail: newProps.user.email ? newProps.user.email : "",
+        editUsername: newProps.user.accountName ? newProps.user.accountName : "",
+        editFirstName: newProps.user.firstName ? newProps.user.firstName : "",
+        editLastName: newProps.user.lastName ? newProps.user.lastName : "",
+        editPhoneNumber: newProps.user.phoneNumber ? newProps.user.phoneNumber : "",
+        editUserType: newProps.user.userType ? newProps.user.userType : "",
+        editFacebookID: newProps.user.facebookId ? newProps.user.facebookId : "",
+        editTwitterID: newProps.user.twitterHandle ? newProps.user.twitterHandle : ""
       });
     }
   }
@@ -69,59 +71,59 @@ export default class FindUserResult extends Component {
             <tbody>
               <tr>
                 <td colSpan="2" className="uk-text-center">
-                  <a className="uk-link-reset" href={"/users/" + this.props.user.id}>View Profile</a>
+                  <a className="uk-link-reset" href={"/users/" + this.state.id}>View Profile</a>
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">ID</td>
-                <td className="user-result-content uk-width-2-3">{this.props.user.id}</td>
+                <td className="user-result-content uk-width-2-3">{this.state.id}</td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">E-mail</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editEmail" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.email} onChange={this.handleInputChange} />
+                  <input name="editEmail" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editEmail} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">Username</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editUsername" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.accountName} onChange={this.handleInputChange} />
+                  <input name="editUsername" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editUsername} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">First Name</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editFirstName" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.firstName} onChange={this.handleInputChange} />
+                  <input name="editFirstName" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editFirstName} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">Last Name</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editLastName" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.lastName} onChange={this.handleInputChange} />
+                  <input name="editLastName" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editLastName} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">Phone Number</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editPhoneNumber" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.phoneNumber} onChange={this.handleInputChange} />
+                  <input name="editPhoneNumber" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editPhoneNumber} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">User Type</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editUserType" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.userType} onChange={this.handleInputChange} />
+                  <input name="editUserType" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editUserType} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">Facebook ID</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editFacebookID" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.facebookId} onChange={this.handleInputChange} />
+                  <input name="editFacebookID" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editFacebookID} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
                 <td className="user-result-title uk-width-1-3">Twitter ID</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editTwitterID" className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={this.props.user.twitterHandle} onChange={this.handleInputChange} />
+                  <input name="editTwitterID" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editTwitterID} onChange={this.handleInputChange} />
                 </td>
               </tr>
               <tr>
