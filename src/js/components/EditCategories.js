@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ChromePicker } from 'react-color';
 import '../../css/styles.css';
 
 const utils = require('../utility/utilities');
@@ -19,6 +20,9 @@ export default class EditCategories extends Component {
     this.setDeleteTarget = this.setDeleteTarget.bind(this);
     this.handleCategoryEdit = this.handleCategoryEdit.bind(this);
     this.submitCategoryEdit = this.submitCategoryEdit.bind(this);
+
+    this.addNewCategory = this.addNewCategory.bind(this);
+    this.handleNewCategoryEdit = this.handleNewCategoryEdit.bind(this);
   }
 
   componentDidMount() {
@@ -67,15 +71,38 @@ export default class EditCategories extends Component {
 
   submitCategoryEdit(event) {
     event.preventDefault();
-
-    /*
-    for (var i = 0; i < this.categoriesToEdit.length; i++) {
-      var c = this.categoriesToEdit[i];
-      console.log(c + " :: " + this.state[c]);
-    }
-    console.log("------");
-    */
     utils.updateCategories(this.state);
+  }
+
+  addNewCategory(event) {
+    event.preventDefault();
+
+    if (this.state.newcatcolor && this.state.newcattitle && this.state.newcatdesc) {
+      var data = {
+        title: this.state.newcattitle,
+        color: this.state.newcatcolor,
+        description: this.state.newcatdesc
+      }
+      api.addCategory(data, function(success, response) {
+        if (success) {
+          window.location.reload();
+        }
+        else {
+          console.log("There was a problem adding the category:");
+          console.log(response);
+        }
+      });
+    }
+  }
+
+  handleNewCategoryEdit(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -98,6 +125,9 @@ export default class EditCategories extends Component {
 
       return (
         <div className="uk-overflow-auto">
+          {
+            //<ChromePicker />
+          }
           <table className="uk-table uk-table-small uk-table-middle">
             <thead>
               <tr>
@@ -110,8 +140,25 @@ export default class EditCategories extends Component {
             <tbody>
               {cats}
               <tr>
+                <td>
+                  <a id="newcat" href="#" className="uk-link-reset" data-uk-icon="icon: check" onClick={this.addNewCategory}></a>
+                </td>
+                <td className="uk-table-link">
+                  <a className="uk-link-reset">&nbsp;</a>
+                  {
+                    //<input name="newcatcolor" className="uk-input uk-form-blank uk-form-width-xsmall admin-edit-field" type="text" placeholder="New Color" onChange={this.handleNewCategoryEdit} disabled />
+                  }
+                </td>
+                <td className="uk-text-nowrap">
+                  <input name="newcattitle" className="uk-input uk-form-blank admin-edit-field" type="text" placeholder="New Title" onChange={this.handleNewCategoryEdit} />
+                </td>
+                <td className="uk-text-nowrap">
+                  <input name="newcatdesc" className="uk-input uk-form-blank admin-edit-field" type="text" placeholder="New Description" onChange={this.handleNewCategoryEdit} />
+                </td>
+              </tr>
+              <tr>
                 <td colSpan="4">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
+                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
                 </td>
               </tr>
             </tbody>
