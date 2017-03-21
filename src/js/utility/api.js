@@ -18,7 +18,7 @@ function performCheckGet(endpoint, callback) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false, response);
+    callback(false, error);
   });
 }
 
@@ -28,7 +28,7 @@ function performCheckPost(endpoint, data, callback) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false, response);
+    callback(false, error);
   });
 }
 
@@ -39,7 +39,7 @@ function performDelete(endpoint, callback) {
       response.status === constants.RESPONSE_NO_CONTENT, response);
   })
   .catch(function (error) {
-    callback(false, response);
+    callback(false, error);
   });
 }
 
