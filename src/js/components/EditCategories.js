@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const utils = require('../utility/utilities');
 const api = require('../utility/api');
 
 export default class EditCategories extends Component {
@@ -67,10 +68,14 @@ export default class EditCategories extends Component {
   submitCategoryEdit(event) {
     event.preventDefault();
 
+    /*
     for (var i = 0; i < this.categoriesToEdit.length; i++) {
-      console.log(this.categoriesToEdit[i]);
+      var c = this.categoriesToEdit[i];
+      console.log(c + " :: " + this.state[c]);
     }
     console.log("------");
+    */
+    utils.updateCategories(this.state);
   }
 
   render() {
@@ -81,13 +86,12 @@ export default class EditCategories extends Component {
           <td>
             <a id={"cat" + cat.id} href="#confirm-delete" className="uk-link-reset" data-uk-icon="icon: close" onClick={this.setDeleteTarget} data-uk-toggle></a>
           </td>
-          <td style={{backgroundColor: cat.color}}>
+          <td style={{backgroundColor: cat.color}}></td>
+          <td className="uk-text-nowrap">
+            <input name={"cattitle" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
           </td>
           <td className="uk-text-nowrap">
-            <input name={"cat" + cat.id + "title"} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
-          </td>
-          <td className="uk-text-nowrap">
-            <input name={"cat" + cat.id + "desc"} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.description} onChange={this.handleCategoryEdit} />
+            <input name={"catdesc" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.description} onChange={this.handleCategoryEdit} />
           </td>
         </tr>
       );

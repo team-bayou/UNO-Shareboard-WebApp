@@ -361,5 +361,16 @@ module.exports = {
   getDateTime: function(ad){
     var t = new Date(ad.timePublished);
     return t.toLocaleDateString();
+  },
+
+  updateCategories: function(data) {
+    for (var prop in data) {
+      if (prop !== "categories") {
+        console.log(prop);
+        console.log(data[prop]);
+        console.log("---");
+      }
+    }
   }
+
 }
