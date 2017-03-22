@@ -310,40 +310,23 @@ blue with black
   z-index: 2;
 }
 
-/*
-.color-picker-closer {
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+.cross-icon,
+.check-icon {
+  color: black;
 }
-*/
 
+.cross-icon:hover,
+.cross-icon:focus {
+  color: red;
+}
 
+.check-icon:hover,
+.check-icon:focus {
+  color: #42EC00;
+}
 
 .color-picker-btn-container {
   background-color: white;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 2px, rgba(0, 0, 0, 0.298039) 0px 4px 8px;
-}
-
-.color-picker-accept {
-  background-color: transparent;
-  color: green;
-}
-
-.color-picker-accept:hover {
-  background-color: green;
-  color: white;
-}
-
-.color-picker-cancel {
-  background-color: transparent;
-  color: red;
-}
-
-.color-picker-cancel:hover {
-  background-color: red;
-  color: white;
 }

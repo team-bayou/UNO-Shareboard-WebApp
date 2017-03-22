@@ -25,14 +25,14 @@ export default class FindUserResult extends Component {
     if (this.props.user !== newProps.user) {
       this.setState({
         id: newProps.user.id,
-        editEmail: newProps.user.email ? newProps.user.email : "",
-        editUsername: newProps.user.accountName ? newProps.user.accountName : "",
-        editFirstName: newProps.user.firstName ? newProps.user.firstName : "",
-        editLastName: newProps.user.lastName ? newProps.user.lastName : "",
-        editPhoneNumber: newProps.user.phoneNumber ? newProps.user.phoneNumber : "",
-        editUserType: newProps.user.userType ? newProps.user.userType : "",
-        editFacebookID: newProps.user.facebookId ? newProps.user.facebookId : "",
-        editTwitterID: newProps.user.twitterHandle ? newProps.user.twitterHandle : ""
+        editEmail: newProps.user.email || "",
+        editUsername: newProps.user.accountName || "",
+        editFirstName: newProps.user.firstName || "",
+        editLastName: newProps.user.lastName || "",
+        editPhoneNumber: newProps.user.phoneNumber || "",
+        editUserType: newProps.user.userType || "",
+        editFacebookID: newProps.user.facebookId || "",
+        editTwitterID: newProps.user.twitterHandle || ""
       });
     }
   }

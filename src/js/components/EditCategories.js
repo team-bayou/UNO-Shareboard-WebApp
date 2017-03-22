@@ -128,7 +128,7 @@ export default class EditCategories extends Component {
         cat =>
         <tr key={cat.id}>
           <td>
-            <a id={"cat" + cat.id} href="#confirm-delete" className="uk-link-reset" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle></a>
+            <a id={"cat" + cat.id} href="#confirm-delete" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle></a>
           </td>
           <td style={{backgroundColor: cat.color}}></td>
           <td className="uk-text-nowrap">
@@ -155,7 +155,7 @@ export default class EditCategories extends Component {
               {cats}
               <tr>
                 <td>
-                  <a id="newcat" href="#" className="uk-link-reset" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory}></a>
+                  <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory}></a>
                 </td>
                 <td className="uk-table-link">
                   <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
@@ -191,12 +191,9 @@ export default class EditCategories extends Component {
           <div className="color-picker" hidden={!this.state.showColorPicker}>
             <ChromePicker onChangeComplete={(color, event) => console.log(color.hex)}/>
             <div className="uk-text-center color-picker-btn-container">
-              <a className="uk-icon-button color-picker-accept" data-uk-icon="icon: check; ratio: 1.5" onClick={this.closeColorPicker}></a>
-              <a className="uk-icon-button color-picker-cancel" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker}></a>
+              <a className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.closeColorPicker}></a>
+              <a className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker}></a>
             </div>
-            {
-              //<button className="uk-button uk-button-secondary color-picker-select-btn" type="button" onClick={this.closeColorPicker}>Select</button>
-            }
           </div>
 
         </div>
