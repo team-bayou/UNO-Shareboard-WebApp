@@ -2,7 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import AdList from '../components/AdvertisementList';
+import AdList from '../components/advertisements/AdvertisementList';
 
 export default class CategoryAdvertisementsPage extends Component {
   constructor(props){

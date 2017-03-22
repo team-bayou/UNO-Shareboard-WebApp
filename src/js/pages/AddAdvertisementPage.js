@@ -5,7 +5,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
-import AddAdvertisementForm from '../components/AddAdvertisementForm';
+import AddAdvertisementForm from '../components/advertisements/AddAdvertisementForm';
 
 export default class AddAdvertisementPage extends Component {
   constructor(props){

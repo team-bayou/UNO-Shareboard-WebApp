@@ -1,4 +1,4 @@
-import utils from '../utility/utilities';
+import utils from '../../utility/utilities';
 
 import React, { Component } from 'react';
 

@@ -5,7 +5,7 @@ import AppHeader from '../components/AppHeader';
 import BuySeekButton from '../components/BuySeekButton';
 import SellOfferButton from '../components/SellOfferButton';
 import CreateButton from '../components/CreateButton';
-import AdvertisementFeed from '../components/AdvertisementFeed'
+import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 
 export default class HomePage extends Component {
   constructor(props){

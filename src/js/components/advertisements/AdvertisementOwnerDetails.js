@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import avatar from '../../media/images/avatar.jpg';
+import avatar from '../../../media/images/avatar.jpg';
 
 export default class AdvertisementOwnerDetails extends Component {
   render(){

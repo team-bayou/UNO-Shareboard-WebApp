@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
+
 import Landing from './js/pages/LandingPage';
 import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
 import Advertisements from './js/pages/AdvertisementListPage';
 import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
-import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
+import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import NotFound from './js/pages/NotFoundPage';

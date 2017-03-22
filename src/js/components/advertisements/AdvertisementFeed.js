@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AdList from '../components/AdvertisementList';
+import AdList from './AdvertisementList';
 
 export default class AdvertisementFeed extends Component {
   render() {
