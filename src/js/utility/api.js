@@ -34,6 +34,12 @@ function performCheckPost(endpoint, data, callback) {
 
 
 module.exports = {
+  //======================//
+  //        USERS         //
+  //======================//
+  getUser: function(id, callback) {
+    performCheckGet(constants.HOST + '/service/v1/users/' + id, callback);
+  },
 
   //======================//
   //      CATEGORIES      //
@@ -84,6 +90,16 @@ module.exports = {
 
   getRevieweeReviews: function(id, callback) {
     performCheckGet(constants.HOST + '/service/v1/reviews/reviewee/' + id, callback);
+  },
+
+  addReview: function(data, callback) {
+    performCheckPost(constants.HOST + '/service/v1/reviews/add', {
+      rating: data.rating,
+      comments: data.comments,
+      //timePublished: data.timePublished,
+      reviewer: data.reviewer,
+      reviewee: data.reviewee
+    }, callback);
   },
 
 
