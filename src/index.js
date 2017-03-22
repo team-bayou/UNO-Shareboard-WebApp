@@ -12,6 +12,7 @@ import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
 import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
+import AddReview from './js/pages/AddReviewPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -39,6 +40,8 @@ ReactDOM.render((
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviewer" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviewee" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviews" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviews/add" component={AddReview} onEnter={checkLoggedInStatus} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />
   </Router>
