@@ -2,7 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import ReviewList from '../components/ReviewList';
+import ReviewList from '../components/reviews/ReviewList';
 
 export default class ReviewsPage extends Component {
   constructor(props){
