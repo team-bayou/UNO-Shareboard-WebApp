@@ -50,7 +50,7 @@ export default class FindUserResult extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    if (this.state.editEmail !== "" && this.state.editUsername !== "" && this.state.editUserType !== "") {
+    if (!!this.state.editEmail && !!this.state.editUsername && !!this.state.editUserType) {
       console.log("user edited");
     }
   }
@@ -111,7 +111,10 @@ export default class FindUserResult extends Component {
               <tr>
                 <td className="user-result-title uk-width-1-3">User Type</td>
                 <td className="user-result-content uk-width-2-3">
-                  <input name="editUserType" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editUserType} onChange={this.handleInputChange} />
+                  <select name="editUserType" className="uk-select" value={this.state.editUserType} onChange={this.handleInputChange}>
+                    <option value="admin">admin</option>
+                    <option value="standard">standard</option>
+                  </select>
                 </td>
               </tr>
               <tr>

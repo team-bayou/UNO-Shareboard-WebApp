@@ -11,7 +11,11 @@ export default class EditCategories extends Component {
 
     this.state = {
       categories: null,
-      showColorPicker: false
+      showColorPicker: false,
+
+      newcatcolor: '',
+      newcattitle: '',
+      newcatdesc: ''
     }
 
     this.catToDelete = -1;
@@ -94,7 +98,9 @@ export default class EditCategories extends Component {
   addNewCategory(event) {
     event.preventDefault();
 
-    if (this.state.newcatcolor && this.state.newcattitle && this.state.newcatdesc) {
+    if (!!this.state.newcatcolor &&
+        !!this.state.newcattitle &&
+        !!this.state.newcatdesc) {
       var data = {
         title: this.state.newcattitle,
         color: this.state.newcatcolor,
@@ -130,7 +136,9 @@ export default class EditCategories extends Component {
           <td>
             <a id={"cat" + cat.id} href="#confirm-delete" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle></a>
           </td>
-          <td style={{backgroundColor: cat.color}}></td>
+          <td className="uk-table-link" style={{backgroundColor: cat.color}}>
+            <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
+          </td>
           <td className="uk-text-nowrap">
             <input name={"cattitle" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
           </td>
@@ -178,7 +186,7 @@ export default class EditCategories extends Component {
             </tbody>
           </table>
 
-          <div id="confirm-delete" data-uk-modal>
+          <div id="confirm-delete" data-uk-modal="center: true">
             <div className="uk-modal-dialog uk-modal-body">
               <p>Are you sure you want to delete this category?<br />This cannot be undone.</p>
               <p className="uk-text-right">
