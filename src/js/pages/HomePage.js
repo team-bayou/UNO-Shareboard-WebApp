@@ -54,17 +54,6 @@ export default class HomePage extends Component {
           <div className="uk-flex uk-flex-center uk-margin" id="whatisthis" hidden>
             <div className="uk-placeholder uk-background-muted uk-width-1-2@m">
 
-              {/*}
-              <div className="uk-grid-match uk-child-width-1-2@m" data-uk-grid>
-                <div>
-                  <p><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</p>
-                </div>
-                <div>
-                  <p><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</p>
-                </div>
-              </div>
-              {*/}
-
               <dl className="uk-description-list">
                 <dd><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
                 <hr />

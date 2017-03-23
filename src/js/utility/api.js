@@ -71,6 +71,10 @@ module.exports = {
     }, callback);
   },
 
+  updateCategory: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/categories/update', data, callback);
+  },
+
   deleteCategory: function(id, callback) {
     performDelete(constants.HOST + '/service/v1/categories/' + id + '/delete', callback);
   },

@@ -12,6 +12,7 @@ export default class EditCategories extends Component {
     this.state = {
       categories: null,
       showColorPicker: false,
+      colorPickerStartColor: "#FFFFFF",
 
       newcatcolor: '',
       newcattitle: '',
@@ -21,16 +22,22 @@ export default class EditCategories extends Component {
     this.catToDelete = -1;
     this.categoriesToEdit = [];
 
+    this.catColorTarget = -1;
+    this.newColor = "";
+
     this.performDelete = this.performDelete.bind(this);
     this.setDeleteTarget = this.setDeleteTarget.bind(this);
     this.handleCategoryEdit = this.handleCategoryEdit.bind(this);
     this.submitCategoryEdit = this.submitCategoryEdit.bind(this);
+    this.setColorTarget = this.setColorTarget.bind(this);
 
     this.addNewCategory = this.addNewCategory.bind(this);
     this.handleNewCategoryEdit = this.handleNewCategoryEdit.bind(this);
 
     this.showColorPicker = this.showColorPicker.bind(this);
     this.closeColorPicker = this.closeColorPicker.bind(this);
+    this.setNewColor = this.setNewColor.bind(this);
+    this.commitNewColor = this.commitNewColor.bind(this);
   }
 
   componentDidMount() {
@@ -42,7 +49,6 @@ export default class EditCategories extends Component {
   }
 
   showColorPicker(event) {
-    console.log(event.currentTarget.name);
     this.setState({
       showColorPicker: true
     });
@@ -52,6 +58,15 @@ export default class EditCategories extends Component {
     this.setState({
       showColorPicker: false
     });
+  }
+
+  setNewColor(color, event) {
+    this.newColor = color.hex;
+  }
+
+  commitNewColor(event) {
+    document.getElementsByName(this.catColorTarget)[0].style.backgroundColor = this.newColor;
+    this.closeColorPicker(event);
   }
 
   performDelete(event) {
@@ -70,6 +85,20 @@ export default class EditCategories extends Component {
   setDeleteTarget(event) {
     // slice off the "cat" from the beginning of the id to get just the number
     this.catToDelete = event.currentTarget.id.slice(3);
+  }
+
+  setColorTarget(event) {
+    if (event.currentTarget.name !== "newcatcolor")
+      this.catColorTarget = "catcolorbg" + event.currentTarget.name.slice(8);
+    else
+      this.catColorTarget = "newcatcolorbg";
+
+    const td = document.getElementsByName(this.catColorTarget)[0];
+    this.setState({
+      colorPickerStartColor: td.style.backgroundColor
+    });
+
+    this.showColorPicker(event);
   }
 
   handleCategoryEdit(event) {
@@ -136,8 +165,8 @@ export default class EditCategories extends Component {
           <td>
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
-          <td className="uk-table-link" style={{backgroundColor: cat.color}}>
-            <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
+          <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
+            <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
           </td>
           <td className="uk-text-nowrap">
             <input name={"cattitle" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
@@ -165,11 +194,8 @@ export default class EditCategories extends Component {
                 <td>
                   <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory} title="Add Category" data-uk-tooltip></a>
                 </td>
-                <td className="uk-table-link">
-                  <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
-                  {
-                    //<input name="newcatcolor" className="uk-input uk-form-blank uk-form-width-xsmall admin-edit-field" type="text" placeholder="New Color" onChange={this.handleNewCategoryEdit} disabled />
-                  }
+                <td name="newcatcolorbg" className="uk-table-link" style={{backgroundColor: "#FFFFFF"}}>
+                  <a name="newcatcolor" className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
                 </td>
                 <td className="uk-text-nowrap">
                   <input name="newcattitle" className="uk-input uk-form-blank admin-edit-field" type="text" placeholder="New Title" onChange={this.handleNewCategoryEdit} />
@@ -197,9 +223,9 @@ export default class EditCategories extends Component {
           </div>
 
           <div className="color-picker" hidden={!this.state.showColorPicker}>
-            <ChromePicker onChangeComplete={(color, event) => console.log(color.hex)}/>
+            <ChromePicker color={this.state.colorPickerStartColor} onChangeComplete={this.setNewColor}/>
             <div className="uk-text-center color-picker-btn-container">
-              <a className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.closeColorPicker}></a>
+              <a className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.commitNewColor}></a>
               <a className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker}></a>
             </div>
           </div>

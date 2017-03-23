@@ -77,7 +77,9 @@ export default class FindUserResult extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    if (!!this.state.editEmail && !!this.state.editUsername && !!this.state.editUserType) {
+    if (!!this.state.editEmail &&
+        !!this.state.editUsername &&
+        !!this.state.editUserType) {
       var userData = {
         "id": this.state.id,
         "accountName": this.state.editUsername,
