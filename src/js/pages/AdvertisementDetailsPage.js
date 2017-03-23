@@ -9,7 +9,8 @@ export default class AdvertisementDetailsPage extends Component {
     super(props);
 
     this.state = {
-      advertisement: null
+      advertisement: null,
+      numberOfReviews: 0
     };
   }
 
@@ -19,8 +20,19 @@ export default class AdvertisementDetailsPage extends Component {
     // Try to get an advertisement by id.
     api.getAdvertisement(this.props.params.id, function(exists, response){
       if (exists && response){
-        self.setState({
-          advertisement: response.data
+        let advertisement = response.data;
+
+        // Try to get a list of the owner's reviews and extract only the number of reviews.
+        api.getRevieweeReviews(response.data.owner.id, function(exists, response){
+          if (exists && response){
+            self.setState({
+              advertisement: advertisement,
+              numberOfReviews: response.data.length
+            });
+          }
+          else {
+            console.log("No reviews found");
+          }
         });
       }
       else {
@@ -37,7 +49,7 @@ export default class AdvertisementDetailsPage extends Component {
       <div id="ad-details" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <Ad key={this.state.advertisement.id} ad={this.state.advertisement}/>
+          <Ad key={this.state.advertisement.id} ad={this.state.advertisement} reviews={this.state.numberOfReviews}/>
         </div>
       </div>
     );
