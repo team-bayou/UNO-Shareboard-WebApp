@@ -183,7 +183,11 @@ module.exports = {
   },
 
   updateUser: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/users/update', data, callback);
+  },
 
+  deleteUser: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/users/' + id + '/delete', callback);
   }
 
 }

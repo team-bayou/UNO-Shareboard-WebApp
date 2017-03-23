@@ -134,7 +134,7 @@ export default class EditCategories extends Component {
         cat =>
         <tr key={cat.id}>
           <td>
-            <a id={"cat" + cat.id} href="#confirm-delete" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle></a>
+            <a id={"cat" + cat.id} href="#confirm-delete" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
           <td className="uk-table-link" style={{backgroundColor: cat.color}}>
             <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>
@@ -163,7 +163,7 @@ export default class EditCategories extends Component {
               {cats}
               <tr>
                 <td>
-                  <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory}></a>
+                  <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory} title="Add Category" data-uk-tooltip></a>
                 </td>
                 <td className="uk-table-link">
                   <a name="newcatcolor" className="uk-link-reset" onClick={this.showColorPicker}>&nbsp;</a>

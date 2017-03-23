@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const api = require('../utility/api');
+
 export default class FindUserResult extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +16,17 @@ export default class FindUserResult extends Component {
       editPhoneNumber: '',
       editUserType: '',
       editFacebookID: '',
-      editTwitterID: ''
+      editTwitterID: '',
+
+      userSuccessfullyUpdated: false,
+      userUpdateFailed: false
     };
+
+    this.errorMsg = "";
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.performDelete = this.performDelete.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -32,9 +40,27 @@ export default class FindUserResult extends Component {
         editPhoneNumber: newProps.user.phoneNumber || "",
         editUserType: newProps.user.userType || "",
         editFacebookID: newProps.user.facebookId || "",
-        editTwitterID: newProps.user.twitterHandle || ""
+        editTwitterID: newProps.user.twitterHandle || "",
+
+        userSuccessfullyUpdated: false,
+        userUpdateFailed: false
       });
     }
+  }
+
+  performDelete(event) {
+    event.preventDefault();
+    api.deleteUser(this.state.id, function(success, response) {
+      if (success) {
+        window.location.reload();
+      }
+      else {
+        this.errorMsg = "There was a problem deleting the user";
+        this.setState({
+          userUpdateFailed: true
+        });
+      }
+    }.bind(this));
   }
 
   handleInputChange(event) {
@@ -51,7 +77,31 @@ export default class FindUserResult extends Component {
     event.preventDefault();
 
     if (!!this.state.editEmail && !!this.state.editUsername && !!this.state.editUserType) {
-      console.log("user edited");
+      var userData = {
+        "id": this.state.id,
+        "accountName": this.state.editUsername,
+        "userType": this.state.editUserType,
+        "firstName": this.state.editFirstName,
+        "lastName": this.state.editLastName,
+        "email": this.state.editEmail,
+        "phoneNumber": this.state.editPhoneNumber,
+        "facebookId": this.state.editFacebookID,
+        "twitterHandle": this.state.editTwitterID
+      };
+
+      api.updateUser(userData, function(success, response) {
+        if (success) {
+          this.setState({
+            userSuccessfullyUpdated: true
+          });
+        }
+        else {
+          this.errorMsg = "There was a problem updating the user";
+          this.setState({
+            userUpdateFailed: true
+          });
+        }
+      }.bind(this));
     }
   }
 
@@ -69,9 +119,20 @@ export default class FindUserResult extends Component {
 
           <table className="uk-table uk-table-small uk-table-middle user-result-table">
             <tbody>
-              <tr>
+              <tr className="user-result-failed" hidden={!this.state.userUpdateFailed}>
                 <td colSpan="2" className="uk-text-center">
-                  <a className="uk-link-reset" href={"/users/" + this.state.id}>View Profile</a>
+                  <span data-uk-icon="icon: close"></span> {this.errorMsg}
+                </td>
+              </tr>
+              <tr className="user-result-success" hidden={!this.state.userSuccessfullyUpdated}>
+                <td colSpan="2" className="uk-text-center">
+                  <span data-uk-icon="icon: check"></span> User successfully updated
+                </td>
+              </tr>
+              <tr>
+                <td colSpan="2">
+                  <a href={"/users/" + this.state.id} className="user-result-icon" data-uk-icon="icon: user; ratio: 1.25" title="View Profile" data-uk-tooltip></a>
+                  <a href="#confirm-delete-user" className="user-result-icon float-right" data-uk-icon="icon: close; ratio: 1.25" data-uk-toggle title="Delete User" data-uk-tooltip></a>
                 </td>
               </tr>
               <tr>
@@ -111,7 +172,7 @@ export default class FindUserResult extends Component {
               <tr>
                 <td className="user-result-title uk-width-1-3">User Type</td>
                 <td className="user-result-content uk-width-2-3">
-                  <select name="editUserType" className="uk-select" value={this.state.editUserType} onChange={this.handleInputChange}>
+                  <select name="editUserType" className="uk-select uk-form-blank admin-edit-field" value={this.state.editUserType} onChange={this.handleInputChange}>
                     <option value="admin">admin</option>
                     <option value="standard">standard</option>
                   </select>
@@ -136,6 +197,16 @@ export default class FindUserResult extends Component {
               </tr>
             </tbody>
           </table>
+
+          <div id="confirm-delete-user" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body">
+              <p>Are you sure you want to delete this user?<br />This cannot be undone.</p>
+              <p className="uk-text-right">
+                <button className="uk-button uk-button-secondary uk-modal-close" type="button" onClick={this.performDelete}>Yes</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
+              </p>
+            </div>
+          </div>
 
         </div>
       );
