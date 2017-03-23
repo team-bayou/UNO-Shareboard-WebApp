@@ -2,9 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import BuySeekButton from '../components/BuySeekButton';
-import SellOfferButton from '../components/SellOfferButton';
-import CreateButton from '../components/CreateButton';
+import CreateButton from '../components/buttons/CreateButton';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 
 export default class HomePage extends Component {
@@ -39,13 +37,12 @@ export default class HomePage extends Component {
       <div id="home" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-
           <div className="uk-flex uk-flex-center">
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <BuySeekButton />
+              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1">Buy / Seek</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <SellOfferButton />
+              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
             </div>
             <div className="uk-margin-small-left">
               <CreateButton href={"/advertisements/add"} name={"Create advertisement"} />

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SCButtons from '../buttons/SubmitCancelButtons';
 
 export default class AddReviewForm extends Component {
   constructor(props){
@@ -88,31 +89,32 @@ export default class AddReviewForm extends Component {
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
 
-            <div className="uk-width-1-1">
-              <div className="uk-margin">
-                <label className="uk-form-label label-invalid" htmlFor="review-rating" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-                <label className="uk-form-label" htmlFor="review-rating">Rating</label>
-                <div className="uk-form-controls">
-                  <input className={this.state.ratingStyle} id="review-rating" type="text" placeholder="The rating of the user" name="rating" onChange={this.handleInputChange}/>
+            <div>
+              <div className="uk-width-1-1">
+                <div className="uk-margin">
+                  <label className="uk-form-label label-invalid" htmlFor="review-rating" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+                  <label className="uk-form-label" htmlFor="review-rating">Rating</label>
+                  <div className="uk-form-controls">
+                    <input className={this.state.ratingStyle} id="review-rating" type="text" placeholder="The rating of the user" name="rating" onChange={this.handleInputChange}/>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="uk-width-1-1">
-              <div className="uk-margin">
-                <label className="uk-form-label" htmlFor="review-comments">Comments</label>
-                <div className="uk-form-controls">
-                  <textarea className="uk-textarea" id="review-comments" placeholder="The textual comments giving to the user" name="comments" onChange={this.handleInputChange}/>
+            <div>
+              <div className="uk-width-1-1">
+                <div className="uk-margin">
+                  <label className="uk-form-label" htmlFor="review-comments">Comments</label>
+                  <div className="uk-form-controls">
+                    <textarea className="uk-textarea" id="review-comments" placeholder="The textual comments giving to the user" name="comments" onChange={this.handleInputChange}/>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="uk-width-1-4 uk-align-center">
-              <div className="uk-margin-large-top">
-                <button className="uk-button uk-button-secondary uk-button-large uk-width-1-1 uk-align-center submit-btn" type="submit" value="Submit">Submit</button>
-              </div>
+            <div>
+              <SCButtons />
             </div>
-
           </fieldset>
         </form>
       </div>

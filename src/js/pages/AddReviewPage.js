@@ -15,12 +15,14 @@ export default class AddReviewPage extends Component {
   }
 
   handleSubmit(data){
+    let self = this;
+
     // Try to add new review.
     api.addReview(data, function(exists, response){
       if (exists && response){
         // Get user id from parameters.
         // Redirect to page of user's reviews.
-        browserHistory.push("/users/" + this.props.params.id + "/reviews");
+        browserHistory.push("/users/" + self.props.params.id + "/reviews");
       } else {
         console.log("Failed to create new review.");
       }

@@ -3,7 +3,7 @@ import utils from '../utility/utilities';
 import api from '../utility/api';
 
 import React, { Component } from 'react';
-import CreateButton from '../components/CreateButton';
+import CreateButton from '../components/buttons/CreateButton';
 import ReviewsPage from './ReviewsPage';
 
 export default class RevieweeReviewsPage extends Component {
