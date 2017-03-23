@@ -314,12 +314,17 @@ blue with black
   color: white;
 }
 
-.user-result-icon {
-  color: black;
+.user-result-icon-delete,
+.user-result-icon-profile {
+  color: #666;
 }
 
-.user-result-icon:hover {
+.user-result-icon-delete:hover {
   color: red;
+}
+
+.user-result-icon-profile:hover {
+  color: blue;
 }
 
 .admin-edit-field:focus {
@@ -338,7 +343,7 @@ blue with black
 
 .cross-icon,
 .check-icon {
-  color: black;
+  color: #666;
 }
 
 .cross-icon:hover,

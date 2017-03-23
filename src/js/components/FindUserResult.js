@@ -50,6 +50,7 @@ export default class FindUserResult extends Component {
 
   performDelete(event) {
     event.preventDefault();
+
     api.deleteUser(this.state.id, function(success, response) {
       if (success) {
         window.location.reload();
@@ -131,8 +132,8 @@ export default class FindUserResult extends Component {
               </tr>
               <tr>
                 <td colSpan="2">
-                  <a href={"/users/" + this.state.id} className="user-result-icon" data-uk-icon="icon: user; ratio: 1.25" title="View Profile" data-uk-tooltip></a>
-                  <a href="#confirm-delete-user" className="user-result-icon float-right" data-uk-icon="icon: close; ratio: 1.25" data-uk-toggle title="Delete User" data-uk-tooltip></a>
+                  <a href={"/users/" + this.state.id} className="user-result-icon-profile" data-uk-icon="icon: user; ratio: 1.15" title="View Profile" data-uk-tooltip></a>
+                  <a href="#confirm-delete-user" className="user-result-icon-delete float-right" data-uk-icon="icon: close; ratio: 1.25" data-uk-toggle title="Delete User" data-uk-tooltip></a>
                 </td>
               </tr>
               <tr>
@@ -199,7 +200,7 @@ export default class FindUserResult extends Component {
           </table>
 
           <div id="confirm-delete-user" data-uk-modal="center: true">
-            <div className="uk-modal-dialog uk-modal-body">
+            <div className="uk-modal-dialog uk-modal-body uk-text-center">
               <p>Are you sure you want to delete this user?<br />This cannot be undone.</p>
               <p className="uk-text-right">
                 <button className="uk-button uk-button-secondary uk-modal-close" type="button" onClick={this.performDelete}>Yes</button>
