@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
 import AddForm from '../components/reviews/AddReviewForm';
 
-export default class AddAdvertisementPage extends Component {
+export default class AddReviewPage extends Component {
   constructor(props){
     super(props);
 
@@ -28,9 +28,6 @@ export default class AddAdvertisementPage extends Component {
   }
 
   render() {
-    if (!this.state.categories)
-      return (<div className="uk-text-center">Loading...</div>);
-
     return (
       <div id="review-add" className="app">
         <AppHeader />

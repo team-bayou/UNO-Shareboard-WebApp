@@ -17,6 +17,7 @@ export default class AddReviewForm extends Component {
     this.state = {
       rating: '',
       comments: '',
+      commentsStyle: '',
       reviewer: this.props.reviewerId,
       reviewee: this.props.revieweeId,
       timePublished: new Date(Date.now()).toISOString(),

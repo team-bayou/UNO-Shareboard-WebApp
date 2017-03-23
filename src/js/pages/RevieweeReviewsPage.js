@@ -3,6 +3,7 @@ import utils from '../utility/utilities';
 import api from '../utility/api';
 
 import React, { Component } from 'react';
+import CreateButton from '../components/CreateButton';
 import ReviewsPage from './ReviewsPage';
 
 export default class RevieweeReviewsPage extends Component {
@@ -10,18 +11,19 @@ export default class RevieweeReviewsPage extends Component {
     super(props);
 
     this.state = {
-      name: ''
+      name: '',
+      createReview: ''
     };
   }
 
   componentDidMount() {
-    // If reviews list is yours, just show 'Your'.
+    // If reviews list is yours, just show 'Your' as name.
     if (this.props.params.id === utils.getCookie(constants.COOKIE_A)) {
       this.setState({
         name: "Your"
       });
     }
-    // Otherwise, fetch account name of reviewee.
+    // Otherwise, fetch account name of reviewee and show his name.
     else {
       let self = this;
 
@@ -29,7 +31,12 @@ export default class RevieweeReviewsPage extends Component {
       api.getUser(this.props.params.id, function(exists, response){
         if (exists && response){
           self.setState({
-            name: response.data.accountName + "'s"
+            name: response.data.accountName + "'s",
+            createReview: (
+              <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
+                <CreateButton href={"reviews/add"} name={"Give review"} />
+              </div>
+            )
           });
         }
         else {
@@ -43,10 +50,8 @@ export default class RevieweeReviewsPage extends Component {
     if (!this.state.name)
       return (<div className="uk-text-center">Loading...</div>);
 
-    var headerText = this.state.name + " received";
-
     return (
-      <ReviewsPage id={this.props.params.id} reviewer={false} headerText={headerText}/>
+      <ReviewsPage id={this.props.params.id} reviewer={false} headerText={this.state.name + " received"} createReview={this.state.createReview}/>
     );
   }
 }

@@ -97,8 +97,8 @@ module.exports = {
       rating: data.rating,
       comments: data.comments,
       //timePublished: data.timePublished,
-      reviewer: data.reviewer,
-      reviewee: data.reviewee
+      reviewerId: data.reviewer,
+      revieweeId: data.reviewee
     }, callback);
   },
 
