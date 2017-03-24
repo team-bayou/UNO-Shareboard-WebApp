@@ -363,14 +363,30 @@ module.exports = {
     return t.toLocaleDateString();
   },
 
-  updateCategories: function(data) {
-    for (var prop in data) {
-      if (prop !== "categories") {
-        console.log(prop);
-        console.log(data[prop]);
-        console.log("---");
+  updateCategories: function(updates, callback) {
+    let counter = 0;
+
+    var cb = function(success, response) {
+      if (success) {
+        counter++;
+        if (counter === updates.length)
+          callback(true, response);
       }
+      else {
+        callback(false, response);
+      }
+    };
+
+    for (var i = 0; i < updates.length; i++) {
+      const item = updates[i];
+      let data = {
+        id: item.id,
+        [item.element]: item.value
+      };
+
+      api.updateCategory(data, cb);
     }
+
   }
 
 }

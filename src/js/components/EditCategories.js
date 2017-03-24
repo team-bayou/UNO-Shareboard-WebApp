@@ -66,11 +66,25 @@ export default class EditCategories extends Component {
 
   commitNewColor(event) {
     document.getElementsByName(this.catColorTarget)[0].style.backgroundColor = this.newColor;
+    if (this.catColorTarget === "newcatcolorbg") {
+      this.setState({
+        newcatcolor: this.newColor
+      })
+    }
+    else {
+      var catid = "catcolor" + this.catColorTarget.slice(10);
+      this.setState({
+        [catid]: this.newColor
+      });
+      console.log(catid);
+    }
     this.closeColorPicker(event);
   }
 
   performDelete(event) {
     event.preventDefault();
+
+    console.log(this.catToDelete);
     api.deleteCategory(this.catToDelete, function(success, response) {
       if (success) {
         window.location.reload();
@@ -88,6 +102,7 @@ export default class EditCategories extends Component {
   }
 
   setColorTarget(event) {
+    console.log(event.currentTarget.name);
     if (event.currentTarget.name !== "newcatcolor")
       this.catColorTarget = "catcolorbg" + event.currentTarget.name.slice(8);
     else
@@ -121,7 +136,29 @@ export default class EditCategories extends Component {
 
   submitCategoryEdit(event) {
     event.preventDefault();
-    utils.updateCategories(this.state);
+
+    let updates = [];
+    const re = /^cat[a-z]+[0-9]+$/;
+
+    for (let item in this.state) {
+      if (re.test(item)) {
+        let id = item.slice(item.search(/\d/));
+        let val = this.state[item];
+        let element = item.slice(3, item.search(/\d/));
+
+        updates.push({id: id, element: element, value: val});
+      }
+    }
+
+    utils.updateCategories(updates, function(success, response) {
+      if (success) {
+        window.location.reload();
+      }
+      else {
+        console.log("There was a problem updating the category/ies");
+        console.log(response);
+      }
+    });
   }
 
   addNewCategory(event) {
@@ -130,7 +167,7 @@ export default class EditCategories extends Component {
     if (!!this.state.newcatcolor &&
         !!this.state.newcattitle &&
         !!this.state.newcatdesc) {
-      var data = {
+      let data = {
         title: this.state.newcattitle,
         color: this.state.newcatcolor,
         description: this.state.newcatdesc
@@ -162,7 +199,7 @@ export default class EditCategories extends Component {
       var cats = this.state.categories.map(
         cat =>
         <tr key={cat.id}>
-          <td>
+          <td className="edit-categories-left">
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
           <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
@@ -172,7 +209,7 @@ export default class EditCategories extends Component {
             <input name={"cattitle" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
           </td>
           <td className="uk-text-nowrap">
-            <input name={"catdesc" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.description} onChange={this.handleCategoryEdit} />
+            <input name={"catdescription" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.description} onChange={this.handleCategoryEdit} />
           </td>
         </tr>
       );
@@ -182,7 +219,7 @@ export default class EditCategories extends Component {
           <table className="uk-table uk-table-small uk-table-middle">
             <thead>
               <tr>
-                <th></th>
+                <th className="edit-categories-corner"></th>
                 <th className="uk-text-center">Color</th>
                 <th className="uk-text-center">Title</th>
                 <th className="uk-text-center">Description</th>

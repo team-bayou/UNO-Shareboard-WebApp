@@ -361,3 +361,11 @@ blue with black
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 2px, rgba(0, 0, 0, 0.298039) 0px 4px 8px;
 }
+
+td, th {
+  border: 1px solid #e5e5e5;
+}
+
+.edit-categories-corner {
+  border: none
+}
