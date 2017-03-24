@@ -254,7 +254,7 @@ export default class EditCategories extends Component {
                 </td>
               </tr>
               <tr>
-                <td colSpan="4">
+                <td colSpan="5">
                   <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
                 </td>
               </tr>
