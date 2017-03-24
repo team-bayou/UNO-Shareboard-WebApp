@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
@@ -9,7 +8,6 @@ export default class ForgotPasswordForm extends Component {
     super(props);
 
     this.emptyFields = false;
-    this.emailExists = true;
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
 
@@ -41,22 +39,10 @@ export default class ForgotPasswordForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
-      utilities.checkForExistingEmail(this.state.email, function(emailExists) {
-        if (!emailExists) {
-            this.emailExists = false;
-            this.setState({
-              emailStyle: this.inputInvalid
-            });
-        }
-
-        else {
-          // send the e-mail
-          console.log("e-mail sent");
-          this.setState({
-            emailSent: true
-          });
-        }
-      }.bind(this));
+      console.log("e-mail sent");
+      this.setState({
+        emailSent: true
+      });
     }
   }
 
@@ -69,7 +55,7 @@ export default class ForgotPasswordForm extends Component {
   }
 
   checkForEmptyFields() {
-    if (this.state.email === "") {
+    if (this.state.email === "" || !utilities.validateEmail(this.state.email)) {
       this.emptyFields = true;
 
       this.setState({
@@ -84,7 +70,8 @@ export default class ForgotPasswordForm extends Component {
       return (
         <div className="uk-text-center">
           <h2 className="uk-heading-line uk-text-center"><span>E-mail Sent</span></h2>
-          <p>An e-mail has been sent to the provided e-mail address with instructions on how to reset your password.</p>
+          <p>If an account exists with the provided e-mail address, you should receive an e-mail with instructions on how to reset your password.</p>
+          <p className="uk-margin-remove-bottom"><a href="/" className="unauth-link">Back to Login</a></p>
         </div>
       );
     }
@@ -94,18 +81,20 @@ export default class ForgotPasswordForm extends Component {
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset">
             <legend className="uk-legend landing-header">Forgot Password</legend>
-            <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
             <div className="uk-margin">
-              <label className="uk-form-label uk-text-center">Enter the e-mail address that you registered with below and we will send you a link to reset your password</label>
+              <label className="uk-form-label uk-text-center">Enter the e-mail address that you registered with and we will send you instructions on how to reset your password</label>
             </div>
             <div className="uk-margin">
               <div className="uk-form-controls">
                 <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail</label>
+              <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure your e-mail is properly filled in</label>
             </div>
             <div className="uk-margin">
               <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
+            </div>
+            <div className="uk-margin-top uk-margin-remove-bottom uk-text-center">
+              <a href="/" className="unauth-link">Back to Login</a>
             </div>
           </fieldset>
         </form>
