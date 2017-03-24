@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const utils = require('../utility/utilities');
 const api = require('../utility/api');
 
 export default class FindUserResult extends Component {
@@ -92,17 +93,41 @@ export default class FindUserResult extends Component {
         "twitterHandle": this.state.editTwitterID
       };
 
-      api.updateUser(userData, function(success, response) {
-        if (success) {
+      utils.checkForExistingEmail(userData.email, function(exists, response) {
+        if (exists && response.data.id !== userData.id) {
+          this.errorMsg = "That e-mail address is used by another user";
           this.setState({
-            userSuccessfullyUpdated: true
+            userUpdateFailed: true,
+            userSuccessfullyUpdated: false
           });
         }
         else {
-          this.errorMsg = "There was a problem updating the user";
-          this.setState({
-            userUpdateFailed: true
-          });
+          utils.checkForExistingUsername(userData.accountName, function(exists, response) {
+            if (exists && response.data.id !== userData.id) {
+              this.errorMsg = "That username is used by another user";
+              this.setState({
+                userUpdateFailed: true,
+                userSuccessfullyUpdated: false
+              });
+            }
+            else {
+              api.updateUser(userData, function(success, response) {
+                if (success) {
+                  this.setState({
+                    userSuccessfullyUpdated: true,
+                    userUpdateFailed: false
+                  });
+                }
+                else {
+                  this.errorMsg = "There was a problem updating the user";
+                  this.setState({
+                    userUpdateFailed: true,
+                    userSuccessfullyUpdated: false
+                  });
+                }
+              }.bind(this));
+            }
+          }.bind(this));
         }
       }.bind(this));
     }
