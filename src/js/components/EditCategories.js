@@ -274,8 +274,8 @@ export default class EditCategories extends Component {
           <div className="color-picker" hidden={!this.state.showColorPicker}>
             <ChromePicker color={this.state.colorPickerStartColor} onChangeComplete={this.setNewColor}/>
             <div className="uk-text-center color-picker-btn-container">
-              <a className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.commitNewColor}></a>
-              <a className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker}></a>
+              <a className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.commitNewColor} title="Confirm Color" data-uk-tooltip></a>
+              <a className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.closeColorPicker} title="Cancel" data-uk-tooltip></a>
             </div>
           </div>
 
