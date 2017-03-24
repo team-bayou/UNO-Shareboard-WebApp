@@ -42,8 +42,17 @@ export default class EditCategories extends Component {
 
   componentDidMount() {
     api.getCategories(function(success, response) {
+
+      var sorted = response.data.sort(function(a,b) {
+        if (a.id < b.id)
+          return -1;
+        if (a.id > b.id)
+          return 1;
+        return 0;
+      });
+
       this.setState({
-        categories: response.data
+        categories: sorted
       });
     }.bind(this));
   }
@@ -199,8 +208,11 @@ export default class EditCategories extends Component {
       var cats = this.state.categories.map(
         cat =>
         <tr key={cat.id}>
-          <td className="edit-categories-left">
+          <td className="uk-text-center">
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
+          </td>
+          <td className="uk-text-center uk-text-nowrap">
+            {cat.id}
           </td>
           <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
             <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
@@ -220,6 +232,7 @@ export default class EditCategories extends Component {
             <thead>
               <tr>
                 <th className="edit-categories-corner"></th>
+                <th className="uk-text-center">ID</th>
                 <th className="uk-text-center">Color</th>
                 <th className="uk-text-center">Title</th>
                 <th className="uk-text-center">Description</th>
@@ -228,9 +241,10 @@ export default class EditCategories extends Component {
             <tbody>
               {cats}
               <tr>
-                <td>
+                <td className="uk-text-center">
                   <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory} title="Add Category" data-uk-tooltip></a>
                 </td>
+                <td className="uk-text-center">TBD</td>
                 <td name="newcatcolorbg" className="uk-table-link" style={{backgroundColor: "#FFFFFF"}}>
                   <a name="newcatcolor" className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
                 </td>

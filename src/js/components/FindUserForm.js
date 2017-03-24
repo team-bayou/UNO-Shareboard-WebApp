@@ -9,7 +9,7 @@ export default class FindUserForm extends Component {
     super(props);
 
     this.state = {
-      email: '',
+      userlogin: '',
       userid: '',
 
       userFound: false,
@@ -35,9 +35,9 @@ export default class FindUserForm extends Component {
     event.preventDefault();
 
     // We check first if an e-mail or username is being used to search
-    if (this.state.email !== "") {
-      if (utilities.validateEmail(this.state.email)) {
-        utilities.checkForExistingEmail(this.state.email, function(exists, response) {
+    if (this.state.userlogin !== "") {
+      if (utilities.validateEmail(this.state.userlogin)) {
+        utilities.checkForExistingEmail(this.state.userlogin, function(exists, response) {
           if (exists) {
             this.setState({
               userFound: true,
@@ -55,7 +55,7 @@ export default class FindUserForm extends Component {
         }.bind(this));
       }
       else {
-        utilities.checkForExistingUsername(this.state.email, function(exists, response) {
+        utilities.checkForExistingUsername(this.state.userlogin, function(exists, response) {
           if (exists) {
             this.setState({
               userFound: true,
@@ -103,9 +103,9 @@ export default class FindUserForm extends Component {
         <form className="uk-grid-medium uk-text-center" onSubmit={this.handleSubmit} data-uk-grid>
           <label className="uk-form-label uk-width-1-1"><strong>Note:</strong> Prioritizes e-mail / username over ID</label>
           <div className="uk-width-1-2@m">
-            <label className="uk-form-label" htmlFor="email">By E-mail or Username</label>
+            <label className="uk-form-label" htmlFor="userlogin">By E-mail or Username</label>
             <div className="uk-form-controls">
-              <input id="email" name="email" className="uk-input" type="text" placeholder="" value={this.state.email} onChange={this.handleInputChange} />
+              <input id="userlogin" name="userlogin" className="uk-input" type="text" placeholder="" value={this.state.userlogin} onChange={this.handleInputChange} />
             </div>
           </div>
           <div className="uk-width-1-2@m">
