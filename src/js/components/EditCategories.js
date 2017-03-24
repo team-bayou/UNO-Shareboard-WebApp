@@ -93,7 +93,6 @@ export default class EditCategories extends Component {
   performDelete(event) {
     event.preventDefault();
 
-    console.log(this.catToDelete);
     api.deleteCategory(this.catToDelete, function(success, response) {
       if (success) {
         window.location.reload();
@@ -111,7 +110,6 @@ export default class EditCategories extends Component {
   }
 
   setColorTarget(event) {
-    console.log(event.currentTarget.name);
     if (event.currentTarget.name !== "newcatcolor")
       this.catColorTarget = "catcolorbg" + event.currentTarget.name.slice(8);
     else
@@ -211,11 +209,11 @@ export default class EditCategories extends Component {
           <td className="uk-text-center">
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
-          <td className="uk-text-center uk-text-nowrap">
-            {cat.id}
+          <td className="uk-text-center uk-text-nowrap uk-table-link">
+            <a href={"/advertisements/categories/" + cat.id} className="uk-link-reset" title="View Category" data-uk-tooltip>{cat.id}</a>
           </td>
           <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
-            <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
+            <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget} title="Change Color" data-uk-tooltip>&nbsp;</a>
           </td>
           <td className="uk-text-nowrap">
             <input name={"cattitle" + cat.id} className="uk-input uk-form-blank admin-edit-field" type="text" defaultValue={cat.title} onChange={this.handleCategoryEdit} />
@@ -245,7 +243,7 @@ export default class EditCategories extends Component {
                   <a id="newcat" href="#" className="check-icon" data-uk-icon="icon: check; ratio: 1.5" onClick={this.addNewCategory} title="Add Category" data-uk-tooltip></a>
                 </td>
                 <td className="uk-text-center">TBD</td>
-                <td name="newcatcolorbg" className="uk-table-link" style={{backgroundColor: "#FFFFFF"}}>
+                <td name="newcatcolorbg" className="uk-table-link" style={{backgroundColor: "#FFFFFF"}} title="Change Color" data-uk-tooltip>
                   <a name="newcatcolor" className="uk-link-reset" onClick={this.setColorTarget}>&nbsp;</a>
                 </td>
                 <td className="uk-text-nowrap">
