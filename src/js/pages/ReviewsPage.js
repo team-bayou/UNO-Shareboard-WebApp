@@ -46,7 +46,14 @@ export default class ReviewsPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.reviews.length + ")"}</span></h2>
-          {this.props.createReview}
+          <div className="uk-flex uk-margin-medium-top">
+            <div className="uk-width-1-5">
+              {this.props.backToAd}
+            </div>
+            <div className="uk-width-1-1">
+              {this.props.createReview}
+            </div>
+          </div>
           <ReviewList reviews={this.state.reviews} />
         </div>
       </div>

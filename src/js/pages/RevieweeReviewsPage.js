@@ -4,6 +4,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import CreateButton from '../components/buttons/CreateButton';
+import GBButton from '../components/buttons/GoBackButton';
 import ReviewsPage from './ReviewsPage';
 
 export default class RevieweeReviewsPage extends Component {
@@ -12,7 +13,8 @@ export default class RevieweeReviewsPage extends Component {
 
     this.state = {
       name: '',
-      createReview: ''
+      createReview: '',
+      backToAd: ''
     };
   }
 
@@ -36,6 +38,11 @@ export default class RevieweeReviewsPage extends Component {
               <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
                 <CreateButton href={"reviews/add"} name={"Give review"} />
               </div>
+            ),
+            backToAd: (
+              <div>
+                <GBButton />
+              </div>
             )
           });
         }
@@ -51,7 +58,7 @@ export default class RevieweeReviewsPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <ReviewsPage id={this.props.params.id} reviewer={false} headerText={this.state.name + " received"} createReview={this.state.createReview}/>
+      <ReviewsPage id={this.props.params.id} reviewer={false} headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
     );
   }
 }
