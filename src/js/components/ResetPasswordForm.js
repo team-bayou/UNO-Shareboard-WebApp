@@ -49,7 +49,13 @@ export default class ForgotPasswordForm extends Component {
   }
 
   handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
 
+    this.setState({
+      [name]: value,
+    });
   }
 
   handleSubmit(event) {
@@ -133,9 +139,10 @@ export default class ForgotPasswordForm extends Component {
           return (
             <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
               <fieldset className="uk-fieldset">
+
                 <legend className="uk-legend uk-text-center">Reset Password</legend>
 
-                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
+                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure both fields are filled out</label>
 
                 <div className="uk-margin">
                   <div className="uk-form-controls">
@@ -152,7 +159,7 @@ export default class ForgotPasswordForm extends Component {
                 </div>
 
                 <div className="uk-margin">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
+                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Set Password</button>
                 </div>
 
               </fieldset>

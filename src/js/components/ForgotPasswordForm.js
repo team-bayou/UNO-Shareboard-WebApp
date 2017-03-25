@@ -80,22 +80,28 @@ export default class ForgotPasswordForm extends Component {
       return (
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset">
+            
             <legend className="uk-legend landing-header">Forgot Password</legend>
+
             <div className="uk-margin">
-              <label className="uk-form-label uk-text-center">Enter the e-mail address that you registered with and we will send you instructions on how to reset your password</label>
+              <label className="uk-form-label uk-text-center">Enter the e-mail address that you registered with and we will send you instructions on how to reset your password.</label>
             </div>
+
             <div className="uk-margin">
               <div className="uk-form-controls">
                 <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
               </div>
               <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure your e-mail is properly filled in</label>
             </div>
+
             <div className="uk-margin">
               <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
             </div>
+
             <div className="uk-margin-top uk-margin-remove-bottom uk-text-center">
               <a href="/" className="unauth-link">Back to Login</a>
             </div>
+
           </fieldset>
         </form>
       );
