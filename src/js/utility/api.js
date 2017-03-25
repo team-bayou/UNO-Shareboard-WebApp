@@ -12,23 +12,44 @@ import utils from './utilities';
  * This method takes care of the call for us and simply requires that
  *   we give it the endpoint we want to check, as well as the callback
  */
-function performCheckGet(endpoint, callback) {
+function performGet(endpoint, callback) {
   axios.get(endpoint)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false);
+    callback(false, error);
   });
 }
 
-function performCheckPost(endpoint, data, callback) {
+function performPost(endpoint, data, callback) {
   axios.post(endpoint, data)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
   .catch(function (error) {
-    callback(false);
+    callback(false, error);
+  });
+}
+
+function performDelete(endpoint, callback) {
+  axios.delete(endpoint)
+  .then(function (response) {
+    callback(response.status === constants.RESPONSE_OK ||
+      response.status === constants.RESPONSE_NO_CONTENT, response);
+  })
+  .catch(function (error) {
+    callback(false, error);
+  });
+}
+
+function performPut(endpoint, data, callback) {
+  axios.put(endpoint, data)
+  .then(function (response) {
+    callback(response.status === constants.RESPONSE_OK, response);
+  })
+  .catch(function (error) {
+    callback(false, error);
   });
 }
 
@@ -39,30 +60,47 @@ module.exports = {
   //      CATEGORIES      //
   //======================//
   getCategories: function(callback) {
-    performCheckGet(constants.HOST + '/service/v1/categories', callback);
+    performGet(constants.HOST + '/service/v1/categories', callback);
   },
+
+  addCategory: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/categories/add', {
+      title: data.title,
+      color: data.color,
+      description: data.description,
+    }, callback);
+  },
+
+  updateCategory: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/categories/update', data, callback);
+  },
+
+  deleteCategory: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/categories/' + id + '/delete', callback);
+  },
+
 
   //======================//
   //    ADVERTISEMENTS    //
   //======================//
   getAdvertisements: function(callback) {
-    performCheckGet(constants.HOST + '/service/v1/advertisements', callback);
+    performGet(constants.HOST + '/service/v1/advertisements', callback);
   },
 
   getUserAdvertisements: function(id, callback) {
-    performCheckGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
+    performGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
   },
 
   getCategoryAdvertisements: function(id, callback) {
-    performCheckGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
+    performGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
   },
 
   getAdvertisement: function(id, callback) {
-    performCheckGet(constants.HOST + '/service/v1/advertisements/' + id, callback);
+    performGet(constants.HOST + '/service/v1/advertisements/' + id, callback);
   },
 
   addAdvertisement: function(data, callback) {
-    performCheckPost(constants.HOST + '/service/v1/advertisements/add', {
+    performPost(constants.HOST + '/service/v1/advertisements/add', {
       title: data.title,
       description: data.description,
       categoryId: data.category,
@@ -81,19 +119,19 @@ module.exports = {
   //======================//
 
   checkForVerifiedEmail: function(email, callback) {
-    performCheckGet(constants.HOST + '/service/v1/users/email/' + email + '/', callback);
+    performGet(constants.HOST + '/service/v1/users/email/' + email + '/', callback);
   },
 
   checkForUnverifiedEmail: function(email, callback) {
-    performCheckGet(constants.HOST + '/service/v1/unverified_users/email/' + email + '/', callback);
+    performGet(constants.HOST + '/service/v1/unverified_users/email/' + email + '/', callback);
   },
 
   checkForExistingUsername: function(username, callback) {
-    performCheckGet(constants.HOST + '/service/v1/users/accountName/' + username + '/', callback);
+    performGet(constants.HOST + '/service/v1/users/accountName/' + username + '/', callback);
   },
 
   getUserByID: function(id, callback) {
-    performCheckGet(constants.HOST + '/service/v1/users/' + id + '/', callback);
+    performGet(constants.HOST + '/service/v1/users/' + id + '/', callback);
   },
 
   attemptLogin: function(user, hash, type, callback) {
@@ -147,5 +185,13 @@ module.exports = {
         }
       });
   },
+
+  updateUser: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/users/update', data, callback);
+  },
+
+  deleteUser: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/users/' + id + '/delete', callback);
+  }
 
 }

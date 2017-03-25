@@ -12,6 +12,7 @@
     "helmet": "^3.4.0",
     "morgan": "^1.8.0",
     "react": "^15.4.2",
+    "react-color": "^2.11.4",
     "react-cookie": "^1.0.4",
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2",
