@@ -115,13 +115,13 @@ module.exports = {
   checkForExistingEmail: function(email, callback) {
     email = this.cleanUnoEmail(email);
 
-    api.checkForVerifiedEmail(email, function(exists) {
+    api.checkForVerifiedEmail(email, function(exists, response) {
       if (exists) {
-        callback(true);
+        callback(true, response);
       }
       else {
         api.checkForUnverifiedEmail(email, function(exists) {
-          callback(exists);
+          callback(exists, response, true);
         });
       }
     });
@@ -130,8 +130,8 @@ module.exports = {
   // Check if the provided username is already
   //   associated with an existing account
   checkForExistingUsername: function(username, callback) {
-    api.checkForExistingUsername(username, function(exists) {
-      callback(exists);
+    api.checkForExistingUsername(username, function(exists, response) {
+      callback(exists, response);
     });
   },
 
@@ -140,6 +140,12 @@ module.exports = {
 
     api.checkForUnverifiedEmail(email, function(exists) {
       callback(exists);
+    });
+  },
+
+  getUserByID: function(id, callback) {
+    api.getUserByID(id, function(success, response) {
+      callback(success, response);
     });
   },
 
@@ -183,7 +189,17 @@ module.exports = {
         callback(false);
       }
     }.bind(this));
+  },
 
+  verifyAdmin: function(callback) {
+    this.verifyLoggedIn(cookie.load(constants.COOKIE_A), function(loggedIn, response) {
+      if (!loggedIn)
+        callback(false, false);
+      else if (response.data.userType !== "admin")
+        callback(true, false);
+      else
+        callback(true, true);
+    });
   },
 
 
@@ -241,7 +257,7 @@ module.exports = {
   verifyCookies: function(targetPath, replace, callback) {
     const userID = cookie.load(constants.COOKIE_A);
 
-    // If we're trying to access the login page or verify account page
+    // If we're trying to access a page for guests
     // Requires: to be logged out
     if (targetPath === "/" || targetPath === "verify") {
       if (!userID) {
@@ -250,21 +266,10 @@ module.exports = {
         return;
       }
 
-      api.getUserByID(userID, function(success, response) {
-        if (success) {
-          const data = response.data;
-
-          const userHash = encryption.createHash(data.email, data.passwordSalt);
-          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
-
-          if (cookie.load(constants.COOKIE_B) === userHash.hash && cookie.load(constants.COOKIE_C) === saltHash.hash) {
-            replace("/home");
-            callback();
-          }
-          else {
-            this.clearCookies();
-            callback();
-          }
+      this.verifyLoggedIn(userID, function(loggedIn) {
+        if (loggedIn) {
+          replace("/home");
+          callback();
         }
         else {
           this.clearCookies();
@@ -283,17 +288,8 @@ module.exports = {
         return;
       }
 
-      api.getUserByID(userID, function(success, response) {
-        if (success) {
-          const data = response.data;
-
-          const userHash = encryption.createHash(data.email, data.passwordSalt);
-          const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt);
-
-          if (cookie.load(constants.COOKIE_B) !== userHash.hash || cookie.load(constants.COOKIE_C) !== saltHash.hash) {
-            this.clearCookies();
-            replace("/");
-          }
+      this.verifyLoggedIn(userID, function(loggedIn) {
+        if (loggedIn) {
           callback();
         }
         else {
@@ -303,6 +299,29 @@ module.exports = {
         }
       });
     }
+  },
+
+  verifyLoggedIn: function(id, callback) {
+    if (!id) {
+      callback(false);
+      return;
+    }
+
+    api.getUserByID(id, function(success, response) {
+      if (success) {
+        const data = response.data;
+
+        const userHash = encryption.createHash(data.email, data.passwordSalt).hash;
+        const saltHash = encryption.createHash(data.passwordSalt, data.passwordSalt).hash;
+
+        if (cookie.load(constants.COOKIE_B) === userHash && cookie.load(constants.COOKIE_C) === saltHash)
+          callback(true, response);
+        else
+          callback(false, response);
+      }
+      else
+        callback(false, response);
+    });
   },
 
   clearCookies: function() {
@@ -339,5 +358,32 @@ module.exports = {
   getDateTime: function(ad){
     var t = new Date(ad.timePublished);
     return t.toLocaleDateString();
+  },
+
+  updateCategories: function(updates, callback) {
+    let counter = 0;
+
+    var cb = function(success, response) {
+      if (success) {
+        counter++;
+        if (counter === updates.length)
+          callback(true, response);
+      }
+      else {
+        callback(false, response);
+      }
+    };
+
+    for (var i = 0; i < updates.length; i++) {
+      const item = updates[i];
+      let data = {
+        id: item.id,
+        [item.element]: item.value
+      };
+
+      api.updateCategory(data, cb);
+    }
+
   }
+
 }

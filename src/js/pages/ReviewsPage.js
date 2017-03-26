@@ -17,7 +17,7 @@ export default class ReviewsPage extends Component {
 
   componentDidMount() {
     // Try to get a list of reviewer's reviews.
-    if (this.props.reviewer) {
+    if (this.props.isReviewer) {
       api.getReviewerReviews(this.props.id, this.callback);
     }
     // Try to get a list of reviewee's reviews.
@@ -54,7 +54,7 @@ export default class ReviewsPage extends Component {
               {this.props.createReview}
             </div>
           </div>
-          <ReviewList reviews={this.state.reviews} />
+          <ReviewList reviews={this.state.reviews} isReviewer={this.props.isReviewer}/>
         </div>
       </div>
     );

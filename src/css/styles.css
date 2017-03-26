@@ -42,6 +42,14 @@ ol, ul {
   text-decoration: none;
 }
 
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 /*
 I think we should go for a black and white theme,
 so these are my attempts at replacing the default UI Kit
@@ -272,4 +280,88 @@ blue with black
   background-color: orange;
   color: white;
   margin-right: 2px;
+}
+
+
+/* Administration Page */
+
+.user-result-table {
+  padding: 0;
+  margin: 0;
+}
+
+.user-result-table td.user-result-title {
+  font-weight: bold;
+  text-align: right;
+  border-right: 1px solid #e5e5e5;
+}
+
+.user-result-table td.user-result-content {
+  text-align: left;
+}
+
+.user-result-success {
+  background-color: green;
+  color: white;
+}
+
+.user-result-failed {
+  background-color: #DD2244;
+  color: white;
+}
+
+.user-result-icon-delete,
+.user-result-icon-profile {
+  color: #666;
+}
+
+.user-result-icon-delete:hover {
+  color: red;
+}
+
+.user-result-icon-profile:hover {
+  color: blue;
+}
+
+.admin-edit-field:focus {
+  border: 1px solid black;
+}
+
+.color-picker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  z-index: 2;
+}
+
+.cross-icon,
+.check-icon {
+  color: #666;
+}
+
+.cross-icon:hover,
+.cross-icon:focus {
+  color: red;
+}
+
+.check-icon:hover,
+.check-icon:focus {
+  color: #42EC00;
+}
+
+.color-picker-btn-container {
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 0px 2px, rgba(0, 0, 0, 0.298039) 0px 4px 8px;
+}
+
+td, th {
+  border: 1px solid #e5e5e5;
+}
+
+.edit-categories-corner {
+  border: none
 }

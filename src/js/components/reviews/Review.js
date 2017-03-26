@@ -4,7 +4,9 @@ import avatar from '../../../media/images/avatar.jpg';
 
 export default class Review extends Component {
   render(){
-    var routeToUser = "/users/" + this.props.review.reviewer.id;
+    // Get user whose name will be shown.
+    var user = this.props.isReviewer ? this.props.review.reviewee : this.props.review.reviewer;
+    var routeToUser = "/users/" + user.id;
 
     return (
       <div id={"review-" + this.props.review.id} className="review">
@@ -14,8 +16,8 @@ export default class Review extends Component {
                     <img className="uk-comment-avatar" src={avatar} width="80" height="80" alt="" />
                 </div>
                 <div className="uk-width-expand">
-                    <h4 className="review-author uk-comment-title uk-margin-remove"><a className="uk-link-reset" href={routeToUser}>{this.props.review.reviewer.account_name}</a></h4>
-                    <p className="review-time-published uk-margin-remove">{this.props.review.time_published}</p>
+                    <h4 className="review-author uk-comment-title uk-margin-remove"><a className="uk-link-reset" href={routeToUser}>{user.accountName}</a></h4>
+                    <p className="review-time-published uk-margin-remove">{this.props.review.timePublished}</p>
                     <p className="review-rating uk-margin-remove">{this.getRating()}</p>
                 </div>
             </header>

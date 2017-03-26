@@ -7,11 +7,28 @@ import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar.jpg';
 
 export default class NavBar extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isAdmin: false
+    }
+  }
+
+  componentDidMount() {
+    utils.verifyAdmin(function(loggedIn, isAdmin) {
+      this.setState({
+        isAdmin: isAdmin
+      });
+    }.bind(this));
+  }
+
   render(){
     // Get user id from cookie.
-    var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
-    var routeToUserReviewsReviewer = "/users/" + utils.getCookie(constants.COOKIE_A) + "/reviewer";
-    var routeToUserReviewsReviewee = "/users/" + utils.getCookie(constants.COOKIE_A) + "/reviewee";
+    var id = utils.getCookie(constants.COOKIE_A);
+    var routeToUserAds = "/users/" + id + "/advertisements";
+    var routeToUserReviewsReviewer = "/reviews/reviewer/" + id;
+    var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
     return(
         <nav id="navbar" className="uk-navbar-container" data-uk-navbar="mode: click" data-uk-sticky>
@@ -84,6 +101,11 @@ export default class NavBar extends Component {
 
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
+              <li hidden={!this.state.isAdmin}>
+                <a href="/admin">
+                  <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin
+                </a>
+              </li>
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
