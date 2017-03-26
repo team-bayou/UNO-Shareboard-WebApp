@@ -14,6 +14,7 @@ import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import AddReview from './js/pages/AddReviewPage';
 import Admin from './js/pages/AdminPage'
+import Profile from './js/pages/ProfilePage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -47,6 +48,7 @@ ReactDOM.render((
     <Route path="/" component={Landing} onEnter={checkLoggedInStatus} />
     <Route path="verify" component={UserVerificationPage} onEnter={checkLoggedInStatus} />
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
+    <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/add" component={AddAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
