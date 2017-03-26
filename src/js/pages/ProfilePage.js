@@ -5,20 +5,28 @@ const utils = require('../utility/utilities');
 const api = require('../utility/api');
 const constants = require('../utility/constants');
 
+<<<<<<< HEAD
 import avatar from '../../media/images/avatar_placeholder.png';
 
+=======
+>>>>>>> Created the page for user profile
 export default class ProfilePage extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
+<<<<<<< HEAD
       user: null,
       myProfile: false
+=======
+      user: null
+>>>>>>> Created the page for user profile
     };
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     const user = !!this.props.params.id ? this.props.params.id : utils.getCookie(constants.COOKIE_A);
 
     api.getUserByID(user, function(exists, response) {
@@ -33,16 +41,27 @@ export default class ProfilePage extends Component {
           user: -1
         });
       }
+=======
+    api.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
+      this.setState({
+        user: response.data
+      });
+>>>>>>> Created the page for user profile
     }.bind(this));
   }
 
   render() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> Created the page for user profile
     if (!this.state.user) {
       return (
         <div className="uk-text-center">Loading...</div>
       );
     }
 
+<<<<<<< HEAD
     else if (this.state.user === -1) {
       return (
         <div id="profile">
@@ -118,6 +137,21 @@ export default class ProfilePage extends Component {
                       : null
                   }
                 </ul>
+=======
+    else {
+      return (
+        <div id="home" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+
+            <div className="uk-margin-medium-bottom">
+              <h2 className="uk-heading-line uk-text-center"><span>Profile</span></h2>
+            </div>
+
+            <div data-uk-grid>
+              <div className="uk-width-1-1 uk-text-break">
+                {JSON.stringify(this.state.user)}
+>>>>>>> Created the page for user profile
               </div>
             </div>
 
