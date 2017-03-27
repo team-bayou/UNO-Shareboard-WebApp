@@ -43,12 +43,12 @@ export default class ProfilePage extends Component {
               <h2 className="uk-heading-line uk-text-center"><span>Your Profile</span></h2>
             </div>
 
-            <div className="uk-grid-large uk-flex-middle uk-flex-center uk-grid-divider" data-uk-grid>
+            <div className="uk-grid-large uk-grid-divider" data-uk-grid>
               <div className="uk-width-1-3@s uk-text-center uk-cover-container">
                 <img src={avatar} alt={this.state.user.accountName + "'s Avatar"} />
               </div>
               <div className="uk-width-2-3@s">
-                <ul className="uk-list">
+                <ul className="uk-list info-list">
                   <li>
                     {this.state.user.accountName}
                   </li>
@@ -79,9 +79,6 @@ export default class ProfilePage extends Component {
                     }
                   </li>
                   */}
-                  <li>
-                    {"User Reviews (" + (!this.state.user.reviews ? "0" : this.state.user.reviews) + ")"}
-                  </li>
                 </ul>
               </div>
             </div>

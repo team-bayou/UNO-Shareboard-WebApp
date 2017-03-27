@@ -380,3 +380,12 @@ td, th {
 .edit-categories-corner {
   border: none
 }
+
+
+/* Profile Page */
+
+.info-list {
+  position: relative;
+  transform: translateY(-50%);
+  top: 50%;
+}
