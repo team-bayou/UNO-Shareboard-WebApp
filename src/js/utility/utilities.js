@@ -44,6 +44,34 @@ module.exports = {
     }
   },
 
+  prettifyPhone: function(num) {
+    const phone = this.validatePhone(num);
+
+    if (!phone.isValid)
+      return null;
+
+    const number = phone.number.toString();
+    if (number.length === 11) {
+      const country = number.charAt(0);
+      const area = number.slice(1, 4);
+      const firstThree = number.slice(4, 7);
+      const lastFour = number.slice(7);
+
+      return "+" + country + " (" + area + ") " + firstThree + "-" + lastFour;
+    }
+    else if (number.length === 10) {
+      const area = number.slice(0, 3);
+      const firstThree = number.slice(3, 6);
+      const lastFour = number.slice(6);
+
+      return "(" + area + ") " + firstThree + "-" + lastFour;
+    }
+    else {
+      return number;
+    }
+
+  },
+
   // Escapes any entered HTML characters
   sanitizeInput: function(input) {
     let output = validator.escape(input);

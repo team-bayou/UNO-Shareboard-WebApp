@@ -13,23 +13,48 @@ export default class ProfilePage extends Component {
     super(props);
 
     this.state = {
-      user: null
+      user: null,
+      myProfile: false
     };
   }
 
   componentDidMount() {
-    api.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
-      this.setState({
-        user: response.data
-      });
+    const user = !!this.props.params.id ? this.props.params.id : utils.getCookie(constants.COOKIE_A);
+
+    api.getUserByID(user, function(exists, response) {
+      if (exists) {
+        this.setState({
+          user: response.data,
+          myProfile: (response.data.id + "") === (utils.getCookie(constants.COOKIE_A) + "")
+        });
+      }
+      else {
+        this.setState({
+          user: -1
+        });
+      }
     }.bind(this));
   }
 
   render() {
-
     if (!this.state.user) {
       return (
         <div className="uk-text-center">Loading...</div>
+      );
+    }
+
+    else if (this.state.user === -1) {
+      return (
+        <div id="profile">
+          <AppHeader />
+          <div className="app-body uk-container uk-text-break">
+            <div className="uk-grid-large uk-grid-divider" data-uk-grid>
+              <div className="uk-width-1-1 uk-text-center">
+                The requested user does not exist.
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
 
@@ -40,7 +65,13 @@ export default class ProfilePage extends Component {
           <div className="app-body uk-container uk-text-break">
 
             <div className="uk-margin-medium-bottom">
-              <h2 className="uk-heading-line uk-text-center"><span>Your Profile</span></h2>
+              <h2 className="uk-heading-line uk-text-center">
+                <span>
+                {
+                  this.state.myProfile ? "Your Profile" : this.state.user.accountName + "'s Profile"
+                }
+                </span>
+              </h2>
             </div>
 
             <div className="uk-grid-large uk-grid-divider" data-uk-grid>
@@ -50,16 +81,16 @@ export default class ProfilePage extends Component {
               <div className="uk-width-2-3@s">
                 <ul className="uk-list info-list">
                   <li>
-                    {this.state.user.accountName}
+                    Username: {this.state.user.accountName}
                   </li>
                   <li>
-                    {(this.state.user.firstName || "---") + " " + (this.state.user.lastName || "---")}
+                    Name: {(this.state.user.firstName || "---") + " " + (this.state.user.lastName || "---")}
                   </li>
                   <li>
-                    {this.state.user.email}
+                    E-mail: {this.state.user.email}
                   </li>
                   <li>
-                    {this.state.user.phoneNumber}
+                    Phone: {utils.prettifyPhone(this.state.user.phoneNumber)}
                   </li>
                   {/*
                   <li>
@@ -79,6 +110,13 @@ export default class ProfilePage extends Component {
                     }
                   </li>
                   */}
+                  {
+                    this.state.myProfile ?
+                      <li>
+                        <a href="/profile/edit">Edit Profile</a>
+                      </li>
+                      : null
+                  }
                 </ul>
               </div>
             </div>

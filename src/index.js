@@ -50,6 +50,7 @@ ReactDOM.render((
     <Route path="verify" component={UserVerificationPage} onEnter={checkLoggedInStatus} />
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
     {
       //<Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
     }
