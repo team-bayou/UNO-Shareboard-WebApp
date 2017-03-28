@@ -162,6 +162,10 @@ module.exports = {
       if (success) {
         callback(true, true);
       }
+
+      // I know `response.response` looks weird, but that's because in this case,
+      // `response` is an error, and an error has its own response member that
+      // we have to access to get its containing data
       else {
         if (response.response.status === constants.RESPONSE_UNAUTHORIZED) {
           if (response.response.data.errorMessage === "password") {
