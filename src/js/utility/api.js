@@ -7,13 +7,20 @@ const encryption = require('./encryption');
 import utils from './utilities';
 
 
+const config = {
+  auth: {
+    username: process.env.REACT_APP_AUTH_USERNAME,
+    password: process.env.REACT_APP_AUTH_PASSWORD
+  }
+}
+
 /*
  * Our GET methods all use the exact same call, except the endpoint that is being hit.
  * This method takes care of the call for us and simply requires that
  *   we give it the endpoint we want to check, as well as the callback
  */
 function performGet(endpoint, callback) {
-  axios.get(endpoint)
+  axios.get(endpoint, config)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
@@ -23,7 +30,7 @@ function performGet(endpoint, callback) {
 }
 
 function performPost(endpoint, data, callback) {
-  axios.post(endpoint, data)
+  axios.post(endpoint, data, config)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
@@ -33,7 +40,7 @@ function performPost(endpoint, data, callback) {
 }
 
 function performDelete(endpoint, callback) {
-  axios.delete(endpoint)
+  axios.delete(endpoint, config)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK ||
       response.status === constants.RESPONSE_NO_CONTENT, response);
@@ -44,7 +51,7 @@ function performDelete(endpoint, callback) {
 }
 
 function performPut(endpoint, data, callback) {
-  axios.put(endpoint, data)
+  axios.put(endpoint, data, config)
   .then(function (response) {
     callback(response.status === constants.RESPONSE_OK, response);
   })
@@ -135,55 +142,43 @@ module.exports = {
   },
 
   attemptLogin: function(user, hash, type, callback) {
-    axios.post(constants.HOST + '/service/v1/auth/login/', {
+    performPost(constants.HOST + '/service/v1/auth/login/', {
       [type]: user,
       enteredPasswordHash: hash
-    })
-    .then(function (response) {
-      callback(response.status === constants.RESPONSE_OK);
-    })
-    .catch(function (error) {
-      callback(false);
-    });
+    }, callback);
   },
 
   addUnverifiedUser: function(email, pass, code, callback) {
-    axios.post(constants.HOST + '/service/v1/unverified_users/add/', {
+    performPost(constants.HOST + '/service/v1/unverified_users/add/', {
         passwordHash: pass.hash,
         passwordSalt: pass.salt,
         email: email,
         verificationCode: code
-      })
-      .then(function (response) {
-        callback(response.status === constants.RESPONSE_OK);
-      })
-      .catch(function (error) {
-        callback(false);
-      });
+      }, callback);
   },
 
   attemptVerification: function(user, callback) {
-    axios.post(constants.HOST + '/service/v1/auth/verify/', user)
-      .then(function (response) {
-        const success = response.status === constants.RESPONSE_OK;
-        callback(success, success);
-      })
-      .catch(function (error) {
-        if (error.response.status === constants.RESPONSE_UNAUTHORIZED) {
-          if (error.response.data.errorMessage === "password") {
+    performPost(constants.HOST + '/service/v1/auth/verify/', user, function(success, response) {
+      if (success) {
+        callback(true, true);
+      }
+      else {
+        if (response.response.status === constants.RESPONSE_UNAUTHORIZED) {
+          if (response.response.data.errorMessage === "password") {
             callback(false, true);
           }
-          else if (error.response.data.errorMessage === "verify") {
+          else if (response.response.data.errorMessage === "verify") {
             callback(true, false);
           }
-          else if (error.response.data.errorMessage === "both") {
+          else if (response.response.data.errorMessage === "both") {
             callback(false, false);
           }
         }
         else {
           callback(false, false);
         }
-      });
+      }
+    });
   },
 
   updateUser: function(data, callback) {
