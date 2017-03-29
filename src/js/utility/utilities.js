@@ -72,13 +72,13 @@ module.exports = {
 
   },
 
-  // Escapes any entered HTML characters
+  // replace <, >, &, ', " and / with HTML entities
   sanitizeInput: function(input) {
     let output = validator.escape(input);
     return output;
   },
 
-  // Escapes any entered HTML characters
+  // replace <, >, &, ', " and / with HTML entities
   //   and removes all whitespace from the string
   sanitizeInputSpacing: function(input) {
     let output = validator.escape(input);
