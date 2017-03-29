@@ -31,7 +31,8 @@ export default class NavBar extends Component {
     var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
     return(
-        <nav id="navbar" className="uk-navbar-container" data-uk-navbar="mode: click" data-uk-sticky>
+      <div>
+        <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
@@ -134,8 +135,47 @@ export default class NavBar extends Component {
               </li>
             </ul>
           </div>
-
         </nav>
+
+        <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="dropbar: true; dropbar-mode: push; mode: click">
+          <div className="uk-navbar-left">
+            <ul className="uk-navbar-nav">
+              <li>
+                <a className="uk-navbar-toggle" href="#">
+                  <span data-uk-icon="icon: menu; ratio: 1.5"></span> <span className="uk-margin-small-left">Menu</span>
+                </a>
+                <div className="uk-navbar-dropdown uk-navbar-dropdown-width-2 uk-background-muted">
+                    <div className="uk-navbar-dropdown-grid uk-child-width-1-2" data-uk-grid>
+                        <div>
+                            <ul className="uk-nav uk-navbar-dropdown-nav">
+                                <li className="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li className="uk-nav-header">Header</li>
+                                <li><a href="#">Item</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li className="uk-nav-divider"></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul className="uk-nav uk-navbar-dropdown-nav">
+                                <li className="uk-active"><a href="#">Active</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li className="uk-nav-header">Header</li>
+                                <li><a href="#">Item</a></li>
+                                <li><a href="#">Item</a></li>
+                                <li className="uk-nav-divider"></li>
+                                <li><a href="#">Item</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+      </div>
     );
   }
 }
