@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Star from './Star';
 
 import avatar from '../../../media/images/avatar.jpg';
 
@@ -33,7 +34,7 @@ export default class Review extends Component {
     var rating = [];
 
     for (var i = 0; i < parseInt(this.props.review.rating, 10); i++)
-      rating.push(<span key={i} className="uk-icon-button" data-uk-icon="icon: star"></span>);
+      rating.push(<Star key={i} />);
 
     return rating;
   }

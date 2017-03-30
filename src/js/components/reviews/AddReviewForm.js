@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Rating from './Rating';
 import SCButtons from '../buttons/SubmitCancelButtons';
 
 export default class AddReviewForm extends Component {
@@ -6,14 +7,8 @@ export default class AddReviewForm extends Component {
     super(props);
 
     this.emptyFields = false;
-    this.inputValid = "uk-input";
-    this.inputInvalid = "uk-input uk-form-danger";
-    this.selectValid = "uk-select";
-    this.selectInvalid = "uk-select uk-form-danger";
-    this.radioLabelValid = "";
-    this.radioLabelInvalid = "label-invalid";
-    this.radioValid = "uk-radio";
-    this.radioInvalid = "uk-radio radio-invalid";
+    this.ratingValid = "uk-form-controls";
+    this.ratingInvalid = "uk-form-controls rating-invalid";
 
     this.state = {
       rating: '',
@@ -22,17 +17,28 @@ export default class AddReviewForm extends Component {
       reviewer: this.props.reviewerId,
       reviewee: this.props.revieweeId,
       timePublished: new Date(Date.now()).toISOString(),
-      ratingStyle: this.inputValid
+      ratingStyle: this.ratingValid
     };
 
+    this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleRatingChange(value) {
+    if (value > 0 && value <= 5){
+      this.setState({
+        rating: value
+      });
+
+      this.resetError("rating", value);
+    }
+  }
+
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    let target = event.target;
+    let value = target.value;
+    let name = target.name;
 
     this.setState({
       [name]: value
@@ -63,7 +69,7 @@ export default class AddReviewForm extends Component {
       this.emptyFields = false;
     }
 
-    const rs = data.rating === '' ? this.inputInvalid : this.inputValid;
+    let rs = data.rating === '' ? this.ratingInvalid : this.ratingValid;
 
     this.setState({
       ratingStyle: rs
@@ -75,7 +81,7 @@ export default class AddReviewForm extends Component {
   resetError(name, value) {
     let style;
     if (name === 'rating'){
-      style = value === '' ? this.inputInvalid : this.inputValid;
+      style = value === '' ? this.ratingInvalid : this.ratingValid;
     }
 
     this.setState({
@@ -88,14 +94,13 @@ export default class AddReviewForm extends Component {
       <div>
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
-
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
                   <label className="uk-form-label label-invalid" htmlFor="review-rating" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
                   <label className="uk-form-label" htmlFor="review-rating">Rating</label>
-                  <div className="uk-form-controls">
-                    <input className={this.state.ratingStyle} id="review-rating" type="text" placeholder="The rating of the user" name="rating" onChange={this.handleInputChange}/>
+                  <div className={this.state.ratingStyle}>
+                    <Rating onClick={this.handleRatingChange}/>
                   </div>
                 </div>
               </div>
