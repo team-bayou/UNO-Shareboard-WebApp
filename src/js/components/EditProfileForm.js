@@ -132,17 +132,30 @@ export default class EditProfileForm extends Component {
       phoneNumber: this.state.phone
     };
 
+    let passChanged = false;
+
     if (!!this.state.newPassword && !!this.state.newPasswordConfirm) {
       let pass = encryption.createHash(this.state.newPassword);
       data.passwordSalt = pass.salt;
       data.passwordHash = pass.hash;
+      passChanged = true;
     }
 
     api.updateUser(data, function(success, response) {
       if (success) {
-        this.setState({
-          updateSuccess: true
-        });
+        if (passChanged) {
+          utils.clearCookies();
+          utils.bakeCookies(data.accountName, function() {
+            this.setState({
+              updateSuccess: true
+            });
+          }.bind(this));
+        }
+        else {
+          this.setState({
+            updateSuccess: true
+          });
+        }
       }
       else {
         this.setState({
@@ -188,8 +201,14 @@ export default class EditProfileForm extends Component {
         <fieldset className="uk-fieldset">
 
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-          <label className="uk-form-label label-invalid" hidden={!this.updateFailed}>There was a problem updating your account. Please try again or contact us if the problem continues.</label>
-          <label className="uk-form-label label-valid" hidden={!this.updateSuccess}>Account updated successfully!</label>
+          <div className="uk-alert-danger uk-text-center" data-uk-alert hidden={!this.state.updateFailed}>
+            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
+            <p>There was a problem updating your account. Please try again or contact us if the problem continues.</p>
+          </div>
+          <div className="uk-alert-success uk-text-center" data-uk-alert hidden={!this.state.updateSuccess}>
+            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
+            <p>Account updated successfully!</p>
+          </div>
 
           <div className="uk-margin">
             <div className="uk-placeholder uk-padding-small uk-background-muted">
