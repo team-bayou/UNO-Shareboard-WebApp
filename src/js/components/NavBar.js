@@ -34,9 +34,9 @@ export default class NavBar extends Component {
       <div>
 
 
-        {
-          // BEGIN DESKTOP NAV BAR
-        }
+        {/*
+          BEGIN DESKTOP NAV BAR
+        */}
         <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
@@ -142,11 +142,11 @@ export default class NavBar extends Component {
           </div>
         </nav>
 
-        {
-          // END DESKTOP NAV BAR
+        {/*
+          END DESKTOP NAV BAR
 
-          // BEGIN MOBILE NAV BAR
-        }
+          BEGIN MOBILE NAV BAR
+        */}
 
         <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="dropbar: true; dropbar-mode: push; mode: click">
           <div className="uk-navbar-left">
@@ -168,15 +168,15 @@ export default class NavBar extends Component {
                           <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
                           <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
                           <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
-                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Advertisement</a></li>
+                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
                         </ul>
                       </li>
 
                       <li className="uk-nav-header">Reviews</li>
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
-                          <li><a href={routeToUserReviewsReviewer}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My submitted Reviews</a></li>
-                          <li><a href={routeToUserReviewsReviewee}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My received Reviews</a></li>
+                          <li><a href={routeToUserReviewsReviewer}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My Submitted Reviews</a></li>
+                          <li><a href={routeToUserReviewsReviewee}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My Received Reviews</a></li>
                         </ul>
                       </li>
 
@@ -188,6 +188,9 @@ export default class NavBar extends Component {
                           <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span> Logout</a></li>
                         </ul>
                       </li>
+
+                      <li className="uk-nav-divider" hidden={!this.state.isAdmin}></li>
+                      <li hidden={!this.state.isAdmin}><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin</a></li>
                     </ul>
 
                   </div>
@@ -199,9 +202,9 @@ export default class NavBar extends Component {
           </div>
         </nav>
 
-        {
-          // END MOBILE NAV BAR
-        }
+        {/*
+          END MOBILE NAV BAR
+        */}
 
       </div>
     );
