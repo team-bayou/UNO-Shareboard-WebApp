@@ -26,8 +26,6 @@ export default class UserAdvertisementsPage extends Component {
         this.setState({
           advertisements: response.data
         });
-      } else {
-        console.log("No advertisements found");
       }
     }.bind(this));
 
@@ -44,7 +42,6 @@ export default class UserAdvertisementsPage extends Component {
           user: -1,
           userExists: false
         });
-        console.log("User doesn't exist");
       }
     }.bind(this));
   }

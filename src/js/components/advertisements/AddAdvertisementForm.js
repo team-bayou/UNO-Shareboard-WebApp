@@ -142,25 +142,6 @@ export default class AddAdvertisementForm extends Component {
               </div>
             </div>
 
-            {/*}
-            <div className="uk-margin">
-              <div className="uk-margin uk-grid-small uk-child-width-auto" data-uk-grid>
-                <div>
-                <label className="uk-form-label" htmlFor="ad-time-published">Time published</label>
-                  <div className="uk-form-controls">
-                    <input className={this.state.timePublishedStyle} id="ad-time-published" type="date" name="timePublished" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-                <div>
-                  <label className="uk-form-label" htmlFor="ad-expiration-date">Expiration date</label>
-                  <div className="uk-form-controls">
-                    <input className={this.state.expirationDateStyle} id="ad-expiration-date" type="date" name="expirationDate" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {*/}
-
             <div className="uk-margin">
               <div className="uk-form-label form-label">What kind of ad is this?</div>
               <div className="ad-type uk-form-controls">
@@ -169,14 +150,12 @@ export default class AddAdvertisementForm extends Component {
               </div>
             </div>
 
-
             <div className="uk-margin-medium-top">
               <div className="uk-placeholder uk-padding-small uk-background-muted uk-width-1-1">
                 <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: info"></span>
                 For the fields below, both can be filled in if you will accept / provide either form of payment, or neither can be filled in to offer / accept no payment.
               </div>
             </div>
-
 
             <div className="uk-width-1-1">
               <div className="uk-margin">

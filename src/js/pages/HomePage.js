@@ -2,7 +2,6 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import CreateButton from '../components/buttons/CreateButton';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 
 export default class HomePage extends Component {
@@ -45,7 +44,7 @@ export default class HomePage extends Component {
               <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
             </div>
             <div className="uk-margin-small-left">
-              <CreateButton href={"/advertisements/add"} name={"Create advertisement"} />
+              <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1">Create New Listing</a>
             </div>
           </div>
 
