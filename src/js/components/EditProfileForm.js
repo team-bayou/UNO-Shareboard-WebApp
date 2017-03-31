@@ -134,7 +134,7 @@ export default class EditProfileForm extends Component {
 
     let passChanged = false;
 
-    if (!!this.state.newPassword && !!this.state.newPasswordConfirm) {
+    if (!!this.state.newPassword) {
       let pass = encryption.createHash(this.state.newPassword);
       data.passwordSalt = pass.salt;
       data.passwordHash = pass.hash;
