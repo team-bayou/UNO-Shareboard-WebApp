@@ -43,8 +43,8 @@ export default class HomePage extends Component {
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
               <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
             </div>
-            <div className="uk-margin-small-left">
-              <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1">Create New Listing</a>
+            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1">Create New Listing</a>
             </div>
           </div>
 
