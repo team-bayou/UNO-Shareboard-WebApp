@@ -107,11 +107,15 @@ export default class NavBar extends Component {
 
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
-              <li hidden={!this.state.isAdmin}>
-                <a href="/admin">
-                  <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin
-                </a>
-              </li>
+              {
+                this.state.isAdmin ?
+                <li>
+                  <a href="/admin">
+                    <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin
+                  </a>
+                </li>
+                : null
+              }
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
@@ -189,8 +193,16 @@ export default class NavBar extends Component {
                         </ul>
                       </li>
 
-                      <li className="uk-nav-divider" hidden={!this.state.isAdmin}></li>
-                      <li hidden={!this.state.isAdmin}><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span>Admin</a></li>
+                      {
+                        this.state.isAdmin ?
+                        <li className="uk-nav-divider"></li>
+                        : null
+                      }
+                      {
+                        this.state.isAdmin ?
+                        <li><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span>Admin</a></li>
+                        : null
+                      }
                     </ul>
 
                   </div>
