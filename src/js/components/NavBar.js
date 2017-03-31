@@ -160,7 +160,7 @@ export default class NavBar extends Component {
                   <div className="uk-offcanvas-bar">
 
                     <ul className="uk-nav uk-nav-default">
-                      <li><a href="/home"><span className="uk-margin-small-right" data-uk-icon="icon: home"></span> Home</a></li>
+                      <li><a href="/home"><span className="uk-margin-small-right" data-uk-icon="icon: home"></span>Home</a></li>
 
                       <li className="uk-nav-header">Listings</li>
                       <li className="uk-parent">
@@ -183,14 +183,14 @@ export default class NavBar extends Component {
                       <li className="uk-nav-header">My Account</li>
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
-                          <li><a href="/profile"><span className="uk-margin-small-right" data-uk-icon="icon: user"></span> Profile</a></li>
-                          <li><a href="/settings"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span> Settings</a></li>
-                          <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span> Logout</a></li>
+                          <li><a href="/profile"><span className="uk-margin-small-right" data-uk-icon="icon: user"></span>Profile</a></li>
+                          <li><a href="/settings"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span>Settings</a></li>
+                          <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span>Logout</a></li>
                         </ul>
                       </li>
 
                       <li className="uk-nav-divider" hidden={!this.state.isAdmin}></li>
-                      <li hidden={!this.state.isAdmin}><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin</a></li>
+                      <li hidden={!this.state.isAdmin}><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span>Admin</a></li>
                     </ul>
 
                   </div>
