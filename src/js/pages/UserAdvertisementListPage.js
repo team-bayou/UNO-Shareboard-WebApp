@@ -83,7 +83,7 @@ export default class UserAdvertisementsPage extends Component {
           </h2>
           {
             this.state.myListings ?
-            <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Listing</a>
+            <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
             : null
           }
           <div className="uk-margin uk-text-center">
@@ -116,7 +116,7 @@ export default class UserAdvertisementsPage extends Component {
           </h2>
           {
             this.state.myListings ?
-            <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Listing</a>
+            <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
             : null
           }
           <AdList advertisements={this.state.advertisements}/>

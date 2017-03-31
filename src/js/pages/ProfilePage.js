@@ -145,7 +145,7 @@ export default class ProfilePage extends Component {
                     null
                     :
                     <li>
-                      <a className="uk-button button-success uk-width-1-1" href={"users/" + this.state.user.id + "/reviews/add"}><span data-uk-icon="icon: pencil"></span> Review This User</a>
+                      <a className="uk-button button-success uk-width-1-1" href={"/users/" + this.state.user.id + "/reviews/add"}><span data-uk-icon="icon: pencil"></span> Review This User</a>
                     </li>
                   }
                 </ul>
