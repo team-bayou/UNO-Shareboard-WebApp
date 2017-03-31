@@ -394,8 +394,6 @@ td, th {
   transform: translateY(-50%);
   top: 50%;
 }
-<<<<<<< HEAD
-=======
 
 .user-profile-table {
   padding: 0;
@@ -422,8 +420,6 @@ td, th {
   font-style: italic;
 }
 
-
 .form-label {
   font-weight: bold;
 }
->>>>>>> Lots of changes; edit profile form exists and in progress; more updates to the user profile page; updated other parts of the site with minor tweaks
