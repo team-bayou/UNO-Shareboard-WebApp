@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import SCButtons from '../buttons/SubmitCancelButtons';
 
 export default class AddAdvertisementForm extends Component {
   constructor(props){
@@ -112,39 +111,33 @@ export default class AddAdvertisementForm extends Component {
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
 
-            <div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-                  <label className="uk-form-label" htmlFor="ad-title">Title</label>
-                  <div className="uk-form-controls">
-                    <input className={this.state.titleStyle} id="ad-title" type="text" placeholder="The title of your advertisement" name="title" onChange={this.handleInputChange}/>
-                  </div>
+            <div className="uk-width-1-1">
+              <div className="uk-margin">
+                <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+                <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
+                <div className="uk-form-controls">
+                  <input className={this.state.titleStyle} id="ad-title" type="text" placeholder="The title of your advertisement" name="title" onChange={this.handleInputChange}/>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-description">Description</label>
-                  <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="ad-description" placeholder="The description of the item you're seeking / offering" name="description" onChange={this.handleInputChange}/>
-                  </div>
+            <div className="uk-width-1-1">
+              <div className="uk-margin">
+                <label className="uk-form-label form-label" htmlFor="ad-description">Description</label>
+                <div className="uk-form-controls">
+                  <textarea className="uk-textarea" id="ad-description" placeholder="The description of the item you're seeking / offering" name="description" onChange={this.handleInputChange}/>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-categories">Category</label>
-                  <div className="uk-form-controls">
-                    <select className={this.state.categoryStyle} id="ad-categories" name="category" defaultValue="-1" onChange={this.handleInputChange}>
-                      <option disabled value="-1"> -- Select a category -- </option>
-                      {this.props.categories}
-                    </select>
-                  </div>
+            <div className="uk-width-1-1">
+              <div className="uk-margin">
+                <label className="uk-form-label form-label" htmlFor="ad-categories">Category</label>
+                <div className="uk-form-controls">
+                  <select className={this.state.categoryStyle} id="ad-categories" name="category" defaultValue="-1" onChange={this.handleInputChange}>
+                    <option disabled value="-1"> -- Select a category -- </option>
+                    {this.props.categories}
+                  </select>
                 </div>
               </div>
             </div>
@@ -168,50 +161,47 @@ export default class AddAdvertisementForm extends Component {
             </div>
             {*/}
 
-            <div>
+            <div className="uk-margin">
+              <div className="uk-form-label form-label">What kind of ad is this?</div>
+              <div className="ad-type uk-form-controls">
+                <label className={this.state.radioLabelStyle}><input className={this.state.adTypeStyle} type="radio" name="adType" value="offer" onChange={this.handleInputChange}/> I'm offering this item</label><br/>
+                <label className={this.state.radioLabelStyle}><input className={this.state.adTypeStyle} type="radio" name="adType" value="seek" onChange={this.handleInputChange}/> I'm seeking this item</label>
+              </div>
+            </div>
+
+
+            <div className="uk-margin-medium-top">
+              <div className="uk-placeholder uk-padding-small uk-background-muted uk-width-1-1">
+                <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: info"></span>
+                For the fields below, both can be filled in if you will accept / provide either form of payment, or neither can be filled in to offer / accept no payment.
+              </div>
+            </div>
+
+
+            <div className="uk-width-1-1">
               <div className="uk-margin">
-                <div className="uk-form-label">What kind of ad is this?</div>
-                <div className="ad-type uk-form-controls">
-                  <label className={this.state.radioLabelStyle}><input className={this.state.adTypeStyle} type="radio" name="adType" value="offer" onChange={this.handleInputChange}/> I'm offering this item</label><br/>
-                  <label className={this.state.radioLabelStyle}><input className={this.state.adTypeStyle} type="radio" name="adType" value="seek" onChange={this.handleInputChange}/> I'm seeking this item</label>
+                <label className="uk-form-label form-label" htmlFor="ad-price">Price</label>
+                <div className="uk-form-controls">
+                  <input className="uk-input" id="ad-price" type="number" step="0.01" placeholder="Amount you want / are offering in dollars" name="price" onChange={this.handleInputChange}/>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="uk-margin-medium-top">
-                <div className="uk-placeholder uk-padding-small uk-background-muted uk-width-1-1">
-                  <span className="uk-icon uk-margin-small-right" href="/home" data-uk-icon="icon: info"></span>
-                  For the fields below, both can be filled in if you will accept / provide either form of payment, or neither can be filled in to offer / accept no payment.
+            <div className="uk-width-1-1">
+              <div className="uk-margin">
+                <label className="uk-form-label form-label" htmlFor="ad-trade-item">Trade Item</label>
+                <div className="uk-form-controls">
+                  <input className="uk-input" id="ad-trade-item" type="text" placeholder="An item you want / are offering as trade" name="tradeItem" onChange={this.handleInputChange}/>
                 </div>
               </div>
             </div>
 
-            <div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-price">Price</label>
-                  <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-price" type="number" step="0.01" placeholder="Amount you want / are offering in dollars" name="price" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
+            <div className="uk-width-1-4 uk-align-center">
+              <div className="uk-margin-large-top">
+                <button className="uk-button uk-button-secondary uk-button-large uk-width-1-1 uk-align-center submit-btn" type="submit" value="Submit">Submit</button>
               </div>
             </div>
 
-            <div>
-              <div className="uk-width-1-1">
-                <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="ad-trade-item">Trade Item</label>
-                  <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-trade-item" type="text" placeholder="An item you want / are offering as trade" name="tradeItem" onChange={this.handleInputChange}/>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <SCButtons />
-            </div>
           </fieldset>
         </form>
       </div>

@@ -81,8 +81,11 @@ export default class UserAdvertisementsPage extends Component {
               }
             </span>
           </h2>
-          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Advertisement</a>
-
+          {
+            this.state.myListings ?
+            <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Listing</a>
+            : null
+          }
           <div className="uk-margin uk-text-center">
             {
               this.state.myListings ?
@@ -91,7 +94,6 @@ export default class UserAdvertisementsPage extends Component {
               this.state.user.accountName + " does not currently have any listings."
             }
           </div>
-
         </div>
       </div>
       );
@@ -104,7 +106,7 @@ export default class UserAdvertisementsPage extends Component {
             <span>
               <span>
                 {
-                  (this.props.params.id + "") === (utils.getCookie(constants.COOKIE_A) + "") ?
+                  this.state.myListings ?
                   "Your Current Listings (" + this.state.advertisements.length + ")"
                   :
                   this.state.user.accountName + "'s Current Listings (" + this.state.advertisements.length + ")"
@@ -112,7 +114,11 @@ export default class UserAdvertisementsPage extends Component {
               </span>
             </span>
           </h2>
-          <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Advertisement</a>
+          {
+            this.state.myListings ?
+            <a href="/advertisements/add" className="button-success uk-button uk-button-large uk-width-1-4 uk-margin-large-bottom uk-align-center">Create New Listing</a>
+            : null
+          }
           <AdList advertisements={this.state.advertisements}/>
         </div>
       </div>

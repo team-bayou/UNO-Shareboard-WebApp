@@ -15,7 +15,7 @@ import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import AddReview from './js/pages/AddReviewPage';
 import Admin from './js/pages/AdminPage'
 import Profile from './js/pages/ProfilePage';
-//import EditProfile from './js/pages/EditProfilePage';
+import EditProfile from './js/pages/EditProfilePage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -50,6 +50,7 @@ ReactDOM.render((
     <Route path="verify" component={UserVerificationPage} onEnter={checkLoggedInStatus} />
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
+    <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
     {
       //<Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />

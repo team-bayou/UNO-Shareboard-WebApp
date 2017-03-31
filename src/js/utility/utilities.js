@@ -40,7 +40,10 @@ module.exports = {
       };
     }
     catch (err) {
-      return false;
+      return {
+        isValid: false,
+        number: null
+      };
     }
   },
 
@@ -303,7 +306,7 @@ module.exports = {
           this.clearCookies();
           callback();
         }
-      });
+      }.bind(this));
     }
 
     // If we're trying to access any other page on the site
@@ -325,7 +328,7 @@ module.exports = {
           replace("/");
           callback();
         }
-      });
+      }.bind(this));
     }
   },
 

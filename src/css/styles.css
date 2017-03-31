@@ -389,3 +389,36 @@ td, th {
   transform: translateY(-50%);
   top: 50%;
 }
+<<<<<<< HEAD
+=======
+
+.user-profile-table {
+  padding: 0;
+  margin: 0;
+}
+
+.user-profile-table td.user-profile-title {
+  text-align: right;
+}
+
+.user-profile-table td.user-profile-content {
+  text-align: center;
+}
+
+.user-profile-borderless-row,
+.user-profile-borderless-row td {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.hidden-info {
+  font-style: italic;
+}
+
+
+.form-label {
+  font-weight: bold;
+}
+>>>>>>> Lots of changes; edit profile form exists and in progress; more updates to the user profile page; updated other parts of the site with minor tweaks
