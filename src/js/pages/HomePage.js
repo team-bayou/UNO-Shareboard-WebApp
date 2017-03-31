@@ -2,9 +2,8 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import BuySeekButton from '../components/BuySeekButton'
-import SellTradeButton from '../components/SellTradeButton'
-import AdvertisementFeed from '../components/AdvertisementFeed'
+import CreateButton from '../components/buttons/CreateButton';
+import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 
 export default class HomePage extends Component {
   constructor(props){
@@ -38,10 +37,16 @@ export default class HomePage extends Component {
       <div id="home" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-
           <div className="uk-flex uk-flex-center">
-            <BuySeekButton />
-            <SellTradeButton />
+            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1">Buy / Seek</a>
+            </div>
+            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
+            </div>
+            <div className="uk-margin-small-left">
+              <CreateButton href={"/advertisements/add"} name={"Create advertisement"} />
+            </div>
           </div>
 
           <div className="uk-flex uk-flex-center uk-margin">
@@ -58,6 +63,8 @@ export default class HomePage extends Component {
                 <dd><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
                 <hr />
                 <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
+                <hr />
+                <dd><strong>CREATE ADVERTISEMENT</strong><br />Create a new advertisement with all necessary information on demand</dd>
               </dl>
 
             </div>

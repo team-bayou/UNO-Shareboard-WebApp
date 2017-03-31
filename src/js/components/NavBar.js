@@ -25,9 +25,10 @@ export default class NavBar extends Component {
 
   render(){
     // Get user id from cookie.
-    var routeToUserAds = "/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements";
-    var routeToUserReviewsReviewer = "/users/" + utils.getCookie(constants.COOKIE_A) + "/reviewer";
-    var routeToUserReviewsReviewee = "/users/" + utils.getCookie(constants.COOKIE_A) + "/reviewee";
+    var id = utils.getCookie(constants.COOKIE_A);
+    var routeToUserAds = "/users/" + id + "/advertisements";
+    var routeToUserReviewsReviewer = "/reviews/reviewer/" + id;
+    var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
     return(
         <nav id="navbar" className="uk-navbar-container" data-uk-navbar="mode: click" data-uk-sticky>

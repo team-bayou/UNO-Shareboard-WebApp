@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
+
 import Landing from './js/pages/LandingPage';
 import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
 import Advertisements from './js/pages/AdvertisementListPage';
 import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
-import AddAdvertisement from './js/pages/AddAdvertisementPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
-import Reviews from './js/pages/ReviewsPage';
+import AddAdvertisement from './js/pages/AddAdvertisementPage';
+import ReviewerReviews from './js/pages/ReviewerReviewsPage';
+import RevieweeReviews from './js/pages/RevieweeReviewsPage';
+import AddReview from './js/pages/AddReviewPage';
 import Admin from './js/pages/AdminPage'
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
@@ -49,8 +52,10 @@ ReactDOM.render((
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/reviewer" component={Reviews} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/reviewee" component={Reviews} onEnter={checkLoggedInStatus} />
+    <Route path="reviews/reviewer/:id" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
+    <Route path="reviews/reviewee/:id" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviews" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/reviews/add" component={AddReview} onEnter={checkLoggedInStatus} />
     <Route path="admin" component={Admin} onEnter={checkAdmin} />
     <Route path="logout" onEnter={logout} />
     <Route path="*" component={NotFound} />

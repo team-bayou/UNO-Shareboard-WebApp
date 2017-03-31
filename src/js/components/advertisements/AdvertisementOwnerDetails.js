@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import avatar from '../../media/images/avatar.jpg';
+import avatar from '../../../media/images/avatar.jpg';
 
 export default class AdvertisementOwnerDetails extends Component {
   render(){
@@ -25,7 +25,7 @@ export default class AdvertisementOwnerDetails extends Component {
                         <a href={"https://www.facebook.com/" + this.props.owner.facebookId} className="ad-owner-facebook uk-icon-button uk-margin-small-right" data-uk-icon="icon: facebook" target="_blank" hidden={!this.props.owner.facebookId}></a>
                         <a href={"https://www.twitter.com/" + this.props.owner.twitterHandle} className="ad-owner-twitter uk-icon-button" data-uk-icon="icon: twitter" target="_blank" hidden={!this.props.owner.twitterHandle}></a>
                       </li>
-                      <li><a href={routeToReviews}>{"User Reviews (" + (!this.props.owner.reviews ? "0" : this.props.owner.reviews) + ")"}</a></li>
+                      <li><a href={routeToReviews}>{"User Reviews (" + this.props.reviews + ")"}</a></li>
                   </ul>
               </div>
           </header>

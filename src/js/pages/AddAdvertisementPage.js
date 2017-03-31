@@ -5,7 +5,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
-import AddAdvertisementForm from '../components/AddAdvertisementForm';
+import AddForm from '../components/advertisements/AddAdvertisementForm';
 
 export default class AddAdvertisementPage extends Component {
   constructor(props){
@@ -60,7 +60,7 @@ export default class AddAdvertisementPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>Create Advertisement</span></h2>
-          <AddAdvertisementForm categories={categories} ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
+          <AddForm categories={categories} ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
         </div>
       </div>
     );

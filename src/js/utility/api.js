@@ -62,6 +62,12 @@ function performPut(endpoint, data, callback) {
 
 
 module.exports = {
+  //======================//
+  //        USERS         //
+  //======================//
+  getUser: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/users/' + id, callback);
+  },
 
   //======================//
   //      CATEGORIES      //
@@ -117,6 +123,27 @@ module.exports = {
       adType: data.adType,
       price: data.price,
       tradeItem: data.tradeItem
+    }, callback);
+  },
+
+  //======================//
+  //       REVIEWS        //
+  //======================//
+  getReviewerReviews: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewer/' + id, callback);
+  },
+
+  getRevieweeReviews: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id, callback);
+  },
+
+  addReview: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/reviews/add', {
+      rating: data.rating,
+      comments: data.comments,
+      //timePublished: data.timePublished,
+      reviewerId: data.reviewer,
+      revieweeId: data.reviewee
     }, callback);
   },
 

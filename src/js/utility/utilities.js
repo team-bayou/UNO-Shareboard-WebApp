@@ -349,13 +349,10 @@ module.exports = {
   //    ADVERTISEMENTS    //
   //======================//
 
-  getItem: function(ad){
-    if (!ad.price)
-      if (!ad.tradeItem)
-        return 'Free';
-      else
-        return ad.tradeItem;
-    return '$' + ad.price;
+  getPrice: function(ad){
+    if (ad.price)
+      return '$ ' + ad.price;
+    return 'Free';
   },
 
   getDateTime: function(ad){

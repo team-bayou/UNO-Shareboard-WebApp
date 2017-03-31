@@ -1,119 +1,60 @@
+import api from '../utility/api';
+
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import ReviewList from '../components/ReviewList';
+import ReviewList from '../components/reviews/ReviewList';
 
 export default class ReviewsPage extends Component {
   constructor(props){
     super(props);
+
     this.state = {
-      reviews: [
-        {
-          'id': '1',
-          'rating': '5',
-          'comments': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-          'time_published': 'April 01, 2016',
-          'reviewer': {
-            'id': '1',
-            'account_name': 'Parker',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-          'reviewee': {
-            'id': '2',
-            'account_name': 'Stevemaster92',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-        },
-        {
-          'id': '2',
-          'rating': '3',
-          'comments': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-          'time_published': 'April 01, 2016',
-          'reviewer': {
-            'id': '4',
-            'account_name': 'Joshua',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-          'reviewee': {
-            'id': '2',
-            'account_name': 'Stevemaster92',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-        },
-        {
-          'id': '3',
-          'rating': '5',
-          'comments': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-          'time_published': 'April 01, 2016',
-          'reviewer': {
-            'id': '4',
-            'account_name': 'Joshua',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-          'reviewee': {
-            'id': '2',
-            'account_name': 'Stevemaster92',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-        },
-        {
-          'id': '4',
-          'rating': '5',
-          'comments': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
-          'time_published': 'April 01, 2016',
-          'reviewer': {
-            'id': '3',
-            'account_name': 'Rachel',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-          'reviewee': {
-            'id': '2',
-            'account_name': 'Stevemaster92',
-            'email': 'shaselwa@uno.edu',
-            'phone_number': '+1 504 123 4567',
-            'facebook_id': '100000121504447',
-            'twitter_handle': 's_steini',
-            'reviews': '42',
-          },
-        },
-      ],
+      reviews: null
     };
+
+    this.callback = this.callback.bind(this);
+  }
+
+  componentDidMount() {
+    // Try to get a list of reviewer's reviews.
+    if (this.props.isReviewer) {
+      api.getReviewerReviews(this.props.id, this.callback);
+    }
+    // Try to get a list of reviewee's reviews.
+    else {
+      api.getRevieweeReviews(this.props.id, this.callback);
+    }
+  }
+
+  callback(exists, response) {
+    if (exists && response){
+      this.setState({
+        reviews: response.data
+      });
+    }
+    else {
+      console.log("No reviews found");
+    }
   }
 
   render() {
+    if (!this.state.reviews)
+      return (<div className="uk-text-center">Loading...</div>);
+
     return (
       <div id="reviews" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-            <h2 className="uk-heading-line uk-text-center"><span>{"Your reviews (" + this.state.reviews.length + ")"}</span></h2>
-            <ReviewList reviews={this.state.reviews} />
+          <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.reviews.length + ")"}</span></h2>
+          <div className="uk-flex uk-margin-medium-top">
+            <div className="uk-width-1-5">
+              {this.props.backToAd}
+            </div>
+            <div className="uk-width-1-1">
+              {this.props.createReview}
+            </div>
+          </div>
+          <ReviewList reviews={this.state.reviews} isReviewer={this.props.isReviewer}/>
         </div>
       </div>
     );

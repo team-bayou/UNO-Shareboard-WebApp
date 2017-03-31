@@ -241,13 +241,13 @@ blue with black
 /* Add Advertisement Page */
 
 /* Advertisement Details Page */
-#ad-details .ad-item {
-  float: right;
-}
-
-#ad-details .ad-item span {
-  background-color: #1e87f0;
-  font-size: 1.2em;
+.ad-item span {
+  border-radius: 2px;
+  color: #E77600;
+  display: inline-block;
+  line-height: 1.5;
+  text-transform: uppercase;
+  vertical-align: middle;
 }
 
 #ad-details .ad-owner-contact .uk-icon-button {
@@ -276,15 +276,30 @@ blue with black
   padding: 20px;
 }
 
-#reviews .review-rating .uk-icon-button {
-  background-color: orange;
-  color: white;
+.rating-invalid {
+  color: #f0506e;
+  border: 1px solid #f0506e;
+}
+
+.star,
+.full {
+  background-color: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  color: #666;
   margin-right: 2px;
+}
+
+#reviews .review-rating .star,
+.review-rating .full,
+.review-rating a .star:active,
+.review-rating a .star:focus,
+.review-rating a .star:hover {
+  background-color: orange;
+  color: white!important;
 }
 
 
 /* Administration Page */
-
 .user-result-table {
   padding: 0;
   margin: 0;
