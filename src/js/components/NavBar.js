@@ -32,6 +32,11 @@ export default class NavBar extends Component {
 
     return(
       <div>
+
+
+        {
+          // BEGIN DESKTOP NAV BAR
+        }
         <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
@@ -137,43 +142,66 @@ export default class NavBar extends Component {
           </div>
         </nav>
 
+        {
+          // END DESKTOP NAV BAR
+
+          // BEGIN MOBILE NAV BAR
+        }
+
         <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="dropbar: true; dropbar-mode: push; mode: click">
           <div className="uk-navbar-left">
             <ul className="uk-navbar-nav">
               <li>
-                <a className="uk-navbar-toggle" href="#">
+                <a className="uk-navbar-toggle" href="#" data-uk-toggle="target: #side-menu">
                   <span data-uk-icon="icon: menu; ratio: 1.5"></span> <span className="uk-margin-small-left">Menu</span>
                 </a>
-                <div className="uk-navbar-dropdown uk-navbar-dropdown-width-2 uk-background-muted">
-                    <div className="uk-navbar-dropdown-grid uk-child-width-1-2" data-uk-grid>
-                        <div>
-                            <ul className="uk-nav uk-navbar-dropdown-nav">
-                                <li className="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li className="uk-nav-header">Header</li>
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li className="uk-nav-divider"></li>
-                                <li><a href="#">Item</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul className="uk-nav uk-navbar-dropdown-nav">
-                                <li className="uk-active"><a href="#">Active</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li className="uk-nav-header">Header</li>
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
-                                <li className="uk-nav-divider"></li>
-                                <li><a href="#">Item</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
+                <div id="side-menu" data-uk-offcanvas="mode: reveal; overlay: true">
+                  <div className="uk-offcanvas-bar">
+
+                    <ul className="uk-nav uk-nav-default">
+                      <li><a href="/home"><span className="uk-margin-small-right" data-uk-icon="icon: home"></span> Home</a></li>
+
+                      <li className="uk-nav-header">Listings</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
+                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
+                          <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
+                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Advertisement</a></li>
+                        </ul>
+                      </li>
+
+                      <li className="uk-nav-header">Reviews</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href={routeToUserReviewsReviewer}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My submitted Reviews</a></li>
+                          <li><a href={routeToUserReviewsReviewee}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My received Reviews</a></li>
+                        </ul>
+                      </li>
+
+                      <li className="uk-nav-header">My Account</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href="/profile"><span className="uk-margin-small-right" data-uk-icon="icon: user"></span> Profile</a></li>
+                          <li><a href="/settings"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span> Settings</a></li>
+                          <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span> Logout</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+
+                  </div>
                 </div>
+
+
               </li>
             </ul>
           </div>
         </nav>
+
+        {
+          // END MOBILE NAV BAR
+        }
 
       </div>
     );
