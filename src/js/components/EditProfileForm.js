@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 const utils = require('../utility/utilities');
 const constants = require('../utility/constants');
+const api = require('../utility/api');
+const encryption = require('../utility/encryption');
 
 export default class EditProfileForm extends Component {
 
@@ -28,9 +30,13 @@ export default class EditProfileForm extends Component {
       accountName: this.props.user.accountName,
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
+      phone: this.props.user.phoneNumber,
       currentPassword: "",
       newPassword: "",
-      newPasswordConfirm: ""
+      newPasswordConfirm: "",
+
+      updateFailed: false,
+      updateSuccess: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -57,6 +63,7 @@ export default class EditProfileForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+
       if (!!this.state.newPassword) {
         if (this.state.newPassword.length < 6) {
           this.passwordValid = false;
@@ -92,7 +99,22 @@ export default class EditProfileForm extends Component {
               });
             }
             else {
-              this.commitChanges();
+              utils.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
+                if (exists) {
+                  const currentHash = encryption.createHash(this.state.currentPassword, response.data.passwordSalt).hash;
+                  api.attemptLogin(response.data.accountName, currentHash, "accountName", function(success) {
+                    if (success) {
+                      this.commitChanges();
+                    }
+                    else {
+                      this.currentPasswordCorrect = false;
+                      this.setState({
+                        currentPasswordStyle: this.inputInvalid
+                      });
+                    }
+                  }.bind(this));
+                }
+              }.bind(this));
             }
           }.bind(this));
         }
@@ -102,7 +124,32 @@ export default class EditProfileForm extends Component {
   }
 
   commitChanges() {
-    console.log("we good");
+    let data = {
+      id: utils.getCookie(constants.COOKIE_A),
+      accountName: this.state.accountName,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phoneNumber: this.state.phone
+    };
+
+    if (!!this.state.newPassword && !!this.state.newPasswordConfirm) {
+      let pass = encryption.createHash(this.state.newPassword);
+      data.passwordSalt = pass.salt;
+      data.passwordHash = pass.hash;
+    }
+
+    api.updateUser(data, function(success, response) {
+      if (success) {
+        this.setState({
+          updateSuccess: true
+        });
+      }
+      else {
+        this.setState({
+          updateFailed: true
+        });
+      }
+    }.bind(this));
   }
 
   resetErrors() {
@@ -118,7 +165,9 @@ export default class EditProfileForm extends Component {
       accountNameStyle: this.inputValid,
       currentPasswordStyle: this.inputValid,
       newPasswordStyle: this.inputValid,
-      newPasswordConfirmStyle: this.inputValid
+      newPasswordConfirmStyle: this.inputValid,
+      updateFailed: false,
+      updateSuccess: false
     });
   }
 
@@ -139,6 +188,8 @@ export default class EditProfileForm extends Component {
         <fieldset className="uk-fieldset">
 
           <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+          <label className="uk-form-label label-invalid" hidden={!this.updateFailed}>There was a problem updating your account. Please try again or contact us if the problem continues.</label>
+          <label className="uk-form-label label-valid" hidden={!this.updateSuccess}>Account updated successfully!</label>
 
           <div className="uk-margin">
             <div className="uk-placeholder uk-padding-small uk-background-muted">
@@ -179,6 +230,13 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="lastName">Last Name</label>
             <div className="uk-form-controls">
               <input name="lastName" className={this.inputValid} type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.handleInputChange} />
+            </div>
+          </div>
+
+          <div className="uk-margin">
+            <label className="uk-form-label form-label" htmlFor="phone">Phone Number</label>
+            <div className="uk-form-controls">
+              <input name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
             </div>
           </div>
 

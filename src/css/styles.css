@@ -99,6 +99,11 @@ blue with black
   text-align: center;
 }
 
+.label-valid {
+  color: #449d44;
+  text-align: center;
+}
+
 .radio-invalid {
   border: 1px solid #f0506e;
 }
