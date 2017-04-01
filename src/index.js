@@ -53,6 +53,7 @@ ReactDOM.render((
     <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/page/:page" component={Advertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/add" component={AddAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />

@@ -93,6 +93,10 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/advertisements', callback);
   },
 
+  getAdvertisementsByPage: function(page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/page/' + page, callback);
+  },
+
   getUserAdvertisements: function(id, callback) {
     performGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
   },

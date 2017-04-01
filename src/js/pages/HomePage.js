@@ -17,8 +17,8 @@ export default class HomePage extends Component {
   componentDidMount() {
     let self = this;
 
-    // Try to get a list of all available advertisements.
-    api.getAdvertisements(function(exists, response){
+    // Try to get a list of the top 10 recent advertisements.
+    api.getAdvertisementsByPage(1, function(exists, response){
       if (exists && response){
         self.setState({
           advertisements: response.data
@@ -64,7 +64,7 @@ export default class HomePage extends Component {
                 <hr />
                 <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
                 <hr />
-                <dd><strong>CREATE ADVERTISEMENT</strong><br />Create a new advertisement with all necessary information on demand</dd>
+                <dd><strong>CREATE NEW LISTING</strong><br />Create a new listing with all necessary information on demand</dd>
               </dl>
 
             </div>
