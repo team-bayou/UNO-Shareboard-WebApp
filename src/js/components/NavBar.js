@@ -152,7 +152,7 @@ export default class NavBar extends Component {
           BEGIN MOBILE NAV BAR
         */}
 
-        <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="dropbar: true; dropbar-mode: push; mode: click">
+        <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="mode: click">
           <div className="uk-navbar-left">
             <ul className="uk-navbar-nav">
               <li>
