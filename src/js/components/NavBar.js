@@ -188,7 +188,7 @@ export default class NavBar extends Component {
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
                           <li><a href="/profile"><span className="uk-margin-small-right" data-uk-icon="icon: user"></span>Profile</a></li>
-                          <li><a href="/settings"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span>Settings</a></li>
+                          <li><a href="/profile/edit"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span>Edit Profile</a></li>
                           <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span>Logout</a></li>
                         </ul>
                       </li>
