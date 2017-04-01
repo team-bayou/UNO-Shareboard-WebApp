@@ -31,7 +31,13 @@ export default class NavBar extends Component {
     var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
     return(
-        <nav id="navbar" className="uk-navbar-container" data-uk-navbar="mode: click" data-uk-sticky>
+      <div>
+
+
+        {/*
+          BEGIN DESKTOP NAV BAR
+        */}
+        <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
             <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
@@ -101,11 +107,15 @@ export default class NavBar extends Component {
 
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
-              <li hidden={!this.state.isAdmin}>
-                <a href="/admin">
-                  <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin
-                </a>
-              </li>
+              {
+                this.state.isAdmin ?
+                <li>
+                  <a href="/admin">
+                    <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: unlock"></span> Admin
+                  </a>
+                </li>
+                : null
+              }
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
@@ -134,8 +144,81 @@ export default class NavBar extends Component {
               </li>
             </ul>
           </div>
-
         </nav>
+
+        {/*
+          END DESKTOP NAV BAR
+
+          BEGIN MOBILE NAV BAR
+        */}
+
+        <nav id="navbar" className="uk-navbar-container uk-hidden@m" data-uk-navbar="mode: click">
+          <div className="uk-navbar-left">
+            <ul className="uk-navbar-nav">
+              <li>
+                <a className="uk-navbar-toggle" href="#" data-uk-toggle="target: #side-menu">
+                  <span data-uk-icon="icon: menu; ratio: 1.5"></span> <span className="uk-margin-small-left">Menu</span>
+                </a>
+
+                <div id="side-menu" data-uk-offcanvas="mode: reveal; overlay: true">
+                  <div className="uk-offcanvas-bar">
+
+                    <ul className="uk-nav uk-nav-default">
+                      <li><a href="/home"><span className="uk-margin-small-right" data-uk-icon="icon: home"></span>Home</a></li>
+
+                      <li className="uk-nav-header">Listings</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
+                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
+                          <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
+                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
+                        </ul>
+                      </li>
+
+                      <li className="uk-nav-header">Reviews</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href={routeToUserReviewsReviewer}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My Submitted Reviews</a></li>
+                          <li><a href={routeToUserReviewsReviewee}><span className="uk-margin-small-right" data-uk-icon="icon: comments"></span>My Received Reviews</a></li>
+                        </ul>
+                      </li>
+
+                      <li className="uk-nav-header">My Account</li>
+                      <li className="uk-parent">
+                        <ul className="uk-nav-sub">
+                          <li><a href="/profile"><span className="uk-margin-small-right" data-uk-icon="icon: user"></span>Profile</a></li>
+                          <li><a href="/profile/edit"><span className="uk-margin-small-right" data-uk-icon="icon: cog"></span>Edit Profile</a></li>
+                          <li><a href="/logout"><span className="uk-margin-small-right" data-uk-icon="icon: sign-out"></span>Logout</a></li>
+                        </ul>
+                      </li>
+
+                      {
+                        this.state.isAdmin ?
+                        <li className="uk-nav-divider"></li>
+                        : null
+                      }
+                      {
+                        this.state.isAdmin ?
+                        <li><a href="/admin"><span className="uk-margin-small-right" data-uk-icon="icon: unlock"></span>Admin</a></li>
+                        : null
+                      }
+                    </ul>
+
+                  </div>
+                </div>
+
+
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        {/*
+          END MOBILE NAV BAR
+        */}
+
+      </div>
     );
   }
 }
