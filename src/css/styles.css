@@ -99,6 +99,11 @@ blue with black
   text-align: center;
 }
 
+.label-valid {
+  color: #449d44;
+  text-align: center;
+}
+
 .radio-invalid {
   border: 1px solid #f0506e;
 }
@@ -379,4 +384,42 @@ td, th {
 
 .edit-categories-corner {
   border: none
+}
+
+
+/* Profile Page */
+
+.info-list {
+  position: relative;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.user-profile-table {
+  padding: 0;
+  margin: 0;
+}
+
+.user-profile-table td.user-profile-title {
+  text-align: right;
+}
+
+.user-profile-table td.user-profile-content {
+  text-align: center;
+}
+
+.user-profile-borderless-row,
+.user-profile-borderless-row td {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.hidden-info {
+  font-style: italic;
+}
+
+.form-label {
+  font-weight: bold;
 }

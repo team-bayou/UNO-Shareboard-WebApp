@@ -4,7 +4,7 @@ import utils from '../utility/utilities';
 import constants from '../utility/constants';
 
 import logo from '../../media/images/logo.svg';
-import avatar from '../../media/images/avatar.jpg';
+import avatar from '../../media/images/avatar_placeholder.png';
 
 export default class NavBar extends Component {
   constructor(props){
@@ -119,8 +119,8 @@ export default class NavBar extends Component {
                       </a>
                     </li>
                     <li>
-                      <a href="/settings">
-                        <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: cog"></span> Settings
+                      <a href="/profile/edit">
+                        <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: cog"></span> Edit Profile
                       </a>
                     </li>
                     <li className="uk-nav-divider"></li>

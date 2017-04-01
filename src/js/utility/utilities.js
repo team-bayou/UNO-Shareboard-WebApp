@@ -40,17 +40,48 @@ module.exports = {
       };
     }
     catch (err) {
-      return false;
+      return {
+        isValid: false,
+        number: null
+      };
     }
   },
 
-  // Escapes any entered HTML characters
+  prettifyPhone: function(num) {
+    const phone = this.validatePhone(num);
+
+    if (!phone.isValid)
+      return null;
+
+    const number = phone.number.toString();
+    if (number.length === 11) {
+      const country = number.charAt(0);
+      const area = number.slice(1, 4);
+      const firstThree = number.slice(4, 7);
+      const lastFour = number.slice(7);
+
+      return "+" + country + " (" + area + ") " + firstThree + "-" + lastFour;
+    }
+    else if (number.length === 10) {
+      const area = number.slice(0, 3);
+      const firstThree = number.slice(3, 6);
+      const lastFour = number.slice(6);
+
+      return "(" + area + ") " + firstThree + "-" + lastFour;
+    }
+    else {
+      return number;
+    }
+
+  },
+
+  // replace <, >, &, ', " and / with HTML entities
   sanitizeInput: function(input) {
     let output = validator.escape(input);
     return output;
   },
 
-  // Escapes any entered HTML characters
+  // replace <, >, &, ', " and / with HTML entities
   //   and removes all whitespace from the string
   sanitizeInputSpacing: function(input) {
     let output = validator.escape(input);
@@ -275,7 +306,7 @@ module.exports = {
           this.clearCookies();
           callback();
         }
-      });
+      }.bind(this));
     }
 
     // If we're trying to access any other page on the site
@@ -297,7 +328,7 @@ module.exports = {
           replace("/");
           callback();
         }
-      });
+      }.bind(this));
     }
   },
 

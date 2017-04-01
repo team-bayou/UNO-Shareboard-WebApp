@@ -6,7 +6,7 @@ import EditCategories from '../components/EditCategories';
 export default class AdminPage extends Component {
   render() {
     return (
-      <div id="home" className="app">
+      <div id="admin" className="app">
         <AppHeader />
         <div className="app-body uk-container">
 
