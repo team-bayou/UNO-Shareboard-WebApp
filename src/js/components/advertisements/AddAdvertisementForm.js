@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 
 export default class AddAdvertisementForm extends Component {
   constructor(props){
@@ -176,8 +177,11 @@ export default class AddAdvertisementForm extends Component {
             </div>
 
             <div className="uk-width-1-4 uk-align-center">
-              <div className="uk-margin-large-top">
-                <button className="uk-button uk-button-secondary uk-button-large uk-width-1-1 uk-align-center submit-btn" type="submit" value="Submit">Submit</button>
+              <div className="uk-margin-medium-top">
+                <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
+              </div>
+              <div className="uk-margin-small-top">
+                <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
               </div>
             </div>
 

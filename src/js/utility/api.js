@@ -63,13 +63,6 @@ function performPut(endpoint, data, callback) {
 
 module.exports = {
   //======================//
-  //        USERS         //
-  //======================//
-  getUser: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/users/' + id, callback);
-  },
-
-  //======================//
   //      CATEGORIES      //
   //======================//
   getCategories: function(callback) {

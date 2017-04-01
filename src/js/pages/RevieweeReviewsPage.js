@@ -27,16 +27,14 @@ export default class RevieweeReviewsPage extends Component {
     }
     // Otherwise, fetch account name of reviewee and show his name.
     else {
-      let self = this;
-
       // Try to get a user.
-      api.getUser(this.props.params.id, function(exists, response){
+      api.getUserByID(this.props.params.id, function(exists, response){
         if (exists && response){
-          self.setState({
+          this.setState({
             name: response.data.accountName + "'s",
             createReview: (
               <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
-                <CreateButton href={"reviews/add"} name={"Give review"} />
+                <CreateButton href={"reviews/add"} name={"Review this user"} />
               </div>
             ),
             backToAd: (
@@ -47,9 +45,11 @@ export default class RevieweeReviewsPage extends Component {
           });
         }
         else {
-          console.log("No user found");
+          this.setState({
+            name: ''
+          });
         }
-      });
+      }.bind(this));
     }
   }
 

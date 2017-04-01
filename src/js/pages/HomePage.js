@@ -3,6 +3,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
+import CreateButton from '../components/buttons/CreateButton';
 
 export default class HomePage extends Component {
   constructor(props){
@@ -38,13 +39,13 @@ export default class HomePage extends Component {
         <div className="app-body uk-container">
           <div className="uk-flex uk-flex-center">
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1">Buy / Seek</a>
+              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
+              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1">Create New Listing</a>
+              <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
             </div>
           </div>
 
