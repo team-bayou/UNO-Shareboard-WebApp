@@ -181,8 +181,8 @@ module.exports = {
       return;
     }
 
-    api.checkForUnverifiedEmail(email, function(exists) {
-      callback(exists);
+    api.checkForUnverifiedEmail(email, function(exists, response) {
+      callback(exists, response);
     });
   },
 

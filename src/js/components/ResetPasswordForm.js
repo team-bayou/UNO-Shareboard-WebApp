@@ -60,7 +60,26 @@ export default class ForgotPasswordForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.resetErrors();
     this.checkForEmptyFields();
+
+    if (!this.emptyFields) {
+      if (this.state.password.length < 6) {
+        this.passwordValid = false;
+        this.setState({
+          passwordStyle: this.inputInvalid
+        });
+      }
+      else if (this.state.password !== this.state.passwordConfirm) {
+        this.passwordMatch = false;
+        this.setState({
+          passwordConfirmStyle: this.inputInvalid
+        });
+      }
+      else {
+        console.log("password updated");
+      }
+    }
   }
 
   resetErrors() {
