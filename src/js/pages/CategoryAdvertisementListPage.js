@@ -17,7 +17,7 @@ export default class CategoryAdvertisementsPage extends Component {
   }
 
   componentDidMount() {
-    // Try to get a list of category's advertisements.
+    // Try to get a list of category's advertisements and extract length.
     api.getCategoryAdvertisements(this.props.params.id, function(exists, response){
       if (exists && response){
         let numOfAds = response.data.length;
@@ -46,7 +46,7 @@ export default class CategoryAdvertisementsPage extends Component {
   }
 
   render() {
-    if (this.state.pages <= 0 || !this.state.advertisements)
+    if (this.state.pages < 0 || !this.state.advertisements)
       return (<div className="uk-text-center">Loading...</div>);
 
     return (

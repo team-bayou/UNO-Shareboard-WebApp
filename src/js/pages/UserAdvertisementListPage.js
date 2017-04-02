@@ -22,7 +22,7 @@ export default class UserAdvertisementsPage extends Component {
   }
 
   componentDidMount() {
-    // Try to get a list of user's advertisements.
+    // Try to get a list of user's advertisements and extract length.
     api.getUserAdvertisements(this.props.params.id, function(exists, response){
       if (exists && response){
         let numOfAds = response.data.length;
@@ -66,7 +66,7 @@ export default class UserAdvertisementsPage extends Component {
   }
 
   render() {
-    if (this.state.pages <= 0 || !this.state.advertisements || !this.state.user)
+    if (this.state.pages < 0 || !this.state.advertisements || !this.state.user)
       return (<div className="uk-text-center">Loading...</div>);
 
     if (!this.state.userExists) {

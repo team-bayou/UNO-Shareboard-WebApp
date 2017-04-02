@@ -138,8 +138,16 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/reviews/reviewer/' + id, callback);
   },
 
+  getReviewerReviewsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewer/' + id + '/page/' + page, callback);
+  },
+
   getRevieweeReviews: function(id, callback) {
     performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id, callback);
+  },
+
+  getRevieweeReviewsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id + '/page/' + page, callback);
   },
 
   addReview: function(data, callback) {

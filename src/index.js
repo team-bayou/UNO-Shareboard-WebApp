@@ -61,7 +61,9 @@ ReactDOM.render((
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements/page/:page" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
+    <Route path="reviews/reviewer/:id/page/:page" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewee/:id" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
+    <Route path="reviews/reviewee/:id/page/:page" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviews" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviews/add" component={AddReview} onEnter={checkLoggedInStatus} />
     <Route path="admin" component={Admin} onEnter={checkAdmin} />

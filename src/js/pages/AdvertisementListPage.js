@@ -44,7 +44,7 @@ export default class AdvertisementsPage extends Component {
   }
 
   render() {
-    if (this.state.pages <= 0 || !this.state.advertisements)
+    if (this.state.pages < 0 || !this.state.advertisements)
       return (<div className="uk-text-center">Loading...</div>);
 
     return (

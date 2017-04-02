@@ -39,7 +39,7 @@ export default class RevieweeReviewsPage extends Component {
             ),
             backToAd: (
               <div>
-                <GBButton />
+                <GBButton route={"/users/" + this.props.params.id}/>
               </div>
             )
           });
@@ -58,7 +58,8 @@ export default class RevieweeReviewsPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <ReviewsPage id={this.props.params.id} isReviewer={false} headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
+      <ReviewsPage id={this.props.params.id} page={this.props.params.page} isReviewer={false}
+        headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
     );
   }
 }
