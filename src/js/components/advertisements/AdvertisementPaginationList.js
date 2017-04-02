@@ -5,7 +5,7 @@ import Pagination from '../Pagination';
 export default class AdvertisementPaginationList extends Component {
   render(){
     let pagination = this.props.pages > 1 ?
-      <Pagination pages={this.props.pages} currentPage={this.props.currentPage} resource={"advertisements"}/>
+      <Pagination pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
       :
       '';
 

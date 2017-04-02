@@ -53,7 +53,7 @@ export default class AdvertisementsPage extends Component {
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
-            currentPage={parseInt(this.state.currentPage, 10)} />
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements"}/>
         </div>
       </div>
     );

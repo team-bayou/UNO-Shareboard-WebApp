@@ -101,8 +101,16 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
   },
 
+  getUserAdvertisementsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/users/' + id + '/page/' + page, callback);
+  },
+
   getCategoryAdvertisements: function(id, callback) {
     performGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
+  },
+
+  getCategoryAdvertisementsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/categories/' + id + '/page/' + page, callback);
   },
 
   getAdvertisement: function(id, callback) {

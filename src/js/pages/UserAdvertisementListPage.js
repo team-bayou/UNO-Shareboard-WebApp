@@ -4,7 +4,7 @@ import constants from '../utility/constants';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import AdList from '../components/advertisements/AdvertisementList';
+import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 import CreateButton from '../components/buttons/CreateButton';
 
 export default class UserAdvertisementsPage extends Component {
@@ -12,6 +12,8 @@ export default class UserAdvertisementsPage extends Component {
     super(props);
 
     this.state = {
+      currentPage: this.props.params.page ? this.props.params.page : 1,
+      pages: -1,
       advertisements: [],
       user: null,
       userExists: false,
@@ -23,9 +25,26 @@ export default class UserAdvertisementsPage extends Component {
     // Try to get a list of user's advertisements.
     api.getUserAdvertisements(this.props.params.id, function(exists, response){
       if (exists && response){
+        let numOfAds = response.data.length;
+        // Determine number of pages.
+        let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
+
+        this.setState({
+          pages: pages
+        });
+      } else {
+        console.log("No advertisements found");
+      }
+    }.bind(this));
+
+    // Try to get a list of user's advertisements by page number.
+    api.getUserAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response){
+      if (exists && response){
         this.setState({
           advertisements: response.data
         });
+      } else {
+        console.log("No advertisements found");
       }
     }.bind(this));
 
@@ -47,7 +66,7 @@ export default class UserAdvertisementsPage extends Component {
   }
 
   render() {
-    if (!this.state.advertisements || !this.state.user)
+    if (this.state.pages <= 0 || !this.state.advertisements || !this.state.user)
       return (<div className="uk-text-center">Loading...</div>);
 
     if (!this.state.userExists) {
@@ -120,7 +139,8 @@ export default class UserAdvertisementsPage extends Component {
             </div>
             : null
           }
-          <AdList advertisements={this.state.advertisements}/>
+          <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"users/" + this.props.params.id + "/advertisements"}/>
         </div>
       </div>
     );
