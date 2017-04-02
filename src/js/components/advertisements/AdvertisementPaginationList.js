@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import AdList from './AdvertisementList';
-import Pagination from '../Pagination';
+import Paginator from '../Paginator';
 
 export default class AdvertisementPaginationList extends Component {
   render(){
-    let pagination = this.props.pages > 1 ?
-      <Pagination pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
+    let paginator = this.props.pages > 1 ?
+      <Paginator pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
       :
       '';
 
     return (
       <div>
         <div className="uk-margin-small-bottom">
-          {pagination}
+          {paginator}
         </div>
         <AdList advertisements={this.props.advertisements}/>
         <div className="uk-margin-small-top">
-          {pagination}
+          {paginator}
         </div>
       </div>
     );

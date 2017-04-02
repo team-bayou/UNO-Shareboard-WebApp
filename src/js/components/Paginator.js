@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-export default class Pagination extends Component {
+export default class Paginator extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      pagination: this.initPagination()
+      paginator: this.initPaginator()
     }
   }
 
@@ -13,19 +13,19 @@ export default class Pagination extends Component {
     return(
       <div className="pagination">
         <ul className="uk-pagination uk-flex-center" data-uk-margin>
-          {this.state.pagination}
+          {this.state.paginator}
         </ul>
       </div>
     );
   }
 
-  initPagination(){
+  initPaginator(){
     let pages = [];
     let routeToPage = "/" + this.props.resource + "/page/";
     let routeToPrevious = routeToPage + (this.props.currentPage - 1);
     let routeToNext = routeToPage + (this.props.currentPage + 1);
 
-    // Add 'Previous' to pagination.
+    // Add 'Previous' to paginator.
     if (this.props.currentPage > 1){
       pages.push(<li key={-1}><a href={routeToPrevious}><span data-uk-icon="icon: chevron-left"></span> Previous</a></li>);
     }
@@ -38,7 +38,7 @@ export default class Pagination extends Component {
       }
     }
 
-    // Add 'Next' to pagination.
+    // Add 'Next' to paginator.
     if (this.props.currentPage < this.props.pages){
       pages.push(<li key={0}><a href={routeToNext}>Next <span data-uk-icon="icon: chevron-right"></span></a></li>);
     }
