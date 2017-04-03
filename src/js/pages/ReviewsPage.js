@@ -1,4 +1,5 @@
 import api from '../utility/api';
+import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
@@ -37,12 +38,9 @@ export default class ReviewsPage extends Component {
 
   callback(exists, response){
     if (exists && response){
-      let numOfReviews = response.data.length;
-      // Determine number of pages.
-      let pages = numOfReviews / 10 + (numOfReviews % 10 === 0 ? 0 : 1);
-
+      // Determine number of pages based on the number of reviews.
       this.setState({
-        pages: pages
+        pages: utils.getNumberOfPages(response.data.length)
       });
     } else {
       console.log("No reviews found");

@@ -15,7 +15,7 @@ export default class AdvertisementPaginationList extends Component {
           {paginator}
         </div>
         <AdList advertisements={this.props.advertisements}/>
-        <div className="uk-margin-small-top">
+        <div className="uk-margin-medium-top">
           {paginator}
         </div>
       </div>

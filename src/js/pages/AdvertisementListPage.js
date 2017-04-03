@@ -1,4 +1,5 @@
 import api from '../utility/api';
+import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
@@ -19,12 +20,9 @@ export default class AdvertisementsPage extends Component {
     // Try to get a list of all available advertisements and extract length.
     api.getAdvertisements(function(exists, response){
       if (exists && response){
-        let numOfAds = response.data.length;
-        // Determine number of pages.
-        let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
-
+        // Determine number of pages based on the number of advertisements.
         this.setState({
-          pages: pages
+          pages: utils.getNumberOfPages(response.data.length)
         });
       } else {
         console.log("No advertisements found");
