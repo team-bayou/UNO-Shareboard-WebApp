@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import AppFooter from '../components/AppFooter';
 import '../../css/styles.css';
 
 export default class LandingPage extends Component {
@@ -21,6 +22,7 @@ export default class LandingPage extends Component {
             </div>
           </div>
         </div>
+        <AppFooter />
       </div>
     );
   }
