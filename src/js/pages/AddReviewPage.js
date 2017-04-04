@@ -34,7 +34,7 @@ export default class AddReviewPage extends Component {
       <div id="review-add" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>Give Review</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>Review user</span></h2>
           <AddForm reviewerId={utils.getCookie(constants.COOKIE_A)} revieweeId={this.props.params.id} handleSubmit={this.handleSubmit} />
         </div>
       </div>

@@ -3,6 +3,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
+import CreateButton from '../components/buttons/CreateButton';
 
 export default class HomePage extends Component {
   constructor(props){
@@ -16,8 +17,8 @@ export default class HomePage extends Component {
   componentDidMount() {
     let self = this;
 
-    // Try to get a list of all available advertisements.
-    api.getAdvertisements(function(exists, response){
+    // Try to get a list of the top 10 recent advertisements.
+    api.getAdvertisementsByPage(1, function(exists, response){
       if (exists && response){
         self.setState({
           advertisements: response.data
@@ -38,13 +39,13 @@ export default class HomePage extends Component {
         <div className="app-body uk-container">
           <div className="uk-flex uk-flex-center">
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1">Buy / Seek</a>
+              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1">Sell / Offer</a>
+              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1">Create New Listing</a>
+              <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
             </div>
           </div>
 
@@ -63,7 +64,7 @@ export default class HomePage extends Component {
                 <hr />
                 <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
                 <hr />
-                <dd><strong>CREATE ADVERTISEMENT</strong><br />Create a new advertisement with all necessary information on demand</dd>
+                <dd><strong>CREATE NEW LISTING</strong><br />Create a new listing with all necessary information on demand</dd>
               </dl>
 
             </div>

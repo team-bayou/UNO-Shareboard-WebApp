@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import Rating from './Rating';
-import SCButtons from '../buttons/SubmitCancelButtons';
 
 export default class AddReviewForm extends Component {
   constructor(props){
@@ -117,8 +117,13 @@ export default class AddReviewForm extends Component {
               </div>
             </div>
 
-            <div>
-              <SCButtons />
+            <div className="uk-width-1-4 uk-align-center">
+              <div className="uk-margin-medium-top">
+                <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
+              </div>
+              <div className="uk-margin-small-top">
+                <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
+              </div>
             </div>
           </fieldset>
         </form>

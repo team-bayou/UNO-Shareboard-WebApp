@@ -27,29 +27,29 @@ export default class RevieweeReviewsPage extends Component {
     }
     // Otherwise, fetch account name of reviewee and show his name.
     else {
-      let self = this;
-
       // Try to get a user.
-      api.getUser(this.props.params.id, function(exists, response){
+      api.getUserByID(this.props.params.id, function(exists, response){
         if (exists && response){
-          self.setState({
+          this.setState({
             name: response.data.accountName + "'s",
             createReview: (
               <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
-                <CreateButton href={"reviews/add"} name={"Give review"} />
+                <CreateButton href={"reviews/add"} name={"Review this user"} />
               </div>
             ),
             backToAd: (
               <div>
-                <GBButton />
+                <GBButton route={"/users/" + this.props.params.id}/>
               </div>
             )
           });
         }
         else {
-          console.log("No user found");
+          this.setState({
+            name: ''
+          });
         }
-      });
+      }.bind(this));
     }
   }
 
@@ -58,7 +58,8 @@ export default class RevieweeReviewsPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <ReviewsPage id={this.props.params.id} isReviewer={false} headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
+      <ReviewsPage id={this.props.params.id} page={this.props.params.page} isReviewer={false}
+        headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
     );
   }
 }

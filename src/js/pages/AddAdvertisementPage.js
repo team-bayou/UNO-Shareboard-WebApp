@@ -59,7 +59,7 @@ export default class AddAdvertisementPage extends Component {
       <div id="ad-add" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>Create Advertisement</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>Create New Listing</span></h2>
           <AddForm categories={categories} ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
         </div>
       </div>

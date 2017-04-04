@@ -1,32 +1,53 @@
 import api from '../utility/api';
+import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
-import ReviewList from '../components/reviews/ReviewList';
+import ReviewPageList from '../components/reviews/ReviewPaginationList';
 
 export default class ReviewsPage extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      reviews: null
+      currentPage: this.props.page ? this.props.page : 1,
+      pages: -1,
+      reviews: []
     };
 
     this.callback = this.callback.bind(this);
+    this.callbackByPage = this.callbackByPage.bind(this);
   }
 
   componentDidMount() {
-    // Try to get a list of reviewer's reviews.
     if (this.props.isReviewer) {
+      // Try to get a list of reviewer's reviews and extract length.
       api.getReviewerReviews(this.props.id, this.callback);
+
+      // Try to get a list of reviewer's reviews by page number.
+      api.getReviewerReviewsByPage(this.props.id, this.state.currentPage, this.callbackByPage);
     }
-    // Try to get a list of reviewee's reviews.
     else {
+      // Try to get a list of reviewee's reviews and extract length.
       api.getRevieweeReviews(this.props.id, this.callback);
+
+      // Try to get a list of reviewee's reviews by page number.
+      api.getRevieweeReviewsByPage(this.props.id, this.state.currentPage, this.callbackByPage);
     }
   }
 
-  callback(exists, response) {
+  callback(exists, response){
+    if (exists && response){
+      // Determine number of pages based on the number of reviews.
+      this.setState({
+        pages: utils.getNumberOfPages(response.data.length)
+      });
+    } else {
+      console.log("No reviews found");
+    }
+  }
+
+  callbackByPage(exists, response) {
     if (exists && response){
       this.setState({
         reviews: response.data
@@ -38,8 +59,10 @@ export default class ReviewsPage extends Component {
   }
 
   render() {
-    if (!this.state.reviews)
+    if (this.state.pages < 0 || !this.state.reviews)
       return (<div className="uk-text-center">Loading...</div>);
+
+    let resource = this.props.isReviewer ? "reviews/reviewer/" : "reviews/reviewee/";
 
     return (
       <div id="reviews" className="app">
@@ -54,7 +77,8 @@ export default class ReviewsPage extends Component {
               {this.props.createReview}
             </div>
           </div>
-          <ReviewList reviews={this.state.reviews} isReviewer={this.props.isReviewer}/>
+          <ReviewPageList reviews={this.state.reviews} isReviewer={this.props.isReviewer} pages={parseInt(this.state.pages, 10)}
+            currentPage={parseInt(this.state.currentPage, 10)} resource={resource + this.props.id}/>
         </div>
       </div>
     );

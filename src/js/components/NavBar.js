@@ -74,7 +74,7 @@ export default class NavBar extends Component {
                       </a>
                       <a href="/advertisements/add">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: file-edit"></span>
-                        Create Advertisement
+                        Create New Listing
                       </a>
                     </li>
                   </ul>

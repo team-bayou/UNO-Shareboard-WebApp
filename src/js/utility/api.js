@@ -63,13 +63,6 @@ function performPut(endpoint, data, callback) {
 
 module.exports = {
   //======================//
-  //        USERS         //
-  //======================//
-  getUser: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/users/' + id, callback);
-  },
-
-  //======================//
   //      CATEGORIES      //
   //======================//
   getCategories: function(callback) {
@@ -100,12 +93,24 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/advertisements', callback);
   },
 
+  getAdvertisementsByPage: function(page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/page/' + page, callback);
+  },
+
   getUserAdvertisements: function(id, callback) {
     performGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
   },
 
+  getUserAdvertisementsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/users/' + id + '/page/' + page, callback);
+  },
+
   getCategoryAdvertisements: function(id, callback) {
     performGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
+  },
+
+  getCategoryAdvertisementsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/categories/' + id + '/page/' + page, callback);
   },
 
   getAdvertisement: function(id, callback) {
@@ -133,8 +138,16 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/reviews/reviewer/' + id, callback);
   },
 
+  getReviewerReviewsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewer/' + id + '/page/' + page, callback);
+  },
+
   getRevieweeReviews: function(id, callback) {
     performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id, callback);
+  },
+
+  getRevieweeReviewsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id + '/page/' + page, callback);
   },
 
   addReview: function(data, callback) {

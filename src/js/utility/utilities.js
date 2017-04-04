@@ -415,6 +415,12 @@ module.exports = {
       api.updateCategory(data, cb);
     }
 
-  }
+  },
 
+  //======================//
+  //        OTHERS        //
+  //======================//
+  getNumberOfPages(size) {
+    return size / constants.MAX_RESULTS + (size % constants.MAX_RESULTS === 0 ? 0 : 1)
+  }
 }
