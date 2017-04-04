@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -54,6 +55,7 @@ export default class ProfilePage extends Component {
               </div>
             </div>
           </div>
+          <AppFooter />
         </div>
       );
     }
@@ -153,6 +155,7 @@ export default class ProfilePage extends Component {
             </div>
 
           </div>
+          <AppFooter />
         </div>
       );
     }

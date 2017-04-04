@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
 import ReviewForm from '../components/reviews/ReviewForm';
+import AppFooter from '../components/AppFooter';
 
 export default class AddReviewPage extends Component {
   constructor(props){
@@ -82,6 +83,7 @@ export default class AddReviewPage extends Component {
           <ReviewForm id={this.props.id} review={this.state.review} reviewerId={utils.getCookie(constants.COOKIE_A)}
             revieweeId={!this.props.edit ? this.props.params.id : this.state.review.reviewee.id} handleSubmit={this.handleSubmit} />
         </div>
+        <AppFooter />
       </div>
     );
   }

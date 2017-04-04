@@ -3,6 +3,7 @@ import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
 export default class AdvertisementsPage extends Component {
@@ -53,6 +54,7 @@ export default class AdvertisementsPage extends Component {
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements"}/>
         </div>
+        <AppFooter />
       </div>
     );
   }

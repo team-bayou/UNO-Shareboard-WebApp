@@ -20,6 +20,21 @@ ol, ul {
   padding: 20px;
 }
 
+.app-footer {
+  text-align: center;
+}
+
+.app-footer a {
+  color: #999;
+  text-decoration: none;
+}
+
+.app-footer a:hover,
+.app-footer a:focus {
+  color: #666;
+  text-decoration: none;
+}
+
 .uk-icon::before {
   background-image: url("/icons.svg");
 }

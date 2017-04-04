@@ -4,6 +4,7 @@ import constants from '../utility/constants';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 import CreateButton from '../components/buttons/CreateButton';
 
@@ -78,6 +79,7 @@ export default class UserAdvertisementsPage extends Component {
               The requested user does not exist.
             </div>
           </div>
+          <AppFooter />
         </div>
       );
     }
@@ -113,6 +115,7 @@ export default class UserAdvertisementsPage extends Component {
             }
           </div>
         </div>
+        <AppFooter />
       </div>
       );
 
@@ -143,6 +146,7 @@ export default class UserAdvertisementsPage extends Component {
             currentPage={parseInt(this.state.currentPage, 10)} resource={"users/" + this.props.params.id + "/advertisements"}
             edit={true}/>
         </div>
+        <AppFooter />
       </div>
     );
   }

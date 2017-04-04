@@ -2,6 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 import CreateButton from '../components/buttons/CreateButton';
 
@@ -73,6 +74,8 @@ export default class HomePage extends Component {
           <h2 className="uk-heading-line uk-text-center"><span>{"Recent Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdvertisementFeed advertisements={this.state.advertisements}/>
         </div>
+
+        <AppFooter />
       </div>
     );
   }

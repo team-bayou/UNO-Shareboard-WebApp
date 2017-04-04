@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import FindUserForm from '../components/FindUserForm';
 import EditCategories from '../components/EditCategories';
 
@@ -26,6 +27,7 @@ export default class AdminPage extends Component {
           </div>
 
         </div>
+        <AppFooter />
       </div>
     );
   }
