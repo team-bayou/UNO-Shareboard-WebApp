@@ -10,6 +10,14 @@ export default class AdvertisementCard extends Component {
     return (
       <div id={"ad-" + this.props.ad.id} className="ad">
         <div className="uk-card uk-card-default uk-card-hover">
+          {
+            this.props.edit ?
+              <div className="edit-link uk-card-badge">
+                <a href={"/advertisements/" + this.props.ad.id + "/edit"} className="uk-icon-link" data-uk-icon="icon: pencil; ratio: 1.5"></a>
+              </div>
+              :
+              ''
+          }
           <AdMedia content={this.props.media} />
           <AdTradeItem ad={this.props.ad} />
           <AdHeader ad={this.props.ad} />

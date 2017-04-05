@@ -145,7 +145,7 @@ blue with black
   width: 300px;
 }
 
-/* Advertisement Categories */
+/* Advertisement */
 .ad-category {
   margin-right: 0.5em;
 }
@@ -159,6 +159,16 @@ blue with black
 
 .ad-images {
   border-bottom: 1px solid #e5e5e5;
+}
+
+.ad .edit-link a {
+  color: #999;
+}
+
+.ad .edit-link a:active,
+.ad .edit-link a:focus,
+.ad .edit-link a:hover {
+  color: #666;
 }
 
 /* Slideshow */

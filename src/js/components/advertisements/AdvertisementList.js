@@ -4,7 +4,7 @@ import Ad from './AdvertisementListElement';
 export default class AdvertisementList extends Component {
   render(){
     var ads = this.props.advertisements.map(
-      ad => <Ad key={ad.id} ad={ad}/>
+      ad => <Ad key={ad.id} ad={ad} edit={this.props.edit}/>
     );
 
     return (
