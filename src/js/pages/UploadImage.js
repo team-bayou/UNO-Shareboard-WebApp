@@ -10,27 +10,29 @@ export default class UploadImage extends Component {
     super(props);
 
     this.state = {
-      image: null
+      image: null,
+      dropRejected: false
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.onDrop = this.onDrop.bind(this);
-  }
-
-  handleInputChange(event) {
-    console.log(event.target.files[0]);
-    this.setState({
-      image: event.target.files[0]
-    });
+    this.onDropRejected = this.onDropRejected.bind(this);
   }
 
   onDrop(files) {
     var file = files[0];
     console.log(file);
     this.setState({
-      image: file
+      image: file,
+      dropRejected: false
     })
+  }
+
+  onDropRejected(files) {
+    console.log("Rejected file type");
+    this.setState({
+      dropRejected: true
+    });
   }
 
   handleSubmit(event) {
@@ -38,7 +40,7 @@ export default class UploadImage extends Component {
 
     const config = {
       headers: {
-        'Content-Type': "text/html"//this.state.image.type
+        'Content-Type': this.state.image.type
       },
       auth: {
         username: process.env.REACT_APP_AUTH_USERNAME,
@@ -46,20 +48,6 @@ export default class UploadImage extends Component {
       }
     };
 
-    axios.get(constants.HOST + "/service/v1/images/5", config)
-    .then(function (response) {
-      console.log("success");
-      console.log(response);
-      this.setState({
-        imageData: window.btoa(response.data)
-      })
-    }.bind(this))
-    .catch(function (error) {
-      console.log("failure");
-      console.log(error);
-    });
-
-    /*
     var data = new FormData();
     data.append("description", "test description");
     data.append("owner", 12)
@@ -74,13 +62,19 @@ export default class UploadImage extends Component {
       console.log("failure");
       console.log(error);
     });
-    */
   }
 
   render() {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop} size={150}>
+        {
+          this.state.dropRejected ?
+          <div className="uk-alert-danger uk-text-center" data-uk-alert>
+            <p>You can only attempt to upload images</p>
+          </div>
+          : null
+        }
+        <Dropzone onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={false} preventDropOnDocument={true} accept={"image/*"}>
           <div className="info-list">
             Drag and drop an image here to upload it, or click to select an image
           </div>
