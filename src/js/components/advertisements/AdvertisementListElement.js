@@ -25,7 +25,7 @@ export default class AdvertisementListElement extends Component {
     );
 
     return (
-      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} />
+      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} edit={this.props.edit}/>
     );
   }
 }

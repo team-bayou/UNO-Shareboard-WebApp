@@ -131,6 +131,21 @@ module.exports = {
     }, callback);
   },
 
+  updateAdvertisement: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/advertisements/update', {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      categoryId: data.category,
+      ownerId: data.owner,
+      timePublished: data.timePublished,
+      expirationDate: data.expirationDate,
+      adType: data.adType,
+      price: data.price,
+      tradeItem: data.tradeItem
+    }, callback);
+  },
+
   //======================//
   //       REVIEWS        //
   //======================//

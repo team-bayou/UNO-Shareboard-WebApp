@@ -10,6 +10,7 @@ import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
 import AddAdvertisement from './js/pages/AddAdvertisementPage';
+import EditAdvertisement from './js/pages/EditAdvertisementPage';
 import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import AddReview from './js/pages/AddReviewPage';
@@ -58,6 +59,7 @@ ReactDOM.render((
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/categories/:id/page/:page" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/:id/edit" component={EditAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements/page/:page" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
