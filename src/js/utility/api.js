@@ -165,8 +165,23 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/reviews/reviewee/' + id + '/page/' + page, callback);
   },
 
+  getReview: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/reviews/' + id, callback);
+  },
+
   addReview: function(data, callback) {
     performPost(constants.HOST + '/service/v1/reviews/add', {
+      rating: data.rating,
+      comments: data.comments,
+      //timePublished: data.timePublished,
+      reviewerId: data.reviewer,
+      revieweeId: data.reviewee
+    }, callback);
+  },
+
+  updateReview: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/reviews/update', {
+      id: data.id,
       rating: data.rating,
       comments: data.comments,
       //timePublished: data.timePublished,

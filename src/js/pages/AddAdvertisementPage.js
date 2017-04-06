@@ -31,7 +31,7 @@ export default class AddAdvertisementPage extends Component {
       }
     }.bind(this));
 
-    // If user wants to edit his/her advertisement, fetch it from db by id.
+    // If user wants to edit his/her advertisement, fetch it by id.
     if (this.props.edit){
       api.getAdvertisement(this.props.id, function(exists, response){
         if (exists && response){
@@ -67,7 +67,7 @@ export default class AddAdvertisementPage extends Component {
       // Redirect to page of user's advertisements.
       browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements");
     } else {
-      console.log("Failed to add/update advertisement.");
+      console.log("Failed to create/update advertisement.");
     }
   }
 

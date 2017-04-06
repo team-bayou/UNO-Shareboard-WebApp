@@ -112,7 +112,6 @@ export default class AdvertisementForm extends Component {
       <div>
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
-
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
@@ -219,7 +218,6 @@ export default class AdvertisementForm extends Component {
                 </div>
               </div>
             </div>
-
           </fieldset>
         </form>
       </div>

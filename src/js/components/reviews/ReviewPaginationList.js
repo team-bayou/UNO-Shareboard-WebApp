@@ -14,7 +14,7 @@ export default class ReviewPaginationList extends Component {
         <div className="uk-margin-small-bottom">
           {paginator}
         </div>
-        <ReviewList reviews={this.props.reviews} isReviewer={this.props.isReviewer}/>
+        <ReviewList reviews={this.props.reviews} isReviewer={this.props.isReviewer} edit={this.props.edit}/>
         <div className="uk-margin-medium-top">
           {paginator}
         </div>

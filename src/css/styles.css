@@ -161,13 +161,13 @@ blue with black
   border-bottom: 1px solid #e5e5e5;
 }
 
-.ad .edit-link a {
+.edit-link {
   color: #999;
 }
 
-.ad .edit-link a:active,
-.ad .edit-link a:focus,
-.ad .edit-link a:hover {
+.edit-link:active,
+.edit-link:focus,
+.edit-link:hover {
   color: #666;
 }
 

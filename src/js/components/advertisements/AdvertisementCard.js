@@ -4,6 +4,7 @@ import AdHeader from './AdvertisementHeader';
 import AdMedia from './AdvertisementMedia';
 import AdBody from './AdvertisementBody';
 import AdFooter from './AdvertisementFooter';
+import EditButton from '../buttons/EditButton';
 
 export default class AdvertisementCard extends Component {
   render(){
@@ -12,8 +13,8 @@ export default class AdvertisementCard extends Component {
         <div className="uk-card uk-card-default uk-card-hover">
           {
             this.props.edit ?
-              <div className="edit-link uk-card-badge">
-                <a href={"/advertisements/" + this.props.ad.id + "/edit"} className="uk-icon-link" data-uk-icon="icon: pencil; ratio: 1.5"></a>
+              <div className="uk-card-badge">
+                <EditButton href={"/advertisements/" + this.props.ad.id + "/edit"} />
               </div>
               :
               ''

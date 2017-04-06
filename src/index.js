@@ -14,6 +14,7 @@ import EditAdvertisement from './js/pages/EditAdvertisementPage';
 import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import AddReview from './js/pages/AddReviewPage';
+import EditReview from './js/pages/EditReviewPage';
 import Admin from './js/pages/AdminPage'
 import Profile from './js/pages/ProfilePage';
 import EditProfile from './js/pages/EditProfilePage';
@@ -62,6 +63,7 @@ ReactDOM.render((
     <Route path="advertisements/:id/edit" component={EditAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/advertisements/page/:page" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="reviews/:id/edit" component={EditReview} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id/page/:page" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewee/:id" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
