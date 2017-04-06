@@ -25,6 +25,8 @@ import ReportProblem from './js/pages/ReportProblemPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
+import UploadImage from './js/pages/UploadImage';
+
 const utilities = require('./js/utility/utilities');
 
 function checkLoggedInStatus(nextState, replace, callback) {
@@ -81,6 +83,7 @@ ReactDOM.render((
     <Route path="logout" onEnter={logout} />
     <Route path="forgotpassword" component={ForgotPasswordPage} onEnter={checkLoggedInStatus} />
     <Route path="resetpassword" component={ResetPasswordPage} onEnter={checkLoggedInStatus} />
+    <Route path="upload" component={UploadImage} />]
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));
