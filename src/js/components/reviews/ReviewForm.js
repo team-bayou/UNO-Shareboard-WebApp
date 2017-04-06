@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Rating from './Rating';
 
-export default class AddReviewForm extends Component {
+export default class ReviewForm extends Component {
   constructor(props){
     super(props);
 
@@ -11,13 +11,14 @@ export default class AddReviewForm extends Component {
     this.ratingInvalid = "uk-form-controls rating-invalid";
 
     this.state = {
-      rating: '',
-      comments: '',
-      commentsStyle: '',
-      reviewer: this.props.reviewerId,
-      reviewee: this.props.revieweeId,
-      timePublished: new Date(Date.now()).toISOString(),
-      ratingStyle: this.ratingValid
+      id: this.props.review ? this.props.review.id : '',
+      rating: this.props.review ? this.props.review.rating : '',
+      comments: this.props.review ? this.props.review.comments : '',
+      reviewer: this.props.review ? this.props.review.reviewer.id : this.props.reviewerId,
+      reviewee: this.props.review ? this.props.review.reviewee.id : this.props.revieweeId,
+      timePublished: /* this.props.review ? this.props.review.timePublished : */ new Date(Date.now()).toISOString(),
+      ratingStyle: this.ratingValid,
+      commentsStyle: ''
     };
 
     this.handleRatingChange = this.handleRatingChange.bind(this);
@@ -100,7 +101,7 @@ export default class AddReviewForm extends Component {
                   <label className="uk-form-label label-invalid" htmlFor="review-rating" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
                   <label className="uk-form-label" htmlFor="review-rating">Rating</label>
                   <div className={this.state.ratingStyle}>
-                    <Rating onClick={this.handleRatingChange}/>
+                    <Rating onClick={this.handleRatingChange} rating={this.state.rating}/>
                   </div>
                 </div>
               </div>
@@ -111,7 +112,9 @@ export default class AddReviewForm extends Component {
                 <div className="uk-margin">
                   <label className="uk-form-label" htmlFor="review-comments">Comments</label>
                   <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="review-comments" placeholder="The textual comments giving to the user" name="comments" onChange={this.handleInputChange}/>
+                    <textarea className="uk-textarea" id="review-comments"
+                      placeholder="The textual comments giving to the user" name="comments"
+                      value={this.state.comments} onChange={this.handleInputChange}/>
                   </div>
                 </div>
               </div>

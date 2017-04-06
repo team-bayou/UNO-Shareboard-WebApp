@@ -8,18 +8,10 @@ export default class Rating extends Component {
     this.ratingTips = ["Very bad", "Bad", "Okay", "Good", "Very good"];
 
     this.state = {
-      stars: this.getRating(-1),
+      stars: this.props.rating ? this.getRating(this.props.rating - 1) : this.getRating(-1),
       selected: false,
       selectedRating: -1
     };
-  }
-
-  render(){
-    return (
-      <div className="review-rating">
-        {this.state.stars}
-      </div>
-    );
   }
 
   handleMouseHover(index, enter){
@@ -61,5 +53,13 @@ export default class Rating extends Component {
     }
 
     return stars;
+  }
+
+  render(){
+    return (
+      <div className="review-rating">
+        {this.state.stars}
+      </div>
+    );
   }
 }
