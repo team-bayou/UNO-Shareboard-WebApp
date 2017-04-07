@@ -17,6 +17,25 @@ export default class UploadImage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
+
+
+
+    const config = {
+      auth: {
+        username: process.env.REACT_APP_AUTH_USERNAME,
+        password: process.env.REACT_APP_AUTH_PASSWORD
+      }
+    };
+
+    axios.get(constants.HOST + "/service/v1/images/5/info/", config)
+    .then(function (response) {
+      console.log("success");
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log("failure");
+      console.log(error);
+    });
   }
 
   onDrop(files) {
