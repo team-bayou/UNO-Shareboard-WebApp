@@ -69,7 +69,7 @@ export default class UploadImage extends Component {
 
     var data = new FormData();
     data.append("description", "test description");
-    data.append("owner", 12)
+    data.append("owner", 1)
     data.append("image_data", this.state.image);
 
     axios.post(constants.HOST + "/service/v1/images/upload", data, config)
@@ -99,7 +99,7 @@ export default class UploadImage extends Component {
           </div>
         </Dropzone>
         <img src={!!this.state.image ? this.state.image.preview : null} width="128" height="128" alt="preview" />
-        <img src={constants.HOST + "/service/v1/images/5"} width="128" height="128" alt="preview" />
+        <img src={constants.HOST + "/service/v1/images/get/4"} width="128" height="128" alt="preview" />
         <div className="uk-margin" data-uk-margin>
           <button className="uk-button uk-button-default" onClick={this.handleSubmit}>Submit</button>
         </div>
