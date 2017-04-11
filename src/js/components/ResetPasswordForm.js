@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/styles.css';
 
+const encryption = require('../utility/encryption');
 const utilities = require('../utility/utilities');
 const validateEmail = utilities.validateEmail;
 
@@ -8,21 +9,12 @@ export default class ForgotPasswordForm extends Component {
   constructor(props) {
     super(props);
 
-    let pageNeedsLoading = false;
+    let pageNeedsLoading = true;
     this.propsValid = true;
 
-    if (!props.email || !props.code || !validateEmail(props.email)) {
+    if (!props.email || !validateEmail(props.email)) {
       this.propsValid = false;
       pageNeedsLoading = false;
-    }
-    else {
-      /*utilities.checkForUnverifiedEmail(props.email, function (exists) {
-        this.propsValid = exists;
-        this.setState({
-          pageLoaded: true
-        });
-      }.bind(this));
-      */
     }
 
     this.emptyFields = false;
@@ -32,20 +24,43 @@ export default class ForgotPasswordForm extends Component {
 
     this.passwordValid = true;
     this.passwordMatch = true;
+    this.verificationCorrect = true;
 
     this.state = {
       password: '',
       passwordConfirm: '',
+      verifycode: '',
 
       passwordStyle: this.inputValid,
       passwordConfirmStyle: this.inputValid,
+      verifycodeStyle: this.inputValid,
 
       pageLoaded: !pageNeedsLoading,
-      resetComplete: false
+      resetComplete: false,
+      errorWithReset: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    utilities.checkForExistingEmail(this.props.email, function (exists) {
+      if (exists) {
+        utilities.checkForPasswordResetVerifyCode(this.props.email, function(exists, response) {
+          this.propsValid = exists;
+          this.setState({
+            pageLoaded: true
+          });
+        }.bind(this));
+      }
+      else {
+        this.propsValid = false;
+        this.setState({
+          pageLoaded: true
+        });
+      }
+    }.bind(this));
   }
 
   handleInputChange(event) {
@@ -77,7 +92,31 @@ export default class ForgotPasswordForm extends Component {
         });
       }
       else {
-        console.log("password updated");
+        const hashedPassword = encryption.createHash(this.state.password);
+        const data = {
+          email: this.props.email,
+          enteredVerificationCode: this.state.verifycode,
+          enteredPasswordHash: hashedPassword.hash,
+          enteredPasswordSalt: hashedPassword.salt
+        };
+        utilities.performPasswordReset(data, function(verifyCodeCorrect, error) {
+          if (verifyCodeCorrect) {
+            this.setState({
+              resetComplete: true
+            });
+          }
+          else if (!error) {
+            this.verificationCorrect = false;
+            this.setState({
+              verifycodeStyle: this.inputInvalid
+            });
+          }
+          else {
+            this.setState({
+              errorWithReset: true
+            });
+          }
+        }.bind(this));
       }
     }
   }
@@ -85,34 +124,26 @@ export default class ForgotPasswordForm extends Component {
   resetErrors() {
     this.passwordValid = true;
     this.passwordMatch = true;
+    this.verificationCorrect = true;
     this.emptyFields = false;
     this.setState({
       passwordStyle: this.inputValid,
-      passwordConfirmStyle: this.inputValid
+      passwordConfirmStyle: this.inputValid,
+      verifycodeStyle: this.inputValid
     });
-  }
-
-  checkForExistingErrors() {
-    const ps = this.state.password !== "" && this.state.password.length < 6 ? this.inputInvalid : this.inputValid;
-    const pcs = this.state.passwordConfirm !== "" && this.state.password !== this.state.passwordConfirm ? this.inputInvalid : this.inputValid;
-    this.setState({
-      passwordStyle: ps,
-      passwordConfirmStyle: pcs
-    });
-
-    this.passwordValid = ps === this.inputValid;
-    this.passwordMatch = pcs === this.inputValid;
   }
 
   checkForEmptyFields() {
-    if (this.state.password === "" || this.state.passwordConfirm === "") {
+    if (this.state.verifycode === "" || this.state.password === "" || this.state.passwordConfirm === "") {
       this.emptyFields = true;
 
       const ps = this.state.password === "" || this.state.password.length < 6 ? this.inputInvalid : this.inputValid;
       const pcs = this.state.passwordConfirm === "" || this.state.password !== this.state.passwordConfirm ? this.inputInvalid : this.inputValid;
+      const vcs = this.state.verifycode === "" ? this.inputInvalid : this.inputValid;
       this.setState({
         passwordStyle: ps,
-        passwordConfirmStyle: pcs
+        passwordConfirmStyle: pcs,
+        verifycodeStyle: vcs
       });
     }
     else {
@@ -161,7 +192,15 @@ export default class ForgotPasswordForm extends Component {
 
                 <legend className="uk-legend uk-text-center">Reset Password</legend>
 
-                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure both fields are filled out</label>
+                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
+                <label className="uk-form-label label-invalid" hidden={!this.state.errorWithReset}>There was an error when attempting to reset your password. Please try again or contact us if the problem persists.</label>
+
+                <div className="uk-margin">
+                  <div className="uk-form-controls">
+                    <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
+                  </div>
+                  <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
+                </div>
 
                 <div className="uk-margin">
                   <div className="uk-form-controls">

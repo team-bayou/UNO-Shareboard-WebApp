@@ -39,10 +39,11 @@ export default class ForgotPasswordForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
-      console.log("e-mail sent");
-      this.setState({
-        emailSent: true
-      });
+      utilities.submitForgotPassword(this.state.email, function(success, response) {
+        this.setState({
+          emailSent: true
+        });
+      }.bind(this));
     }
   }
 
@@ -80,7 +81,7 @@ export default class ForgotPasswordForm extends Component {
       return (
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset">
-            
+
             <legend className="uk-legend landing-header">Forgot Password</legend>
 
             <div className="uk-margin">

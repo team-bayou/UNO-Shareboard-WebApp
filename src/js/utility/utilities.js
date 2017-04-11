@@ -245,6 +245,34 @@ module.exports = {
     });
   },
 
+  checkForPasswordResetVerifyCode(email, callback) {
+    api.checkForPasswordResetVerifyCode(email, function(exists, response) {
+      callback(exists, response);
+    });
+  },
+
+  submitForgotPassword(email, callback) {
+    const data = {
+      email: this.cleanUnoEmail(email)
+    };
+    api.submitForgotPassword(data, function(success, response) {
+      callback(success, response);
+    });
+  },
+
+  performPasswordReset(data, callback) {
+    api.performPasswordReset(data, function(success, response) {
+      if (success) {
+        callback(true);
+      }
+      else if (response.response.status === 400) {
+        callback(false);
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
 
   //======================//
   //   COOKIE UTILITIES   //

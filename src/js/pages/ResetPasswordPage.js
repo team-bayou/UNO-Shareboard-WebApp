@@ -9,7 +9,7 @@ export default class ForgotPasswordPage extends Component {
         <div className="app-body uk-container">
           <div className="landing-form uk-card uk-card-default uk-width-large uk-align-center">
             <div className="uk-card-body">
-              <ResetPasswordForm email={this.props.location.query.email} code={this.props.location.query.code} />
+              <ResetPasswordForm email={this.props.location.query.email} />
             </div>
           </div>
         </div>
