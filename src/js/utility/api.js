@@ -232,31 +232,7 @@ module.exports = {
   },
 
   attemptVerification: function(user, callback) {
-    performPost(constants.HOST + '/service/v1/auth/verify/', user, function(success, response) {
-      if (success) {
-        callback(true, true);
-      }
-
-      // I know `response.response` looks weird, but that's because in this case,
-      // `response` is an error, and an error has its own response member that
-      // we have to access to get its containing data
-      else {
-        if (response.response.status === constants.RESPONSE_UNAUTHORIZED) {
-          if (response.response.data.errorMessage === "password") {
-            callback(false, true);
-          }
-          else if (response.response.data.errorMessage === "verify") {
-            callback(true, false);
-          }
-          else if (response.response.data.errorMessage === "both") {
-            callback(false, false);
-          }
-        }
-        else {
-          callback(false, false);
-        }
-      }
-    });
+    performPost(constants.HOST + '/service/v1/auth/verify/', user, callback);
   },
 
   updateUser: function(data, callback) {

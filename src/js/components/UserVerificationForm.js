@@ -29,7 +29,6 @@ export default class UserVerificationForm extends Component {
     this.emptyFields = false;
     this.usernameValid = true;
     this.phoneNumberValid = true;
-    this.passwordCorrect = true;
     this.verificationCorrect = true;
     this.usernameExists = false;
 
@@ -38,21 +37,20 @@ export default class UserVerificationForm extends Component {
 
     this.state = {
       verifycode: '',
-      password: '',
       username: '',
       firstname: '',
       lastname: '',
       phone: '',
 
       verifycodeStyle: this.inputValid,
-      passwordStyle: this.inputValid,
       usernameStyle: this.inputValid,
       firstnameStyle: this.inputValid,
       lastnameStyle: this.inputValid,
       phoneStyle: this.inputValid,
 
       pageLoaded: !pageNeedsLoading,
-      verifyComplete: false
+      verifyComplete: false,
+      verifyFailed: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -80,13 +78,6 @@ export default class UserVerificationForm extends Component {
       this.usernameValid = us === this.inputValid;
       this.setState({
         usernameStyle: us
-      });
-    }
-
-    else if (name === "password") {
-      const ps = value === "" && this.emptyFields ? this.inputInvalid : this.inputValid;
-      this.setState({
-        passwordStyle: ps
       });
     }
 
@@ -146,29 +137,29 @@ export default class UserVerificationForm extends Component {
           const info = {
             email: this.props.email,
             verificationCode: this.state.verifycode,
-            password: this.state.password,
             username: this.state.username,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             phone: this.state.phone
           };
-          utilities.performVerification(info, function(passwordCorrect, verifyCodeCorrect) {
+          utilities.performVerification(info, function(verifyCodeCorrect, error) {
 
-            this.passwordCorrect = passwordCorrect;
-            this.verificationCorrect = verifyCodeCorrect;
-
-            const passStyle = passwordCorrect ? this.inputValid : this.inputInvalid;
-            const verifyStyle = verifyCodeCorrect ? this.inputValid : this.inputInvalid;
-
-            this.setState({
-              passwordStyle: passStyle,
-              verifycodeStyle: verifyStyle
-            });
-
-            if (passwordCorrect && verifyCodeCorrect) {
-              console.log("successfully verified");
+            if (verifyCodeCorrect) {
+              this.verificationCorrect = true;
               this.setState({
+                verifycodeStyle: this.inputValid
                 verifyComplete: true
+              });
+            }
+            else if (!error) {
+              this.verificationCorrect = false;
+              this.setState({
+                verifycodeStyle: this.inputInvalid
+              });
+            }
+            else {
+              this.setState({
+                verifyFailed: true
               });
             }
 
@@ -182,26 +173,23 @@ export default class UserVerificationForm extends Component {
     this.usernameValid = true;
     this.phoneNumberValid = true;
     this.emptyFields = false;
-    this.passwordCorrect = true;
     this.verificationCorrect = true;
     this.setState({
       verifycodeStyle: this.inputValid,
       usernameStyle: this.inputValid,
-      passwordStyle: this.inputValid
+      verifyFailed: false
     });
   }
 
   checkForEmptyFields() {
-    if (this.state.verifycode === "" || this.state.username === "" || this.state.password === "") {
+    if (this.state.verifycode === "" || this.state.username === "") {
       this.emptyFields = true;
 
       const vs = this.state.verifycode === "" ? this.inputInvalid : this.inputValid;
       const us = this.state.username === "" || !this.usernameValid ? this.inputInvalid : this.inputValid;
-      const ps = this.state.password === "" ? this.inputInvalid : this.inputValid;
       this.setState({
         verifycodeStyle: vs,
-        usernameStyle: us,
-        passwordStyle: ps
+        usernameStyle: us
       });
     }
     else {
@@ -250,19 +238,13 @@ export default class UserVerificationForm extends Component {
                 <legend className="uk-legend uk-text-center">Verify Account</legend>
 
                 <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+                <label className="uk-form-label label-invalid" hidden={!this.state.verifyFailed}>There was an error when attempting to verify your account. Please try again or contact us if the problem persists.</label>
 
                 <div className="uk-margin">
                   <div className="uk-form-controls">
                     <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code (required)" value={this.state.verifycode} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
-                </div>
-
-                <div className="uk-margin">
-                  <div className="uk-form-controls">
-                    <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password (required)" value={this.state.password} onChange={this.handleInputChange} />
-                  </div>
-                  <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
                 </div>
 
                 <div className="uk-margin">
