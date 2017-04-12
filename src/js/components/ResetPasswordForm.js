@@ -129,7 +129,8 @@ export default class ForgotPasswordForm extends Component {
     this.setState({
       passwordStyle: this.inputValid,
       passwordConfirmStyle: this.inputValid,
-      verifycodeStyle: this.inputValid
+      verifycodeStyle: this.inputValid,
+      errorWithReset: false
     });
   }
 
