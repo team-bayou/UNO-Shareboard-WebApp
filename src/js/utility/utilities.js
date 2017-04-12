@@ -265,7 +265,7 @@ module.exports = {
       if (success) {
         callback(true);
       }
-      else if (response.response.status === 400) {
+      else if (response.response.status === constants.RESPONSE_BAD_REQUEST) {
         callback(false);
       }
       else {
