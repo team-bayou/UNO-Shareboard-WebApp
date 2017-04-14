@@ -18,8 +18,6 @@ export default class UploadImage extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
 
-
-
     const config = {
       auth: {
         username: process.env.REACT_APP_AUTH_USERNAME,

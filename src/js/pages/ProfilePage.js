@@ -21,13 +21,15 @@ export default class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    const user = !!this.props.params.id ? this.props.params.id : utils.getCookie(constants.COOKIE_A);
+    const id = !!this.props.params.id ? this.props.params.id : utils.getCookie(constants.COOKIE_A);
 
-    api.getUserByID(user, function(exists, response) {
+    api.getUserByID(id, function(exists, response) {
+      const user = response.data;
+
       if (exists) {
         this.setState({
-          user: response.data,
-          myProfile: (response.data.id + "") === (utils.getCookie(constants.COOKIE_A) + "")
+          user: user,
+          myProfile: (user.id + "") === (utils.getCookie(constants.COOKIE_A) + "")
         });
       }
       else {
@@ -86,7 +88,7 @@ export default class ProfilePage extends Component {
 
             <div className="uk-grid-large uk-grid-divider" data-uk-grid>
               <div className="uk-width-1-3@m uk-text-center uk-cover-container">
-                <img src={avatar} alt={this.state.user.accountName + "'s Avatar"} />
+                <img src={!!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar} alt={this.state.user.accountName + "'s Avatar"} />
               </div>
               <div className="uk-width-1-3@m">
 

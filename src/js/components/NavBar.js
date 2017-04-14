@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import utils from '../utility/utilities';
 import constants from '../utility/constants';
-
+import api from '../utility/api';
 import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar_placeholder.png';
 
@@ -11,7 +11,8 @@ export default class NavBar extends Component {
     super(props);
 
     this.state = {
-      isAdmin: false
+      isAdmin: false,
+      user: null
     }
   }
 
@@ -21,6 +22,12 @@ export default class NavBar extends Component {
         isAdmin: isAdmin
       });
     }.bind(this));
+
+    api.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
+      this.setState({
+        user: response.data
+      })
+    }.bind(this));
   }
 
   render(){
@@ -29,6 +36,11 @@ export default class NavBar extends Component {
     var routeToUserAds = "/users/" + id + "/advertisements";
     var routeToUserReviewsReviewer = "/reviews/reviewer/" + id;
     var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
+
+    var profileImage = null;
+    if (!!this.state.user) {
+      profileImage = !!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar;
+    }
 
     return(
       <div>
@@ -119,7 +131,7 @@ export default class NavBar extends Component {
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
-                  <img className="uk-border-circle uk-margin-small-right" width="40" height="40" src={avatar} alt=""/>
+                  <img className="uk-border-circle uk-margin-small-right" width="40" height="40" src={profileImage} alt=""/>
                 </a>
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">

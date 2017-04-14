@@ -266,6 +266,19 @@ module.exports = {
 
   submitReport: function(data, callback) {
     performPost(constants.HOST + '/service/v1/reports/submit/', data, callback);
+  },
+
+
+  //================//
+  //     IMAGES     //
+  //================//
+
+  getImageByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/get/' + id + '/', callback);
+  },
+
+  getImageDataByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/' + id + '/info/', callback);
   }
 
 }
