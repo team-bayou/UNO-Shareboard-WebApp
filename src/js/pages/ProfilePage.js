@@ -88,7 +88,12 @@ export default class ProfilePage extends Component {
 
             <div className="uk-grid-large uk-grid-divider" data-uk-grid>
               <div className="uk-width-1-3@m uk-text-center uk-cover-container">
-                <img src={!!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar} alt={this.state.user.accountName + "'s Avatar"} />
+                <img src={!!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar} alt={this.state.user.accountName + "'s Profile Picture"} />
+                {
+                  this.state.myProfile ?
+                  <a className="uk-button uk-button-secondary uk-margin-small-top" href="/profile/edit/picture"><span data-uk-icon="icon: pencil"></span> Change Profile Picture</a>
+                  : null
+                }
               </div>
               <div className="uk-width-1-3@m">
 

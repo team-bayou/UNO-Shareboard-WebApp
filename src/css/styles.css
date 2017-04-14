@@ -459,3 +459,15 @@ td, th {
 .form-label {
   font-weight: bold;
 }
+
+.profile-image-container {
+  position: relative;
+  height:300px;
+  width: 100%;
+  overflow: visible;
+}
+
+.profile-image-dropper {
+  height: 200px;
+  border: 1px dashed #666;
+}

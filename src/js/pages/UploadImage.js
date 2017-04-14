@@ -17,28 +17,11 @@ export default class UploadImage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
-
-    const config = {
-      auth: {
-        username: process.env.REACT_APP_AUTH_USERNAME,
-        password: process.env.REACT_APP_AUTH_PASSWORD
-      }
-    };
-
-    axios.get(constants.HOST + "/service/v1/images/5/info/", config)
-    .then(function (response) {
-      console.log("success");
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log("failure");
-      console.log(error);
-    });
   }
 
   onDrop(files) {
     var file = files[0];
-    console.log(file);
+    //console.log(file);
     this.setState({
       image: file,
       dropRejected: false
@@ -66,8 +49,8 @@ export default class UploadImage extends Component {
     };
 
     var data = new FormData();
-    data.append("description", "test description");
-    data.append("owner", 1)
+    data.append("description", "ttest description");
+    data.append("owner", 12)
     data.append("image_data", this.state.image);
 
     axios.post(constants.HOST + "/service/v1/images/upload", data, config)
@@ -82,6 +65,7 @@ export default class UploadImage extends Component {
   }
 
   render() {
+
     return (
       <div>
         {

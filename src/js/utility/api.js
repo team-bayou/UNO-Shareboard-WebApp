@@ -279,6 +279,35 @@ module.exports = {
 
   getImageDataByID: function(id, callback) {
     performGet(constants.HOST + '/service/v1/images/' + id + '/info/', callback);
+  },
+
+  changeUserProfilePicture: function(data, callback) {
+    const config = {
+      headers: {
+        'Content-Type': data.get("image_data").type
+      },
+      auth: {
+        username: process.env.REACT_APP_AUTH_USERNAME,
+        password: process.env.REACT_APP_AUTH_PASSWORD
+      }
+    };
+
+    axios.post(constants.HOST + "/service/v1/images/upload/", data, config)
+    .then(function (response) {
+      if (response.status === constants.RESPONSE_OK) {
+        const newImage = {
+          id: data.get("owner"),
+          imageId: response.data
+        };
+        performPut(constants.HOST + '/service/v1/users/update', newImage, callback);
+      }
+      else {
+        callback(false, response);
+      }
+    })
+    .catch(function (error) {
+      callback(false, error);
+    });
   }
 
 }

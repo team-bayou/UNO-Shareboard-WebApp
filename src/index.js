@@ -22,6 +22,7 @@ import EditProfile from './js/pages/EditProfilePage';
 import ForgotPasswordPage from './js/pages/ForgotPasswordPage';
 import ResetPasswordPage from './js/pages/ResetPasswordPage';
 import ReportProblem from './js/pages/ReportProblemPage';
+import EditProfilePicture from './js/pages/EditProfilePicturePage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -59,6 +60,7 @@ ReactDOM.render((
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
+    <Route path="profile/edit/picture" component={EditProfilePicture} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/seek" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/seek/page/:page" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
