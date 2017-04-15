@@ -16,8 +16,6 @@ export default class EditProfileForm extends Component {
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
 
-    this.noErrors = true;
-
     this.state = {
       image: null,
       dropRejected: false,
@@ -52,25 +50,27 @@ export default class EditProfileForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    var data = new FormData();
-    data.append("description", this.props.user.accountName + "'s Profile Picture");
-    data.append("owner", utils.getCookie(constants.COOKIE_A));
-    data.append("image_data", this.state.image);
+    if (!!this.state.image) {
+      var data = new FormData();
+      data.append("description", this.props.user.accountName + "'s Profile Picture");
+      data.append("owner", utils.getCookie(constants.COOKIE_A));
+      data.append("image_data", this.state.image);
 
-    api.changeUserProfilePicture(data, function(success, response) {
-      if (success) {
-        this.setState({
-          updateSuccess: true,
-          updateFailed: false
-        });
-      }
-      else {
-        this.setState({
-          updateSuccess: false,
-          updateFailed: true
-        });
-      }
-    }.bind(this));
+      api.changeUserProfilePicture(data, function(success, response) {
+        if (success) {
+          this.setState({
+            updateSuccess: true,
+            updateFailed: false
+          });
+        }
+        else {
+          this.setState({
+            updateSuccess: false,
+            updateFailed: true
+          });
+        }
+      }.bind(this));
+    }
   }
 
   render() {
