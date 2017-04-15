@@ -82,7 +82,7 @@ export default class UploadImage extends Component {
         </Dropzone>
         <img src={!!this.state.image ? this.state.image.preview : null} width="128" height="128" alt="preview" />
         <img src={constants.HOST + "/service/v1/images/get/4"} width="128" height="128" alt="preview" />
-        <div className="uk-margin" data-uk-margin>
+        <div className="uk-margin">
           <button className="uk-button uk-button-default" onClick={this.handleSubmit}>Submit</button>
         </div>
       </div>

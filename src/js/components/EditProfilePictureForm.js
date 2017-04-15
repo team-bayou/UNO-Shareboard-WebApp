@@ -44,7 +44,7 @@ export default class EditProfileForm extends Component {
       dropRejected: true
     });
     */
-    //UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
+    UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
   }
 
   handleSubmit(event) {
