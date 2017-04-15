@@ -95,8 +95,8 @@ export default class Slideshow extends Component {
           </div>
 
           <div className="arrow-nav">
-            <a className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-large"  onClick={() => this.plusSlides(-1)} data-uk-slidenav-previous></a>
-            <a className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-large" onClick={() => this.plusSlides(1)}  data-uk-slidenav-next></a>
+            <a className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-large"  onClick={() => this.plusSlides(-1)} data-uk-slidenav-previous data-uk-icon="icon: chevron-left; ratio: 2.5"></a>
+            <a className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-large" onClick={() => this.plusSlides(1)}  data-uk-slidenav-next data-uk-icon="icon: chevron-right; ratio: 2.5"></a>
           </div>
 
           <div className="uk-position-bottom-center uk-position-medium">
