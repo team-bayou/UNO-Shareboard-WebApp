@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import avatar from '../../media/images/avatar_placeholder.png';
@@ -38,10 +40,13 @@ export default class EditProfileForm extends Component {
   }
 
   onDropRejected(files) {
+    /*
     console.log("Rejected file type");
     this.setState({
       dropRejected: true
     });
+    */
+    //UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
   }
 
   handleSubmit(event) {
