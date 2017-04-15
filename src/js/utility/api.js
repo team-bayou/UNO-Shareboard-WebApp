@@ -207,6 +207,10 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/users/accountName/' + username + '/', callback);
   },
 
+  checkForPasswordResetVerifyCode: function(email, callback) {
+    performGet(constants.HOST + '/service/v1/users/' + email + '/codeCheck/', callback);
+  },
+
   getUserByID: function(id, callback) {
     performGet(constants.HOST + '/service/v1/users/' + id + '/', callback);
   },
@@ -261,6 +265,14 @@ module.exports = {
 
   deleteUser: function(id, callback) {
     performDelete(constants.HOST + '/service/v1/users/' + id + '/delete', callback);
+  },
+
+  submitForgotPassword: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/auth/forgotPass/', data, callback);
+  },
+
+  performPasswordReset: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/auth/resetPass/', data, callback);
   }
 
 }

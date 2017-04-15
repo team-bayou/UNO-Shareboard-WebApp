@@ -15,9 +15,11 @@ import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
 import AddReview from './js/pages/AddReviewPage';
 import EditReview from './js/pages/EditReviewPage';
-import Admin from './js/pages/AdminPage'
+import Admin from './js/pages/AdminPage';
 import Profile from './js/pages/ProfilePage';
 import EditProfile from './js/pages/EditProfilePage';
+import ForgotPasswordPage from './js/pages/ForgotPasswordPage';
+import ResetPasswordPage from './js/pages/ResetPasswordPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -72,6 +74,8 @@ ReactDOM.render((
     <Route path="users/:id/reviews/add" component={AddReview} onEnter={checkLoggedInStatus} />
     <Route path="admin" component={Admin} onEnter={checkAdmin} />
     <Route path="logout" onEnter={logout} />
+    <Route path="forgotpassword" component={ForgotPasswordPage} onEnter={checkLoggedInStatus} />
+    <Route path="resetpassword" component={ResetPasswordPage} onEnter={checkLoggedInStatus} />
     <Route path="*" component={NotFound} />
   </Router>
 ), document.getElementById('container'));

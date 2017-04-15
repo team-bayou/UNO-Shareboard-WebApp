@@ -144,7 +144,13 @@ module.exports = {
   // Check if the provided email is already associated
   //   with an existing account
   checkForExistingEmail: function(email, callback) {
-    email = this.cleanUnoEmail(email);
+    if (this.validateEmail(email)) {
+      email = this.cleanUnoEmail(email);
+    }
+    else {
+      callback(false);
+      return;
+    }
 
     api.checkForVerifiedEmail(email, function(exists, response) {
       if (exists) {
@@ -167,10 +173,16 @@ module.exports = {
   },
 
   checkForUnverifiedEmail: function(email, callback) {
-    email = this.cleanUnoEmail(email);
+    if (this.validateEmail(email)) {
+      email = this.cleanUnoEmail(email);
+    }
+    else {
+      callback(false);
+      return;
+    }
 
-    api.checkForUnverifiedEmail(email, function(exists) {
-      callback(exists);
+    api.checkForUnverifiedEmail(email, function(exists, response) {
+      callback(exists, response);
     });
   },
 
@@ -233,6 +245,34 @@ module.exports = {
     });
   },
 
+  checkForPasswordResetVerifyCode(email, callback) {
+    api.checkForPasswordResetVerifyCode(email, function(exists, response) {
+      callback(exists, response);
+    });
+  },
+
+  submitForgotPassword(email, callback) {
+    const data = {
+      email: this.cleanUnoEmail(email)
+    };
+    api.submitForgotPassword(data, function(success, response) {
+      callback(success, response);
+    });
+  },
+
+  performPasswordReset(data, callback) {
+    api.performPasswordReset(data, function(success, response) {
+      if (success) {
+        callback(true);
+      }
+      else if (response.response.status === constants.RESPONSE_BAD_REQUEST) {
+        callback(false);
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
 
   //======================//
   //   COOKIE UTILITIES   //
@@ -290,7 +330,7 @@ module.exports = {
 
     // If we're trying to access a page for guests
     // Requires: to be logged out
-    if (targetPath === "/" || targetPath === "verify") {
+    if (targetPath === "/" || targetPath === "verify" || targetPath === "forgotpassword" || targetPath === "resetpassword") {
       if (!userID) {
         this.clearCookies();
         callback();
