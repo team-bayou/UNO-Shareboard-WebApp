@@ -429,6 +429,83 @@ module.exports = {
   //    ADVERTISEMENTS    //
   //======================//
 
+  addNewListing: function(data, callback) {
+    let toSend = {
+      title: data.title,
+      description: data.description,
+      categoryId: data.category,
+      ownerId: data.owner,
+      timePublished: data.timePublished,
+      expirationDate: data.expirationDate,
+      adType: data.adType,
+      price: data.price,
+      tradeItem: data.tradeItem
+    };
+
+    api.addAdvertisement(toSend, function(success, response) {
+      if (success) {
+
+        if (data.images.length > 0) {
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+          let counter = 0;
+          let imgIDs = [];
+          let listingID = response.data;
+
+          var cb = function(success, response) {
+            if (success) {
+              counter++;
+              imgIDs.push(response.data);
+              if (counter === data.images.length) { // All of our images have been uploaded
+                counter = 0;
+
+                var cb2 = function(success, response) {
+                  if (success) {
+                    counter++;
+                    if (counter === imgIDs.length) { // All of our images have been added to the new listing
+                      callback(true, response);
+                    }
+                  }
+                  else {
+                    callback(false, response);
+                  }
+                };
+
+                for (var i = 0; i < imgIDs.length; i++) {
+                  api.addImageToListing(listingID, imgIDs[i], cb2);
+                }
+              }
+            }
+            else {
+              callback(false, response);
+            }
+          };
+
+          // Upload all of the images that the use wants for the listing
+          for (var i = 0; i < data.images.length; i++) {
+            var imgData = new FormData();
+            imgData.append("description", "");
+            imgData.append("owner", parseInt(data.owner, 10));
+            imgData.append("image_data", data.images[i]);
+            api.uploadImage(imgData, cb);
+          }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+        }
+
+        else {
+          callback(true, response);
+        }
+      }
+      else {
+        callback(false, response);
+      }
+    });
+
+  },
+
   getPrice: function(ad){
     if (ad.price)
       return '$ ' + ad.price;

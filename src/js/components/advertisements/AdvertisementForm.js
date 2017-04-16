@@ -32,7 +32,7 @@ export default class AdvertisementForm extends Component {
       radioLabelStyle: this.radioLabelValid,
       adTypeStyle: this.radioValid,
 
-      images: []
+      //images: this.props.ad.imageIDs.length > 0 ? this.props. : []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -48,7 +48,7 @@ export default class AdvertisementForm extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value + ""
     });
 
     // We reset the error message of each field
@@ -115,8 +115,8 @@ export default class AdvertisementForm extends Component {
 
   onDrop(files) {
     // eslint-disable-next-line
-    for (var img in files) {
-      this.state.images.push(files[img]);
+    for (var i in files) {
+      this.state.images.push(files[i]);
     }
     this.setState({
       dropRejected: false
@@ -142,8 +142,6 @@ export default class AdvertisementForm extends Component {
         );
       }.bind(this)
     );
-
-    console.log(images);
 
     return (
       <div>

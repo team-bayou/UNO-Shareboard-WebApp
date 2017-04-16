@@ -126,17 +126,7 @@ module.exports = {
   },
 
   addAdvertisement: function(data, callback) {
-    performPost(constants.HOST + '/service/v1/advertisements/add', {
-      title: data.title,
-      description: data.description,
-      categoryId: data.category,
-      ownerId: data.owner,
-      timePublished: data.timePublished,
-      expirationDate: data.expirationDate,
-      adType: data.adType,
-      price: data.price,
-      tradeItem: data.tradeItem
-    }, callback);
+    performPost(constants.HOST + '/service/v1/advertisements/add', data, callback);
   },
 
   updateAdvertisement: function(data, callback) {
@@ -273,15 +263,7 @@ module.exports = {
   //     IMAGES     //
   //================//
 
-  getImageByID: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/images/get/' + id + '/', callback);
-  },
-
-  getImageDataByID: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/images/' + id + '/info/', callback);
-  },
-
-  changeUserProfilePicture: function(data, callback) {
+  uploadImage: function(data, callback) {
     const config = {
       headers: {
         'Content-Type': data.get("image_data").type
@@ -295,6 +277,32 @@ module.exports = {
     axios.post(constants.HOST + "/service/v1/images/upload/", data, config)
     .then(function (response) {
       if (response.status === constants.RESPONSE_OK) {
+        callback(true, response);
+      }
+      else {
+        callback(false, response);
+      }
+    })
+    .catch(function (error) {
+      callback(false, error);
+    });
+  },
+
+  getImageByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/get/' + id + '/', callback);
+  },
+
+  getImageDataByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/' + id + '/info/', callback);
+  },
+
+  addImageToListing: function(listingID, imgID, callback) {
+    performPut(constants.HOST + '/service/v1/advertisements/addImage/' + listingID + '/' + imgID + '/', {}, callback);
+  },
+
+  changeUserProfilePicture: function(data, callback) {
+    this.uploadImage(data, function(success, response) {
+      if (success) {
         const newImage = {
           id: data.get("owner"),
           imageId: response.data
@@ -304,9 +312,6 @@ module.exports = {
       else {
         callback(false, response);
       }
-    })
-    .catch(function (error) {
-      callback(false, error);
     });
   }
 
