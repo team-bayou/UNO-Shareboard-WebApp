@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import Dropzone from 'react-dropzone';
 
 export default class AdvertisementForm extends Component {
   constructor(props){
@@ -29,11 +30,16 @@ export default class AdvertisementForm extends Component {
       titleStyle: this.inputValid,
       categoryStyle: this.selectValid,
       radioLabelStyle: this.radioLabelValid,
-      adTypeStyle: this.radioValid
+      adTypeStyle: this.radioValid,
+
+      images: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.onDropRejected = this.onDropRejected.bind(this);
+    this.removeImage = this.removeImage.bind(this);
   }
 
   handleInputChange(event) {
@@ -107,15 +113,77 @@ export default class AdvertisementForm extends Component {
     });
   }
 
+  onDrop(files) {
+    // eslint-disable-next-line
+    for (var img in files) {
+      this.state.images.push(files[img]);
+    }
+    this.setState({
+      dropRejected: false
+    })
+  }
+
+  onDropRejected(files) {
+
+  }
+
+  removeImage(event) {
+    let index = event.target.name.slice(8);
+    this.state.images.splice(index, 1);
+    this.setState({}); // We call an empty setState just to force a re-render
+  }
+
   render() {
+
+    var images = this.state.images.map(
+      function(images, index) {
+        return (
+          <img key={index} name={"preview-" + index} src={this.state.images[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+        );
+      }.bind(this)
+    );
+
+    console.log(images);
+
     return (
       <div>
+
+        <div>
+          <div className="uk-width-1-1 uk-text-center">
+            <div className="uk-margin">
+              <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+            </div>
+          </div>
+        </div>
+
+        <div className="uk-grid uk-margin-medium-bottom" data-uk-grid>
+          <div className="uk-width-1-4@m">
+            <div className="uk-margin">
+              <label className="uk-form-label form-label">Listing Images</label>
+              <Dropzone className="uk-width-1-1 new-listing-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={true} preventDropOnDocument={true} accept={"image/*"}>
+                <div className="uk-text-center info-list uk-padding-large">
+                  Drag and drop or click to select an image to upload
+                </div>
+              </Dropzone>
+            </div>
+          </div>
+          <div className="uk-width-3-4@m">
+            <div className="uk-margin">
+              <label className="uk-form-label form-label">Images Preview (click image to remove)</label><br />
+              <div className="new-listing-image-preview">
+                {this.state.images.length > 0 ? <span className="uk-margin-small-right"></span> : null}
+                {images}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
+
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
                   <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
                   <div className="uk-form-controls">
                     <input className={this.state.titleStyle} id="ad-title" type="text"
