@@ -130,18 +130,7 @@ module.exports = {
   },
 
   updateAdvertisement: function(data, callback) {
-    performPut(constants.HOST + '/service/v1/advertisements/update', {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      categoryId: data.category,
-      ownerId: data.owner,
-      timePublished: data.timePublished,
-      expirationDate: data.expirationDate,
-      adType: data.adType,
-      price: data.price,
-      tradeItem: data.tradeItem
-    }, callback);
+    performPut(constants.HOST + '/service/v1/advertisements/update', data, callback);
   },
 
   //======================//
@@ -298,6 +287,10 @@ module.exports = {
 
   addImageToListing: function(listingID, imgID, callback) {
     performPut(constants.HOST + '/service/v1/advertisements/addImage/' + listingID + '/' + imgID + '/', {}, callback);
+  },
+
+  removeImageFromListing: function(listingID, imgID, callback) {
+    performPut(constants.HOST + '/service/v1/advertisements/removeImage/' + listingID + '/' + imgID + '/', {}, callback);
   },
 
   changeUserProfilePicture: function(data, callback) {

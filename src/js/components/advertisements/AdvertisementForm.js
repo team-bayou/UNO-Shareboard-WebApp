@@ -21,20 +21,21 @@ export default class AdvertisementForm extends Component {
     this.state = {
       id: this.props.ad ? this.props.ad.id : '',
       title: this.props.ad ? this.props.ad.title : '',
-      description: this.props.ad ? this.props.ad.description : '',
+      description: this.props.ad ? this.props.ad.description || '' : '',
       category: this.props.ad ? this.props.ad.category.id : '',
       owner: this.props.ad ? this.props.ad.owner.id : this.props.ownerId,
       timePublished: this.props.ad ? new Date(this.props.ad.timePublished).toISOString() : new Date(Date.now()).toISOString(),
       expirationDate:  this.props.ad ? new Date(this.props.ad.expirationDate).toISOString() : new Date(Date.now()).toISOString(),
       adType: this.props.ad ? this.props.ad.adType : '',
-      price: this.props.ad ? this.props.ad.price : '',
-      tradeItem: this.props.ad ? this.props.ad.tradeItem : '',
+      price: this.props.ad ? this.props.ad.price || '' : '',
+      tradeItem: this.props.ad ? this.props.ad.tradeItem || '' : '',
       titleStyle: this.inputValid,
       categoryStyle: this.selectValid,
       radioLabelStyle: this.radioLabelValid,
       adTypeStyle: this.radioValid,
 
-      images: this.props.ad ? this.props.ad.imageIDs : []
+      existingImages: this.props.ad ? this.props.ad.imageIDs : [],
+      newImages: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -118,7 +119,7 @@ export default class AdvertisementForm extends Component {
   onDrop(files) {
     // eslint-disable-next-line
     for (var i in files) {
-      this.state.images.push(files[i]);
+      this.state.newImages.push(files[i]);
     }
     this.setState({
       dropRejected: false
@@ -130,33 +131,39 @@ export default class AdvertisementForm extends Component {
   }
 
   removeImage(event) {
-    let index = event.target.name.slice(8);
-    this.state.images.splice(index, 1);
+    if (event.target.name.includes("new")) {
+      let index = event.target.name.slice(18);
+      this.state.newImages.splice(index, 1);
+    }
+    else {
+      let index = event.target.name.slice(23);
+      this.state.existingImages.splice(index, 1);
+    }
     this.setState({}); // We call an empty setState just to force a re-render
   }
 
   render() {
 
-    var images = null;
+    var displayExistingImages = null;
+    var displayNewImages = null;
 
-    if (!this.props.ad) {
-      images = this.state.images.map(
-        function(images, index) {
+    if (this.props.ad) {
+      displayExistingImages = this.state.existingImages.map(
+        function(img, index) {
           return (
-            <img key={index} name={"preview-" + index} src={this.state.images[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+            <img key={index} name={"existing-image-preview-" + index} src={constants.HOST + '/service/v1/images/get/' + this.state.existingImages[index]} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
           );
         }.bind(this)
       );
     }
-    else {
-      images = this.state.images.map(
-        function(images, index) {
-          return (
-            <img key={index} name={"preview-" + index} src={constants.HOST + '/service/v1/images/get/' + this.state.images[index]} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
-          );
-        }.bind(this)
-      );
-    }
+
+    displayNewImages = this.state.newImages.map(
+      function(img, index) {
+        return (
+          <img key={index} name={"new-image-preview-" + index} src={this.state.newImages[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+        );
+      }.bind(this)
+    );
 
     return (
       <div>
@@ -184,8 +191,9 @@ export default class AdvertisementForm extends Component {
             <div className="uk-margin">
               <label className="uk-form-label form-label">Images Preview (click image to remove)</label><br />
               <div className="new-listing-image-preview">
-                {this.state.images.length > 0 ? <span className="uk-margin-small-right"></span> : null}
-                {images}
+                {this.state.newImages.length > 0 || this.state.existingImages.length > 0 ? <span className="uk-margin-small-right"></span> : null}
+                {displayExistingImages}
+                {displayNewImages}
               </div>
             </div>
           </div>

@@ -4,8 +4,55 @@ const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
 
-module.exports = {
+function uploadAndAdd(data, listingID, callback) {
+  let counter = 0;
+  let imgIDs = [];
 
+  var cb = function(success, response) {
+    if (success) {
+      counter++;
+      imgIDs.push(response.data);
+      if (counter === data.newImages.length) { // All of our images have been uploaded
+        counter = 0;
+
+        var cb2 = function(success, response) {
+          if (success) {
+            counter++;
+            if (counter === imgIDs.length) { // All of our images have been added to the new listing
+              console.log("supposedly finished");
+              callback(true, response);
+            }
+          }
+          else {
+            console.log("failed in cb2");
+            callback(false, response);
+          }
+        };
+
+        for (var i = 0; i < imgIDs.length; i++) {
+          console.log("adding new image");
+          api.addImageToListing(listingID, imgIDs[i], cb2);
+        }
+      }
+    }
+    else {
+      console.log("failed in cb");
+      callback(false, response);
+    }
+  };
+
+  // Upload all of the images that the use wants for the listing
+  for (var i = 0; i < data.newImages.length; i++) {
+    var imgData = new FormData();
+    imgData.append("description", "");
+    imgData.append("owner", parseInt(data.owner, 10));
+    imgData.append("image_data", data.newImages[i]);
+    console.log("uploading new image");
+    api.uploadImage(imgData, cb);
+  }
+}
+
+module.exports = {
 
   //======================//
   //      GENERATORS      //
@@ -444,57 +491,9 @@ module.exports = {
 
     api.addAdvertisement(toSend, function(success, response) {
       if (success) {
-
-        if (data.images.length > 0) {
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-          let counter = 0;
-          let imgIDs = [];
-          let listingID = response.data;
-
-          var cb = function(success, response) {
-            if (success) {
-              counter++;
-              imgIDs.push(response.data);
-              if (counter === data.images.length) { // All of our images have been uploaded
-                counter = 0;
-
-                var cb2 = function(success, response) {
-                  if (success) {
-                    counter++;
-                    if (counter === imgIDs.length) { // All of our images have been added to the new listing
-                      callback(true, response);
-                    }
-                  }
-                  else {
-                    callback(false, response);
-                  }
-                };
-
-                for (var i = 0; i < imgIDs.length; i++) {
-                  api.addImageToListing(listingID, imgIDs[i], cb2);
-                }
-              }
-            }
-            else {
-              callback(false, response);
-            }
-          };
-
-          // Upload all of the images that the use wants for the listing
-          for (var i = 0; i < data.images.length; i++) {
-            var imgData = new FormData();
-            imgData.append("description", "");
-            imgData.append("owner", parseInt(data.owner, 10));
-            imgData.append("image_data", data.images[i]);
-            api.uploadImage(imgData, cb);
-          }
-
-////////////////////////////////////////////////////////////////////////////////////////
-
+        if (data.newImages.length > 0) {
+          uploadAndAdd(data, response.data, callback);
         }
-
         else {
           callback(true, response);
         }
@@ -506,9 +505,93 @@ module.exports = {
 
   },
 
+  // Welcome to callback hell. I hope you enjoy your stay.
+  updateListing: function(data, callback) {
+    let toSend = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      categoryId: data.category,
+      ownerId: data.owner,
+      timePublished: data.timePublished,
+      expirationDate: data.expirationDate,
+      adType: data.adType,
+      price: data.price,
+      tradeItem: data.tradeItem
+    };
+
+    // Get our listing as it currently exists in the database so that we can
+    // compare our new `existing image array` to the one currently in the database
+    api.getAdvertisement(data.id, function(success, response) {
+      if (success) {
+        var existingImages = response.data.imageIDs;
+        var toRemove = [];
+        for (var index in existingImages) {
+          if (!data.existingImages.includes(existingImages[index])) {
+            toRemove.push(existingImages[index]);
+          }
+        }
+
+        // Update our listing using the information provided by the user
+        api.updateAdvertisement(toSend, function(success, response) {
+          if (success) {
+
+            // If we are trying to remove images from the listing that already
+            // exist on the listing
+            if (toRemove.length > 0) {
+              var removedCounter = 0;
+              var onRemovedCallback = function(success, response) {
+                if (success) {
+                  removedCounter++;
+                  if (removedCounter === toRemove.length) {
+
+                    // Now that we've removed any existing images that were no
+                    // longer wanted, we can now upload and assign new images
+                    // if there are any new ones
+                    if (data.newImages.length > 0) {
+                      uploadAndAdd(data, data.id, callback);
+                    }
+                    else {
+                      callback(true, response);
+                    }
+                  }
+                }
+                else {
+                  callback(false, response);
+                }
+              };
+
+              // eslint-disable-next-line
+              for (var index in toRemove) {
+                api.removeImageFromListing(data.id, toRemove[index], onRemovedCallback);
+              }
+            }
+
+            // If we aren't removing any existing images, just try to add the
+            // new ones
+            else {
+              if (data.newImages.length > 0) {
+                uploadAndAdd(data, data.id, callback);
+              }
+              else {
+                callback(true, response);
+              }
+            }
+          }
+          else {
+            callback(false, response);
+          }
+        });
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
+
   getPrice: function(ad){
     if (ad.price)
-      return '$ ' + ad.price;
+      return '$' + ad.price;
     return 'Free';
   },
 

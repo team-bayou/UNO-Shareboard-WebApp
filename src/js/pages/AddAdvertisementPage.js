@@ -58,7 +58,7 @@ export default class AddAdvertisementPage extends Component {
       utils.addNewListing(data, this.callback);
     } else {
       // Try to update existing advertisement.
-      api.updateAdvertisement(data, this.callback);
+      utils.updateListing(data, this.callback);
     }
   }
 
