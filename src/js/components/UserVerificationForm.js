@@ -147,7 +147,7 @@ export default class UserVerificationForm extends Component {
             if (verifyCodeCorrect) {
               this.verificationCorrect = true;
               this.setState({
-                verifycodeStyle: this.inputValid
+                verifycodeStyle: this.inputValid,
                 verifyComplete: true
               });
             }
