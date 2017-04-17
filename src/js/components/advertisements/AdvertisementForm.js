@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Dropzone from 'react-dropzone';
 
+const constants = require('../../utility/constants');
+
 export default class AdvertisementForm extends Component {
   constructor(props){
     super(props);
@@ -32,7 +34,7 @@ export default class AdvertisementForm extends Component {
       radioLabelStyle: this.radioLabelValid,
       adTypeStyle: this.radioValid,
 
-      //images: this.props.ad.imageIDs.length > 0 ? this.props. : []
+      images: this.props.ad ? this.props.ad.imageIDs : []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -135,13 +137,26 @@ export default class AdvertisementForm extends Component {
 
   render() {
 
-    var images = this.state.images.map(
-      function(images, index) {
-        return (
-          <img key={index} name={"preview-" + index} src={this.state.images[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
-        );
-      }.bind(this)
-    );
+    var images = null;
+
+    if (!this.props.ad) {
+      images = this.state.images.map(
+        function(images, index) {
+          return (
+            <img key={index} name={"preview-" + index} src={this.state.images[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+          );
+        }.bind(this)
+      );
+    }
+    else {
+      images = this.state.images.map(
+        function(images, index) {
+          return (
+            <img key={index} name={"preview-" + index} src={constants.HOST + '/service/v1/images/get/' + this.state.images[index]} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+          );
+        }.bind(this)
+      );
+    }
 
     return (
       <div>
