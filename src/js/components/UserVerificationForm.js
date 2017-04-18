@@ -143,7 +143,6 @@ export default class UserVerificationForm extends Component {
             phone: this.state.phone
           };
           utilities.performVerification(info, function(verifyCodeCorrect, error) {
-
             if (verifyCodeCorrect) {
               this.verificationCorrect = true;
               this.setState({
