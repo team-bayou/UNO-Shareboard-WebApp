@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../css/styles.css';
 
 const utils = require('../utility/utilities');
+const api = require('../utility/api');
 const constants = require('../utility/constants');
 
 export default class LoginForm extends Component {
@@ -19,13 +20,12 @@ export default class LoginForm extends Component {
 
     this.state = {
       loaded: false,
-
-      name: "",
-      email: "",
+      userID: '',
       description: "",
+      descriptionStyle: this.textareaValid,
 
-      emailStyle: this.inputValid,
-      descriptionStyle: this.textareaValid
+      submissionSuccessful: false,
+      submissionFailed: false
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -38,8 +38,7 @@ export default class LoginForm extends Component {
         utils.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
           if (exists) {
             this.setState({
-              name: response.data.firstName + " " + response.data.lastName,
-              email: response.data.email
+              userID: response.data.id
             });
           }
           this.setState({
@@ -63,6 +62,8 @@ export default class LoginForm extends Component {
     this.setState({
       [name]: value
     });
+
+    this.resetErrors();
   }
 
   handleSubmit(event) {
@@ -72,86 +73,95 @@ export default class LoginForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
-      if (!utils.validateEmail(this.state.email)) {
-        this.emailValid = false;
-        this.setState({
-          emailStyle: this.inputInvalid
-        });
-      }
-      else {
-        console.log(this.state.description);
-      }
+      let data = {
+        reportingUserId: this.state.userID,
+        comments: this.state.description
+      };
+      api.submitReport(data, function(success, response) {
+        console.log(response);
+        if (success) {
+          this.setState({
+            submissionSuccessful: true,
+            submissionFailed: false
+          });
+        }
+        else {
+          this.setState({
+            submissionSuccessful: false,
+            submissionFailed: true
+          });
+        }
+      }.bind(this));
     }
   }
 
   resetErrors() {
     this.emptyFields = false;
-    this.emailValid = true;
 
     this.setState({
-      emailStyle: this.inputValid,
       descriptionStyle: this.textareaValid
     });
   }
 
   checkForEmptyFields() {
-    if (this.state.email === "" || this.state.description === "") {
+    if (this.state.description === "") {
       this.emptyFields = true;
-
-      const es = this.state.email === "" ? this.inputInvalid : this.inputValid;
-      const ds = this.state.description === "" ? this.textareaInvalid : this.textareaValid;
       this.setState({
-        emailStyle: es,
-        descriptionStyle: ds
+        descriptionStyle: this.textareaInvalid
       });
     }
   }
 
   render() {
     if (this.state.loaded) {
-      return (
-        <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
-          <fieldset className="uk-fieldset">
 
-            <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+      if (this.state.submissionSuccessful) {
+        return (
+          <div className="uk-text-center">
+            <p>Thank you! Your report has successfully been submitted.</p>
+            <p>We'll check it as soon as possible.</p>
+          </div>
+        );
+      }
 
-            <div className="uk-margin">
-              <label className="uk-form-label form-label" htmlFor="name">Your Name</label>
-              <div className="uk-form-controls">
-                <input name="name" id="name" className="uk-input" type="text" placeholder="Your Name" value={this.state.name} onChange={this.handleInputChange} />
+      else {
+        return (
+          <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
+            <fieldset className="uk-fieldset">
+
+              {
+                this.state.submissionFailed ?
+                <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                  <p>There was a problem submitting your report. Please try again or e-mail us if the problem continues.</p>
+                </div>
+                : null
+              }
+
+              <div className="uk-margin">
+                <label className="uk-form-label form-label" htmlFor="description">Description of your problem <span className="label-invalid">*</span></label>
+                <div className="uk-form-controls">
+                  <textarea name="description" id="description" className={this.state.descriptionStyle} rows="5" onChange={this.handleInputChange} />
+                </div>
+                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure you fill our the description of your problem</label>
               </div>
-            </div>
 
-            <div className="uk-margin">
-              <label className="uk-form-label form-label" htmlFor="email">Your E-mail <span className="label-invalid">*</span></label>
-              <div className="uk-form-controls">
-                <input name="email" id="email" className={this.state.emailStyle} type="text" placeholder="Your E-mail" value={this.state.email} onChange={this.handleInputChange} />
+              <div className="uk-margin">
+                <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
               </div>
-              <label className="uk-form-label label-invalid" hidden={this.emailValid}>Please make sure your e-mail is valid</label>
-            </div>
 
-            <div className="uk-margin">
-              <label className="uk-form-label form-label" htmlFor="description">Description of your problem <span className="label-invalid">*</span></label>
-              <div className="uk-form-controls">
-                <textarea name="description" id="description" className={this.state.descriptionStyle} rows="5" placeholder="Description of your problem" onChange={this.handleInputChange} />
+              <div className="uk-margin-top uk-text-center">
+                <a href="/">Home</a>
               </div>
-            </div>
 
-            <div className="uk-margin">
-              <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
-            </div>
-
-            <div className="uk-margin-top uk-text-center">
-              <a href="/">Home</a>
-            </div>
-
-          </fieldset>
-        </form>
-      );
+            </fieldset>
+          </form>
+        );
+      }
     }
 
     else {
       return (<div className="uk-text-center">Loading...</div>);
     }
   }
+
 }
