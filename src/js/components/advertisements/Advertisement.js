@@ -36,7 +36,7 @@ export default class Advertisement extends Component {
     var media = (<Slideshow images={this.state.images}/>);
     var body = (<p>{this.props.ad.description}</p>);
     var footer = (
-      <AdOwnerDetails owner={this.props.ad.owner} reviews={this.props.reviews}/>
+      <AdOwnerDetails ad={this.props.ad} owner={this.props.ad.owner} reviews={this.props.reviews}/>
     );
 
     return (

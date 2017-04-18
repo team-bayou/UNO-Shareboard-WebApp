@@ -5,7 +5,7 @@ const utils = require('../utility/utilities');
 const api = require('../utility/api');
 const constants = require('../utility/constants');
 
-export default class ReportUserForm extends Component {
+export default class ReportForm extends Component {
   constructor(props) {
     super(props);
 
@@ -50,6 +50,11 @@ export default class ReportUserForm extends Component {
         offendingUserId: this.props.reportedUserID,
         comments: this.state.description
       };
+
+      if (!!this.props.reportedAdID) {
+        data.advertisementId = this.props.reportedAdID;
+      }
+
       api.submitReport(data, function(success, response) {
         if (success) {
           this.setState({
@@ -89,7 +94,7 @@ export default class ReportUserForm extends Component {
     if (this.state.submissionSuccessful) {
       return (
         <div className="uk-text-center">
-          <p>Thank you! Your report has successfully been submitted.<br />We'll review it as soon as possible.</p>
+          <p>Your report has successfully been submitted!<br />We'll review it as soon as possible.</p>
           <p><button className="uk-button uk-button-secondary uk-modal-close" type="button" value="Close">Close</button></p>
         </div>
       );
@@ -109,7 +114,7 @@ export default class ReportUserForm extends Component {
             }
 
             <div className="uk-margin">
-              <label className="uk-form-label form-label" htmlFor="description">Tell us why you're reporting this user: <span className="label-invalid">*</span></label>
+              <label className="uk-form-label form-label" htmlFor="description">Tell us why you're reporting this {!!this.props.reportedAdID ? "listing" : "user"}: <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
                 <textarea name="description" id="description" className={this.state.descriptionStyle} rows="5" onChange={this.handleInputChange} />
               </div>

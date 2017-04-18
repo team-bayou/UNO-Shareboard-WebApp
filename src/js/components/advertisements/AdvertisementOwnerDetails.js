@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-
+import ReportForm from '../ReportForm';
 import avatar from '../../../media/images/avatar.jpg';
+
+const utils = require('../../utility/utilities');
+const constants = require('../../utility/constants');
 
 export default class AdvertisementOwnerDetails extends Component {
   render(){
@@ -21,15 +24,30 @@ export default class AdvertisementOwnerDetails extends Component {
                   <ul className="ad-owner-contact uk-comment-meta uk-subnav uk-subnav-divider">
                       <li>
                         <a href={"mailto:" + this.props.owner.email} className="ad-owner-email uk-icon-button uk-margin-small-right" data-uk-icon="icon: mail" title={this.props.owner.email} data-uk-tooltip="pos: bottom"></a>
-                        <span className="ad-owner-phone uk-icon-button uk-margin-small-right" data-uk-icon="icon: whatsapp" title={this.props.owner.phoneNumber} data-uk-tooltip="pos: bottom" hidden={!this.props.owner.phoneNumber}></span>
+                        <span className="ad-owner-phone uk-icon-button uk-margin-small-right" data-uk-icon="icon: whatsapp" title={utils.prettifyPhone(this.props.owner.phoneNumber)} data-uk-tooltip="pos: bottom" hidden={!this.props.owner.phoneNumber}></span>
                         <a href={"https://www.facebook.com/" + this.props.owner.facebookId} className="ad-owner-facebook uk-icon-button uk-margin-small-right" data-uk-icon="icon: facebook" target="_blank" hidden={!this.props.owner.facebookId}></a>
                         <a href={"https://www.twitter.com/" + this.props.owner.twitterHandle} className="ad-owner-twitter uk-icon-button" data-uk-icon="icon: twitter" target="_blank" hidden={!this.props.owner.twitterHandle}></a>
                       </li>
                       <li><a href={routeToReviews}>{"User Reviews (" + this.props.reviews + ")"}</a></li>
+                      {
+                        this.props.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
+                        <li><a href="#report-listing" data-uk-toggle>Report Listing</a></li>
+                      }
                   </ul>
               </div>
           </header>
         </article>
+
+        {
+          this.props.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
+          <div id="report-listing" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body">
+              <h2 className="uk-modal-title uk-text-center">Report Listing</h2>
+              <ReportForm reportedUserID={this.props.owner.id} reportedAdID={this.props.ad.id} />
+            </div>
+          </div>
+        }
+
       </div>
     );
   }

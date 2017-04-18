@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import ReportUserForm from '../components/ReportUserForm';
+import ReportForm from '../components/ReportForm';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -162,8 +162,8 @@ export default class ProfilePage extends Component {
 
           <div id="report-user" data-uk-modal="center: true">
             <div className="uk-modal-dialog uk-modal-body">
-              <h2 className="uk-modal-title uk-text-center">Report User {this.state.user.accountName}</h2>
-              <ReportUserForm reportedUserID={this.state.user.id} />
+              <h2 className="uk-modal-title uk-text-center">Report User</h2>
+              <ReportForm reportedUserID={this.state.user.id} />
             </div>
           </div>
         </div>
