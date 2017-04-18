@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
+import ReportUserForm from '../components/ReportUserForm';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -137,17 +138,19 @@ export default class ProfilePage extends Component {
                     }
                   </li>
                   {
-                    this.state.myProfile ?
-                    null
-                    :
+                    this.state.myProfile ? null :
                     <hr />
                   }
                   {
-                    this.state.myProfile ?
-                    null
-                    :
+                    this.state.myProfile ? null :
                     <li>
                       <a className="uk-button button-success uk-width-1-1" href={"/users/" + this.state.user.id + "/reviews/add"}><span data-uk-icon="icon: pencil"></span> Review This User</a>
+                    </li>
+                  }
+                  {
+                    this.state.myProfile ? null :
+                    <li>
+                      <a className="uk-button uk-button-danger uk-width-1-1" href="#report-user" data-uk-toggle><span data-uk-icon="icon: warning; ratio: 0.85"></span> Report This User</a>
                     </li>
                   }
                 </ul>
@@ -156,6 +159,13 @@ export default class ProfilePage extends Component {
 
           </div>
           <AppFooter />
+
+          <div id="report-user" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body">
+              <h2 className="uk-modal-title uk-text-center">Report User {this.state.user.accountName}</h2>
+              <ReportUserForm reportedUserID={this.state.user.id} />
+            </div>
+          </div>
         </div>
       );
     }

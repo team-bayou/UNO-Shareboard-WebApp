@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ForgotPasswordForm from '../components/ForgotPasswordForm';
+import AppFooter from '../components/AppFooter';
 import '../../css/styles.css';
 
 export default class ForgotPasswordPage extends Component {
@@ -13,6 +14,7 @@ export default class ForgotPasswordPage extends Component {
             </div>
           </div>
         </div>
+        <AppFooter />
       </div>
     );
   }

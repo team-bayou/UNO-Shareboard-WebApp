@@ -5,12 +5,11 @@ const utils = require('../utility/utilities');
 const api = require('../utility/api');
 const constants = require('../utility/constants');
 
-export default class LoginForm extends Component {
+export default class ReportProblemForm extends Component {
   constructor(props) {
     super(props);
 
     this.emptyFields = false;
-    this.emailValid = true;
 
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
@@ -118,8 +117,7 @@ export default class LoginForm extends Component {
       if (this.state.submissionSuccessful) {
         return (
           <div className="uk-text-center">
-            <p>Thank you! Your report has successfully been submitted.</p>
-            <p>We'll check it as soon as possible.</p>
+            <p>Thank you! Your report has successfully been submitted.<br />We'll review it as soon as possible.</p>
           </div>
         );
       }
@@ -132,7 +130,7 @@ export default class LoginForm extends Component {
               {
                 this.state.submissionFailed ?
                 <div className="uk-alert-danger uk-text-center" data-uk-alert>
-                  <p>There was a problem submitting your report. Please try again or e-mail us if the problem continues.</p>
+                  <p>There was a problem submitting your report.<br />Please try again or e-mail us if the problem continues.</p>
                 </div>
                 : null
               }
@@ -150,7 +148,7 @@ export default class LoginForm extends Component {
               </div>
 
               <div className="uk-margin-top uk-text-center">
-                <a href="/">Home</a>
+                <a href="/" className="unauth-link">Home</a>
               </div>
 
             </fieldset>
