@@ -15,9 +15,6 @@ export default class ReportUserForm extends Component {
     this.textareaInvalid = "uk-textarea uk-form-danger";
 
     this.state = {
-      reportingUserID: utils.getCookie(constants.COOKIE_A),
-      reportedUserID: props.reportedUserID,
-
       description: "",
       descriptionStyle: this.textareaValid,
 
@@ -49,8 +46,8 @@ export default class ReportUserForm extends Component {
 
     if (!this.emptyFields) {
       let data = {
-        reportingUserId: this.state.reportingUserID,
-        offendingUserId: this.state.reportedUserID,
+        reportingUserId: utils.getCookie(constants.COOKIE_A),
+        offendingUserId: this.props.reportedUserID,
         comments: this.state.description
       };
       api.submitReport(data, function(success, response) {
