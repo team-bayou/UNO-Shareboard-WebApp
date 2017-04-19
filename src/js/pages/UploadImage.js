@@ -1,3 +1,10 @@
+/*
+ *
+ * THIS IS A TEST FILE FOR PLAYING WITH IMAGE UPLOADING
+ * NOT TO BE USED IN THE ACTUAL APP
+ *
+ */
+
 import React, { Component } from 'react';
 
 const Dropzone = require('react-dropzone');

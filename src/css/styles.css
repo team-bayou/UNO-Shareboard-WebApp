@@ -201,7 +201,11 @@ blue with black
 }
 
 .slideshow-container {
+<<<<<<< HEAD
   max-width: 1200px;
+=======
+  max-width: 750px;
+>>>>>>> Changed some sizing aspects of the ad image slideshow; uploading a new profile picture will now delete the old one from the database
   position: relative;
   margin: auto;
 }

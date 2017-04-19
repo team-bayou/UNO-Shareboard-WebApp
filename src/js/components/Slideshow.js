@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import no_image from '../../media/images/no_image.png';
+
+const constants = require('../utility/constants');
+
 export default class Slideshow extends Component {
   constructor(props){
     super(props);
@@ -16,23 +20,39 @@ export default class Slideshow extends Component {
   }
 
   createSlides(){
-    return (
-      this.props.images.map(img =>
-        <div key={img.imageId} className="slide fade">
-          <img src={img.imageData} alt=""/>
+    if (this.props.images.length < 1) {
+      return (
+        <div className="slide fade">
+          <img src={no_image} alt="" />
         </div>
-      )
-    );
+      );
+    }
+    else {
+      return (
+        this.props.images.map((img, index) =>
+          <div key={index} className="slide fade">
+            <img src={constants.HOST + "/service/v1/images/get/" + img} alt=""/>
+          </div>
+        )
+      );
+    }
   }
 
   createDotNav(){
-    return (
-      this.props.images.map((img, index) =>
-        <li key={img.imageId} className="dot">
-          <a onClick={() => this.currentSlide(index + 1)}></a>
-        </li>
-      )
-    );
+    if (this.props.images.length < 1) {
+      return (
+        null
+      );
+    }
+    else {
+      return (
+        this.props.images.map((img, index) =>
+          <li key={index} className="dot">
+            <a onClick={() => this.currentSlide(index + 1)}></a>
+          </li>
+        )
+      );
+    }
   }
 
   plusSlides(n) {
@@ -94,10 +114,13 @@ export default class Slideshow extends Component {
             {this.state.slides}
           </div>
 
-          <div className="arrow-nav">
-            <a className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-large"  onClick={() => this.plusSlides(-1)} data-uk-slidenav-previous></a>
-            <a className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-large" onClick={() => this.plusSlides(1)}  data-uk-slidenav-next></a>
-          </div>
+          {
+            this.props.images.length < 1 ? null :
+            <div className="arrow-nav">
+              <a className="uk-position-center-left uk-position-small uk-hidden-hover uk-slidenav-large"  onClick={() => this.plusSlides(-1)} data-uk-slidenav-previous></a>
+              <a className="uk-position-center-right uk-position-small uk-hidden-hover uk-slidenav-large" onClick={() => this.plusSlides(1)}  data-uk-slidenav-next></a>
+            </div>
+          }
 
           <div className="uk-position-bottom-center uk-position-medium">
             <ul ref={(el) => this.dots = el} className="dot-nav uk-dotnav uk-flex-nowrap">

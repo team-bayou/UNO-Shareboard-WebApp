@@ -293,6 +293,10 @@ module.exports = {
     performPut(constants.HOST + '/service/v1/advertisements/removeImage/' + listingID + '/' + imgID + '/', {}, callback);
   },
 
+  deleteImage: function(imageID, callback) {
+    performDelete(constants.HOST + '/service/v1/images/' + imageID + '/delete/', callback);
+  },
+
   changeUserProfilePicture: function(data, callback) {
     this.uploadImage(data, function(success, response) {
       if (success) {

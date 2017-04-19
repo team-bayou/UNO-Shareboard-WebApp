@@ -62,6 +62,15 @@ export default class EditProfileForm extends Component {
             updateSuccess: true,
             updateFailed: false
           });
+          api.deleteImage(this.props.image, function(success, response) {
+            if (success) {
+              console.log("Successfully deleted old user image");
+            }
+            else {
+              console.log("Failed to delete old user image");
+              console.log(response.response);
+            }
+          }.bind(this));
         }
         else {
           this.setState({
