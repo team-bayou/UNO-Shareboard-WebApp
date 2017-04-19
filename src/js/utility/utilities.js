@@ -213,19 +213,25 @@ module.exports = {
 
     api.checkForUnverifiedEmail(email, function(exists, response) {
       if (exists) {
-        const currentHash = encryption.createHash(info.password, response.data.passwordSalt).hash;
         const user = {
           email: email,
           enteredVerificationCode: parseInt(info.verificationCode, 10),
-          enteredPasswordHash: currentHash,
           accountName: info.username,
           firstName: info.firstname,
           lastName: info.lastname,
           phoneNumber: this.validatePhone(info.phone).number,
           userType: "standard"
         };
-        api.attemptVerification(user, function(passCorrect, codeCorrect) {
-          callback(passCorrect, codeCorrect);
+        api.attemptVerification(user, function(success, response) {
+          if (success) {
+            callback(true);
+          }
+          else if (response.response.status === 400) {
+            callback(false);
+          }
+          else {
+            callback(false, response);
+          }
         });
       }
       else {
