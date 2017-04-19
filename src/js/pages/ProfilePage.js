@@ -91,7 +91,7 @@ export default class ProfilePage extends Component {
                 <img src={!!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar} alt={this.state.user.accountName + "'s Profile Picture"} />
                 {
                   this.state.myProfile ?
-                  <a className="uk-button uk-button-secondary uk-margin-small-top" href="/profile/edit/picture"><span data-uk-icon="icon: pencil"></span> Change Profile Picture</a>
+                  <a className="uk-button uk-button-secondary uk-margin-small-top" href="/profile/edit/picture"><span data-uk-icon="icon: camera"></span> Change Profile Picture</a>
                   : null
                 }
               </div>
@@ -191,7 +191,7 @@ export default class ProfilePage extends Component {
                   {
                     this.state.myProfile ? null :
                     <li>
-                      <a className="uk-button button-success uk-width-1-1" href={"/users/" + this.state.user.id + "/reviews/add"}><span data-uk-icon="icon: pencil"></span> Review This User</a>
+                      <a className="uk-button button-success uk-width-1-1" href={"/users/" + this.state.user.id + "/reviews/add"}><span data-uk-icon="icon: commenting"></span> Review This User</a>
                     </li>
                   }
                   {

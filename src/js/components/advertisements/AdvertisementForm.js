@@ -182,7 +182,8 @@ export default class AdvertisementForm extends Component {
               <label className="uk-form-label form-label">Listing Images</label>
               <Dropzone className="uk-width-1-1 new-listing-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={true} preventDropOnDocument={true} accept={"image/*"}>
                 <div className="uk-text-center info-list uk-padding-large">
-                  Drag and drop or click to select an image to upload
+                  <span data-uk-icon="icon: cloud-upload"></span><br/>
+                  Drag and drop or click to select images to upload
                 </div>
               </Dropzone>
             </div>

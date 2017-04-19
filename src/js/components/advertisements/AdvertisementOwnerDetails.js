@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReportForm from '../ReportForm';
 
-import avatar from '../../../media/images/avatar.jpg';
 import placeholder from '../../../media/images/avatar_placeholder.png';
 
 const utils = require('../../utility/utilities');

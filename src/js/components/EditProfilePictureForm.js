@@ -80,7 +80,8 @@ export default class EditProfileForm extends Component {
 
         <div className="uk-width-1-3@m">
           <span><strong>Current Profile Picture</strong></span><br /><br />
-          <img src={!!this.props.image ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" />
+          <img src={!!this.props.image ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
+          <a href="">Delete</a>
         </div>
 
         <div className="uk-width-1-3@m">
@@ -103,6 +104,7 @@ export default class EditProfileForm extends Component {
 
             <Dropzone className="uk-width-1-1 profile-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={false} preventDropOnDocument={true} accept={"image/*"}>
               <div className="uk-text-center info-list uk-padding-large">
+                <span data-uk-icon="icon: cloud-upload"></span><br/>
                 Drag and drop or click to select an image to upload
               </div>
             </Dropzone>

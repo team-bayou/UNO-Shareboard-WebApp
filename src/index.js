@@ -23,7 +23,6 @@ import EditProfilePicture from './js/pages/EditProfilePicturePage';
 import ForgotPasswordPage from './js/pages/ForgotPasswordPage';
 import ResetPasswordPage from './js/pages/ResetPasswordPage';
 import ReportProblem from './js/pages/ReportProblemPage';
-import EditProfilePicture from './js/pages/EditProfilePicturePage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
