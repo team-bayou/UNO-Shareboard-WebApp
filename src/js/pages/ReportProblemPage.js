@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import ForgotPasswordForm from '../components/ForgotPasswordForm';
+import ReportProblemForm from '../components/ReportProblemForm';
 import AppFooter from '../components/AppFooter';
-import '../../css/styles.css';
 
-export default class ForgotPasswordPage extends Component {
+export default class ReportProblemPage extends Component {
   render() {
     return (
       <div id="landing" className="app">
         <div className="app-body uk-container">
           <div className="landing-form uk-card uk-card-default uk-width-large uk-align-center">
             <div className="uk-card-body">
-              <ForgotPasswordForm />
+              <div>
+                <h2 className="uk-heading-line uk-text-center"><span>Report Problem</span></h2>
+                <ReportProblemForm />
+              </div>
             </div>
           </div>
         </div>

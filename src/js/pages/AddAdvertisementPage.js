@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
 import AdForm from '../components/advertisements/AdvertisementForm';
+import AppFooter from '../components/AppFooter';
 
 export default class AddAdvertisementPage extends Component {
   constructor(props){
@@ -89,6 +90,7 @@ export default class AddAdvertisementPage extends Component {
           <AdForm id={this.props.id} ad={this.state.ad} categories={categories}
             ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
         </div>
+        <AppFooter />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import utils from '../utility/utilities';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import ReviewPageList from '../components/reviews/ReviewPaginationList';
 
 export default class ReviewsPage extends Component {
@@ -80,6 +81,7 @@ export default class ReviewsPage extends Component {
           <ReviewPageList reviews={this.state.reviews} isReviewer={this.props.isReviewer} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={resource + this.props.id} edit={this.props.edit}/>
         </div>
+        <AppFooter />
       </div>
     );
   }

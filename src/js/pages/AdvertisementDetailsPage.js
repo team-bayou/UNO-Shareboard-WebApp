@@ -2,6 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import Ad from '../components/advertisements/Advertisement';
 
 export default class AdvertisementDetailsPage extends Component {
@@ -51,6 +52,7 @@ export default class AdvertisementDetailsPage extends Component {
         <div className="app-body uk-container">
           <Ad key={this.state.advertisement.id} ad={this.state.advertisement} reviews={this.state.numberOfReviews}/>
         </div>
+        <AppFooter />
       </div>
     );
   }

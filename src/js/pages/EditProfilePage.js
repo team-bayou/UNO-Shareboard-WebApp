@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import EditProfileForm from '../components/EditProfileForm';
 
 const utils = require('../utility/utilities');
@@ -48,6 +49,7 @@ export default class EditProfilePage extends Component {
             </div>
 
           </div>
+          <AppFooter />
         </div>
       );
     }

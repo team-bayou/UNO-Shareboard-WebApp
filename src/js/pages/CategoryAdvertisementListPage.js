@@ -2,6 +2,7 @@ import api from '../utility/api';
 
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
 export default class CategoryAdvertisementsPage extends Component {
@@ -57,6 +58,7 @@ export default class CategoryAdvertisementsPage extends Component {
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/categories/" + this.props.params.id}/>
         </div>
+        <AppFooter />
       </div>
     );
   }

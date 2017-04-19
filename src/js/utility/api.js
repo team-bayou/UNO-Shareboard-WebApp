@@ -249,6 +249,15 @@ module.exports = {
 
   performPasswordReset: function(data, callback) {
     performPost(constants.HOST + '/service/v1/auth/resetPass/', data, callback);
+  },
+
+
+  //======================//
+  //         MISC         //
+  //======================//
+
+  submitReport: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/reports/submit/', data, callback);
   }
 
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserVerificationForm from '../components/UserVerificationForm';
+import AppFooter from '../components/AppFooter';
 import '../../css/styles.css';
 
 export default class UserVerificationPage extends Component {
@@ -13,6 +14,7 @@ export default class UserVerificationPage extends Component {
             </div>
           </div>
         </div>
+        <AppFooter />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AppFooter from '../components/AppFooter';
 
 export default class NotFound extends Component {
   render() {
@@ -15,6 +16,7 @@ export default class NotFound extends Component {
             </div>
           </div>
         </div>
+        <AppFooter />
       </div>
     );
   }
