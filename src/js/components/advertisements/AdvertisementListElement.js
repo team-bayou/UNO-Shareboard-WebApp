@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AdCard from './AdvertisementCard';
 
-import logo from '../../../media/images/light.jpg';
+import noimage from '../../../media/images/no_image.png';
 import placeholder from '../../../media/images/avatar_placeholder.png';
 
 const constants = require('../../utility/constants');
@@ -11,7 +11,7 @@ export default class AdvertisementListElement extends Component {
     var routeToUser = "/users/" + this.props.ad.owner.id;
     var media = (
       <a href={"/advertisements/" + this.props.ad.id}>
-        <img src={logo} alt=""/>
+        <img src={this.props.ad.imageIDs.length > 0 ? constants.HOST + "/service/v1/images/get/" + this.props.ad.imageIDs[0] : noimage} alt=""/>
       </a>
     );
     var body = (<p className="uk-text-truncate">{this.props.ad.description}</p>);
