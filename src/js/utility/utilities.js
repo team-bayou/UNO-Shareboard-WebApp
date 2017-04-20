@@ -4,6 +4,27 @@ const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
 
+
+function deleteImages(imagesToDelete, callback) {
+  let counter = 0;
+  var cb = function(success, response) {
+    if (success) {
+      counter++;
+      if (counter === imagesToDelete.length) {
+        callback(true, response);
+      }
+    }
+    else {
+      callback(false, response);
+    }
+  };
+
+  for (var i = 0; i < imagesToDelete.length; i++) {
+    api.daleteImage(imagesToDelete[i], cb);
+  }
+}
+
+
 module.exports = {
 
   //======================//
@@ -450,12 +471,7 @@ module.exports = {
           toSend.imageIDsStr.push(response.data + "");
           if (counter === data.newImages.length) {
             api.addAdvertisement(toSend, function(success, response) {
-              if (success) {
-                callback(true, response);
-              }
-              else {
-                callback(false, response);
-              }
+              callback(success, response);
             });
           }
         }
@@ -474,12 +490,7 @@ module.exports = {
     }
     else {
       api.addAdvertisement(toSend, function(success, response) {
-        if (success) {
-          callback(true, response);
-        }
-        else {
-          callback(false, response);
-        }
+        callback(success, response);
       });
     }
 
@@ -510,12 +521,7 @@ module.exports = {
         // If there were no images on the listing and we haven't added any new ones, just update the listing
         if (response.data.imageIDs.length < 1 && data.existingImages.length < 1 && data.newImages.length < 1) {
           api.updateAdvertisement(toSend, function(success, response) {
-            if (success) {
-              callback(true, response);
-            }
-            else {
-              callback(false, response);
-            }
+            callback(success, response);
           });
         }
         //================================================================
@@ -560,15 +566,41 @@ module.exports = {
 
           //))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
           else {
-            var existingImages = response.data.imageIDs;
+            var existingImagesInDB = response.data.imageIDs;
             var toRemove = [];
-            for (var index in existingImages) {
-              if (!data.existingImages.includes(existingImages[index])) {
-                toRemove.push(existingImages[index]);
+            var toKeep = [];
+            for (var index in existingImagesInDB) {
+              if (!data.existingImages.includes(existingImagesInDB[index])) {
+                toRemove.push(existingImagesInDB[index]);
               }
               else {
-                toSend.imageIDsStr.push(existingImages[index] + "");
+                toKeep.push(existingImagesInDB[index]);
               }
+            }
+
+            // If we aren't removing any images from the ad, just update it
+            if (toRemove.length < 1) {
+              api.updateAdvertisement(toSend, function(success, response) {
+                callback(success, response);
+              });
+            }
+
+            // If we are removing images from the ad, update the list of IDs to send back
+            // and delete the images
+            else {
+              toSend.imageIDsStr = [];
+              for (let i = 0; i < toKeep.length; i++) {
+                toSend.imageIDsStr.push(toKeep[i]);
+              }
+
+              api.updateAdvertisement(toSend, function(success, response) {
+                if (success) {
+                  deleteImages(toRemove, callback);
+                }
+                else {
+                  callback(false, response)
+                }
+              });
             }
           }
           //))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
