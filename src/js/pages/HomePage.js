@@ -40,10 +40,10 @@ export default class HomePage extends Component {
         <div className="app-body uk-container">
           <div className="uk-flex uk-flex-center">
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
+              <a href="/advertisements/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <a href="/advertisements" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
+              <a href="/advertisements/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
             </div>
             <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
               <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />

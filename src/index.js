@@ -5,7 +5,8 @@ import { Router, Route, browserHistory } from 'react-router';
 import Landing from './js/pages/LandingPage';
 import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
-import Advertisements from './js/pages/AdvertisementListPage';
+import OfferAdvertisements from './js/pages/OfferAdvertisementListPage';
+import SeekAdvertisements from './js/pages/SeekAdvertisementListPage';
 import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
 import UserAdvertisements from './js/pages/UserAdvertisementListPage';
 import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
@@ -57,8 +58,10 @@ ReactDOM.render((
     <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements" component={Advertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/page/:page" component={Advertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/seek" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/seek/page/:page" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/offer" component={OfferAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="advertisements/offer/page/:page" component={OfferAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/add" component={AddAdvertisement} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/categories/:id/page/:page" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
