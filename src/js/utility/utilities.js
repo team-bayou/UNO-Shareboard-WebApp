@@ -4,54 +4,6 @@ const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
 
-function uploadAndAdd(data, listingID, callback) {
-  let counter = 0;
-  let imgIDs = [];
-
-  var cb = function(success, response) {
-    if (success) {
-      counter++;
-      imgIDs.push(response.data);
-      if (counter === data.newImages.length) { // All of our images have been uploaded
-        counter = 0;
-
-        var cb2 = function(success, response) {
-          if (success) {
-            counter++;
-            if (counter === imgIDs.length) { // All of our images have been added to the new listing
-              console.log("supposedly finished");
-              callback(true, response);
-            }
-          }
-          else {
-            console.log("failed in cb2");
-            callback(false, response);
-          }
-        };
-
-        for (var i = 0; i < imgIDs.length; i++) {
-          console.log("adding new image");
-          api.addImageToListing(listingID, imgIDs[i], cb2);
-        }
-      }
-    }
-    else {
-      console.log("failed in cb");
-      callback(false, response);
-    }
-  };
-
-  // Upload all of the images that the use wants for the listing
-  for (var i = 0; i < data.newImages.length; i++) {
-    var imgData = new FormData();
-    imgData.append("description", "");
-    imgData.append("owner", parseInt(data.owner, 10));
-    imgData.append("image_data", data.newImages[i]);
-    console.log("uploading new image");
-    api.uploadImage(imgData, cb);
-  }
-}
-
 module.exports = {
 
   //======================//
@@ -486,22 +438,50 @@ module.exports = {
       expirationDate: data.expirationDate,
       adType: data.adType,
       price: data.price,
-      tradeItem: data.tradeItem
+      tradeItem: data.tradeItem,
+      imageIDsStr: []
     };
 
-    api.addAdvertisement(toSend, function(success, response) {
-      if (success) {
-        if (data.newImages.length > 0) {
-          uploadAndAdd(data, response.data, callback);
+    if (data.newImages.length > 0) {
+      let counter = 0;
+      var cb = function(success, response) {
+        if (success) {
+          counter++;
+          toSend.imageIDsStr.push(response.data + "");
+          if (counter === data.newImages.length) {
+            api.addAdvertisement(toSend, function(success, response) {
+              if (success) {
+                callback(true, response);
+              }
+              else {
+                callback(false, response);
+              }
+            });
+          }
         }
         else {
+          callback(false, response);
+        }
+      };
+
+      for (var i = 0; i < data.newImages.length; i++) {
+        var imgData = new FormData();
+        imgData.append("description", "");
+        imgData.append("owner", parseInt(data.owner, 10));
+        imgData.append("image_data", data.newImages[i]);
+        api.uploadImage(imgData, cb);
+      }
+    }
+    else {
+      api.addAdvertisement(toSend, function(success, response) {
+        if (success) {
           callback(true, response);
         }
-      }
-      else {
-        callback(false, response);
-      }
-    });
+        else {
+          callback(false, response);
+        }
+      });
+    }
 
   },
 
@@ -524,64 +504,79 @@ module.exports = {
     // compare our new `existing image array` to the one currently in the database
     api.getAdvertisement(data.id, function(success, response) {
       if (success) {
-        var existingImages = response.data.imageIDs;
-        var toRemove = [];
-        for (var index in existingImages) {
-          if (!data.existingImages.includes(existingImages[index])) {
-            toRemove.push(existingImages[index]);
-          }
-        }
 
-        // Update our listing using the information provided by the user
-        api.updateAdvertisement(toSend, function(success, response) {
-          if (success) {
 
-            // If we are trying to remove images from the listing that already
-            // exist on the listing
-            if (toRemove.length > 0) {
-              var removedCounter = 0;
-              var onRemovedCallback = function(success, response) {
-                if (success) {
-                  removedCounter++;
-                  if (removedCounter === toRemove.length) {
-
-                    // Now that we've removed any existing images that were no
-                    // longer wanted, we can now upload and assign new images
-                    // if there are any new ones
-                    if (data.newImages.length > 0) {
-                      uploadAndAdd(data, data.id, callback);
-                    }
-                    else {
-                      callback(true, response);
-                    }
-                  }
-                }
-                else {
-                  callback(false, response);
-                }
-              };
-
-              // eslint-disable-next-line
-              for (var index in toRemove) {
-                api.removeImageFromListing(data.id, toRemove[index], onRemovedCallback);
-              }
+        //================================================================
+        // If there were no images on the listing and we haven't added any new ones, just update the listing
+        if (response.data.imageIDs.length < 1 && data.existingImages.length < 1 && data.newImages.length < 1) {
+          api.updateAdvertisement(toSend, function(success, response) {
+            if (success) {
+              callback(true, response);
             }
-
-            // If we aren't removing any existing images, just try to add the
-            // new ones
             else {
-              if (data.newImages.length > 0) {
-                uploadAndAdd(data, data.id, callback);
+              callback(false, response);
+            }
+          });
+        }
+        //================================================================
+
+
+        //cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+        // To reach this point, the ad must have new images or existing images
+        else {
+
+          //--------------------------------------------------------------
+          if (data.newImages.length > 0) {
+            var newImageIDs = [];
+            let counter = 0;
+
+            var cb = function(success, response) {
+              if (success) {
+                counter++;
+                newImageIDs.push(response.data);
+                if (counter === data.newImages.length) {
+
+                  //iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+                  //iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+                }
               }
               else {
-                callback(true, response);
+                callback(false, response);
+              }
+            };
+
+            for (var i = 0; i < data.newImages.length; i++) {
+              var imgData = new FormData();
+              imgData.append("description", "");
+              imgData.append("owner", parseInt(data.owner, 10));
+              imgData.append("image_data", data.newImages[i]);
+              api.uploadImage(imgData, cb);
+            }
+          }
+          //--------------------------------------------------------------
+
+
+          //))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+          else {
+            var existingImages = response.data.imageIDs;
+            var toRemove = [];
+            for (var index in existingImages) {
+              if (!data.existingImages.includes(existingImages[index])) {
+                toRemove.push(existingImages[index]);
+              }
+              else {
+                toSend.imageIDsStr.push(existingImages[index] + "");
               }
             }
           }
-          else {
-            callback(false, response);
-          }
-        });
+          //))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+        }
+        //cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+
+
       }
       else {
         callback(false, response);

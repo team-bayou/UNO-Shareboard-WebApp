@@ -12,6 +12,7 @@ export default class EditProfilePicturePage extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       user: null,
       imageID: null
     };
@@ -21,6 +22,7 @@ export default class EditProfilePicturePage extends Component {
     api.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
       if (exists) {
         this.setState({
+          loading: false,
           user: response.data,
           imageID: response.data.imageId
         });
@@ -29,7 +31,7 @@ export default class EditProfilePicturePage extends Component {
   }
 
   render() {
-    if (!this.state.imageID) {
+    if (this.state.loading) {
       return (
         <div className="uk-text-center">Loading...</div>
       );
