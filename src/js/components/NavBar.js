@@ -55,13 +55,13 @@ export default class NavBar extends Component {
                 <div className="navbar-listings uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li>
-                      <a href="/advertisements">
+                      <a href="/advertisements/seek">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: search"></span>
                         Buy / Seek
                       </a>
                     </li>
                     <li>
-                      <a href="/advertisements">
+                      <a href="/advertisements/offer">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: credit-card"></span>
                         Sell / Offer
                       </a>
