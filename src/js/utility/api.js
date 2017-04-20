@@ -310,6 +310,14 @@ module.exports = {
         callback(false, response);
       }
     });
+  },
+
+  removeUserProfilePicture: function(user, callback) {
+    const data = {
+      id: user,
+      imageId: -1
+    };
+    performPut(constants.HOST + '/service/v1/users/update', data, callback);
   }
 
 }

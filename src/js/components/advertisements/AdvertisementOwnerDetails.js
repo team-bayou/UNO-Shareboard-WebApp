@@ -17,7 +17,7 @@ export default class AdvertisementOwnerDetails extends Component {
           <header className="uk-comment-header uk-grid-medium uk-flex-middle" data-uk-grid>
               <div className="uk-width-auto">
                 <a href={routeToUser}>
-                  <img className="ad-owner-image uk-comment-avatar" src={!!this.props.owner.imageId ? constants.HOST + "/service/v1/images/get/" + this.props.owner.imageId : placeholder} width="80" height="80" alt="" />
+                  <img className="ad-owner-image uk-comment-avatar" src={this.props.owner.imageId + "" !== -1 + "" && !!this.props.owner.imageId ? constants.HOST + "/service/v1/images/get/" + this.props.owner.imageId : placeholder} width="80" height="80" alt="" />
                 </a>
               </div>
               <div className="uk-width-expand">

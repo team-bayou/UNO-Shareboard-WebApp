@@ -16,16 +16,18 @@ export default class EditProfileForm extends Component {
     this.inputValid = "uk-input";
     this.inputInvalid = "uk-input uk-form-danger";
 
+    this.errorMsg = "";
+
     this.state = {
       image: null,
       dropRejected: false,
-      updateFailed: false,
-      updateSuccess: false
+      updateFailed: false
     };
 
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteProfilePicture = this.deleteProfilePicture.bind(this);
   }
 
   onDrop(files) {
@@ -47,8 +49,32 @@ export default class EditProfileForm extends Component {
     //UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
   }
 
+  deleteProfilePicture() {
+    this.setState({
+      updateFailed: false
+    });
+
+    api.removeUserProfilePicture(utils.getCookie(constants.COOKIE_A), function(success, response) {
+      if (success) {
+        api.deleteImage(this.props.image, function(success, response) {
+          window.location.reload();
+        });
+      }
+      else {
+        this.errorMsg = "There was a problem deleting your profile picture. Please try again or contact us if the problem continues.";
+        this.setState({
+          updateFailed: true
+        });
+      }
+    }.bind(this));
+  }
+
   handleSubmit(event) {
     event.preventDefault();
+
+    this.setState({
+      updateFailed: false
+    });
 
     if (!!this.state.image) {
       var data = new FormData();
@@ -58,23 +84,18 @@ export default class EditProfileForm extends Component {
 
       api.changeUserProfilePicture(data, function(success, response) {
         if (success) {
-          this.setState({
-            updateSuccess: true,
-            updateFailed: false
-          });
-          api.deleteImage(this.props.image, function(success, response) {
-            if (success) {
-              console.log("Successfully deleted old user image");
-            }
-            else {
-              console.log("Failed to delete old user image");
-              console.log(response.response);
-            }
-          }.bind(this));
+          if (this.props.image + "" !== -1 + "" && !!this.props.image) {
+            api.deleteImage(this.props.image, function(success, response) {
+              window.location.reload();
+            });
+          }
+          else {
+            window.location.reload();
+          }
         }
         else {
+          this.errorMsg = "There was a problem changing your profile picture. Please try again or contact us if the problem continues.";
           this.setState({
-            updateSuccess: false,
             updateFailed: true
           });
         }
@@ -85,51 +106,51 @@ export default class EditProfileForm extends Component {
   render() {
     return (
 
-      <div className="uk-grid-divider uk-text-center" data-uk-grid>
-
-        <div className="uk-width-1-3@m">
-          <span><strong>Current Profile Picture</strong></span><br /><br />
-          <img src={!!this.props.image ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
-          <a href="">Delete</a>
-        </div>
-
-        <div className="uk-width-1-3@m">
-
-          <div className="info-list">
-            {
-              this.state.updateFailed ?
-              <div className="uk-alert-danger uk-text-center" data-uk-alert>
-                <p>There was a problem changing your profile picture. Please try again or contact us if the problem continues.</p>
-              </div>
-              : null
-            }
-            {
-              this.state.updateSuccess ?
-              <div className="uk-alert-success uk-text-center" data-uk-alert>
-                <p>Profile picture updated successfully!</p>
-              </div>
-              : null
-            }
-
-            <Dropzone className="uk-width-1-1 profile-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={false} preventDropOnDocument={true} accept={"image/*"}>
-              <div className="uk-text-center info-list uk-padding-large">
-                <span data-uk-icon="icon: cloud-upload"></span><br/>
-                Drag and drop or click to select an image to upload
-              </div>
-            </Dropzone>
-            <button className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload">Upload</button>
+      <div>
+        {
+          this.state.updateFailed ?
+          <div className="uk-text-center" data-uk-grid>
+            <div className="uk-width-1-1 uk-alert-danger uk-text-center" data-uk-alert>
+              <p>{this.errorMsg}</p>
+            </div>
           </div>
-        </div>
+          : null
+        }
 
-        <div className="uk-width-1-3@m">
-          <span><strong>New Picture Preview</strong></span><br /><br />
-          {
-            !!this.state.image ?
-            <img src={this.state.image.preview} alt="New Profile Picture Preview" width="300" height="300" />
-            : null
-          }
-        </div>
+        <div className="uk-grid-divider uk-text-center" data-uk-grid>
 
+          <div className="uk-width-1-3@m">
+            <span><strong>Current Profile Picture</strong></span><br /><br />
+            <img src={this.props.image != -1 ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
+            {
+              this.props.image != -1 ?
+              <a className="unauth-link" onClick={this.deleteProfilePicture}>Delete</a>
+              : null
+            }
+          </div>
+
+          <div className="uk-width-1-3@m">
+            <div className="info-list">
+              <Dropzone className="uk-width-1-1 profile-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={false} preventDropOnDocument={true} accept={"image/*"}>
+                <div className="uk-text-center info-list uk-padding-large">
+                  <span data-uk-icon="icon: cloud-upload"></span><br/>
+                  Drag and drop or click to select an image to upload
+                </div>
+              </Dropzone>
+              <button className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload">Upload</button>
+            </div>
+          </div>
+
+          <div className="uk-width-1-3@m">
+            <span><strong>New Picture Preview</strong></span><br /><br />
+            {
+              !!this.state.image ?
+              <img src={this.state.image.preview} alt="New Profile Picture Preview" width="300" height="300" />
+              : null
+            }
+          </div>
+
+        </div>
       </div>
 
     );

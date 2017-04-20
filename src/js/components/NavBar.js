@@ -39,7 +39,7 @@ export default class NavBar extends Component {
 
     var profileImage = null;
     if (!!this.state.user) {
-      profileImage = !!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar;
+      profileImage = this.state.user.imageId + "" !== -1 + "" && !!this.state.user.imageId ? constants.HOST + "/service/v1/images/get/" + this.state.user.imageId : avatar;
     }
 
     return(
