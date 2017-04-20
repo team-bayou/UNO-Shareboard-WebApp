@@ -508,7 +508,8 @@ module.exports = {
       expirationDate: data.expirationDate,
       adType: data.adType,
       price: data.price,
-      tradeItem: data.tradeItem
+      tradeItem: data.tradeItem,
+      imageIDsStr: []
     };
 
     // Get our listing as it currently exists in the database so that we can
@@ -551,7 +552,6 @@ module.exports = {
                     }
                   }
 
-                  toSend.imageIDsStr = [];
                   for (let i = 0; i < toKeep.length; i++)
                     toSend.imageIDsStr.push(toKeep[i]);
                   for (let i = 0; i < newImageIDs.length; i++)
@@ -595,11 +595,8 @@ module.exports = {
               }
             }
 
-            if (toRemove.length > 0) {
-              toSend.imageIDsStr = [];
-              for (let i = 0; i < toKeep.length; i++)
-                toSend.imageIDsStr.push(toKeep[i]);
-            }
+            for (let i = 0; i < toKeep.length; i++)
+              toSend.imageIDsStr.push(toKeep[i]);
 
             api.updateAdvertisement(toSend, function(success, response) {
               if (toRemove.length < 1) callback(success, response);
