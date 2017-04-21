@@ -121,10 +121,10 @@ export default class EditProfileForm extends Component {
 
           <div className="uk-width-1-3@m">
             <span><strong>Current Profile Picture</strong></span><br /><br />
-            <img src={this.props.image != -1 ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
+            <img src={this.props.image + "" !== -1 + "" ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
             {
-              this.props.image != -1 ?
-              <a className="unauth-link" onClick={this.deleteProfilePicture}>Delete</a>
+              this.props.image + "" !== -1 + "" ?
+              <a className="uk-button uk-button-secondary uk-margin-small-top" href="#delete-image" data-uk-toggle><span data-uk-icon="icon: close"></span> Delete</a>
               : null
             }
           </div>
@@ -137,7 +137,7 @@ export default class EditProfileForm extends Component {
                   Drag and drop or click to select an image to upload
                 </div>
               </Dropzone>
-              <button className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload">Upload</button>
+              <button className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload"><span data-uk-icon="icon: upload"></span> Upload</button>
             </div>
           </div>
 
@@ -150,6 +150,17 @@ export default class EditProfileForm extends Component {
             }
           </div>
 
+        </div>
+
+        <div id="delete-image" data-uk-modal="center: true">
+          <div className="uk-modal-dialog uk-modal-body uk-text-center">
+            <h2 className="uk-modal-title">Delete Profile Picture</h2>
+            <p>Are you sure you want to delete your profile picture?</p>
+            <p className="uk-text-right">
+              <button className="uk-button uk-button-secondary" type="button" value="Yes" onClick={this.deleteProfilePicture}>Yes</button>
+              <button className="uk-button uk-button-default uk-modal-close" type="button" value="No">No</button>
+            </p>
+          </div>
         </div>
       </div>
 
