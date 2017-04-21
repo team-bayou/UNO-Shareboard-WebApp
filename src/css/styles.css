@@ -202,13 +202,13 @@ blue with black
 }
 
 .slideshow-container {
-  max-width: 1000px;
+  max-width: 1200px;
   position: relative;
   margin: auto;
 }
 
 .slide {
-    display: none;
+  display: none;
 }
 
 .slide img {
