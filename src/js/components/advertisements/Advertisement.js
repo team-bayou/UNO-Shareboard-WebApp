@@ -33,14 +33,20 @@ export default class Advertisement extends Component {
   }
 
   render(){
-    var media = (<Slideshow images={this.state.images}/>);
     var body = (<p>{this.props.ad.description}</p>);
     var footer = (
       <AdOwnerDetails ad={this.props.ad} owner={this.props.ad.owner} reviews={this.props.reviews}/>
     );
 
     return (
-      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} />
+      <div className="uk-grid-large uk-grid-divider" data-uk-grid>
+        <div className="uk-width-1-2@m">
+          <Slideshow images={this.state.images}/>
+        </div>
+        <div className="uk-width-1-2@m">
+          <AdCard ad={this.props.ad} body={body} footer={footer} />
+        </div>
+      </div>
     );
   }
 }
