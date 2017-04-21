@@ -38,6 +38,13 @@ export default class ProfilePage extends Component {
     }.bind(this));
   }
 
+  getVisibility(flag){
+    return flag ?
+      (<td className="user-profile-public uk-table-shrink"><span title="Public" data-uk-icon="icon: world" data-uk-tooltip></span></td>)
+      :
+      (<td className="user-profile-private uk-table-shrink"><span title="Private" data-uk-icon="icon: ban" data-uk-tooltip></span></td>);
+  }
+
   render() {
     if (!this.state.user) {
       return (
@@ -88,18 +95,22 @@ export default class ProfilePage extends Component {
                     <tr>
                       <td className="user-profile-title uk-table-shrink"><span title="Username" data-uk-icon="icon: tag" data-uk-tooltip></span></td>
                       <td className="user-profile-content">{this.state.user.accountName}</td>
+                      {this.getVisibility(true)}
                     </tr>
                     <tr>
                       <td className="user-profile-title uk-table-shrink"><span title="Name" data-uk-icon="icon: user" data-uk-tooltip></span></td>
                       <td className="user-profile-content">{(!!this.state.user.firstName ? this.state.user.firstName + " " : "") + (!!this.state.user.lastName ? this.state.user.lastName : "")}</td>
+                      {this.getVisibility(true)}
                     </tr>
                     <tr>
                       <td className="user-profile-title uk-table-shrink"><span title="E-mail" data-uk-icon="icon: mail" data-uk-tooltip></span></td>
                       <td className="user-profile-content uk-table-link"><a className="uk-link-reset" href={"mailto:" + this.state.user.email}> {this.state.user.email}</a></td>
+                      <td className="user-profile-public uk-table-shrink"><span title="Public" data-uk-icon="icon: world" data-uk-tooltip></span></td>
                     </tr>
                     <tr>
                       <td className="user-profile-title uk-table-shrink"><span title="Phone" data-uk-icon="icon: phone" data-uk-tooltip></span></td>
                       <td className="user-profile-content">{utils.prettifyPhone(this.state.user.phoneNumber)}</td>
+                      {this.getVisibility(false)}
                     </tr>
                     {
                       this.state.myProfile ?
@@ -111,7 +122,7 @@ export default class ProfilePage extends Component {
                     {
                       this.state.myProfile ?
                       <tr className="user-profile-borderless-row">
-                        <td colSpan="2" className="uk-text-small"><strong>Note:</strong> Any fields that you mark hidden will be hidden to other users</td>
+                        <td colSpan="2" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: ban"></span> will be hidden to other users</td>
                       </tr>
                       : null
                     }

@@ -6,12 +6,12 @@ import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
-export default class AdvertisementsPage extends Component {
+export default class AdvertisementsListPage extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      currentPage: this.props.params.page ? this.props.params.page : 1,
+      currentPage: this.props.page ? this.props.page : 1,
       pages: -1,
       advertisements: []
     };
@@ -19,7 +19,7 @@ export default class AdvertisementsPage extends Component {
 
   componentDidMount() {
     // Try to get a list of all available advertisements and extract length.
-    api.getAdvertisements(function(exists, response){
+    api.getAdTypeAdvertisements(this.props.adType, function(exists, response){
       if (exists && response){
         // Determine number of pages based on the number of advertisements.
         this.setState({
@@ -30,8 +30,8 @@ export default class AdvertisementsPage extends Component {
       }
     }.bind(this));
 
-    // Try to get a list of all available advertisements by page number.
-    api.getAdvertisementsByPage(this.state.currentPage, function(exists, response){
+    // Try to get a list of all available advertisements by ad type and page number.
+    api.getAdTypeAdvertisementsByPage(this.props.adType, this.state.currentPage, function(exists, response){
       if (exists && response){
         this.setState({
           advertisements: response.data
@@ -52,7 +52,7 @@ export default class AdvertisementsPage extends Component {
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
-            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements"}/>
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType}/>
         </div>
         <AppFooter />
       </div>

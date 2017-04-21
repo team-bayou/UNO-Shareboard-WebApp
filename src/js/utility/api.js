@@ -113,6 +113,14 @@ module.exports = {
     performGet(constants.HOST + '/service/v1/advertisements/categories/' + id + '/page/' + page, callback);
   },
 
+  getAdTypeAdvertisements: function(adType, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/adType/' + adType, callback);
+  },
+
+  getAdTypeAdvertisementsByPage: function(adType, page, callback) {
+    performGet(constants.HOST + '/service/v1/advertisements/adType/' + adType + '/page/' + page, callback);
+  },
+
   getAdvertisement: function(id, callback) {
     performGet(constants.HOST + '/service/v1/advertisements/' + id, callback);
   },

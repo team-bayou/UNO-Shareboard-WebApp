@@ -55,13 +55,13 @@ export default class NavBar extends Component {
                 <div className="navbar-listings uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li>
-                      <a href="/advertisements">
+                      <a href="/advertisements/seek">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: search"></span>
                         Buy / Seek
                       </a>
                     </li>
                     <li>
-                      <a href="/advertisements">
+                      <a href="/advertisements/offer">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: credit-card"></span>
                         Sell / Offer
                       </a>
@@ -169,8 +169,8 @@ export default class NavBar extends Component {
                       <li className="uk-nav-header">Listings</li>
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
-                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
-                          <li><a href="/advertisements"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
+                          <li><a href="/advertisements/seek"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
+                          <li><a href="/advertisements/offer"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
                           <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
                           <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
                         </ul>
