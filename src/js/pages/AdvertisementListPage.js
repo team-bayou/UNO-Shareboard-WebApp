@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
+import FilterComponent from '../components/FilterComponent'
 
 export default class AdvertisementsListPage extends Component {
   constructor(props){
@@ -50,6 +51,9 @@ export default class AdvertisementsListPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
+          <div className="uk-flex uk-flex-center">
+            <FilterComponent />
+          </div>
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.advertisements.length + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType}/>
