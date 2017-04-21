@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
-import CreateButton from '../components/buttons/CreateButton';
 
 export default class UserAdvertisementsPage extends Component {
   constructor(props){
@@ -101,8 +100,8 @@ export default class UserAdvertisementsPage extends Component {
           </h2>
           {
             this.state.myListings ?
-            <div className="uk-width-1-4 uk-margin-large-bottom uk-align-center">
-              <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
+            <div className="uk-width-1-3@m uk-margin-large-bottom uk-align-center">
+              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
             : null
           }
@@ -137,8 +136,8 @@ export default class UserAdvertisementsPage extends Component {
           </h2>
           {
             this.state.myListings ?
-            <div className="uk-width-1-4 uk-margin-large-bottom uk-align-center">
-              <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
+            <div className="uk-width-1-3@m uk-margin-large-bottom uk-align-center">
+              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
             : null
           }

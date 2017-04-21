@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
-import CreateButton from '../components/buttons/CreateButton';
 
 export default class HomePage extends Component {
   constructor(props){
@@ -38,15 +37,16 @@ export default class HomePage extends Component {
       <div id="home" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <div className="uk-flex uk-flex-center">
-            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+
+          <div className="uk-child-width-1-3@m" data-uk-grid>
+            <div>
               <a href="/advertisements/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
             </div>
-            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
+            <div>
               <a href="/advertisements/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
             </div>
-            <div className="uk-width-1-5 uk-margin-small-left uk-margin-small-right">
-              <CreateButton href={"/advertisements/add"} name={"Create New Listing"} />
+            <div>
+              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
           </div>
 

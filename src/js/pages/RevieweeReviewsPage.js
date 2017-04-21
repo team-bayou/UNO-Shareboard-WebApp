@@ -3,7 +3,6 @@ import utils from '../utility/utilities';
 import api from '../utility/api';
 
 import React, { Component } from 'react';
-import CreateButton from '../components/buttons/CreateButton';
 import GBButton from '../components/buttons/GoBackButton';
 import ReviewsPage from './ReviewsPage';
 
@@ -34,7 +33,7 @@ export default class RevieweeReviewsPage extends Component {
             name: response.data.accountName + "'s",
             createReview: (
               <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
-                <CreateButton href={"reviews/add"} name={"Review this user"} />
+                <a href="reviews/add" className="uk-button button-success uk-button-large uk-width-1-1">Review This User</a>
               </div>
             ),
             backToAd: (
