@@ -84,7 +84,7 @@ export default class EditProfileForm extends Component {
 
       api.changeUserProfilePicture(data, function(success, response) {
         if (success) {
-          if (this.props.image + "" !== -1 + "" && !!this.props.image) {
+          if (!!this.props.image) {
             api.deleteImage(this.props.image, function(success, response) {
               window.location.reload();
             });
@@ -121,9 +121,9 @@ export default class EditProfileForm extends Component {
 
           <div className="uk-width-1-3@m">
             <span><strong>Current Profile Picture</strong></span><br /><br />
-            <img src={this.props.image + "" !== -1 + "" ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
+            <img src={!!this.props.image ? constants.HOST + "/service/v1/images/get/" + this.props.image : avatar} alt="Current Profile Picture" width="300" height="300" className="uk-margin-small-bottom" /><br />
             {
-              this.props.image + "" !== -1 + "" ?
+              !!this.props.image ?
               <a className="uk-button uk-button-secondary uk-margin-small-top" href="#delete-image" data-uk-toggle><span data-uk-icon="icon: close"></span> Delete</a>
               : null
             }
