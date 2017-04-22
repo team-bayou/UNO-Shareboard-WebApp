@@ -8,7 +8,7 @@ export default class AdvertisementList extends Component {
     );
 
     return (
-      <div className="ad-list">
+      <div className="listing-list">
         <div className="uk-child-width-1-2@s uk-child-width-1-3@m uk-grid-match" data-uk-grid>
           {ads}
         </div>

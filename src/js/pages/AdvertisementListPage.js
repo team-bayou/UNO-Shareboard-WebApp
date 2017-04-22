@@ -30,7 +30,7 @@ export default class AdvertisementsListPage extends Component {
           totalNumAds: response.data.length
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
 
@@ -41,7 +41,7 @@ export default class AdvertisementsListPage extends Component {
           advertisements: response.data
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
   }
@@ -51,7 +51,7 @@ export default class AdvertisementsListPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <div id="ad-list" className="app">
+      <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <FilterComponent adType={this.props.adType} />

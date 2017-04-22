@@ -46,7 +46,7 @@ export default class AddAdvertisementPage extends Component {
             browserHistory.goBack();
           }
         } else {
-          console.log("No advertisement found");
+          console.log("No listing found");
         }
       }.bind(this));
     }
@@ -68,7 +68,7 @@ export default class AddAdvertisementPage extends Component {
       // Redirect to page of user's advertisements.
       browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements");
     } else {
-      console.log("Failed to create/update advertisement.");
+      console.log("Failed to create/update listing.");
     }
   }
 
@@ -81,7 +81,7 @@ export default class AddAdvertisementPage extends Component {
     );
 
     return (
-      <div id="ad-add" className="app">
+      <div id="listing-add" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center">

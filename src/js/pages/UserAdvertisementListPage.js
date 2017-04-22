@@ -35,7 +35,7 @@ export default class UserAdvertisementsPage extends Component {
           totalNumAds: numOfAds
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
 
@@ -46,7 +46,7 @@ export default class UserAdvertisementsPage extends Component {
           advertisements: response.data
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
 
@@ -73,7 +73,7 @@ export default class UserAdvertisementsPage extends Component {
 
     if (!this.state.userExists) {
       return (
-        <div id="ad-list" className="app">
+        <div id="listing-list" className="app">
           <AppHeader />
           <div className="app-body uk-container">
             <div className="uk-margin uk-text-center">
@@ -87,7 +87,7 @@ export default class UserAdvertisementsPage extends Component {
 
     if (this.state.advertisements.length === 0)
       return (
-      <div id="ad-list" className="app">
+      <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center">
@@ -121,7 +121,7 @@ export default class UserAdvertisementsPage extends Component {
       );
 
     return (
-      <div id="ad-list" className="app">
+      <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center">

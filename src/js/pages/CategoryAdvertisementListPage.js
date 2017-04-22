@@ -31,7 +31,7 @@ export default class CategoryAdvertisementsPage extends Component {
           totalNumAds: numOfAds
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
 
@@ -43,7 +43,7 @@ export default class CategoryAdvertisementsPage extends Component {
           advertisements: response.data
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     }.bind(this));
   }
@@ -53,7 +53,7 @@ export default class CategoryAdvertisementsPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <div id="ad-list" className="app">
+      <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of Category \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>

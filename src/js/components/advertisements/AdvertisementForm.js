@@ -208,7 +208,7 @@ export default class AdvertisementForm extends Component {
                 <div className="uk-margin">
                   <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
                   <div className="uk-form-controls">
-                    <input className={this.state.titleStyle} id="ad-title" type="text"
+                    <input className={this.state.titleStyle} id="listing-title" type="text"
                       placeholder="The title of your advertisement" name="title"
                       value={this.state.title} onChange={this.handleInputChange}/>
                   </div>
@@ -219,9 +219,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-description">Description</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-description">Description</label>
                   <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="ad-description"
+                    <textarea className="uk-textarea" id="listing-description"
                       placeholder="The description of the item you're seeking / offering" name="description"
                       value={this.state.description} onChange={this.handleInputChange}/>
                   </div>
@@ -232,9 +232,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-categories">Category</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-categories">Category</label>
                   <div className="uk-form-controls">
-                    <select className={this.state.categoryStyle} id="ad-categories" name="category"
+                    <select className={this.state.categoryStyle} id="listing-categories" name="category"
                       defaultValue={this.state.category ? this.state.category : "-1"} onChange={this.handleInputChange}>
                       <option disabled value="-1"> -- Select a category -- </option>
                       {this.props.categories}
@@ -246,8 +246,8 @@ export default class AdvertisementForm extends Component {
 
             <div>
               <div className="uk-margin">
-                <div className="uk-form-label form-label">What kind of ad is this?</div>
-                <div className="ad-type uk-form-controls">
+                <div className="uk-form-label form-label">What kind of listing is this?</div>
+                <div className="listing-type uk-form-controls">
                   <label className={this.state.radioLabelStyle}>
                     <input className={this.state.adTypeStyle} type="radio" name="adType"
                       value="offer" onChange={this.handleInputChange}
@@ -275,9 +275,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-price">Price</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-price">Price</label>
                   <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-price" type="number" step="0.01"
+                    <input className="uk-input" id="listing-price" type="number" step="0.01"
                       placeholder="Amount you want / are offering in dollars" name="price"
                       value={this.state.price} onChange={this.handleInputChange}/>
                   </div>
@@ -288,9 +288,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-trade-item">Trade Item</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-trade-item">Trade Item</label>
                   <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-trade-item" type="text"
+                    <input className="uk-input" id="listing-trade-item" type="text"
                       placeholder="An item you want / are offering as trade" name="tradeItem"
                       value={this.state.tradeItem} onChange={this.handleInputChange}/>
                   </div>

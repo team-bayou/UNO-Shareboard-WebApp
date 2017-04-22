@@ -9,7 +9,7 @@ import EditButton from '../buttons/EditButton';
 export default class AdvertisementCard extends Component {
   render(){
     return (
-      <div id={"ad-" + this.props.ad.id} className="ad">
+      <div id={"listing-" + this.props.ad.id} className="listing">
         <div className="uk-card uk-card-default uk-card-hover">
           {
             this.props.edit ?

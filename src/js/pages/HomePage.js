@@ -24,7 +24,7 @@ export default class HomePage extends Component {
           advertisements: response.data
         });
       } else {
-        console.log("No advertisements found");
+        console.log("No listings found");
       }
     });
   }

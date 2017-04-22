@@ -179,18 +179,18 @@ blue with black
 }
 
 /* Advertisement */
-.ad-category {
+.listing-category {
   margin-right: 0.5em;
 }
 
-.ad-category:active,
-.ad-category:focus,
-.ad-category:hover {
+.listing-category:active,
+.listing-category:focus,
+.listing-category:hover {
   color: white;
   text-decoration: none;
 }
 
-.ad-images {
+.listing-images {
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -308,7 +308,7 @@ blue with black
 
 
 /* Advertisement Details Page */
-.ad-item span {
+.listing-item span {
   border-radius: 2px;
   color: #E77600;
   display: inline-block;
@@ -317,24 +317,24 @@ blue with black
   vertical-align: middle;
 }
 
-#ad-details .ad-owner-contact .uk-icon-button {
+#listing-details .listing-owner-contact .uk-icon-button {
   color: white;
   display: inherit;
 }
 
-#ad-details .ad-owner-email {
+#listing-details .listing-owner-email {
   background-color: #f4c20d;
 }
 
-#ad-details .ad-owner-phone {
+#listing-details .listing-owner-phone {
   background-color: #4dc247;
 }
 
-#ad-details .ad-owner-facebook {
+#listing-details .listing-owner-facebook {
   background-color: #3b5998;
 }
 
-#ad-details .ad-owner-twitter {
+#listing-details .listing-owner-twitter {
   background-color: #55acee;
 }
 

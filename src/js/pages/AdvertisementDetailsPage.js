@@ -47,7 +47,7 @@ export default class AdvertisementDetailsPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
-      <div id="ad-details" className="app">
+      <div id="listing-details" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <Ad key={this.state.advertisement.id} ad={this.state.advertisement} reviews={this.state.numberOfReviews}/>
