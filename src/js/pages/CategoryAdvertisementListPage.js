@@ -13,7 +13,8 @@ export default class CategoryAdvertisementsPage extends Component {
       currentPage: this.props.params.page ? this.props.params.page : 1,
       pages: -1,
       category: "",
-      advertisements: []
+      advertisements: [],
+      totalNumAds: 0
     };
   }
 
@@ -26,7 +27,8 @@ export default class CategoryAdvertisementsPage extends Component {
         let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
 
         this.setState({
-          pages: pages
+          pages: pages,
+          totalNumAds: numOfAds
         });
       } else {
         console.log("No advertisements found");
@@ -54,7 +56,7 @@ export default class CategoryAdvertisementsPage extends Component {
       <div id="ad-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of Category \"" + this.state.category + "\" (" + this.state.advertisements.length + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of Category \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/categories/" + this.props.params.id}/>
         </div>

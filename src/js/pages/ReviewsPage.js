@@ -13,7 +13,8 @@ export default class ReviewsPage extends Component {
     this.state = {
       currentPage: this.props.page ? this.props.page : 1,
       pages: -1,
-      reviews: []
+      reviews: [],
+      totalNumReviews: 0
     };
 
     this.callback = this.callback.bind(this);
@@ -41,7 +42,8 @@ export default class ReviewsPage extends Component {
     if (exists && response){
       // Determine number of pages based on the number of reviews.
       this.setState({
-        pages: utils.getNumberOfPages(response.data.length)
+        pages: utils.getNumberOfPages(response.data.length),
+        totalNumReviews: response.data.length
       });
     } else {
       console.log("No reviews found");
@@ -69,7 +71,7 @@ export default class ReviewsPage extends Component {
       <div id="reviews" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.reviews.length + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.totalNumReviews + ")"}</span></h2>
           <div className="uk-flex uk-margin-medium-top">
             <div className="uk-width-1-5">
               {this.props.backToAd}

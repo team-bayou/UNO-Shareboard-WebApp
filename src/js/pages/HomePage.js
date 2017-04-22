@@ -65,7 +65,7 @@ export default class HomePage extends Component {
                 <hr />
                 <dd><strong>SELLING / OFFERING</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
                 <hr />
-                <dd><strong>CREATE NEW LISTING</strong><br />Create your own listing</dd>
+                <dd><strong>CREATE NEW LISTING</strong><br />Looking for something, or trying to get rid of something? Here you can create a listing describing what is you're looking for or what you're offering</dd>
               </dl>
 
             </div>

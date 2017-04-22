@@ -17,7 +17,8 @@ export default class UserAdvertisementsPage extends Component {
       advertisements: [],
       user: null,
       userExists: false,
-      myListings: false
+      myListings: false,
+      totalNumAds: 0
     };
   }
 
@@ -30,7 +31,8 @@ export default class UserAdvertisementsPage extends Component {
         let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
 
         this.setState({
-          pages: pages
+          pages: pages,
+          totalNumAds: numOfAds
         });
       } else {
         console.log("No advertisements found");
@@ -92,9 +94,9 @@ export default class UserAdvertisementsPage extends Component {
             <span>
               {
                 this.state.myListings ?
-                "Your Current Listings"
+                "Your Current Listings (0)"
                 :
-                this.state.user.accountName + "'s Current Listings"
+                this.state.user.accountName + "'s Current Listings (0)"
               }
             </span>
           </h2>
@@ -127,9 +129,9 @@ export default class UserAdvertisementsPage extends Component {
               <span>
                 {
                   this.state.myListings ?
-                  "Your Current Listings (" + this.state.advertisements.length + ")"
+                  "Your Current Listings (" + this.state.totalNumAds + ")"
                   :
-                  this.state.user.accountName + "'s Current Listings (" + this.state.advertisements.length + ")"
+                  this.state.user.accountName + "'s Current Listings (" + this.state.totalNumAds + ")"
                 }
               </span>
             </span>
