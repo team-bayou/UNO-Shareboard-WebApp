@@ -220,7 +220,10 @@ module.exports = {
           firstName: info.firstname,
           lastName: info.lastname,
           phoneNumber: this.validatePhone(info.phone).number,
-          userType: "standard"
+          userType: "standard",
+          showFullName: true,   // CHECK THAT THESE
+          showEmail: true,      // WILL BE ACCEPTED
+          showPhoneNumber: true // DURING VERIFICATION
         };
         api.attemptVerification(user, function(success, response) {
           if (success) {

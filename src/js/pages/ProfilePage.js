@@ -96,47 +96,62 @@ export default class ProfilePage extends Component {
                       <td className="user-profile-title uk-table-shrink"><span title="Username" data-uk-icon="icon: tag" data-uk-tooltip></span></td>
                       <td className="user-profile-content" colSpan="2">{this.state.user.accountName}</td>
                     </tr>
-                    { !this.state.myProfile && this.state.user.showFullName
-                      ?
+                    {
+                      this.state.myProfile ?
                       <tr>
                         <td className="user-profile-title uk-table-shrink"><span title="Name" data-uk-icon="icon: user" data-uk-tooltip></span></td>
                         <td className="user-profile-content">{(!!this.state.user.firstName ? this.state.user.firstName + " " : "") + (!!this.state.user.lastName ? this.state.user.lastName : "")}</td>
                         {this.getVisibility(this.state.user.showFullName)}
                       </tr>
                       :
-                      ""
+                      this.state.user.showFullName ?
+                      <tr>
+                        <td className="user-profile-title uk-table-shrink"><span title="Name" data-uk-icon="icon: user" data-uk-tooltip></span></td>
+                        <td className="user-profile-content">{(!!this.state.user.firstName ? this.state.user.firstName + " " : "") + (!!this.state.user.lastName ? this.state.user.lastName : "")}</td>
+                      </tr>
+                      : null
                     }
-                    { !this.state.myProfile && this.state.user.showEmail
-                      ?
+                    {
+                      this.state.myProfile ?
                       <tr>
                         <td className="user-profile-title uk-table-shrink"><span title="E-mail" data-uk-icon="icon: mail" data-uk-tooltip></span></td>
                         <td className="user-profile-content uk-table-link"><a className="uk-link-reset" href={"mailto:" + this.state.user.email}> {this.state.user.email}</a></td>
                         {this.getVisibility(this.state.user.showEmail)}
                       </tr>
                       :
-                      ""
+                      this.state.user.showEmail ?
+                      <tr>
+                        <td className="user-profile-title uk-table-shrink"><span title="E-mail" data-uk-icon="icon: mail" data-uk-tooltip></span></td>
+                        <td className="user-profile-content uk-table-link"><a className="uk-link-reset" href={"mailto:" + this.state.user.email}> {this.state.user.email}</a></td>
+                      </tr>
+                      : null
                     }
-                    { !this.state.myProfile && this.state.user.showPhoneNumber
-                      ?
+                    {
+                      this.state.myProfile ?
                       <tr>
                         <td className="user-profile-title uk-table-shrink"><span title="Phone" data-uk-icon="icon: phone" data-uk-tooltip></span></td>
                         <td className="user-profile-content">{utils.prettifyPhone(this.state.user.phoneNumber)}</td>
                         {this.getVisibility(this.state.user.showPhoneNumber)}
                       </tr>
                       :
-                      ""
-                    }
-                    {
-                      this.state.myProfile ?
-                      <tr className="user-profile-borderless-row">
-                        <td colSpan="2"><a className="uk-button uk-button-secondary" href="/profile/edit"><span data-uk-icon="icon: pencil"></span> Edit Profile</a></td>
+                      this.state.user.showPhoneNumber ?
+                      <tr>
+                        <td className="user-profile-title uk-table-shrink"><span title="Phone" data-uk-icon="icon: phone" data-uk-tooltip></span></td>
+                        <td className="user-profile-content">{utils.prettifyPhone(this.state.user.phoneNumber)}</td>
                       </tr>
                       : null
                     }
                     {
                       this.state.myProfile ?
                       <tr className="user-profile-borderless-row">
-                        <td colSpan="2" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be hidden to other users</td>
+                        <td colSpan="3"><a className="uk-button uk-button-secondary" href="/profile/edit"><span data-uk-icon="icon: pencil"></span> Edit Profile</a></td>
+                      </tr>
+                      : null
+                    }
+                    {
+                      this.state.myProfile ?
+                      <tr className="user-profile-borderless-row">
+                        <td colSpan="3" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be hidden to other users</td>
                       </tr>
                       : null
                     }

@@ -42,6 +42,8 @@ export default class EditProfileForm extends Component {
       updateSuccess: false
     };
 
+    console.log(this.state);
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkForEmptyFields = this.checkForEmptyFields.bind(this);
