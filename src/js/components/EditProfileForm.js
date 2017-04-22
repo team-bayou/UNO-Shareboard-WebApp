@@ -31,6 +31,9 @@ export default class EditProfileForm extends Component {
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
       phone: this.props.user.phoneNumber,
+      showFullName: this.props.user.showFullName,
+      showEmail: this.props.user.showEmail,
+      showPhoneNumber: this.props.user.showPhoneNumber,
       currentPassword: "",
       newPassword: "",
       newPasswordConfirm: "",
@@ -38,6 +41,8 @@ export default class EditProfileForm extends Component {
       updateFailed: false,
       updateSuccess: false
     };
+
+    console.log(this.state);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -129,7 +134,10 @@ export default class EditProfileForm extends Component {
       accountName: this.state.accountName,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      phoneNumber: this.state.phone
+      phoneNumber: this.state.phone,
+      showFullName: this.state.showFullName,
+      showEmail: this.state.showEmail,
+      showPhoneNumber: this.state.showPhoneNumber
     };
 
     let passChanged = false;
@@ -222,7 +230,8 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="currentPassword">Current Password</label>
             <div className="uk-form-controls">
-              <input name="currentPassword" className={this.state.currentPasswordStyle} type="password" placeholder="Current Password" value={this.state.currentPassword} onChange={this.handleInputChange} />
+              <input name="currentPassword" className={this.state.currentPasswordStyle} type="password"
+                placeholder="Current Password" value={this.state.currentPassword} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={this.currentPasswordCorrect}>Password Incorrect</label>
           </div>
@@ -232,7 +241,8 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="accountName">Username</label>
             <div className="uk-form-controls">
-              <input name="accountName" className={this.state.accountNameStyle} type="text" placeholder="Username" value={this.state.accountName} onChange={this.handleInputChange} />
+              <input name="accountName" className={this.state.accountNameStyle} type="text"
+                placeholder="Username" value={this.state.accountName} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={!this.usernameTaken}>That username has already been taken</label>
             <label className="uk-form-label label-invalid" hidden={!this.usernameTooShort}>Username is too short (minimum 3 characters)</label>
@@ -241,21 +251,93 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="firstName">First Name</label>
             <div className="uk-form-controls">
-              <input name="firstName" className={this.inputValid} type="text" placeholder="First Name" value={this.state.firstName} onChange={this.handleInputChange} />
+              <div className="uk-inline uk-width-1">
+                <input name="firstName" className={this.inputValid} type="text"
+                  placeholder="First Name" value={this.state.firstName} onChange={this.handleInputChange} />
+              </div>
             </div>
           </div>
 
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="lastName">Last Name</label>
             <div className="uk-form-controls">
-              <input name="lastName" className={this.inputValid} type="text" placeholder="Last Name" value={this.state.lastName} onChange={this.handleInputChange} />
+              <div className="uk-inline uk-width-1">
+                <input name="lastName" className={this.inputValid} type="text"
+                  placeholder="Last Name" value={this.state.lastName} onChange={this.handleInputChange} />
+              </div>
             </div>
           </div>
 
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="phone">Phone Number</label>
             <div className="uk-form-controls">
-              <input name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+              <div className="uk-inline uk-width-1">
+                <input name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+              </div>
+            </div>
+          </div>
+
+          <hr className="uk-divider-icon" />
+
+          <div className="uk-margin">
+            <div className="uk-placeholder uk-padding-small uk-background-muted">
+              <label className="uk-form-label">
+                <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: info"></span>
+                Show or hide your contact information to other users.
+              </label>
+            </div>
+          </div>
+
+          <div className="uk-grid-small" data-uk-grid>
+            <div>
+              <div className="uk-form-label form-label">Show/Hide First & Last Name?</div>
+              <div className="uk-form-label form-label">Show/Hide Email Address?</div>
+              <div className="uk-form-label form-label">Show/Hide Phone Number?</div>
+            </div>
+
+            <div>
+              <div className="uk-form-controls">
+                <div className="uk-grid-small" data-uk-grid>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showFullName"
+                      value="true" onChange={this.handleInputChange}
+                      defaultChecked={this.state.showFullName}/> Show
+                  </label>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showFullName"
+                      value="false" onChange={this.handleInputChange}
+                      defaultChecked={!this.state.showFullName}/> Hide
+                  </label>
+                </div>
+              </div>
+              <div className="uk-form-controls">
+                <div className="uk-grid-small" data-uk-grid>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showEmail"
+                      value="true" onChange={this.handleInputChange}
+                      defaultChecked={this.state.showEmail}/> Show
+                  </label>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showEmail"
+                      value="false" onChange={this.handleInputChange}
+                      defaultChecked={!this.state.showEmail}/> Hide
+                  </label>
+                </div>
+              </div>
+              <div className="uk-form-controls">
+                <div className="uk-grid-small" data-uk-grid>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showPhoneNumber"
+                      value="true" onChange={this.handleInputChange}
+                      defaultChecked={this.state.showPhoneNumber}/> Show
+                  </label>
+                  <label>
+                    <input className="uk-radio" type="radio" name="showPhoneNumber"
+                      value="false" onChange={this.handleInputChange}
+                      defaultChecked={!this.state.showPhoneNumber}/> Hide
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 

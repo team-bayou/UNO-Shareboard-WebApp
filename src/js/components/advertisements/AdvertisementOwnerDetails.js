@@ -23,8 +23,8 @@ export default class AdvertisementOwnerDetails extends Component {
                   <h4 className="ad-owner-account-name uk-comment-title uk-margin-remove"><a href={routeToUser} className="uk-link-reset">{this.props.owner.accountName}</a></h4>
                   <ul className="ad-owner-contact uk-comment-meta uk-subnav uk-subnav-divider">
                       <li>
-                        <a href={"mailto:" + this.props.owner.email} className="ad-owner-email uk-icon-button uk-margin-small-right" data-uk-icon="icon: mail" title={this.props.owner.email} data-uk-tooltip="pos: bottom"></a>
-                        <span className="ad-owner-phone uk-icon-button uk-margin-small-right" data-uk-icon="icon: whatsapp" title={utils.prettifyPhone(this.props.owner.phoneNumber)} data-uk-tooltip="pos: bottom" hidden={!this.props.owner.phoneNumber}></span>
+                        <a href={"mailto:" + this.props.owner.email} className="ad-owner-email uk-icon-button uk-margin-small-right" data-uk-icon="icon: mail" title={this.props.owner.email} data-uk-tooltip="pos: bottom" hidden={!this.props.owner.showEmail}></a>
+                        <span className="ad-owner-phone uk-icon-button uk-margin-small-right" data-uk-icon="icon: whatsapp" title={utils.prettifyPhone(this.props.owner.phoneNumber)} data-uk-tooltip="pos: bottom" hidden={!this.props.owner.phoneNumber || !this.props.owner.showPhoneNumber}></span>
                         <a href={"https://www.facebook.com/" + this.props.owner.facebookId} className="ad-owner-facebook uk-icon-button uk-margin-small-right" data-uk-icon="icon: facebook" target="_blank" hidden={!this.props.owner.facebookId}></a>
                         <a href={"https://www.twitter.com/" + this.props.owner.twitterHandle} className="ad-owner-twitter uk-icon-button" data-uk-icon="icon: twitter" target="_blank" hidden={!this.props.owner.twitterHandle}></a>
                       </li>

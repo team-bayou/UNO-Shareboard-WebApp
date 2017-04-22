@@ -18,6 +18,9 @@ export default class FindUserResult extends Component {
       editUserType: '',
       editFacebookID: '',
       editTwitterID: '',
+      editShowEmail: '',
+      editShowName: '',
+      editShowPhone: '',
 
       userSuccessfullyUpdated: false,
       userUpdateFailed: false
@@ -42,6 +45,9 @@ export default class FindUserResult extends Component {
         editUserType: newProps.user.userType || "",
         editFacebookID: newProps.user.facebookId || "",
         editTwitterID: newProps.user.twitterHandle || "",
+        editShowEmail: newProps.user.showEmail ? "show" : "hide" || "",
+        editShowName: newProps.user.showFullName ? "show" : "hide" || "",
+        editShowPhone: newProps.user.showPhoneNumber ? "show" : "hide" || "",
 
         userSuccessfullyUpdated: false,
         userUpdateFailed: false
@@ -78,6 +84,11 @@ export default class FindUserResult extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({
+      userUpdateFailed: false,
+      userSuccessfullyUpdated: false
+    });
+
     if (!!this.state.editEmail &&
         !!this.state.editUsername &&
         !!this.state.editUserType) {
@@ -90,7 +101,10 @@ export default class FindUserResult extends Component {
         "email": this.state.editEmail,
         "phoneNumber": this.state.editPhoneNumber,
         "facebookId": this.state.editFacebookID,
-        "twitterHandle": this.state.editTwitterID
+        "twitterHandle": this.state.editTwitterID,
+        "showEmail": this.state.editShowEmail === "show" ? true : false,
+        "showFullName": this.state.editShowName === "show" ? true : false,
+        "showPhoneNumber": this.state.editShowPhone === "show" ? true : false
       };
 
       utils.checkForExistingEmail(userData.email, function(exists, response) {
@@ -174,6 +188,15 @@ export default class FindUserResult extends Component {
                 </td>
               </tr>
               <tr>
+                <td className="user-result-title uk-width-1-3">E-mail Visible</td>
+                <td className="user-result-content uk-width-2-3">
+                  <select name="editShowEmail" className="uk-select uk-form-blank admin-edit-field" value={this.state.editShowEmail} onChange={this.handleInputChange}>
+                    <option value="show">show</option>
+                    <option value="hide">hide</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
                 <td className="user-result-title uk-width-1-3">Username</td>
                 <td className="user-result-content uk-width-2-3">
                   <input name="editUsername" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editUsername} onChange={this.handleInputChange} />
@@ -192,9 +215,27 @@ export default class FindUserResult extends Component {
                 </td>
               </tr>
               <tr>
+                <td className="user-result-title uk-width-1-3">Name Visible</td>
+                <td className="user-result-content uk-width-2-3">
+                  <select name="editShowName" className="uk-select uk-form-blank admin-edit-field" value={this.state.editShowName} onChange={this.handleInputChange}>
+                    <option value="show">show</option>
+                    <option value="hide">hide</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
                 <td className="user-result-title uk-width-1-3">Phone Number</td>
                 <td className="user-result-content uk-width-2-3">
                   <input name="editPhoneNumber" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editPhoneNumber} onChange={this.handleInputChange} />
+                </td>
+              </tr>
+              <tr>
+                <td className="user-result-title uk-width-1-3">Phone Visible</td>
+                <td className="user-result-content uk-width-2-3">
+                  <select name="editShowPhone" className="uk-select uk-form-blank admin-edit-field" value={this.state.editShowPhone} onChange={this.handleInputChange}>
+                    <option value="show">show</option>
+                    <option value="hide">hide</option>
+                  </select>
                 </td>
               </tr>
               <tr>
