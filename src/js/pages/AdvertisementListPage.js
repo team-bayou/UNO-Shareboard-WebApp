@@ -14,7 +14,8 @@ export default class AdvertisementsListPage extends Component {
     this.state = {
       currentPage: this.props.page ? this.props.page : 1,
       pages: -1,
-      advertisements: []
+      advertisements: [],
+      totalNumAds: 0
     };
   }
 
@@ -23,8 +24,10 @@ export default class AdvertisementsListPage extends Component {
     api.getAdTypeAdvertisements(this.props.adType, function(exists, response){
       if (exists && response){
         // Determine number of pages based on the number of advertisements.
+        console.log(response);
         this.setState({
-          pages: utils.getNumberOfPages(response.data.length)
+          pages: utils.getNumberOfPages(response.data.length),
+          totalNumAds: response.data.length
         });
       } else {
         console.log("No advertisements found");
@@ -52,7 +55,7 @@ export default class AdvertisementsListPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <FilterComponent adType={this.props.adType} />
-          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.advertisements.length + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.totalNumAds + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType}/>
         </div>

@@ -40,10 +40,10 @@ export default class HomePage extends Component {
 
           <div className="uk-child-width-1-3@m" data-uk-grid>
             <div>
-              <a href="/advertisements/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buy / Seek</a>
+              <a href="/advertisements/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buying / Seeking</a>
             </div>
             <div>
-              <a href="/advertisements/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Sell / Offer</a>
+              <a href="/advertisements/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Selling / Offering</a>
             </div>
             <div>
               <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
@@ -61,17 +61,17 @@ export default class HomePage extends Component {
             <div className="uk-placeholder uk-background-muted uk-width-1-2@m">
 
               <dl className="uk-description-list">
-                <dd><strong>BUY / SEEK</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
+                <dd><strong>BUYING / SEEKING</strong><br />These are listings of items that the submitter is looking to acquire by offering to pay a certain price or trade a certain item for</dd>
                 <hr />
-                <dd><strong>SELL / OFFER</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
+                <dd><strong>SELLING / OFFERING</strong><br />These are listings of items that the submitter is offering to sell for a certain price or trade for a certain item</dd>
                 <hr />
-                <dd><strong>CREATE NEW LISTING</strong><br />Create a new listing with all necessary information on demand</dd>
+                <dd><strong>CREATE NEW LISTING</strong><br />Create your own listing</dd>
               </dl>
 
             </div>
           </div>
 
-          <h2 className="uk-heading-line uk-text-center"><span>{"Recent Listings (" + this.state.advertisements.length + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>Most Recent Listings</span></h2>
           <AdvertisementFeed advertisements={this.state.advertisements}/>
         </div>
 
