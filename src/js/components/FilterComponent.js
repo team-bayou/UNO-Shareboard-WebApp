@@ -91,7 +91,7 @@ export default class FilterComponent extends Component {
         </div>
 
         <div className="uk-margin center">
-          <label><input className="uk-checkbox" type="checkbox" name="description" checked={this.state.description} onChange={this.handleInputChange} /> Also search listing descriptions?</label>
+          <label><input className="uk-checkbox" type="checkbox" name="description" checked={this.state.description} onChange={this.handleInputChange} /> Also search descriptions</label>
         </div>
       </form>
     );
