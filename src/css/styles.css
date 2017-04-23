@@ -101,8 +101,12 @@ blue with black
   border-color: #000000;
 }
 
-.uk-radio:checked, .uk-radio:focus, .uk-radio:active {
-  background-color: #000000;
+.uk-checkbox:focus {
+  border-color: #000000;
+}
+
+.uk-radio:checked, .uk-radio:focus, .uk-radio:active, .uk-checkbox:checked, .uk-checkbox:active {
+  background-color: #000000 !important;
 }
 
 .uk-form-danger:focus {
