@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 
 const api = require('../utility/api');
 
@@ -8,7 +9,7 @@ export default class FilterComponent extends Component {
 
     this.state = {
       categories: [],
-      searchTerm: '',
+      title: '',
       description: false,
       category: 'cat--1'
     };
@@ -47,23 +48,26 @@ export default class FilterComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    if (this.state.searchTerm.length > 0) {
+    if (this.state.title.length > 0) {
+
       let data = {
         page: 1,
-        searchTerm: this.state.searchTerm,
+        title: this.state.title,
         adType: this.props.adType
       };
-
-      const catID = this.state.category.slice(4);
-      if (catID !== "-1")
-        data.catID = catID;
-
+      const categoryId = this.state.category.slice(4);
+      if (categoryId !== "-1")
+        data.categoryId = categoryId;
       if (this.state.description)
-        data.description = this.state.searchTerm;
+        data.description = this.state.title;
 
-      api.search(data, function(success, response) {
-        console.log(response);
-      });
+      let endpoint = '/advertisements/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
+      if (!!data.description)
+        endpoint = endpoint.concat('&description=' + data.title);
+      if (!!data.categoryId)
+        endpoint = endpoint.concat('&categoryId=' + data.categoryId);
+
+      browserHistory.push(endpoint);
     }
   }
 
@@ -83,7 +87,7 @@ export default class FilterComponent extends Component {
         <div className="uk-width-3-5@m">
           <div className="uk-inline uk-width-1-1">
             <span className="uk-form-icon" data-uk-icon="icon: search"></span>
-            <input className="uk-input" name="searchTerm" type="text" placeholder="search..." value={this.state.searchTerm} onChange={this.handleInputChange} />
+            <input className="uk-input" name="title" type="text" placeholder="search..." value={this.state.title} onChange={this.handleInputChange} />
           </div>
         </div>
         <div className="uk-width-1-5@m">
