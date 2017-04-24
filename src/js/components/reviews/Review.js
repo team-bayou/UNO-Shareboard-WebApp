@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Star from './Star';
 import EditButton from '../buttons/EditButton';
 
-import avatar from '../../../media/images/avatar.jpg';
+import placeholder from '../../../media/images/avatar_placeholder.png';
+
+const constants = require('../../utility/constants');
 
 export default class Review extends Component {
   render(){
@@ -10,12 +12,14 @@ export default class Review extends Component {
     var user = this.props.isReviewer ? this.props.review.reviewee : this.props.review.reviewer;
     var routeToUser = "/users/" + user.id;
 
+    console.log(user);
+
     return (
       <div id={"review-" + this.props.review.id} className="review">
         <article className="uk-comment uk-background-muted">
           <header className="uk-comment-header uk-grid-medium uk-flex-middle" data-uk-grid>
             <div className="uk-width-auto">
-              <img className="uk-comment-avatar" src={avatar} width="80" height="80" alt="" />
+              <img className="uk-comment-avatar" src={!!user.imageId ? constants.HOST + "/service/v1/images/get/" + user.imageId : placeholder} width="80" height="80" alt="" />
             </div>
             <div className="uk-width-expand">
               <h4 className="review-author uk-comment-title uk-margin-remove"><a className="uk-link-reset" href={routeToUser}>{user.accountName}</a></h4>

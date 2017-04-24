@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import Dropzone from 'react-dropzone';
+
+const constants = require('../../utility/constants');
 
 export default class AdvertisementForm extends Component {
   constructor(props){
@@ -18,22 +21,28 @@ export default class AdvertisementForm extends Component {
     this.state = {
       id: this.props.ad ? this.props.ad.id : '',
       title: this.props.ad ? this.props.ad.title : '',
-      description: this.props.ad ? this.props.ad.description : '',
+      description: this.props.ad ? this.props.ad.description || '' : '',
       category: this.props.ad ? this.props.ad.category.id : '',
       owner: this.props.ad ? this.props.ad.owner.id : this.props.ownerId,
       timePublished: this.props.ad ? new Date(this.props.ad.timePublished).toISOString() : new Date(Date.now()).toISOString(),
       expirationDate:  this.props.ad ? new Date(this.props.ad.expirationDate).toISOString() : new Date(Date.now()).toISOString(),
       adType: this.props.ad ? this.props.ad.adType : '',
-      price: this.props.ad ? this.props.ad.price : '',
-      tradeItem: this.props.ad ? this.props.ad.tradeItem : '',
+      price: this.props.ad ? this.props.ad.price || '' : '',
+      tradeItem: this.props.ad ? this.props.ad.tradeItem || '' : '',
       titleStyle: this.inputValid,
       categoryStyle: this.selectValid,
       radioLabelStyle: this.radioLabelValid,
-      adTypeStyle: this.radioValid
+      adTypeStyle: this.radioValid,
+
+      existingImages: this.props.ad ? this.props.ad.imageIDs : [],
+      newImages: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.onDropRejected = this.onDropRejected.bind(this);
+    this.removeImage = this.removeImage.bind(this);
   }
 
   handleInputChange(event) {
@@ -42,7 +51,7 @@ export default class AdvertisementForm extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value + ""
     });
 
     // We reset the error message of each field
@@ -107,15 +116,96 @@ export default class AdvertisementForm extends Component {
     });
   }
 
+  onDrop(files) {
+    // eslint-disable-next-line
+    for (var i in files) {
+      this.state.newImages.push(files[i]);
+    }
+    this.setState({
+      dropRejected: false
+    })
+  }
+
+  onDropRejected(files) {
+
+  }
+
+  removeImage(event) {
+    if (event.target.name.includes("new")) {
+      let index = event.target.name.slice(18);
+      this.state.newImages.splice(index, 1);
+    }
+    else {
+      let index = event.target.name.slice(23);
+      this.state.existingImages.splice(index, 1);
+    }
+    this.setState({}); // We call an empty setState just to force a re-render
+  }
+
   render() {
+
+    var displayExistingImages = null;
+    var displayNewImages = null;
+
+    if (this.props.ad) {
+      displayExistingImages = this.state.existingImages.map(
+        function(img, index) {
+          return (
+            <img key={index} name={"existing-image-preview-" + index} src={constants.HOST + '/service/v1/images/get/' + this.state.existingImages[index]} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+          );
+        }.bind(this)
+      );
+    }
+
+    displayNewImages = this.state.newImages.map(
+      function(img, index) {
+        return (
+          <img key={index} name={"new-image-preview-" + index} src={this.state.newImages[index].preview} className="uk-margin-small-right uk-margin-small-top uk-margin-small-bottom" alt="preview" width="200" height="200" onClick={this.removeImage} />
+        );
+      }.bind(this)
+    );
+
     return (
       <div>
+
+        <div>
+          <div className="uk-width-1-1 uk-text-center">
+            <div className="uk-margin">
+              <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
+            </div>
+          </div>
+        </div>
+
+        <div className="uk-grid uk-margin-medium-bottom" data-uk-grid>
+          <div className="uk-width-1-4@m">
+            <div className="uk-margin">
+              <label className="uk-form-label form-label">Listing Images</label>
+              <Dropzone className="uk-width-1-1 new-listing-image-dropper" onDrop={this.onDrop} onDropRejected={this.onDropRejected} multiple={true} preventDropOnDocument={true} accept={"image/*"}>
+                <div className="uk-text-center info-list uk-padding-large">
+                  <span data-uk-icon="icon: cloud-upload"></span><br/>
+                  Drag and drop or click to select images to upload
+                </div>
+              </Dropzone>
+            </div>
+          </div>
+          <div className="uk-width-3-4@m">
+            <div className="uk-margin">
+              <label className="uk-form-label form-label">Images Preview (click image to remove)</label><br />
+              <div className="new-listing-image-preview">
+                {this.state.newImages.length > 0 || this.state.existingImages.length > 0 ? <span className="uk-margin-small-right"></span> : null}
+                {displayExistingImages}
+                {displayNewImages}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
+
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
                   <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
                   <div className="uk-form-controls">
                     <input className={this.state.titleStyle} id="ad-title" type="text"

@@ -126,32 +126,11 @@ module.exports = {
   },
 
   addAdvertisement: function(data, callback) {
-    performPost(constants.HOST + '/service/v1/advertisements/add', {
-      title: data.title,
-      description: data.description,
-      categoryId: data.category,
-      ownerId: data.owner,
-      timePublished: data.timePublished,
-      expirationDate: data.expirationDate,
-      adType: data.adType,
-      price: data.price,
-      tradeItem: data.tradeItem
-    }, callback);
+    performPost(constants.HOST + '/service/v1/advertisements/add', data, callback);
   },
 
   updateAdvertisement: function(data, callback) {
-    performPut(constants.HOST + '/service/v1/advertisements/update', {
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      categoryId: data.category,
-      ownerId: data.owner,
-      timePublished: data.timePublished,
-      expirationDate: data.expirationDate,
-      adType: data.adType,
-      price: data.price,
-      tradeItem: data.tradeItem
-    }, callback);
+    performPut(constants.HOST + '/service/v1/advertisements/update', data, callback);
   },
 
   //======================//
@@ -266,6 +245,79 @@ module.exports = {
 
   submitReport: function(data, callback) {
     performPost(constants.HOST + '/service/v1/reports/submit/', data, callback);
+  },
+
+
+  //================//
+  //     IMAGES     //
+  //================//
+
+  uploadImage: function(data, callback) {
+    const config = {
+      headers: {
+        'Content-Type': data.get("image_data").type
+      },
+      auth: {
+        username: process.env.REACT_APP_AUTH_USERNAME,
+        password: process.env.REACT_APP_AUTH_PASSWORD
+      }
+    };
+
+    axios.post(constants.HOST + "/service/v1/images/upload/", data, config)
+    .then(function (response) {
+      if (response.status === constants.RESPONSE_OK) {
+        callback(true, response);
+      }
+      else {
+        callback(false, response);
+      }
+    })
+    .catch(function (error) {
+      callback(false, error);
+    });
+  },
+
+  getImageByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/get/' + id + '/', callback);
+  },
+
+  getImageDataByID: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/images/' + id + '/info/', callback);
+  },
+
+  addImageToListing: function(listingID, imgID, callback) {
+    performPut(constants.HOST + '/service/v1/advertisements/addImage/' + listingID + '/' + imgID + '/', {}, callback);
+  },
+
+  removeImageFromListing: function(listingID, imgID, callback) {
+    performPut(constants.HOST + '/service/v1/advertisements/removeImage/' + listingID + '/' + imgID + '/', {}, callback);
+  },
+
+  deleteImage: function(imageID, callback) {
+    performDelete(constants.HOST + '/service/v1/images/' + imageID + '/delete/', callback);
+  },
+
+  changeUserProfilePicture: function(data, callback) {
+    this.uploadImage(data, function(success, response) {
+      if (success) {
+        const newImage = {
+          id: data.get("owner"),
+          imageId: response.data
+        };
+        performPut(constants.HOST + '/service/v1/users/update', newImage, callback);
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
+
+  removeUserProfilePicture: function(user, callback) {
+    const data = {
+      id: user,
+      imageId: -1
+    };
+    performPut(constants.HOST + '/service/v1/users/update', data, callback);
   }
 
 }

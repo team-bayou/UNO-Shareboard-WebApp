@@ -19,6 +19,7 @@ import EditReview from './js/pages/EditReviewPage';
 import Admin from './js/pages/AdminPage';
 import Profile from './js/pages/ProfilePage';
 import EditProfile from './js/pages/EditProfilePage';
+import EditProfilePicture from './js/pages/EditProfilePicturePage';
 import ForgotPasswordPage from './js/pages/ForgotPasswordPage';
 import ResetPasswordPage from './js/pages/ResetPasswordPage';
 import ReportProblem from './js/pages/ReportProblemPage';
@@ -57,6 +58,7 @@ ReactDOM.render((
     <Route path="home" component={Home} onEnter={checkLoggedInStatus} />
     <Route path="profile" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
+    <Route path="profile/edit/picture" component={EditProfilePicture} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/seek" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
     <Route path="advertisements/seek/page/:page" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />

@@ -4,8 +4,28 @@ const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
 
-module.exports = {
 
+function deleteImages(imagesToDelete, callback) {
+  let counter = 0;
+  var cb = function(success, response) {
+    if (success) {
+      counter++;
+      if (counter === imagesToDelete.length) {
+        callback(true, response);
+      }
+    }
+    else {
+      callback(false, response);
+    }
+  };
+
+  for (var i = 0; i < imagesToDelete.length; i++) {
+    api.deleteImage(imagesToDelete[i], cb);
+  }
+}
+
+
+module.exports = {
 
   //======================//
   //      GENERATORS      //
@@ -429,9 +449,153 @@ module.exports = {
   //    ADVERTISEMENTS    //
   //======================//
 
+  addNewListing: function(data, callback) {
+    let toSend = {
+      title: data.title,
+      description: data.description,
+      categoryId: data.category,
+      ownerId: data.owner,
+      timePublished: data.timePublished,
+      expirationDate: data.expirationDate,
+      adType: data.adType,
+      price: data.price,
+      tradeItem: data.tradeItem,
+      imageIDsStr: []
+    };
+
+    if (data.newImages.length > 0) {
+      let counter = 0;
+      var cb = function(success, response) {
+        if (success) {
+          counter++;
+          toSend.imageIDsStr.push(response.data + "");
+          if (counter === data.newImages.length) {
+            api.addAdvertisement(toSend, function(success, response) {
+              callback(success, response);
+            });
+          }
+        }
+        else {
+          callback(false, response);
+        }
+      };
+
+      for (var i = 0; i < data.newImages.length; i++) {
+        var imgData = new FormData();
+        imgData.append("description", "");
+        imgData.append("owner", parseInt(data.owner, 10));
+        imgData.append("image_data", data.newImages[i]);
+        api.uploadImage(imgData, cb);
+      }
+    }
+    else {
+      api.addAdvertisement(toSend, function(success, response) {
+        callback(success, response);
+      });
+    }
+
+  },
+
+  // Welcome to callback hell. I hope you enjoy your stay.
+  updateListing: function(data, callback) {
+    let toSend = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      categoryId: data.category,
+      ownerId: data.owner,
+      timePublished: data.timePublished,
+      expirationDate: data.expirationDate,
+      adType: data.adType,
+      price: data.price,
+      tradeItem: data.tradeItem,
+      imageIDsStr: []
+    };
+
+    // Get our listing as it currently exists in the database so that we can
+    // compare our new `existing image array` to the one currently in the database
+    api.getAdvertisement(data.id, function(success, response) {
+      if (success) {
+
+        // If there were no images on the listing and we haven't added any new ones, just update the listing
+        if (response.data.imageIDs.length < 1 && data.existingImages.length < 1 && data.newImages.length < 1) {
+          api.updateAdvertisement(toSend, function(success, response) {
+            callback(success, response);
+          });
+        }
+
+        // To reach this point, the ad must have new images or existing images
+        else {
+          var existingImagesInDB = response.data.imageIDs;
+          var toRemove = [];
+          var toKeep = [];
+          for (let i = 0; i < existingImagesInDB.length; i++) {
+            if (!data.existingImages.includes(existingImagesInDB[i])) {
+              toRemove.push(existingImagesInDB[i]);
+            }
+            else {
+              toKeep.push(existingImagesInDB[i]);
+            }
+          }
+
+          for (let i = 0; i < toKeep.length; i++)
+            toSend.imageIDsStr.push(toKeep[i]);
+
+          if (data.newImages.length > 0) {
+            var newImageIDs = [];
+            let counter = 0;
+            var cb = function(success, response) {
+              if (success) {
+                counter++;
+                newImageIDs.push(response.data);
+                if (counter === data.newImages.length) {
+                  for (let i = 0; i < newImageIDs.length; i++)
+                    toSend.imageIDsStr.push(newImageIDs[i]);
+
+                  api.updateAdvertisement(toSend, function(success, response) {
+                    if (toRemove.length < 1) callback(success, response);
+                    else {
+                      if (success) deleteImages(toRemove, callback);
+                      else callback(false, response);
+                    }
+                  });
+                }
+              }
+              else {
+                callback(false, response);
+              }
+            };
+
+            for (var i = 0; i < data.newImages.length; i++) {
+              var imgData = new FormData();
+              imgData.append("description", "");
+              imgData.append("owner", parseInt(data.owner, 10));
+              imgData.append("image_data", data.newImages[i]);
+              api.uploadImage(imgData, cb);
+            }
+          }
+
+          else {
+            api.updateAdvertisement(toSend, function(success, response) {
+              if (toRemove.length < 1) callback(success, response);
+              else {
+                if (success) deleteImages(toRemove, callback);
+                else callback(false, response);
+              }
+            });
+          }
+        }
+
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
+
   getPrice: function(ad){
     if (ad.price)
-      return '$ ' + ad.price;
+      return '$' + ad.price;
     return 'Free';
   },
 

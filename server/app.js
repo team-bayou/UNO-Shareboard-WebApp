@@ -15,12 +15,16 @@ app.use(cors());
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
 // Redirect our request to `https://` if it is not already
-app.all((req, res, next) => {
-  if (req.protocol !== 'https') {
-    return res.redirect('https://' + req.headers.host + req.url);
+app.use(
+  function(req,res,next) {
+    var schema = (req.headers['x-forwarded-proto'] || '').toLowerCase();
+    if (req.headers.host.indexOf('localhost') < 0 && schema !== 'https') {
+      res.redirect('https://' + req.headers.host + req.url);
+    } else {
+      next();
+    }
   }
-  next();
-});
+);
 
 // Serve static assets
 app.use(express.static(path.resolve(__dirname, '../build')));

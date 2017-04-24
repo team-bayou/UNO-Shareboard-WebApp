@@ -133,7 +133,6 @@ blue with black
   border: 1px solid #f0506e;
 }
 
-
 /*****************************************
  * COMPONENTS
  *****************************************/
@@ -280,6 +279,24 @@ blue with black
 /* User Advertisements Page */
 
 /* Add Advertisement Page */
+.new-listing-image-dropper {
+  height: 150px;
+  border: 1px dashed #666;
+}
+
+.new-listing-image-preview {
+  width: auto;
+  height: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  background-color: #EEE;
+}
+
+.new-listing-image-preview img {
+  border: 0px solid black;
+}
+
 
 /* Advertisement Details Page */
 .ad-item span {
@@ -341,6 +358,7 @@ blue with black
 
 
 /* Administration Page */
+
 .user-result-table {
   padding: 0;
   margin: 0;
@@ -458,4 +476,16 @@ td, th {
 
 .form-label {
   font-weight: bold;
+}
+
+.profile-image-container {
+  position: relative;
+  height:300px;
+  width: 100%;
+  overflow: visible;
+}
+
+.profile-image-dropper {
+  height: 200px;
+  border: 1px dashed #666;
 }

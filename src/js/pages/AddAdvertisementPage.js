@@ -14,7 +14,7 @@ export default class AddAdvertisementPage extends Component {
 
     this.state = {
       ad: null,
-      categories: [],
+      categories: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,10 +55,10 @@ export default class AddAdvertisementPage extends Component {
   handleSubmit(data){
     if (!this.props.edit){
       // Try to add new advertisement.
-      api.addAdvertisement(data, this.callback);
+      utils.addNewListing(data, this.callback);
     } else {
       // Try to update existing advertisement.
-      api.updateAdvertisement(data, this.callback);
+      utils.updateListing(data, this.callback);
     }
   }
 
