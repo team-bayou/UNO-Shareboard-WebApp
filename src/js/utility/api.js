@@ -247,6 +247,16 @@ module.exports = {
     performPost(constants.HOST + '/service/v1/reports/submit/', data, callback);
   },
 
+  search: function(data, callback) {
+    let endpoint = '/service/v1/advertisements/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
+
+    if (!!data.description)
+      endpoint = endpoint.concat('&description=' + data.title);
+    if (!!data.categoryId)
+      endpoint = endpoint.concat('&categoryId=' + data.categoryId);
+
+    performGet(constants.HOST + endpoint, callback);
+  },
 
   //================//
   //     IMAGES     //
