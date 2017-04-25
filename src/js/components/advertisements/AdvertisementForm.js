@@ -168,13 +168,13 @@ export default class AdvertisementForm extends Component {
     return (
       <div>
 
-        <div>
-          <div className="uk-width-1-1 uk-text-center">
-            <div className="uk-margin">
-              <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-            </div>
+        {
+          this.emptyFields ?
+          <div className="uk-alert-danger uk-text-center" data-uk-alert>
+            <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
           </div>
-        </div>
+          : null
+        }
 
         <div className="uk-grid uk-margin-medium-bottom" data-uk-grid>
           <div className="uk-width-1-4@m">
@@ -206,7 +206,7 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
+                  <label className="uk-form-label form-label" htmlFor="ad-title">Title <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
                     <input className={this.state.titleStyle} id="listing-title" type="text"
                       placeholder="The title of your advertisement" name="title"
@@ -232,7 +232,7 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="listing-categories">Category</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-categories">Category <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
                     <select className={this.state.categoryStyle} id="listing-categories" name="category"
                       defaultValue={this.state.category ? this.state.category : "-1"} onChange={this.handleInputChange}>
@@ -246,7 +246,7 @@ export default class AdvertisementForm extends Component {
 
             <div>
               <div className="uk-margin">
-                <div className="uk-form-label form-label">What kind of listing is this?</div>
+                <div className="uk-form-label form-label">What kind of listing is this? <span className="label-invalid">*</span></div>
                 <div className="listing-type uk-form-controls">
                   <label className={this.state.radioLabelStyle}>
                     <input className={this.state.adTypeStyle} type="radio" name="adType"

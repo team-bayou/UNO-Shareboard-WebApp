@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
 const utils = require('../utility/utilities');
@@ -75,7 +74,7 @@ export default class ReportProblemForm extends Component {
     if (!this.emptyFields) {
       let data = {
         reportingUserId: this.state.userID,
-        comments: this.state.description
+        comments: this.state.description + "\n\nRe: " + window.location.href
       };
       api.submitReport(data, function(success, response) {
         if (success) {
@@ -118,7 +117,7 @@ export default class ReportProblemForm extends Component {
         return (
           <div className="uk-text-center">
             <p>Your report has successfully been submitted!<br />We'll review it as soon as possible.</p>
-            <p><a onClick={browserHistory.goBack} className="unauth-link">Back</a></p>
+            <p><button className="uk-button uk-button-secondary uk-modal-close" type="button" value="Close">Close</button></p>
           </div>
         );
       }
@@ -146,10 +145,6 @@ export default class ReportProblemForm extends Component {
 
               <div className="uk-margin">
                 <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
-              </div>
-
-              <div className="uk-margin-top uk-text-center">
-                <a onClick={browserHistory.goBack} className="unauth-link">Back</a>
               </div>
 
             </fieldset>

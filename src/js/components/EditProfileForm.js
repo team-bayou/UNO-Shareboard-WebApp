@@ -206,15 +206,28 @@ export default class EditProfileForm extends Component {
       <form className="uk-form-stacked uk-align-center" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
 
-          <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-          <div className="uk-alert-danger uk-text-center" data-uk-alert hidden={!this.state.updateFailed}>
-            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
-            <p>There was a problem updating your account. Please try again or contact us if the problem continues.</p>
-          </div>
-          <div className="uk-alert-success uk-text-center" data-uk-alert hidden={!this.state.updateSuccess}>
-            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
-            <p>Account updated successfully!</p>
-          </div>
+          {
+            this.emptyFields ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+            </div>
+            : null
+          }
+          {
+            this.state.updateFailed ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> There was a problem updating your account. Please try again or contact us if the problem continues.</p>
+            </div>
+            : null
+          }
+          {
+            this.state.updateSuccess ?
+            <div className="uk-alert-success uk-text-center" data-uk-alert>
+              <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
+              <p>Account updated successfully!</p>
+            </div>
+            : null
+          }
 
           <div className="uk-margin">
             <div className="uk-placeholder uk-padding-small uk-background-muted">
@@ -226,7 +239,7 @@ export default class EditProfileForm extends Component {
           </div>
 
           <div className="uk-margin">
-            <label className="uk-form-label form-label" htmlFor="currentPassword">Current Password</label>
+            <label className="uk-form-label form-label" htmlFor="currentPassword">Current Password <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
               <input name="currentPassword" className={this.state.currentPasswordStyle} type="password"
                 placeholder="Current Password" value={this.state.currentPassword} onChange={this.handleInputChange} />
@@ -237,7 +250,7 @@ export default class EditProfileForm extends Component {
           <hr className="uk-divider-icon" />
 
           <div className="uk-margin">
-            <label className="uk-form-label form-label" htmlFor="accountName">Username</label>
+            <label className="uk-form-label form-label" htmlFor="accountName">Username <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
               <input name="accountName" className={this.state.accountNameStyle} type="text"
                 placeholder="Username" value={this.state.accountName} onChange={this.handleInputChange} />
