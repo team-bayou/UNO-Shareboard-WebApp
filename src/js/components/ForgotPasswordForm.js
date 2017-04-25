@@ -39,10 +39,13 @@ export default class ForgotPasswordForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.forgotpassbtn.setAttribute("disabled", "disabled");
+
       utilities.submitForgotPassword(this.state.email, function(success, response) {
         this.setState({
           emailSent: true
         });
+        this.refs.forgotpassbtn.removeAttribute("disabled");
       }.bind(this));
     }
   }
@@ -97,7 +100,7 @@ export default class ForgotPasswordForm extends Component {
             </div>
 
             <div className="uk-margin">
-              <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
+              <button ref="forgotpassbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
             </div>
 
             <div className="uk-margin-top uk-margin-remove-bottom uk-text-center">

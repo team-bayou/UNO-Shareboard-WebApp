@@ -92,6 +92,10 @@ export default class FindUserResult extends Component {
     if (!!this.state.editEmail &&
         !!this.state.editUsername &&
         !!this.state.editUserType) {
+
+      this.refs.adminedituserbtn.setAttribute("disabled", "disabled");
+      this.refs.adminedituserbtn.removeAttribute("disabled");
+
       var userData = {
         "id": this.state.id,
         "accountName": this.state.editUsername,
@@ -261,7 +265,7 @@ export default class FindUserResult extends Component {
               </tr>
               <tr>
                 <td colSpan="2">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.handleSubmit}>Save Changes</button>
+                  <button ref="adminedituserbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.handleSubmit}>Save Changes</button>
                 </td>
               </tr>
             </tbody>

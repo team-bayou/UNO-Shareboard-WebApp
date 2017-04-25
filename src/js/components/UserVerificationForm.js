@@ -118,7 +118,7 @@ export default class UserVerificationForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields && this.usernameValid && (this.phone === "" || this.phoneNumberValid)) {
-      // perform form submission
+      this.refs.verifyuserbtn.setAttribute("disabled", "disabled");
 
       utilities.checkForExistingUsername(this.state.username, function(usernameExists) {
         if (usernameExists) {
@@ -126,6 +126,7 @@ export default class UserVerificationForm extends Component {
           this.setState({
             usernameStyle: this.inputInvalid
           });
+          this.refs.verifyuserbtn.removeAttribute("disabled");
         }
         else {
           this.usernameExists = false;
@@ -154,11 +155,13 @@ export default class UserVerificationForm extends Component {
               this.setState({
                 verifycodeStyle: this.inputInvalid
               });
+              this.refs.verifyuserbtn.removeAttribute("disabled");
             }
             else {
               this.setState({
                 verifyFailed: true
               });
+              this.refs.verifyuserbtn.removeAttribute("disabled");
             }
 
           }.bind(this));
@@ -294,7 +297,7 @@ export default class UserVerificationForm extends Component {
                 </div>
 
                 <div className="uk-margin">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
+                  <button ref="verifyuserbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
                 </div>
 
               </fieldset>

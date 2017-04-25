@@ -72,6 +72,8 @@ export default class ReportProblemForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.reportproblembtn.setAttribute("disabled", "disabled");
+
       let data = {
         reportingUserId: this.state.userID,
         comments: this.state.description + "\n\nRe: " + window.location.href
@@ -88,6 +90,7 @@ export default class ReportProblemForm extends Component {
             submissionSuccessful: false,
             submissionFailed: true
           });
+          this.refs.reportproblembtn.removeAttribute("disabled");
         }
       }.bind(this));
     }
@@ -143,8 +146,9 @@ export default class ReportProblemForm extends Component {
                 <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure you fill our the description of your problem</label>
               </div>
 
-              <div className="uk-margin">
-                <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
+              <div className="uk-margin uk-text-right">
+                <button ref="reportproblembtn" className="uk-button uk-button-secondary" type="submit" value="Submit">Submit</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button" value="Cancel">Cancel</button>
               </div>
 
             </fieldset>

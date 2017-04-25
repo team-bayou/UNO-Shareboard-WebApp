@@ -79,17 +79,21 @@ export default class ForgotPasswordForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.resetpassbtn.setAttribute("disabled", "disabled");
+
       if (this.state.password.length < 6) {
         this.passwordValid = false;
         this.setState({
           passwordStyle: this.inputInvalid
         });
+        this.refs.resetpassbtn.removeAttribute("disabled");
       }
       else if (this.state.password !== this.state.passwordConfirm) {
         this.passwordMatch = false;
         this.setState({
           passwordConfirmStyle: this.inputInvalid
         });
+        this.refs.resetpassbtn.removeAttribute("disabled");
       }
       else {
         const hashedPassword = encryption.createHash(this.state.password);
@@ -110,11 +114,13 @@ export default class ForgotPasswordForm extends Component {
             this.setState({
               verifycodeStyle: this.inputInvalid
             });
+            this.refs.resetpassbtn.removeAttribute("disabled");
           }
           else {
             this.setState({
               errorWithReset: true
             });
+            this.refs.resetpassbtn.removeAttribute("disabled");
           }
         }.bind(this));
       }
@@ -233,7 +239,7 @@ export default class ForgotPasswordForm extends Component {
                 </div>
 
                 <div className="uk-margin">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Set Password</button>
+                  <button ref="resetpassbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Set Password</button>
                 </div>
 
               </fieldset>

@@ -66,6 +66,7 @@ export default class EditProfileForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.editprofilebtn.setAttribute("disabled", "disabled");
 
       if (!!this.state.newPassword) {
         if (this.state.newPassword.length < 6) {
@@ -74,6 +75,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             newPasswordStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
         else if (this.state.newPassword !== this.state.newPasswordConfirm) {
           this.passwordsMatch = false;
@@ -81,6 +83,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             newPasswordConfirmStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
       }
 
@@ -91,6 +94,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             accountNameStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
         else {
           utils.checkForExistingUsername(this.state.accountName, function(exists, response) {
@@ -100,6 +104,7 @@ export default class EditProfileForm extends Component {
               this.setState({
                 accountNameStyle: this.inputInvalid
               });
+              this.refs.editprofilebtn.removeAttribute("disabled");
             }
             else {
               utils.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
@@ -114,6 +119,7 @@ export default class EditProfileForm extends Component {
                       this.setState({
                         currentPasswordStyle: this.inputInvalid
                       });
+                      this.refs.editprofilebtn.removeAttribute("disabled");
                     }
                   }.bind(this));
                 }
@@ -167,6 +173,7 @@ export default class EditProfileForm extends Component {
         this.setState({
           updateFailed: true
         });
+        this.refs.editprofilebtn.removeAttribute("disabled");
       }
     }.bind(this));
   }
@@ -380,7 +387,7 @@ export default class EditProfileForm extends Component {
           </div>
 
           <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Save Changes">Save Changes</button>
+            <button ref="editprofilebtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Save Changes">Save Changes</button>
           </div>
 
         </fieldset>

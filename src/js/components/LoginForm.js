@@ -57,12 +57,15 @@ export default class LoginForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.loginbtn.setAttribute("disabled", "disabled");
+
       utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful, unverifiedUser) {
         if (!emailExists) {
             this.emailExists = false;
             this.setState({
               emailStyle: this.inputInvalid
             });
+            this.refs.loginbtn.removeAttribute("disabled");
         }
 
         else if (!loginSuccessful) {
@@ -70,6 +73,7 @@ export default class LoginForm extends Component {
           this.setState({
             passwordStyle: this.inputInvalid
           });
+          this.refs.loginbtn.removeAttribute("disabled");
         }
 
         if (emailExists && loginSuccessful) {
@@ -79,6 +83,7 @@ export default class LoginForm extends Component {
               emailStyle: this.inputValid,
               passwordStyle: this.inputValid
             });
+            this.refs.loginbtn.removeAttribute("disabled");
           }
           else {
             // perform login
@@ -149,7 +154,7 @@ export default class LoginForm extends Component {
             <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
           </div>
           <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Login">Login</button>
+            <button ref="loginbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Login">Login</button>
           </div>
           <div className="uk-margin-top uk-text-center">
             <a href="/forgotpassword">Forgot Password?</a>

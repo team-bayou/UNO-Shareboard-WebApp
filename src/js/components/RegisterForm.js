@@ -91,12 +91,15 @@ export default class RegisterForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields && this.emailValid && this.passwordValid && this.passwordMatch) {
+      this.refs.registerbtn.setAttribute("disabled", "disabled");
+
       utilities.checkForExistingEmail(this.state.email, function(emailExists) {
         if (emailExists) {
           this.emailExists = true;
           this.setState({
             emailStyle: this.inputInvalid
           });
+          this.refs.registerbtn.removeAttribute("disabled");
         }
         else {
           this.emailExists = false;
@@ -116,6 +119,7 @@ export default class RegisterForm extends Component {
                 registrationFailed: true,
                 registrationSubmitted: false
               });
+              this.refs.registerbtn.removeAttribute("disabled");
             }
           }.bind(this));
         }
@@ -231,7 +235,7 @@ export default class RegisterForm extends Component {
               <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
             </div>
             <div className="uk-margin">
-              <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Register">Register</button>
+              <button ref="registerbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Register">Register</button>
             </div>
           </fieldset>
         </form>
