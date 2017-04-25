@@ -85,7 +85,6 @@ export default class EditCategories extends Component {
       this.setState({
         [catid]: this.newColor
       });
-      console.log(catid);
     }
     this.closeColorPicker(event);
   }

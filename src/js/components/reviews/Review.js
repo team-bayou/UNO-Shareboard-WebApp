@@ -12,8 +12,6 @@ export default class Review extends Component {
     var user = this.props.isReviewer ? this.props.review.reviewee : this.props.review.reviewer;
     var routeToUser = "/users/" + user.id;
 
-    console.log(user);
-
     return (
       <div id={"review-" + this.props.review.id} className="review">
         <article className="uk-comment uk-background-muted">

@@ -64,9 +64,7 @@ export default class AddAdvertisementPage extends Component {
 
   callback(exists, response){
     if (exists && response){
-      // Get user id from cookie.
-      // Redirect to page of user's advertisements.
-      browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements");
+      browserHistory.push("/advertisements/" + response.data);
     } else {
       console.log("Failed to create/update listing.");
     }

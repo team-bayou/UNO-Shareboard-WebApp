@@ -24,7 +24,6 @@ export default class AdvertisementsListPage extends Component {
     api.getAdTypeAdvertisements(this.props.adType, function(exists, response){
       if (exists && response){
         // Determine number of pages based on the number of advertisements.
-        console.log(response);
         this.setState({
           pages: utils.getNumberOfPages(response.data.length),
           totalNumAds: response.data.length

@@ -15,18 +15,16 @@ export default class HomePage extends Component {
   }
 
   componentDidMount() {
-    let self = this;
-
     // Try to get a list of the top 10 recent advertisements.
     api.getAdvertisementsByPage(1, function(exists, response){
       if (exists && response){
-        self.setState({
+        this.setState({
           advertisements: response.data
         });
       } else {
         console.log("No listings found");
       }
-    });
+    }.bind(this));
   }
 
   render() {

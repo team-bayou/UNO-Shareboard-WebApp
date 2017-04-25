@@ -52,7 +52,6 @@ export default class AddReviewPage extends Component {
   }
 
   callback(exists, response){
-    console.log(response);
     if (exists && response){
       let routeBack;
       if (!this.props.edit){

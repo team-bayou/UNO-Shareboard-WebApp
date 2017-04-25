@@ -32,7 +32,6 @@ export default class EditProfileForm extends Component {
 
   onDrop(files) {
     var file = files[0];
-    console.log(file);
     this.setState({
       image: file,
       dropRejected: false

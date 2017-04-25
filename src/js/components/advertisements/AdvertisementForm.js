@@ -299,7 +299,7 @@ export default class AdvertisementForm extends Component {
             </div>
 
             <div>
-              <div className="uk-width-1-4 uk-align-center">
+              <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
                 <div className="uk-margin-medium-top">
                   <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
                 </div>
