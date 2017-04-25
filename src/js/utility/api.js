@@ -255,8 +255,7 @@ module.exports = {
     if (!!data.categoryId)
       endpoint = endpoint.concat('&categoryId=' + data.categoryId);
 
-    console.log(endpoint);
-    //performGet(constants.HOST + endpoint, callback);
+    performGet(constants.HOST + endpoint, callback);
   },
 
   //================//
