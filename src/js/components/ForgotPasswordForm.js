@@ -72,7 +72,7 @@ export default class ForgotPasswordForm extends Component {
         <div className="uk-text-center">
           <h2 className="uk-heading-line uk-text-center"><span>E-mail Sent</span></h2>
           <p>If an account exists with the provided e-mail address, you should receive an e-mail with instructions on how to reset your password.</p>
-          <p className="uk-margin-remove-bottom"><a href="/" className="unauth-link">Back to Login</a></p>
+          <p className="uk-margin-remove-bottom"><a href="/">Back to Login</a></p>
         </div>
       );
     }
@@ -89,8 +89,9 @@ export default class ForgotPasswordForm extends Component {
             </div>
 
             <div className="uk-margin">
+              <label className="uk-form-label form-label" htmlFor="email">E-mail <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+                <input id="email" name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
               </div>
               <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure your e-mail is properly filled in</label>
             </div>
@@ -100,7 +101,7 @@ export default class ForgotPasswordForm extends Component {
             </div>
 
             <div className="uk-margin-top uk-margin-remove-bottom uk-text-center">
-              <a href="/" className="unauth-link">Back to Login</a>
+              <a href="/">Back to Login</a>
             </div>
 
           </fieldset>

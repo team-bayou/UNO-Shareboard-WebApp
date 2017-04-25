@@ -193,26 +193,41 @@ export default class ForgotPasswordForm extends Component {
 
                 <legend className="uk-legend uk-text-center">Reset Password</legend>
 
-                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-                <label className="uk-form-label label-invalid" hidden={!this.state.errorWithReset}>There was an error when attempting to reset your password. Please try again or contact us if the problem persists.</label>
+                {
+                  this.emptyFields ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+                  </div>
+                  : null
+                }
+                {
+                  this.state.errorWithReset ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> There was an error when attempting to reset your password<br />Please try again or contact us if the problem persists</p>
+                  </div>
+                  : null
+                }
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="verifycode">Verification Code <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
+                    <input id="verifycode" name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="password">New Password <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="password" className={this.state.passwordStyle} type="password" placeholder="New Password" value={this.state.password} onChange={this.handleInputChange} />
+                    <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="New Password" value={this.state.password} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="passwordConfirm">Confirm New Password <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="New Password (Confirm)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+                    <input id="passwordConfirm" name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
                 </div>

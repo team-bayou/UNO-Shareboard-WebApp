@@ -194,24 +194,39 @@ export default class RegisterForm extends Component {
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset">
             <legend className="uk-legend landing-header">Register</legend>
-            <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-            <label className="uk-form-label label-invalid" hidden={!this.state.registrationFailed}>There was an error when submitting your registration<br />Please wait and try again, or contact us if the problem persists</label>
+            {
+              this.emptyFields ?
+              <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+              </div>
+              : null
+            }
+            {
+              this.state.registrationFailed ?
+              <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                <p><span data-uk-icon="icon: warning"></span> There was an error when submitting your registration<br />Please try again, or contact us if the problem persists</p>
+              </div>
+              : null
+            }
             <div className="uk-margin">
+              <label className="uk-form-label form-label" htmlFor="email">E-mail <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+                <input id="email" name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
               </div>
               <label className="uk-form-label label-invalid" hidden={this.emailValid}>E-mail must be a UNO e-mail address</label>
               <label className="uk-form-label label-invalid" hidden={!this.emailExists}>An account with that e-mail already exists</label>
             </div>
             <div className="uk-margin">
+              <label className="uk-form-label form-label" htmlFor="password">Password <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+                <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
               </div>
               <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
             </div>
             <div className="uk-margin">
+              <label className="uk-form-label form-label" htmlFor="passwordConfirm">Confirm Password <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Password (again)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+                <input id="passwordConfirm" name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Confirm Password" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
               </div>
               <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
             </div>

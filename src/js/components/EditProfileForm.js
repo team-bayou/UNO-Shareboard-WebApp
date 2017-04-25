@@ -252,7 +252,7 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="accountName">Username <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
-              <input name="accountName" className={this.state.accountNameStyle} type="text"
+              <input id="accountName" name="accountName" className={this.state.accountNameStyle} type="text"
                 placeholder="Username" value={this.state.accountName} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={!this.usernameTaken}>That username has already been taken</label>
@@ -263,7 +263,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="firstName">First Name</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="firstName" className={this.inputValid} type="text"
+                <input id="firstName" name="firstName" className={this.inputValid} type="text"
                   placeholder="First Name" value={this.state.firstName} onChange={this.handleInputChange} />
               </div>
             </div>
@@ -273,7 +273,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="lastName">Last Name</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="lastName" className={this.inputValid} type="text"
+                <input id="lastName" name="lastName" className={this.inputValid} type="text"
                   placeholder="Last Name" value={this.state.lastName} onChange={this.handleInputChange} />
               </div>
             </div>
@@ -283,7 +283,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="phone">Phone Number</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+                <input id="phone" name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
               </div>
             </div>
           </div>
@@ -366,7 +366,7 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="newPassword">New Password</label>
             <div className="uk-form-controls">
-              <input name="newPassword" className={this.state.newPasswordStyle} type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleInputChange} />
+              <input id="newPassword" name="newPassword" className={this.state.newPasswordStyle} type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
           </div>
@@ -374,7 +374,7 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="newPasswordConfirm">Confirm New Password</label>
             <div className="uk-form-controls">
-              <input name="newPasswordConfirm" className={this.state.newPasswordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleInputChange} />
+              <input id="newPasswordConfirm" name="newPasswordConfirm" className={this.state.newPasswordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={this.passwordsMatch}>Passwords don't match</label>
           </div>
