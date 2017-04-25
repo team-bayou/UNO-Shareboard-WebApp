@@ -13,6 +13,7 @@ export default class AddReviewPage extends Component {
     super(props);
 
     this.state = {
+      reviewedUser: null,
       review: null
     };
 
@@ -36,6 +37,16 @@ export default class AddReviewPage extends Component {
           }
         } else {
           console.log("No review found");
+        }
+      }.bind(this));
+    }
+
+    else {
+      api.getUserByID(this.props.params.id, function(exists, response) {
+        if (exists) {
+          this.setState({
+            reviewedUser: response.data
+          });
         }
       }.bind(this));
     }
@@ -69,7 +80,7 @@ export default class AddReviewPage extends Component {
   }
 
   render() {
-    if (this.props.edit && !this.state.review)
+    if ((this.props.edit && !this.state.review) || (!this.props.edit && !this.state.reviewedUser))
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
@@ -77,7 +88,7 @@ export default class AddReviewPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center">
-            <span>{!this.props.edit ? "Review User" : "Edit Review of User '" + this.state.review.reviewee.accountName + "'"}</span>
+            <span>{!this.props.edit ? "Review " + this.state.reviewedUser.accountName : "Edit review of " + this.state.review.reviewee.accountName}</span>
           </h2>
           <ReviewForm id={this.props.id} review={this.state.review} reviewerId={utils.getCookie(constants.COOKIE_A)}
             revieweeId={!this.props.edit ? this.props.params.id : this.state.review.reviewee.id} handleSubmit={this.handleSubmit} />

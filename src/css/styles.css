@@ -317,6 +317,31 @@ blue with black
   vertical-align: middle;
 }
 
+.listing-link {
+  /*
+  display: block;
+  color: #999;
+  font-size: .875rem;
+  text-transform: uppercase;
+  -webkit-transition: .1s ease-in-out;
+  transition: .1s ease-in-out;
+  -webkit-transition-property: color,background-color;
+  transition-property: color,background-color;
+  */
+  color: #999;
+  text-decoration: none;
+}
+
+.listing-link:hover,
+.listing-link:focus {
+  /*
+  color: #666;
+  text-decoration: none;
+  */
+  color: #666;
+  text-decoration: none;
+}
+
 #listing-details .listing-owner-contact .uk-icon-button {
   color: white;
   display: inherit;

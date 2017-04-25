@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReportForm from '../ReportForm';
 
 import placeholder from '../../../media/images/avatar_placeholder.png';
 
@@ -46,25 +45,10 @@ export default class AdvertisementOwnerDetails extends Component {
                         }
                       </li>
                       <li><a href={routeToReviews}>{"User Reviews (" + this.props.reviews + ")"}</a></li>
-                      {
-                        this.props.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
-                        <li><a href="#report-listing" data-uk-toggle>Report Listing</a></li>
-                      }
                   </ul>
               </div>
           </header>
         </article>
-
-        {
-          this.props.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
-          <div id="report-listing" data-uk-modal="center: true">
-            <div className="uk-modal-dialog uk-modal-body">
-              <h2 className="uk-modal-title uk-text-center">Report Listing</h2>
-              <ReportForm reportedUserID={this.props.owner.id} reportedAdID={this.props.ad.id} />
-            </div>
-          </div>
-        }
-
       </div>
     );
   }

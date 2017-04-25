@@ -70,7 +70,7 @@ module.exports = {
     const phone = this.validatePhone(num);
 
     if (!phone.isValid)
-      return null;
+      return num;
 
     const number = phone.number.toString();
     if (number.length === 11) {

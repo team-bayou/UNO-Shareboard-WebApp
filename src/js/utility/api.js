@@ -160,7 +160,6 @@ module.exports = {
     performPost(constants.HOST + '/service/v1/reviews/add', {
       rating: data.rating,
       comments: data.comments,
-      //timePublished: data.timePublished,
       reviewerId: data.reviewer,
       revieweeId: data.reviewee
     }, callback);
@@ -171,7 +170,6 @@ module.exports = {
       id: data.id,
       rating: data.rating,
       comments: data.comments,
-      //timePublished: data.timePublished,
       reviewerId: data.reviewer,
       revieweeId: data.reviewee
     }, callback);

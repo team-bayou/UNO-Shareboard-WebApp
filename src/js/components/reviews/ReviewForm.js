@@ -16,7 +16,6 @@ export default class ReviewForm extends Component {
       comments: this.props.review ? this.props.review.comments : '',
       reviewer: this.props.review ? this.props.review.reviewer.id : this.props.reviewerId,
       reviewee: this.props.review ? this.props.review.reviewee.id : this.props.revieweeId,
-      timePublished: /* this.props.review ? this.props.review.timePublished : */ new Date(Date.now()).toISOString(),
       ratingStyle: this.ratingValid,
       commentsStyle: ''
     };
@@ -24,6 +23,7 @@ export default class ReviewForm extends Component {
     this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleRatingChange(value) {
@@ -34,6 +34,10 @@ export default class ReviewForm extends Component {
 
       this.resetError("rating", value);
     }
+  }
+
+  handleCancel() {
+    browserHistory.push("/users/" + (this.props.review ? this.props.review.reviewee.id : this.props.revieweeId));
   }
 
   handleInputChange(event) {
@@ -98,9 +102,15 @@ export default class ReviewForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label label-invalid" htmlFor="review-rating" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-                  <label className="uk-form-label" htmlFor="review-rating">Rating</label>
-                  <div className={this.state.ratingStyle}>
+                  {
+                    this.emptyFields ?
+                    <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                      <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+                    </div>
+                    : null
+                  }
+                  <label className="uk-form-label form-label" htmlFor="review-rating">Rating <span className="label-invalid">*</span></label>
+                  <div className="uk-form-controls">
                     <Rating onClick={this.handleRatingChange} rating={this.state.rating}/>
                   </div>
                 </div>
@@ -110,22 +120,22 @@ export default class ReviewForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label" htmlFor="review-comments">Comments</label>
+                  <label className="uk-form-label form-label" htmlFor="review-comments">Comments</label>
                   <div className="uk-form-controls">
                     <textarea className="uk-textarea" id="review-comments"
-                      placeholder="The textual comments giving to the user" name="comments"
+                      placeholder="Any comments you want to make with the review" name="comments"
                       value={this.state.comments} onChange={this.handleInputChange}/>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="uk-width-1-4 uk-align-center">
+            <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
               <div className="uk-margin-medium-top">
                 <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
               </div>
               <div className="uk-margin-small-top">
-                <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
+                <a onClick={this.handleCancel} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
               </div>
             </div>
           </fieldset>

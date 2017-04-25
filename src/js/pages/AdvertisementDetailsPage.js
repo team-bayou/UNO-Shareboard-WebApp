@@ -23,6 +23,7 @@ export default class AdvertisementDetailsPage extends Component {
 
         // Try to get a list of the owner's reviews and extract only the number of reviews.
         api.getRevieweeReviews(response.data.owner.id, function(exists, response){
+          console.log(response);
           if (exists && response){
             this.setState({
               advertisement: advertisement,

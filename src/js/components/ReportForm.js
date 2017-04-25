@@ -9,8 +9,6 @@ export default class ReportForm extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props);
-
     this.emptyFields = false;
 
     this.textareaValid = "uk-textarea";
@@ -83,7 +81,6 @@ export default class ReportForm extends Component {
   }
 
   checkForEmptyFields() {
-    console.log("Asdasdasd");
     if (this.state.description === "") {
       this.emptyFields = true;
       this.setState({
