@@ -7,12 +7,6 @@ import constants from '../utility/constants';
 import utils from '../utility/utilities';
 import api from '../utility/api';
 
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import ReviewsPage from './ReviewsPage';
-
-=======
->>>>>>> 79b3955... Made progress with this reviews stuff
 export default class RevieweeReviewsPage extends Component {
   constructor(props) {
     super(props);
@@ -40,25 +34,12 @@ export default class RevieweeReviewsPage extends Component {
           this.setState({
             name: response.data.accountName + "'s",
             createReview: (
-<<<<<<< HEAD
-              <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
-                <a href="reviews/add" className="uk-button button-success uk-button-large uk-width-1-1">Review This User</a>
-              </div>
-            ),
-            backToAd: (
-              <div>
-                <a href={"/users/" + this.props.params.id} className="uk-button uk-button-secondary uk-button-large uk-width-1">
-                  <span data-uk-icon="icon: arrow-left; ratio: 2"></span> Back
-                </a>
-              </div>
-=======
               <a href={"/users/" + this.props.params.id + "/reviews/add"} className="button-success uk-button uk-button-large center">Review this user</a>
             ),
             backToAd: (
               <a href={"/users/" + this.props.params.id} className="uk-button uk-button-secondary uk-button-large">
                 <span data-uk-icon="icon: arrow-left; ratio: 2"></span> Back
               </a>
->>>>>>> 79b3955... Made progress with this reviews stuff
             )
           });
         }
