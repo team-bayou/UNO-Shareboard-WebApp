@@ -249,7 +249,6 @@ blue with black
 /* Landing Page */
 #landing {
   position:absolute;
-  /*width: 100%;*/
   top:50%;
   left:50%;
   -ms-transform: translateX(-50%) translateY(-50%);
@@ -260,6 +259,7 @@ blue with black
 .landing-form {
   box-shadow: none;
   border: 1px solid #000000;
+  max-width: 500px;
 }
 
 .landing-header {
