@@ -12,8 +12,17 @@ export default class Advertisement extends Component {
     super(props);
 
     this.state = {
-      images: this.props.ad.imageIDs
+      images: this.props.ad.imageIDs,
+      isAdmin: false
     };
+  }
+
+  componentDidMount() {
+    utils.verifyAdmin(function(l, a) {
+      this.setState({
+        isAdmin: a
+      });
+    }.bind(this));
   }
 
   render() {
@@ -31,24 +40,29 @@ export default class Advertisement extends Component {
           <AdCard ad={this.props.ad} body={body} footer={footer} />
 
           {
-            this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ?
-            <div className="uk-width-1-1 uk-margin uk-text-center">
+            this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" || this.state.isAdmin ?
+            <div className="uk-width-1-1 uk-margin-small-top uk-text-center">
               <a href={"/advertisements/" + this.props.ad.id + "/edit"} className="listing-link">Edit Listing</a>
             </div>
-            :
-            <div className="uk-width-1-1 uk-margin uk-text-center">
+            : null
+          }
+          {
+            this.props.ad.owner.id + "" !== utils.getCookie(constants.COOKIE_A) + "" ?
+            <div className="uk-width-1-1 uk-margin-small-top uk-text-center">
               <a href="#report-listing" className="listing-link" data-uk-toggle>Report Listing</a>
             </div>
+            : null
           }
 
           {
-            this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
+            this.props.ad.owner.id + "" !== utils.getCookie(constants.COOKIE_A) + "" ?
             <div id="report-listing" data-uk-modal="center: true">
               <div className="uk-modal-dialog uk-modal-body">
                 <h2 className="uk-modal-title uk-text-center">Report Listing</h2>
                 <ReportForm reportedUserID={this.props.ad.owner.id} reportedAdID={this.props.ad.id} />
               </div>
             </div>
+            : null
           }
 
         </div>

@@ -33,7 +33,7 @@ export default class AddAdvertisementPage extends Component {
           categories: sorted
         });
       } else {
-        console.log("No categories found");
+        console.log(response);
       }
     }.bind(this));
 
@@ -41,17 +41,29 @@ export default class AddAdvertisementPage extends Component {
     if (this.props.edit) {
       api.getAdvertisement(this.props.id, function(exists, response) {
         if (exists && response) {
+          let ad = response.data;
+          console.log(ad.ownerId);
           // Check if the current user is allowed to edit the requested ad, i.e.
           // check if he/she is the owner of that ad.
           if (response.data.owner.id === parseInt(utils.getCookie(constants.COOKIE_A), 10)) {
             this.setState({
-              ad: response.data
+              ad: ad
             });
-          } else {
-            browserHistory.goBack();
+          }
+          else {
+            utils.verifyAdmin(function(loggedIn, admin) {
+              if (admin) {
+                this.setState({
+                  ad: ad
+                });
+              }
+              else {
+                browserHistory.goBack();
+              }
+            }.bind(this));
           }
         } else {
-          console.log("No listing found");
+          console.log(response);
         }
       }.bind(this));
     }
@@ -73,7 +85,7 @@ export default class AddAdvertisementPage extends Component {
             <span>{!this.props.edit ? "Create New Listing" : "Edit Listing '" + this.state.ad.title + "'"}</span>
           </h2>
           <AdForm id={this.props.id} ad={this.state.ad} categories={categories}
-            ownerId={utils.getCookie(constants.COOKIE_A)} edit={this.props.edit} />
+            ownerId={this.state.ad.ownerId} edit={this.props.edit} />
         </div>
         <AppFooter />
       </div>

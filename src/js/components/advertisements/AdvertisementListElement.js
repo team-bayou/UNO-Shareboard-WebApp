@@ -8,6 +8,22 @@ const constants = require('../../utility/constants');
 const utils = require('../../utility/utilities');
 
 export default class AdvertisementListElement extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isAdmin: false
+    };
+  }
+
+  componentDidMount() {
+    utils.verifyAdmin(function(l, a) {
+      this.setState({
+        isAdmin: a
+      });
+    }.bind(this));
+  }
+
   render() {
     var routeToUser = "/users/" + this.props.ad.owner.id;
     var media = (
@@ -28,7 +44,7 @@ export default class AdvertisementListElement extends Component {
     );
 
     return (
-      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} edit={this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A)}/>
+      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} edit={this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) || this.state.isAdmin}/>
     );
   }
 }
