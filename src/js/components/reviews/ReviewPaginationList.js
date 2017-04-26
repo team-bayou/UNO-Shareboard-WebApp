@@ -3,7 +3,7 @@ import ReviewList from './ReviewList';
 import Paginator from '../Paginator';
 
 export default class ReviewPaginationList extends Component {
-  render(){
+  render() {
     let paginator = this.props.pages > 1 ?
       <Paginator pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
       :

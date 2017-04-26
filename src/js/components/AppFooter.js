@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReportProblemForm from './ReportProblemForm';
 
 export default class AppFooter extends Component {
-  render(){
+  render() {
     return (
       <div className="app-footer uk-margin-small-top uk-margin-small-bottom">
         <hr />

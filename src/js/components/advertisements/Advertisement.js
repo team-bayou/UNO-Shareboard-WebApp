@@ -8,7 +8,7 @@ const utils = require('../../utility/utilities');
 const constants = require('../../utility/constants');
 
 export default class Advertisement extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -16,7 +16,7 @@ export default class Advertisement extends Component {
     };
   }
 
-  render(){
+  render() {
     var body = (<p>{this.props.ad.description}</p>);
     var footer = (
       <AdOwnerDetails ad={this.props.ad} owner={this.props.ad.owner} reviews={this.props.reviews}/>

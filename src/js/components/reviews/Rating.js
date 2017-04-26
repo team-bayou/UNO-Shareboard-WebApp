@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Star from './Star';
 
 export default class Rating extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.ratingTips = ["Very bad", "Bad", "Okay", "Good", "Very good"];
@@ -14,14 +14,14 @@ export default class Rating extends Component {
     };
   }
 
-  handleMouseHover(index, enter){
+  handleMouseHover(index, enter) {
     let stars;
 
-    if (enter){
+    if (enter) {
       stars = this.getRating(index);
-    } else if (this.state.selected){
+    } else if (this.state.selected) {
       stars = this.getRating(this.state.selectedRating);
-    } else if (!this.state.selected){
+    } else if (!this.state.selected) {
       stars = this.getRating(-1);
     }
 
@@ -30,7 +30,7 @@ export default class Rating extends Component {
     });
   }
 
-  handleRatingClick(index){
+  handleRatingClick(index) {
     this.setState({
       selected: true,
       selectedRating: index
@@ -39,10 +39,10 @@ export default class Rating extends Component {
     this.props.onClick(index + 1);
   }
 
-  getRating(index){
+  getRating(index) {
     let stars = [];
 
-    for (var i = 0; i < 5; i++){
+    for (var i = 0; i < 5; i++) {
       stars.push(
         <a key={i} name="rating" value={i} className="uk-display-inline-block" title={this.ratingTips[i]}
           data-uk-tooltip="pos: bottom;" onClick={this.handleRatingClick.bind(this, i)}
@@ -55,7 +55,7 @@ export default class Rating extends Component {
     return stars;
   }
 
-  render(){
+  render() {
     return (
       <div className="review-rating">
         {this.state.stars}

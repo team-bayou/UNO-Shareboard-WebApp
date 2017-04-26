@@ -3,7 +3,7 @@ import Category from '../Category';
 import utils from '../../utility/utilities';
 
 export default class AdvertisementHeader extends Component {
-  render(){
+  render() {
     return (
       <div className="listing-header uk-card-header">
         <a href={"/advertisements/" + this.props.ad.id} className="uk-link-reset">

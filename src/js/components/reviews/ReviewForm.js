@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Rating from './Rating';
 
+import api from '../../utility/api';
+
 export default class ReviewForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.emptyFields = false;
     this.ratingValid = "uk-form-controls";
     this.ratingInvalid = "uk-form-controls rating-invalid";
+
+    this.errorMsg = "";
 
     this.state = {
       id: this.props.review ? this.props.review.id : '',
@@ -17,7 +21,9 @@ export default class ReviewForm extends Component {
       reviewer: this.props.review ? this.props.review.reviewer.id : this.props.reviewerId,
       reviewee: this.props.review ? this.props.review.reviewee.id : this.props.revieweeId,
       ratingStyle: this.ratingValid,
-      commentsStyle: ''
+      commentsStyle: '',
+
+      submissionFailed: false
     };
 
     this.handleRatingChange = this.handleRatingChange.bind(this);
@@ -27,7 +33,7 @@ export default class ReviewForm extends Component {
   }
 
   handleRatingChange(value) {
-    if (value > 0 && value <= 5){
+    if (value > 0 && value <= 5) {
       this.setState({
         rating: value
       });
@@ -55,24 +61,59 @@ export default class ReviewForm extends Component {
     this.resetError(name, value);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
 
     this.checkForEmptyFields();
 
-    if (!this.emptyFields){
-      this.props.handleSubmit(this.state);
+    if (!this.emptyFields) {
+      this.refs.submitreviewbtn.setAttribute("disabled", "disabled");
+
+      if (!this.props.edit) {
+        api.addReview(this.state, function(exists, response) {
+          if (exists && response) {
+            let routeBack = this.props.edit ?
+                "/reviews/reviewer/" + this.props.review.reviewer.id :
+                "/users/" + this.props.revieweeId + "/reviews";
+
+            browserHistory.push(routeBack);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when creating your review. Please try again, or contact us if the problem continues.";
+            this.refs.submitreviewbtn.removeAttribute("disabled");
+          }
+        }.bind(this));
+      }
+
+      else {
+        api.updateReview(this.state, function(exists, response) {
+          if (exists && response) {
+            let routeBack = this.props.edit ?
+                "/reviews/reviewer/" + this.props.review.reviewer.id :
+                "/users/" + this.props.revieweeId + "/reviews";
+
+            browserHistory.push(routeBack);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when updating your review. Please try again, or contact us if the problem continues.";
+            this.refs.submitreviewbtn.removeAttribute("disabled");
+          }
+        }.bind(this));
+      }
+
     }
   }
 
   checkForEmptyFields() {
     let data = this.state;
 
-    if (data.rating === '') {
-      this.emptyFields = true;
-    } else {
-      this.emptyFields = false;
-    }
+    this.emptyFields = data.rating === '';
 
     let rs = data.rating === '' ? this.ratingInvalid : this.ratingValid;
 
@@ -85,7 +126,7 @@ export default class ReviewForm extends Component {
   //   check for errors on.
   resetError(name, value) {
     let style;
-    if (name === 'rating'){
+    if (name === 'rating') {
       style = value === '' ? this.ratingInvalid : this.ratingValid;
     }
 
@@ -106,6 +147,13 @@ export default class ReviewForm extends Component {
                     this.emptyFields ?
                     <div className="uk-alert-danger uk-text-center" data-uk-alert>
                       <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+                    </div>
+                    : null
+                  }
+                  {
+                    this.state.submissionFailed ?
+                    <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                      <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
                     </div>
                     : null
                   }
@@ -132,7 +180,7 @@ export default class ReviewForm extends Component {
 
             <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
               <div className="uk-margin-medium-top">
-                <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
+                <button ref="submitreviewbtn" className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
               </div>
               <div className="uk-margin-small-top">
                 <a onClick={this.handleCancel} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>

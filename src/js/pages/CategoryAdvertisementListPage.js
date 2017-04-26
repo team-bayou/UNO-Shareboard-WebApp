@@ -6,7 +6,7 @@ import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
 export default class CategoryAdvertisementsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -20,8 +20,8 @@ export default class CategoryAdvertisementsPage extends Component {
 
   componentDidMount() {
     // Try to get a list of category's advertisements and extract length.
-    api.getCategoryAdvertisements(this.props.params.id, function(exists, response){
-      if (exists && response){
+    api.getCategoryAdvertisements(this.props.params.id, function(exists, response) {
+      if (exists && response) {
         let numOfAds = response.data.length;
         // Determine number of pages.
         let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
@@ -36,8 +36,8 @@ export default class CategoryAdvertisementsPage extends Component {
     }.bind(this));
 
     // Try to get a list of category's advertisements by page number.
-    api.getCategoryAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response){
-      if (exists && response){
+    api.getCategoryAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
+      if (exists && response) {
         this.setState({
           category: response.data[0].category.title,
           advertisements: response.data

@@ -8,7 +8,7 @@ import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
 export default class UserAdvertisementsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -24,8 +24,8 @@ export default class UserAdvertisementsPage extends Component {
 
   componentDidMount() {
     // Try to get a list of user's advertisements and extract length.
-    api.getUserAdvertisements(this.props.params.id, function(exists, response){
-      if (exists && response){
+    api.getUserAdvertisements(this.props.params.id, function(exists, response) {
+      if (exists && response) {
         let numOfAds = response.data.length;
         // Determine number of pages.
         let pages = numOfAds / 10 + (numOfAds % 10 === 0 ? 0 : 1);
@@ -40,8 +40,8 @@ export default class UserAdvertisementsPage extends Component {
     }.bind(this));
 
     // Try to get a list of user's advertisements by page number.
-    api.getUserAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response){
-      if (exists && response){
+    api.getUserAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
+      if (exists && response) {
         this.setState({
           advertisements: response.data
         });

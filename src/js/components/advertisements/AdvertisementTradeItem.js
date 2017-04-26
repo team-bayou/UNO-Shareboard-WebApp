@@ -3,7 +3,7 @@ import utils from '../../utility/utilities';
 import React, { Component } from 'react';
 
 export default class AdvertisementTradeItem extends Component {
-  render(){
+  render() {
     return (
       <div className="listing-item uk-card-header">
         <p className="listing-item-price uk-margin-remove">Price: <span className="uk-text-bold">{utils.getPrice(this.props.ad)}</span></p>

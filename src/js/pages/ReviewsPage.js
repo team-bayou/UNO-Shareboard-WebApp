@@ -7,7 +7,7 @@ import AppFooter from '../components/AppFooter';
 import ReviewPageList from '../components/reviews/ReviewPaginationList';
 
 export default class ReviewsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -38,8 +38,8 @@ export default class ReviewsPage extends Component {
     }
   }
 
-  callback(exists, response){
-    if (exists && response){
+  callback(exists, response) {
+    if (exists && response) {
       // Determine number of pages based on the number of reviews.
       this.setState({
         pages: utils.getNumberOfPages(response.data.length),
@@ -51,7 +51,7 @@ export default class ReviewsPage extends Component {
   }
 
   callbackByPage(exists, response) {
-    if (exists && response){
+    if (exists && response) {
       this.setState({
         reviews: response.data
       });

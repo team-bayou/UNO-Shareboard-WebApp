@@ -7,7 +7,7 @@ import AdFooter from './AdvertisementFooter';
 import EditButton from '../buttons/EditButton';
 
 export default class AdvertisementCard extends Component {
-  render(){
+  render() {
     return (
       <div id={"listing-" + this.props.ad.id} className="listing">
         <div className="uk-card uk-card-default uk-card-hover">

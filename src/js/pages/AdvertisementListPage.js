@@ -8,7 +8,7 @@ import AdPageList from '../components/advertisements/AdvertisementPaginationList
 import FilterComponent from '../components/FilterComponent'
 
 export default class AdvertisementsListPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -21,8 +21,8 @@ export default class AdvertisementsListPage extends Component {
 
   componentDidMount() {
     // Try to get a list of all available advertisements and extract length.
-    api.getAdTypeAdvertisements(this.props.adType, function(exists, response){
-      if (exists && response){
+    api.getAdTypeAdvertisements(this.props.adType, function(exists, response) {
+      if (exists && response) {
         // Determine number of pages based on the number of advertisements.
         this.setState({
           pages: utils.getNumberOfPages(response.data.length),
@@ -34,8 +34,8 @@ export default class AdvertisementsListPage extends Component {
     }.bind(this));
 
     // Try to get a list of all available advertisements by ad type and page number.
-    api.getAdTypeAdvertisementsByPage(this.props.adType, this.state.currentPage, function(exists, response){
-      if (exists && response){
+    api.getAdTypeAdvertisementsByPage(this.props.adType, this.state.currentPage, function(exists, response) {
+      if (exists && response) {
         this.setState({
           advertisements: response.data
         });
@@ -56,7 +56,7 @@ export default class AdvertisementsListPage extends Component {
           <FilterComponent adType={this.props.adType} />
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.totalNumAds + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
-            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType}/>
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType} />
         </div>
         <AppFooter />
       </div>

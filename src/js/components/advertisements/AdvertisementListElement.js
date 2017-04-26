@@ -7,7 +7,7 @@ import placeholder from '../../../media/images/avatar_placeholder.png';
 const constants = require('../../utility/constants');
 
 export default class AdvertisementListElement extends Component {
-  render(){
+  render() {
     var routeToUser = "/users/" + this.props.ad.owner.id;
     var media = (
       <a href={"/advertisements/" + this.props.ad.id}>

@@ -5,7 +5,7 @@ import no_image from '../../media/images/no_image.png';
 const constants = require('../utility/constants');
 
 export default class Slideshow extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -19,7 +19,7 @@ export default class Slideshow extends Component {
     this.showSlides(this.state.slideIndex);
   }
 
-  createSlides(){
+  createSlides() {
     if (this.props.images.length < 1) {
       return (
         <div className="slide fade">
@@ -38,7 +38,7 @@ export default class Slideshow extends Component {
     }
   }
 
-  createDotNav(){
+  createDotNav() {
     if (this.props.images.length < 1) {
       return (
         null
@@ -111,7 +111,7 @@ export default class Slideshow extends Component {
     }
   }
 
-  render(){
+  render() {
     return(
       <div className="slideshow uk-inline uk-visible-toggle">
         <div className="slideshow-container">

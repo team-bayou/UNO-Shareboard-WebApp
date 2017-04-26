@@ -9,21 +9,19 @@ import AdForm from '../components/advertisements/AdvertisementForm';
 import AppFooter from '../components/AppFooter';
 
 export default class AddAdvertisementPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       ad: null,
       categories: []
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     // Try to get a list of available categories.
-    api.getCategories(function(exists, response){
-      if (exists && response){
+    api.getCategories(function(exists, response) {
+      if (exists && response) {
           this.setState({
             categories: response.data
           });
@@ -33,12 +31,12 @@ export default class AddAdvertisementPage extends Component {
     }.bind(this));
 
     // If user wants to edit his/her advertisement, fetch it by id.
-    if (this.props.edit){
-      api.getAdvertisement(this.props.id, function(exists, response){
-        if (exists && response){
+    if (this.props.edit) {
+      api.getAdvertisement(this.props.id, function(exists, response) {
+        if (exists && response) {
           // Check if the current user is allowed to edit the requested ad, i.e.
           // check if he/she is the owner of that ad.
-          if (response.data.owner.id === parseInt(utils.getCookie(constants.COOKIE_A), 10)){
+          if (response.data.owner.id === parseInt(utils.getCookie(constants.COOKIE_A), 10)) {
             this.setState({
               ad: response.data
             });
@@ -49,24 +47,6 @@ export default class AddAdvertisementPage extends Component {
           console.log("No listing found");
         }
       }.bind(this));
-    }
-  }
-
-  handleSubmit(data){
-    if (!this.props.edit){
-      // Try to add new advertisement.
-      utils.addNewListing(data, this.callback);
-    } else {
-      // Try to update existing advertisement.
-      utils.updateListing(data, this.callback);
-    }
-  }
-
-  callback(exists, response){
-    if (exists && response){
-      browserHistory.push("/advertisements/" + response.data);
-    } else {
-      console.log("Failed to create/update listing.");
     }
   }
 
@@ -86,7 +66,7 @@ export default class AddAdvertisementPage extends Component {
             <span>{!this.props.edit ? "Create New Listing" : "Edit Listing '" + this.state.ad.title + "'"}</span>
           </h2>
           <AdForm id={this.props.id} ad={this.state.ad} categories={categories}
-            ownerId={utils.getCookie(constants.COOKIE_A)} handleSubmit={this.handleSubmit} />
+            ownerId={utils.getCookie(constants.COOKIE_A)} edit={this.props.edit} />
         </div>
         <AppFooter />
       </div>

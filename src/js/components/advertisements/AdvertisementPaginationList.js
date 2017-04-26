@@ -3,7 +3,7 @@ import AdList from './AdvertisementList';
 import Paginator from '../Paginator';
 
 export default class AdvertisementPaginationList extends Component {
-  render(){
+  render() {
     let paginator = this.props.pages > 1 ?
       <Paginator pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
       :

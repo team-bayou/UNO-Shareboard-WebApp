@@ -592,13 +592,13 @@ module.exports = {
     });
   },
 
-  getPrice: function(ad){
+  getPrice: function(ad) {
     if (ad.price)
       return '$' + ad.price;
     return 'Free';
   },
 
-  getDateTime: function(ad){
+  getDateTime: function(ad) {
     var t = new Date(ad.timePublished);
     return t.toLocaleDateString();
   },

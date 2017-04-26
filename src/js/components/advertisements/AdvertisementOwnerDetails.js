@@ -6,7 +6,7 @@ const utils = require('../../utility/utilities');
 const constants = require('../../utility/constants');
 
 export default class AdvertisementOwnerDetails extends Component {
-  render(){
+  render() {
     var routeToUser = "/users/" + this.props.owner.id;
     var routeToReviews = routeToUser + "/reviews";
 
@@ -22,6 +22,8 @@ export default class AdvertisementOwnerDetails extends Component {
               <div className="uk-width-expand">
                   <h4 className="listing-owner-account-name uk-comment-title uk-margin-remove"><a href={routeToUser} className="uk-link-reset">{this.props.owner.accountName}</a></h4>
                   <ul className="listing-owner-contact uk-comment-meta uk-subnav uk-subnav-divider">
+                    {
+                      !this.props.owner.showEmail && (!this.props.owner.showPhoneNumber || !this.props.owner.phoneNumber) ? null :
                       <li>
                         {
                           this.props.owner.showEmail ?
@@ -44,6 +46,7 @@ export default class AdvertisementOwnerDetails extends Component {
                           : null
                         }
                       </li>
+                    }
                       <li><a href={routeToReviews}>{"User Reviews (" + this.props.reviews + ")"}</a></li>
                   </ul>
               </div>

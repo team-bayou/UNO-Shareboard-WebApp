@@ -159,14 +159,18 @@ export default class EditProfileForm extends Component {
           utils.clearCookies();
           utils.bakeCookies(data.accountName, function() {
             this.setState({
-              updateSuccess: true
+              updateSuccess: true,
+              currentPassword: ""
             });
+            this.refs.editprofilebtn.removeAttribute("disabled");
           }.bind(this));
         }
         else {
           this.setState({
-            updateSuccess: true
+            updateSuccess: true,
+            currentPassword: ""
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
       }
       else {

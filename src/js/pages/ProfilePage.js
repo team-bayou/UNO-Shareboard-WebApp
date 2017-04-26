@@ -40,7 +40,7 @@ export default class ProfilePage extends Component {
     }.bind(this));
   }
 
-  getVisibility(flag){
+  getVisibility(flag) {
     return flag ?
       (<td className="user-profile-public uk-table-shrink"><span title="Public" data-uk-icon="icon: world" data-uk-tooltip></span></td>)
       :

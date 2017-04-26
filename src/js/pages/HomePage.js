@@ -6,7 +6,7 @@ import AppFooter from '../components/AppFooter';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
 
 export default class HomePage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -16,8 +16,8 @@ export default class HomePage extends Component {
 
   componentDidMount() {
     // Try to get a list of the top 10 recent advertisements.
-    api.getAdvertisementsByPage(1, function(exists, response){
-      if (exists && response){
+    api.getAdvertisementsByPage(1, function(exists, response) {
+      if (exists && response) {
         this.setState({
           advertisements: response.data
         });

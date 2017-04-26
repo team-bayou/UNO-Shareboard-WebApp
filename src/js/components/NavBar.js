@@ -7,7 +7,7 @@ import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar_placeholder.png';
 
 export default class NavBar extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -30,7 +30,7 @@ export default class NavBar extends Component {
     }.bind(this));
   }
 
-  render(){
+  render() {
     // Get user id from cookie.
     var id = utils.getCookie(constants.COOKIE_A);
     var routeToUserAds = "/users/" + id + "/advertisements";

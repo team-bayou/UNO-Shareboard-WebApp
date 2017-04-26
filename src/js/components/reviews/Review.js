@@ -7,7 +7,7 @@ import placeholder from '../../../media/images/avatar_placeholder.png';
 const constants = require('../../utility/constants');
 
 export default class Review extends Component {
-  render(){
+  render() {
     // Get user whose name will be shown.
     var user = this.props.isReviewer ? this.props.review.reviewee : this.props.review.reviewer;
     var routeToUser = "/users/" + user.id;
@@ -41,7 +41,7 @@ export default class Review extends Component {
     );
   }
 
-  getRating(){
+  getRating() {
     var rating = [];
 
     for (var i = 0; i < parseInt(this.props.review.rating, 10); i++)

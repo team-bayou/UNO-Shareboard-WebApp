@@ -94,7 +94,6 @@ export default class FindUserResult extends Component {
         !!this.state.editUserType) {
 
       this.refs.adminedituserbtn.setAttribute("disabled", "disabled");
-      this.refs.adminedituserbtn.removeAttribute("disabled");
 
       var userData = {
         "id": this.state.id,
@@ -113,20 +112,22 @@ export default class FindUserResult extends Component {
 
       utils.checkForExistingEmail(userData.email, function(exists, response) {
         if (exists && response.data.id !== userData.id) {
-          this.errorMsg = "That e-mail address is used by another user";
+          this.errorMsg = "That e-mail address is in use by another user";
           this.setState({
             userUpdateFailed: true,
             userSuccessfullyUpdated: false
           });
+          this.refs.adminedituserbtn.removeAttribute("disabled");
         }
         else {
           utils.checkForExistingUsername(userData.accountName, function(exists, response) {
             if (exists && response.data.id !== userData.id) {
-              this.errorMsg = "That username is used by another user";
+              this.errorMsg = "That username is in use by another user";
               this.setState({
                 userUpdateFailed: true,
                 userSuccessfullyUpdated: false
               });
+              this.refs.adminedituserbtn.removeAttribute("disabled");
             }
             else {
               api.updateUser(userData, function(success, response) {
@@ -135,6 +136,7 @@ export default class FindUserResult extends Component {
                     userSuccessfullyUpdated: true,
                     userUpdateFailed: false
                   });
+                  this.refs.adminedituserbtn.removeAttribute("disabled");
                 }
                 else {
                   this.errorMsg = "There was a problem updating the user";
@@ -142,6 +144,7 @@ export default class FindUserResult extends Component {
                     userUpdateFailed: true,
                     userSuccessfullyUpdated: false
                   });
+                  this.refs.adminedituserbtn.removeAttribute("disabled");
                 }
               }.bind(this));
             }
@@ -162,19 +165,22 @@ export default class FindUserResult extends Component {
     else {
       return (
         <div className="uk-overflow-auto">
-
+          {
+            this.state.userUpdateFailed ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+            </div>
+            : null
+          }
+          {
+            this.state.userSuccessfullyUpdated ?
+            <div className="uk-alert-success uk-text-center" data-uk-alert>
+              <p>User successfully updated</p>
+            </div>
+            : null
+          }
           <table className="uk-table uk-table-small uk-table-middle user-result-table">
             <tbody>
-              <tr className="user-result-failed" hidden={!this.state.userUpdateFailed}>
-                <td colSpan="2" className="uk-text-center">
-                  <span data-uk-icon="icon: close"></span> {this.errorMsg}
-                </td>
-              </tr>
-              <tr className="user-result-success" hidden={!this.state.userSuccessfullyUpdated}>
-                <td colSpan="2" className="uk-text-center">
-                  <span data-uk-icon="icon: check"></span> User successfully updated
-                </td>
-              </tr>
               <tr>
                 <td colSpan="2">
                   <a href={"/users/" + this.state.id} className="user-result-icon-profile" data-uk-icon="icon: user; ratio: 1.15" title="View Profile" data-uk-tooltip></a>
@@ -251,6 +257,8 @@ export default class FindUserResult extends Component {
                   </select>
                 </td>
               </tr>
+              {
+              /*
               <tr>
                 <td className="user-result-title uk-width-1-3">Facebook ID</td>
                 <td className="user-result-content uk-width-2-3">
@@ -263,6 +271,8 @@ export default class FindUserResult extends Component {
                   <input name="editTwitterID" className="uk-input uk-form-blank admin-edit-field" type="text" value={this.state.editTwitterID} onChange={this.handleInputChange} />
                 </td>
               </tr>
+              */
+              }
               <tr>
                 <td colSpan="2">
                   <button ref="adminedituserbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.handleSubmit}>Save Changes</button>

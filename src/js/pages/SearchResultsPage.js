@@ -7,7 +7,7 @@ import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
 
 export default class SearchResultsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {

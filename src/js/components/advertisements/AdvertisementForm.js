@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Dropzone from 'react-dropzone';
 
-const constants = require('../../utility/constants');
+import constants from '../../utility/constants';
+import utils from '../../utility/utilities';
 
 export default class AdvertisementForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.emptyFields = false;
@@ -17,6 +18,8 @@ export default class AdvertisementForm extends Component {
     this.radioLabelInvalid = "label-invalid";
     this.radioValid = "uk-radio";
     this.radioInvalid = "uk-radio radio-invalid";
+
+    this.errorMsg = "";
 
     this.state = {
       id: this.props.ad ? this.props.ad.id : '',
@@ -33,6 +36,8 @@ export default class AdvertisementForm extends Component {
       categoryStyle: this.selectValid,
       radioLabelStyle: this.radioLabelValid,
       adTypeStyle: this.radioValid,
+
+      submissionFailed: false,
 
       existingImages: this.props.ad ? this.props.ad.imageIDs : [],
       newImages: []
@@ -60,13 +65,41 @@ export default class AdvertisementForm extends Component {
     this.resetError(name, value);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
-
     this.checkForEmptyFields();
 
-    if (!this.emptyFields){
-      this.props.handleSubmit(this.state);
+    if (!this.emptyFields) {
+      this.refs.submitlistingbtn.setAttribute("disabled", "disabled");
+
+      if (!this.props.edit) {
+        utils.addNewListing(this.state, function(exists, response) {
+          if (exists && response) {
+            browserHistory.push("/advertisements/" + response.data);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when creating your listing. Please try again, or contact us if the problem continues.";
+            this.refs.submitlistingbtn.removeAttribute("disabled");
+          }
+        }.bind(this));
+      }
+      else {
+        utils.updateListing(this.state, function(exists, response) {
+          if (exists && response) {
+            browserHistory.push("/advertisements/" + this.state.id);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when updating your listing. Please try again, or contact us if the problem continues.";
+            this.refs.submitlistingbtn.removeAttribute("disabled");
+          }
+        }.bind(this));
+      }
     }
   }
 
@@ -96,13 +129,13 @@ export default class AdvertisementForm extends Component {
   //   check for errors on.
   resetError(name, value) {
     let style;
-    if (name === 'title'){
+    if (name === 'title') {
       style = value === '' ? this.inputInvalid : this.inputValid;
     }
-    else if (name === 'category'){
+    else if (name === 'category') {
       style = value === '' ? this.selectInvalid : this.selectValid;
     }
-    else if (name === 'adType'){
+    else if (name === 'adType') {
       style = value === '' ? this.radioLabelInvalid : this.radioLabelValid;
       this.setState({
         radioLabelStyle: style
@@ -172,6 +205,13 @@ export default class AdvertisementForm extends Component {
           this.emptyFields ?
           <div className="uk-alert-danger uk-text-center" data-uk-alert>
             <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+          </div>
+          : null
+        }
+        {
+          this.state.submissionFailed ?
+          <div className="uk-alert-danger uk-text-center" data-uk-alert>
+            <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
           </div>
           : null
         }
@@ -301,7 +341,7 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
                 <div className="uk-margin-medium-top">
-                  <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
+                  <button ref="submitlistingbtn" className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
                 </div>
                 <div className="uk-margin-small-top">
                   <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>

@@ -14,9 +14,11 @@ export default class EditCategories extends Component {
       showColorPicker: false,
       colorPickerStartColor: "#FFFFFF",
 
-      newcatcolor: '',
+      newcatcolor: '#FFFFFF',
       newcattitle: '',
-      newcatdesc: ''
+      newcatdesc: '',
+
+      submitFailed: false
     }
 
     this.catToDelete = -1;
@@ -24,6 +26,8 @@ export default class EditCategories extends Component {
 
     this.catColorTarget = -1;
     this.newColor = "";
+
+    this.errorMsg = "";
 
     this.performDelete = this.performDelete.bind(this);
     this.setDeleteTarget = this.setDeleteTarget.bind(this);
@@ -91,6 +95,7 @@ export default class EditCategories extends Component {
 
   performDelete(event) {
     event.preventDefault();
+    this.refs.deletecategorybtn.setAttribute("disabled", "disabled");
 
     api.deleteCategory(this.catToDelete, function(success, response) {
       if (success) {
@@ -99,6 +104,7 @@ export default class EditCategories extends Component {
       else {
         console.log("There was a problem deleting the category:");
         console.log(response);
+        this.refs.deletecategorybtn.removeAttribute("disabled");
       }
     });
   }
@@ -156,15 +162,21 @@ export default class EditCategories extends Component {
       }
     }
 
+    if (updates.length > 0)
+      this.refs.editcategorybtn.setAttribute("disabled", "disabled");
+
     utils.updateCategories(updates, function(success, response) {
       if (success) {
         window.location.reload();
       }
       else {
-        console.log("There was a problem updating the category/ies");
-        console.log(response);
+        this.setState({
+          submitFailed: true
+        });
+        this.errorMsg = "There was a problem updating the category/ies";
+        this.refs.editcategorybtn.removeAttribute("disabled");
       }
-    });
+    }.bind(this));
   }
 
   addNewCategory(event) {
@@ -183,10 +195,12 @@ export default class EditCategories extends Component {
           window.location.reload();
         }
         else {
-          console.log("There was a problem adding the category:");
-          console.log(response);
+          this.setState({
+            submitFailed: true
+          });
+          this.errorMsg = "There was a problem adding the new category";
         }
-      });
+      }.bind(this));
     }
   }
 
@@ -225,6 +239,13 @@ export default class EditCategories extends Component {
 
       return (
         <div className="uk-overflow-auto">
+          {
+            this.state.submitFailed ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+            </div>
+            : null
+          }
           <table className="uk-table uk-table-small uk-table-middle">
             <thead>
               <tr>
@@ -254,7 +275,7 @@ export default class EditCategories extends Component {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
+                  <button ref="editcategorybtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
                 </td>
               </tr>
             </tbody>
@@ -264,7 +285,7 @@ export default class EditCategories extends Component {
             <div className="uk-modal-dialog uk-modal-body uk-text-center">
               <p>Are you sure you want to delete this category?<br />This cannot be undone.</p>
               <p className="uk-text-right">
-                <button className="uk-button uk-button-secondary" type="button" onClick={this.performDelete}>Yes</button>
+                <button ref="deletecategorybtn" className="uk-button uk-button-secondary" type="button" onClick={this.performDelete}>Yes</button>
                 <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
               </p>
             </div>

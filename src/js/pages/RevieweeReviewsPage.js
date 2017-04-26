@@ -7,7 +7,7 @@ import GBButton from '../components/buttons/GoBackButton';
 import ReviewsPage from './ReviewsPage';
 
 export default class RevieweeReviewsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -27,8 +27,8 @@ export default class RevieweeReviewsPage extends Component {
     // Otherwise, fetch account name of reviewee and show his name.
     else {
       // Try to get a user.
-      api.getUserByID(this.props.params.id, function(exists, response){
-        if (exists && response){
+      api.getUserByID(this.props.params.id, function(exists, response) {
+        if (exists && response) {
           this.setState({
             name: response.data.accountName + "'s",
             createReview: (
