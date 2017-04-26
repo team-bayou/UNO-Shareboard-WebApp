@@ -3,7 +3,6 @@ import utils from '../utility/utilities';
 import api from '../utility/api';
 
 import React, { Component } from 'react';
-import GBButton from '../components/buttons/GoBackButton';
 import ReviewsPage from './ReviewsPage';
 
 export default class RevieweeReviewsPage extends Component {
@@ -38,7 +37,9 @@ export default class RevieweeReviewsPage extends Component {
             ),
             backToAd: (
               <div>
-                <GBButton route={"/users/" + this.props.params.id}/>
+                <a href={"/users/" + this.props.params.id} className="uk-button uk-button-secondary uk-button-large uk-width-1">
+                  <span data-uk-icon="icon: arrow-left; ratio: 2"></span> Back
+                </a>
               </div>
             )
           });

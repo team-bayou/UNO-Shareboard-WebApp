@@ -107,7 +107,7 @@ export default class UserAdvertisementsPage extends Component {
             </div>
             : null
           }
-          <div className="uk-margin uk-text-center">
+          <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
             {
               this.state.myListings ?
               "You do not currently have any listings."

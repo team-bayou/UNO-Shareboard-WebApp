@@ -67,6 +67,30 @@ export default class ReviewsPage extends Component {
 
     let resource = this.props.isReviewer ? "reviews/reviewer/" : "reviews/reviewee/";
 
+    /*
+    if (this.state.reviews.length < 1)
+      return (
+        <div id="reviews" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.totalNumReviews + ")"}</span></h2>
+            <div className="uk-flex uk-margin-medium-top">
+              <div className="uk-width-1-5">
+                {this.props.backToAd}
+              </div>
+              <div className="uk-width-1-1">
+                {this.props.createReview}
+              </div>
+            </div>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              You do not currently have any submitted reviews.
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
+    */
+
     return (
       <div id="reviews" className="app">
         <AppHeader />
