@@ -113,7 +113,7 @@ export default class Slideshow extends Component {
 
   render() {
     return(
-      <div className="slideshow uk-inline uk-visible-toggle">
+      <div className="slideshow uk-visible-toggle">
         <div className="slideshow-container">
           <div ref={(el) => this.slides = el} className="slides">
             {this.state.slides}
