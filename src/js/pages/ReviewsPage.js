@@ -95,15 +95,23 @@ export default class ReviewsPage extends Component {
       <div id="reviews" className="app">
         <AppHeader />
         <div className="app-body uk-container">
+<<<<<<< HEAD
           <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.totalNumReviews + ")"}</span></h2>
           <div className="uk-flex uk-margin-medium-top">
             <div className="uk-width-1-5">
               {this.props.backToAd}
             </div>
             <div className="uk-width-1-1">
+=======
+          <h2 className="uk-heading-line uk-text-center"><span>{this.props.headerText + " reviews (" + this.state.reviews.length + ")"}</span></h2>
+          {
+            !!this.props.createReview ?
+            <div className="uk-margin-medium-top uk-margin-medium-bottom center" data-uk-grid>
+              {/*this.props.backToAd*/}
+>>>>>>> 79b3955... Made progress with this reviews stuff
               {this.props.createReview}
-            </div>
-          </div>
+            </div> : null
+          }
           <ReviewPageList reviews={this.state.reviews} isReviewer={this.props.isReviewer} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={resource + this.props.id} edit={this.props.edit}/>
         </div>

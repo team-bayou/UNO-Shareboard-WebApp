@@ -13,8 +13,13 @@ export default class AddReviewPage extends Component {
     super(props);
 
     this.state = {
+<<<<<<< HEAD
       reviewedUser: null,
       review: null
+=======
+      review: null,
+      reviewedUser: null
+>>>>>>> 79b3955... Made progress with this reviews stuff
     };
   }
 
@@ -37,6 +42,17 @@ export default class AddReviewPage extends Component {
         }
       }.bind(this));
     }
+<<<<<<< HEAD
+=======
+    else {
+      api.getUserByID(this.props.params.id, function(exists, response) {
+        if (exists) {
+
+        }
+      }.bind(this));
+    }
+  }
+>>>>>>> 79b3955... Made progress with this reviews stuff
 
     else {
       api.getUserByID(this.props.params.id, function(exists, response) {
@@ -52,6 +68,10 @@ export default class AddReviewPage extends Component {
   render() {
     if ((this.props.edit && !this.state.review) || (!this.props.edit && !this.state.reviewedUser))
       return (<div className="uk-text-center">Loading...</div>);
+
+    if (this.state.reviewedUser === -1) {
+      
+    }
 
     return (
       <div id="review-add" className="app">

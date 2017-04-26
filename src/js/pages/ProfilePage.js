@@ -60,7 +60,7 @@ export default class ProfilePage extends Component {
           <AppHeader />
           <div className="app-body uk-container uk-text-break">
             <div className="uk-grid-large uk-grid-divider" data-uk-grid>
-              <div className="uk-width-1-1 uk-text-center">
+              <div className="uk-width-1-1 uk-text-center uk-margin-medium-top uk-margin-medium-bottom">
                 The requested user does not exist.
               </div>
             </div>

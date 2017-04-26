@@ -1,10 +1,18 @@
+import React, { Component } from 'react';
+import ReviewsPage from './ReviewsPage';
+import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
+
 import constants from '../utility/constants';
 import utils from '../utility/utilities';
 import api from '../utility/api';
 
+<<<<<<< HEAD
 import React, { Component } from 'react';
 import ReviewsPage from './ReviewsPage';
 
+=======
+>>>>>>> 79b3955... Made progress with this reviews stuff
 export default class RevieweeReviewsPage extends Component {
   constructor(props) {
     super(props);
@@ -12,13 +20,14 @@ export default class RevieweeReviewsPage extends Component {
     this.state = {
       name: '',
       createReview: '',
-      backToAd: ''
+      backToAd: '',
+      userNotFound: false
     };
   }
 
   componentDidMount() {
     // If reviews list is yours, just show 'Your' as name.
-    if (this.props.params.id === utils.getCookie(constants.COOKIE_A)) {
+    if (this.props.params.id + "" === utils.getCookie(constants.COOKIE_A) + "") {
       this.setState({
         name: "Your"
       });
@@ -31,6 +40,7 @@ export default class RevieweeReviewsPage extends Component {
           this.setState({
             name: response.data.accountName + "'s",
             createReview: (
+<<<<<<< HEAD
               <div className="uk-width-1-4 uk-align-center uk-margin-large-bottom">
                 <a href="reviews/add" className="uk-button button-success uk-button-large uk-width-1-1">Review This User</a>
               </div>
@@ -41,12 +51,20 @@ export default class RevieweeReviewsPage extends Component {
                   <span data-uk-icon="icon: arrow-left; ratio: 2"></span> Back
                 </a>
               </div>
+=======
+              <a href={"/users/" + this.props.params.id + "/reviews/add"} className="button-success uk-button uk-button-large center">Review this user</a>
+            ),
+            backToAd: (
+              <a href={"/users/" + this.props.params.id} className="uk-button uk-button-secondary uk-button-large">
+                <span data-uk-icon="icon: arrow-left; ratio: 2"></span> Back
+              </a>
+>>>>>>> 79b3955... Made progress with this reviews stuff
             )
           });
         }
         else {
           this.setState({
-            name: ''
+            userNotFound: true
           });
         }
       }.bind(this));
@@ -54,7 +72,18 @@ export default class RevieweeReviewsPage extends Component {
   }
 
   render() {
-    if (!this.state.name)
+    if (this.state.userNotFound)
+      return (
+        <div id="reviews" className="app">
+          <AppHeader />
+          <div className="app-body uk-container uk-text-center">
+            <div className="uk-margin-medium-top uk-margin-medium-bottom">The user whose reviews you were looking for does not exist.</div>
+          </div>
+          <AppFooter />
+        </div>
+      );
+
+    else if (!this.state.name)
       return (<div className="uk-text-center">Loading...</div>);
 
     return (
