@@ -308,13 +308,14 @@ blue with black
 
 
 /* Advertisement Details Page */
+
+.listing-item {
+  font-weight: bold;
+}
+
 .listing-item span {
-  border-radius: 2px;
   color: #E77600;
-  display: inline-block;
-  line-height: 1.5;
   text-transform: uppercase;
-  vertical-align: middle;
 }
 
 .listing-link {

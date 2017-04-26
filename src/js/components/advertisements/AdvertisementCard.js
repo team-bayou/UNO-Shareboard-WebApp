@@ -13,7 +13,7 @@ export default class AdvertisementCard extends Component {
         <div className="uk-card uk-card-default uk-card-hover">
           {
             this.props.edit ?
-              <div className="uk-card-badge">
+              <div className="uk-card-badge" title="Edit Listing" data-uk-tooltip>
                 <EditButton href={"/advertisements/" + this.props.ad.id + "/edit"} />
               </div>
               :

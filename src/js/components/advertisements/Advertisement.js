@@ -31,7 +31,11 @@ export default class Advertisement extends Component {
           <AdCard ad={this.props.ad} body={body} footer={footer} />
 
           {
-            this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ? null :
+            this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" ?
+            <div className="uk-width-1-1 uk-margin uk-text-center">
+              <a href={"/advertisements/" + this.props.ad.id + "/edit"} className="listing-link">Edit Listing</a>
+            </div>
+            :
             <div className="uk-width-1-1 uk-margin uk-text-center">
               <a href="#report-listing" className="listing-link" data-uk-toggle>Report Listing</a>
             </div>

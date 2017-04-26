@@ -5,6 +5,7 @@ import noimage from '../../../media/images/no_image.png';
 import placeholder from '../../../media/images/avatar_placeholder.png';
 
 const constants = require('../../utility/constants');
+const utils = require('../../utility/utilities');
 
 export default class AdvertisementListElement extends Component {
   render() {
@@ -27,7 +28,7 @@ export default class AdvertisementListElement extends Component {
     );
 
     return (
-      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} edit={this.props.edit}/>
+      <AdCard ad={this.props.ad} media={media} body={body} footer={footer} edit={this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A)}/>
     );
   }
 }

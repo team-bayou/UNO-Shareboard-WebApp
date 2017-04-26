@@ -22,9 +22,16 @@ export default class AddAdvertisementPage extends Component {
     // Try to get a list of available categories.
     api.getCategories(function(exists, response) {
       if (exists && response) {
-          this.setState({
-            categories: response.data
-          });
+        var sorted = response.data.sort(function(a,b) {
+          if (a.title < b.title)
+            return -1;
+          if (a.title > b.title)
+            return 1;
+          return 0;
+        });
+        this.setState({
+          categories: sorted
+        });
       } else {
         console.log("No categories found");
       }

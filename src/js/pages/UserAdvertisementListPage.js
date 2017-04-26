@@ -145,7 +145,7 @@ export default class UserAdvertisementsPage extends Component {
           }
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"users/" + this.props.params.id + "/advertisements"}
-            edit={true}/>
+            edit={true} />
         </div>
         <AppFooter />
       </div>

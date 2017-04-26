@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import utils from '../utility/utilities';
 import constants from '../utility/constants';
 import api from '../utility/api';
-import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar_placeholder.png';
 
 export default class NavBar extends Component {
@@ -51,9 +50,8 @@ export default class NavBar extends Component {
         */}
         <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
-            <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
-              <li>
+              <li className="uk-margin-large-left">
                 <a href="/home">
                   <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: home"></span>
                   Home
