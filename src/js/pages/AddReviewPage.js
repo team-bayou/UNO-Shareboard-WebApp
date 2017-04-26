@@ -44,6 +44,11 @@ export default class AddReviewPage extends Component {
             reviewedUser: response.data
           });
         }
+        else {
+          this.setState({
+            reviewedUser: -1
+          });
+        }
       }.bind(this));
     }
   }
@@ -53,7 +58,15 @@ export default class AddReviewPage extends Component {
       return (<div className="uk-text-center">Loading...</div>);
 
     if (this.state.reviewedUser === -1) {
-
+      return (
+        <div id="review-add" className="app">
+          <AppHeader />
+            <div className="app-body uk-container uk-text-center">
+              <div className="uk-margin-medium-top uk-margin-medium-bottom">The user you are trying to review does not exist.</div>
+            </div>
+          <AppFooter />
+        </div>
+      );
     }
 
     return (

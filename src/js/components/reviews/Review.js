@@ -4,6 +4,7 @@ import EditButton from '../buttons/EditButton';
 
 import placeholder from '../../../media/images/avatar_placeholder.png';
 
+const utils = require('../../utility/utilities');
 const constants = require('../../utility/constants');
 
 export default class Review extends Component {
@@ -29,12 +30,12 @@ export default class Review extends Component {
             <p>{this.props.review.comments}</p>
           </div>
           {
-            this.props.edit ?
-            <div className="uk-float-right">
+            this.props.review.reviewer.id + "" === utils.getCookie(constants.COOKIE_A) + "" ?
+            <div className="uk-float-right" title="Edit Review" data-uk-tooltip>
               <EditButton href={"/reviews/" + this.props.review.id + "/edit"} />
             </div>
             :
-            ''
+            null
           }
         </article>
       </div>
