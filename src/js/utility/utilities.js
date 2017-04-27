@@ -453,7 +453,7 @@ module.exports = {
       title: data.title,
       description: data.description,
       categoryId: data.category,
-      ownerId: data.owner,
+      ownerId: !!data.owner ? data.owner : this.getCookie(constants.COOKIE_A),
       timePublished: data.timePublished,
       expirationDate: data.expirationDate,
       adType: data.adType,
@@ -482,7 +482,7 @@ module.exports = {
       for (var i = 0; i < data.newImages.length; i++) {
         var imgData = new FormData();
         imgData.append("description", "");
-        imgData.append("owner", parseInt(data.owner, 10));
+        imgData.append("owner", parseInt(toSend.ownerId, 10));
         imgData.append("image_data", data.newImages[i]);
         api.uploadImage(imgData, cb);
       }

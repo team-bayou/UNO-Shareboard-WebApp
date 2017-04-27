@@ -37,7 +37,7 @@ export default class Advertisement extends Component {
           <Slideshow images={this.state.images}/>
         </div>
         <div className="uk-width-1-2@m">
-          <AdCard ad={this.props.ad} body={body} footer={footer} />
+          <AdCard ad={this.props.ad} body={body} footer={footer} adPage={true} />
 
           {
             this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" || this.state.isAdmin ?

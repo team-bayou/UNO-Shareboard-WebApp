@@ -363,23 +363,31 @@ export default class AdvertisementForm extends Component {
                 <div className="uk-margin-small-top">
                   <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
                 </div>
-                <div className="uk-margin-small-top">
-                  <a href="#confirm-delete-listing" className="uk-button uk-button-secondary uk-button-large uk-width-1-1" data-uk-toggle>Delete Listing</a>
-                </div>
+                {
+                  this.props.edit ?
+                  <div className="uk-margin-small-top">
+                    <a href="#confirm-delete-listing" className="uk-button uk-button-secondary uk-button-large uk-width-1-1" data-uk-toggle>Delete Listing</a>
+                  </div>
+                  : null
+                }
+
               </div>
             </div>
           </fieldset>
         </form>
-
-        <div id="confirm-delete-listing" data-uk-modal="center: true">
-          <div className="uk-modal-dialog uk-modal-body uk-text-center">
-            <p>Are you sure you want to delete this listing?<br />This cannot be undone.</p>
-            <p className="uk-text-right">
-              <button ref="deletelistingbtn" className="uk-button uk-button-secondary" type="button" onClick={this.deleteListing}>Yes</button>
-              <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
-            </p>
+        {
+          this.props.edit ?
+          <div id="confirm-delete-listing" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body uk-text-center">
+              <p>Are you sure you want to delete this listing?<br />This cannot be undone.</p>
+              <p className="uk-text-right">
+                <button ref="deletelistingbtn" className="uk-button uk-button-secondary" type="button" onClick={this.deleteListing}>Yes</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
+              </p>
+            </div>
           </div>
-        </div>
+          : null
+        }
       </div>
     );
   }

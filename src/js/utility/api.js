@@ -179,6 +179,10 @@ module.exports = {
     }, callback);
   },
 
+  deleteReview: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/reviews/' + id + '/delete', callback);
+  },
+
 
   //======================//
   //     USER ACCOUNT     //

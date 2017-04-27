@@ -33,7 +33,7 @@ export default class AddReviewPage extends Component {
             browserHistory.goBack();
           }
         } else {
-          console.log("No review found");
+          browserHistory.push("/reviews/reviewer/" + utils.getCookie(constants.COOKIE_A));
         }
       }.bind(this));
     }

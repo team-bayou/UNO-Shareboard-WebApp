@@ -30,6 +30,7 @@ export default class ReviewForm extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.deleteReview = this.deleteReview.bind(this);
   }
 
   handleRatingChange(value) {
@@ -135,6 +136,22 @@ export default class ReviewForm extends Component {
     });
   }
 
+  deleteReview() {
+    this.refs.deletereviewbtn.setAttribute("disabled", "disabled");
+    api.deleteReview(this.state.id, function(success, response) {
+      if (success) {
+        window.location.reload();
+      }
+      else {
+        this.setState({
+          submissionFailed: true
+        });
+        this.errorMsg = "There was a problem deleting this review. Please try again, or contact us if the problem continues.";
+        this.refs.deletereviewbtn.removeAttribute("disabled");
+      }
+    }.bind(this));
+  }
+
   render() {
     return (
       <div>
@@ -185,9 +202,29 @@ export default class ReviewForm extends Component {
               <div className="uk-margin-small-top">
                 <a onClick={this.handleCancel} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
               </div>
+              {
+                this.props.review ?
+                <div className="uk-margin-small-top">
+                  <a href="#confirm-delete-review" className="uk-button uk-button-secondary uk-button-large uk-width-1-1" data-uk-toggle>Delete Review</a>
+                </div>
+                : null
+              }
             </div>
           </fieldset>
         </form>
+        {
+          this.props.review ?
+          <div id="confirm-delete-review" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body uk-text-center">
+              <p>Are you sure you want to delete this review?<br />This cannot be undone.</p>
+              <p className="uk-text-right">
+                <button ref="deletereviewbtn" className="uk-button uk-button-secondary" type="button" onClick={this.deleteReview}>Yes</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
+              </p>
+            </div>
+          </div>
+          : null
+        }
       </div>
     );
   }

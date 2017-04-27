@@ -19,7 +19,7 @@ export default class AdvertisementCard extends Component {
               :
               ''
           }
-          <AdMedia content={this.props.media} />
+          <AdMedia content={this.props.media} adPage={this.props.adPage} />
           <AdTradeItem ad={this.props.ad} />
           <AdHeader ad={this.props.ad} />
           <AdBody content={this.props.body} />
