@@ -17,6 +17,7 @@ export default class EditProfileForm extends Component {
     this.inputInvalid = "uk-input uk-form-danger";
 
     this.errorMsg = "";
+    this.dropErrorMsg = "";
 
     this.state = {
       image: null,
@@ -39,12 +40,10 @@ export default class EditProfileForm extends Component {
   }
 
   onDropRejected(files) {
-    /*
-    console.log("Rejected file type");
     this.setState({
       dropRejected: true
     });
-    */
+    this.dropErrorMsg = "Only images are allowed to be uploaded";
     //UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
   }
 
@@ -116,7 +115,16 @@ export default class EditProfileForm extends Component {
           this.state.updateFailed ?
           <div className="uk-text-center" data-uk-grid>
             <div className="uk-width-1-1 uk-alert-danger uk-text-center" data-uk-alert>
-              <p>{this.errorMsg}</p>
+              <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+            </div>
+          </div>
+          : null
+        }
+        {
+          this.state.dropRejected ?
+          <div className="uk-text-center" data-uk-grid>
+            <div className="uk-width-1-1 uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> {this.dropErrorMsg}</p>
             </div>
           </div>
           : null
