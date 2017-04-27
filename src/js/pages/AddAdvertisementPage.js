@@ -32,8 +32,6 @@ export default class AddAdvertisementPage extends Component {
         this.setState({
           categories: sorted
         });
-      } else {
-        console.log(response);
       }
     }.bind(this));
 
@@ -42,7 +40,6 @@ export default class AddAdvertisementPage extends Component {
       api.getAdvertisement(this.props.id, function(exists, response) {
         if (exists && response) {
           let ad = response.data;
-          //console.log(ad.ownerId);
           // Check if the current user is allowed to edit the requested ad, i.e.
           // check if he/she is the owner of that ad.
           if (response.data.owner.id === parseInt(utils.getCookie(constants.COOKIE_A), 10)) {

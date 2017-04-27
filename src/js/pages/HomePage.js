@@ -21,8 +21,6 @@ export default class HomePage extends Component {
         this.setState({
           advertisements: response.data
         });
-      } else {
-        console.log("No listings found");
       }
     }.bind(this));
   }

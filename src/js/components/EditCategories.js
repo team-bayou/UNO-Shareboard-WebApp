@@ -102,8 +102,10 @@ export default class EditCategories extends Component {
         window.location.reload();
       }
       else {
-        console.log("There was a problem deleting the category:");
-        console.log(response);
+        this.setState({
+          submitFailed: true
+        });
+        this.errorMsg = "There was a problem deleting the category";
         this.refs.deletecategorybtn.removeAttribute("disabled");
       }
     });

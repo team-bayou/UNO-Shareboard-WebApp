@@ -34,8 +34,6 @@ export default class UserAdvertisementsPage extends Component {
           pages: pages,
           totalNumAds: numOfAds
         });
-      } else {
-        console.log("No listings found");
       }
     }.bind(this));
 
@@ -45,8 +43,6 @@ export default class UserAdvertisementsPage extends Component {
         this.setState({
           advertisements: response.data
         });
-      } else {
-        console.log("No listings found");
       }
     }.bind(this));
 
@@ -77,7 +73,7 @@ export default class UserAdvertisementsPage extends Component {
           <AppHeader />
           <div className="app-body uk-container">
             <div className="uk-margin uk-text-center">
-              The requested user does not exist.
+              The requested user does not exist
             </div>
           </div>
           <AppFooter />
@@ -110,9 +106,9 @@ export default class UserAdvertisementsPage extends Component {
           <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
             {
               this.state.myListings ?
-              "You do not currently have any listings."
+              "You do not currently have any listings"
               :
-              this.state.user.accountName + " does not currently have any listings."
+              "This user does not currently have any listings"
             }
           </div>
         </div>
