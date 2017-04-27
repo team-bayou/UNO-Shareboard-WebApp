@@ -190,6 +190,11 @@ blue with black
   text-decoration: none;
 }
 
+.listing-media {
+  height: 280px;
+  overflow-y: hidden;
+}
+
 .listing-images {
   border-bottom: 1px solid #e5e5e5;
 }
