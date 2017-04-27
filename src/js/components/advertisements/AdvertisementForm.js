@@ -48,6 +48,7 @@ export default class AdvertisementForm extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.deleteListing = this.deleteListing.bind(this);
   }
 
   handleInputChange(event) {
@@ -173,6 +174,22 @@ export default class AdvertisementForm extends Component {
       this.state.existingImages.splice(index, 1);
     }
     this.setState({}); // We call an empty setState just to force a re-render
+  }
+
+  deleteListing() {
+    this.refs.deletelistingbtn.setAttribute("disabled", "disabled");
+    utils.deleteListing(this.state.id, function(success, response) {
+      if (success) {
+        window.location.reload();
+      }
+      else {
+        this.setState({
+          submissionFailed: true
+        });
+        this.errorMsg = "There was a problem deleting this listing. Please try again, or contact us if the problem continues.";
+        this.refs.deletelistingbtn.removeAttribute("disabled");
+      }
+    }.bind(this));
   }
 
   render() {
@@ -346,10 +363,23 @@ export default class AdvertisementForm extends Component {
                 <div className="uk-margin-small-top">
                   <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
                 </div>
+                <div className="uk-margin-small-top">
+                  <a href="#confirm-delete-listing" className="uk-button uk-button-secondary uk-button-large uk-width-1-1" data-uk-toggle>Delete Listing</a>
+                </div>
               </div>
             </div>
           </fieldset>
         </form>
+
+        <div id="confirm-delete-listing" data-uk-modal="center: true">
+          <div className="uk-modal-dialog uk-modal-body uk-text-center">
+            <p>Are you sure you want to delete this listing?<br />This cannot be undone.</p>
+            <p className="uk-text-right">
+              <button ref="deletelistingbtn" className="uk-button uk-button-secondary" type="button" onClick={this.deleteListing}>Yes</button>
+              <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

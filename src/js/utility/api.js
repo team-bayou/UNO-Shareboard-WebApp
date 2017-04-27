@@ -133,6 +133,10 @@ module.exports = {
     performPut(constants.HOST + '/service/v1/advertisements/update', data, callback);
   },
 
+  deleteListing: function(id, callback) {
+    performDelete(constants.HOST + '/service/v1/advertisements/' + id + '/delete', callback);
+  },
+
   //======================//
   //       REVIEWS        //
   //======================//

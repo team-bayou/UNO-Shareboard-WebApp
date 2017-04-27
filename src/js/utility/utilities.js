@@ -592,6 +592,39 @@ module.exports = {
     });
   },
 
+  deleteListing: function(id, callback) {
+    api.getAdvertisement(id, function(success, response) {
+      if (success) {
+        var ad = response.data;
+
+        if (ad.imageIDs.length > 0) {
+          let counter = 0;
+          let cb = function(success, response) {
+            if (success) {
+              counter++;
+              if (counter === ad.imageIDs.length) {
+                api.deleteListing(id, callback);
+              }
+            }
+            else {
+              callback(false, response);
+            }
+          };
+
+          for (let i = 0; i < ad.imageIDs.length; i++) {
+            api.deleteImage(ad.imageIDs[i], cb);
+          }
+        }
+        else {
+          api.deleteListing(id, callback);
+        }
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
+
   getPrice: function(ad) {
     if (ad.price)
       return '$' + ad.price;
