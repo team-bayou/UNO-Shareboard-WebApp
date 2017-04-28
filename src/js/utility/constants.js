@@ -4,7 +4,7 @@
 
 module.exports = {
 
-  HOST: process.env.REACT_APP_BACKEND || "https://uno-shareboard-dev.herokuapp.com",
+  HOST: process.env.REACT_APP_BACKEND,
   COOKIE_A: "a",
   COOKIE_B: "b",
   COOKIE_C: "c",
