@@ -145,6 +145,20 @@ blue with black
 /*****************************************
  * COMPONENTS
  *****************************************/
+
+.center-page {
+  position:absolute;
+  top:50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+	right: 0;
+}
+
+
 /* NavBar */
 #navbar {
   background-color: #f8f8f8;
