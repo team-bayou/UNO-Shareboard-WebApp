@@ -4,6 +4,8 @@ const constants = require('./constants');
 const validator = require('validator');
 const api = require('./api');
 
+console.log(constants.HOST)
+
 
 function deleteImages(imagesToDelete, callback) {
   let counter = 0;
