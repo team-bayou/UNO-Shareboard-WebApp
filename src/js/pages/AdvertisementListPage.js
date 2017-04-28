@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
-import FilterComponent from '../components/FilterComponent'
+import FilterComponent from '../components/FilterComponent';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class AdvertisementsListPage extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default class AdvertisementsListPage extends Component {
 
   render() {
     if (this.state.pages < 0 || !this.state.advertisements)
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     return (
       <div id="listing-list" className="app">

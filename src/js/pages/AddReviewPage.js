@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
 import ReviewForm from '../components/reviews/ReviewForm';
 import AppFooter from '../components/AppFooter';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class AddReviewPage extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ export default class AddReviewPage extends Component {
 
   render() {
     if ((this.props.edit && !this.state.review) || (!this.props.edit && !this.state.reviewedUser))
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     if (this.state.reviewedUser === -1) {
       return (

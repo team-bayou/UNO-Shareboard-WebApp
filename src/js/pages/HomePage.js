@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class HomePage extends Component {
 
   render() {
     if (!this.state.advertisements)
-      return (<div>Loading...</div>);
+      return (<LoadingNotification />);
 
     return (
       <div id="home" className="app">

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import ReportForm from '../components/ReportForm';
+import LoadingNotification from '../components/LoadingNotification';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -50,7 +51,7 @@ export default class ProfilePage extends Component {
   render() {
     if (!this.state.user) {
       return (
-        <div className="uk-text-center">Loading...</div>
+        <LoadingNotification />
       );
     }
 

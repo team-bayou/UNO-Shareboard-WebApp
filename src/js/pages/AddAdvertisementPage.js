@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
 import AdForm from '../components/advertisements/AdvertisementForm';
 import AppFooter from '../components/AppFooter';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class AddAdvertisementPage extends Component {
   constructor(props) {
@@ -68,7 +69,7 @@ export default class AddAdvertisementPage extends Component {
 
   render() {
     if (!this.state.categories || (this.props.edit && !this.state.ad))
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     var categories = this.state.categories.map(
       category => <option key={category.id} value={category.id}>{category.title}</option>

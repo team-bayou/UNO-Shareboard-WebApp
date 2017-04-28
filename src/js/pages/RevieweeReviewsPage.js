@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReviewsPage from './ReviewsPage';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
+import LoadingNotification from '../components/LoadingNotification';
 
 import constants from '../utility/constants';
 import utils from '../utility/utilities';
@@ -65,7 +66,7 @@ export default class RevieweeReviewsPage extends Component {
       );
 
     else if (!this.state.name)
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     return (
       <ReviewsPage id={this.props.params.id} page={this.props.params.page} isReviewer={false}

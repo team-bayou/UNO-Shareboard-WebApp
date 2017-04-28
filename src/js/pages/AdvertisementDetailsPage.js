@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import Ad from '../components/advertisements/Advertisement';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class AdvertisementDetailsPage extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export default class AdvertisementDetailsPage extends Component {
 
   render() {
     if (!this.state.advertisement)
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     return (
       <div id="listing-details" className="app">

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import ReviewPageList from '../components/reviews/ReviewPaginationList';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class ReviewsPage extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ export default class ReviewsPage extends Component {
 
   render() {
     if (this.state.pages < 0 || !this.state.reviews)
-      return (<div className="uk-text-center">Loading...</div>);
+      return (<LoadingNotification />);
 
     let resource = this.props.isReviewer ? "reviews/reviewer/" : "reviews/reviewee/";
 
