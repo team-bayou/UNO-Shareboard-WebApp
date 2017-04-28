@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import AdPageList from '../components/advertisements/AdvertisementPaginationList';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class SearchResultsPage extends Component {
   constructor(props) {
@@ -87,6 +88,10 @@ export default class SearchResultsPage extends Component {
           <AppFooter />
         </div>
       );
+    }
+
+    else if (this.state.pages < 0) {
+      return (<LoadingNotification />);
     }
 
     else {
