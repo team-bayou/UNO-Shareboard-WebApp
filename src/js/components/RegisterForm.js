@@ -215,7 +215,10 @@ export default class RegisterForm extends Component {
             <div className="uk-margin">
               <label className="uk-form-label form-label" htmlFor="email">E-mail <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input id="email" name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+                <div className="uk-inline uk-width-1-1">
+                  <span className="uk-form-icon" data-uk-icon="icon: mail"></span>
+                  <input id="email" name="email" className={this.state.emailStyle} type="text" placeholder="E-mail" value={this.state.email} onChange={this.handleInputChange} />
+                </div>
               </div>
               <label className="uk-form-label label-invalid" hidden={this.emailValid}>E-mail must be a UNO e-mail address</label>
               <label className="uk-form-label label-invalid" hidden={!this.emailExists}>An account with that e-mail already exists</label>
@@ -223,14 +226,20 @@ export default class RegisterForm extends Component {
             <div className="uk-margin">
               <label className="uk-form-label form-label" htmlFor="password">Password <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+                <div className="uk-inline uk-width-1-1">
+                  <span className="uk-form-icon" data-uk-icon="icon: lock"></span>
+                  <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+                </div>
               </div>
               <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
             </div>
             <div className="uk-margin">
               <label className="uk-form-label form-label" htmlFor="passwordConfirm">Confirm Password <span className="label-invalid">*</span></label>
               <div className="uk-form-controls">
-                <input id="passwordConfirm" name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Confirm Password" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+                <div className="uk-inline uk-width-1-1">
+                  <span className="uk-form-icon" data-uk-icon="icon: lock"></span>
+                  <input id="passwordConfirm" name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Confirm Password" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+                </div>
               </div>
               <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
             </div>
