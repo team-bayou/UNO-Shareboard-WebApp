@@ -24,7 +24,7 @@ export default class AdvertisementTradeItem extends Component {
         }
         {
           this.props.ad.tradeItem &&
-          <p className="listing-item-trade-item uk-margin-small-top uk-margin-remove-bottom">Will Trade For: <span className="uk-text-break">{this.props.ad.tradeItem}</span></p>
+          <p className="listing-item-trade-item uk-margin-remove">Will Trade For: <span className="uk-text-break">{this.props.ad.tradeItem}</span></p>
         }
       </div>
     );
