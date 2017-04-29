@@ -129,7 +129,7 @@ export default class NavBar extends Component {
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
-                  <img className="uk-border-circle uk-margin-small-right" width="40" height="40" src={profileImage} alt=""/>
+                  <img className="uk-border-circle uk-margin-small-right small-profile-image" width="40" height="40" src={profileImage} alt=""/>
                 </a>
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">

@@ -18,7 +18,7 @@ export default class Review extends Component {
         <article className="uk-comment uk-background-muted">
           <header className="uk-comment-header uk-grid-medium uk-flex-middle" data-uk-grid>
             <div className="uk-width-auto">
-              <img className="uk-comment-avatar" src={!!user.imageId ? constants.HOST + "/service/v1/images/get/" + user.imageId : placeholder} width="80" height="80" alt="" />
+              <img className="ad-owner-image uk-comment-avatar" src={!!user.imageId ? constants.HOST + "/service/v1/images/get/" + user.imageId : placeholder} width="80" height="80" alt="" />
             </div>
             <div className="uk-width-expand">
               <h4 className="review-author uk-comment-title uk-margin-remove"><a className="uk-link-reset" href={routeToUser}>{user.accountName}</a></h4>

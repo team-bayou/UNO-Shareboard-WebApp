@@ -192,6 +192,11 @@ blue with black
   width: 300px;
 }
 
+.small-profile-image {
+  width: 40px;
+  height: 40px;
+}
+
 /* Advertisement */
 .listing-category {
   margin-right: 0.5em;
@@ -207,6 +212,11 @@ blue with black
 .listing-media {
   height: 280px;
   overflow-y: hidden;
+}
+
+.ad-owner-image {
+  width: 80px;
+  height: 80px;
 }
 
 .listing-images {

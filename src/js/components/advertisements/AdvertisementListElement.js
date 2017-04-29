@@ -37,7 +37,7 @@ export default class AdvertisementListElement extends Component {
         <a href={"/advertisements/" + this.props.ad.id} className="listing-details uk-button uk-button-text">Details</a>
         <div className="listing-owner uk-float-right uk-width-auto">
           <a href={routeToUser} title={this.props.ad.owner.accountName} data-uk-tooltip="pos: bottom">
-            <img className="uk-border-circle" width="40" height="40" src={!!this.props.ad.owner.imageId ? constants.HOST + "/service/v1/images/get/" + this.props.ad.owner.imageId : placeholder} alt=""/>
+            <img className="uk-border-circle small-profile-image" width="40" height="40" src={!!this.props.ad.owner.imageId ? constants.HOST + "/service/v1/images/get/" + this.props.ad.owner.imageId : placeholder} alt=""/>
           </a>
         </div>
       </div>
