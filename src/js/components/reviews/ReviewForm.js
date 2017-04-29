@@ -29,7 +29,6 @@ export default class ReviewForm extends Component {
     this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
     this.deleteReview = this.deleteReview.bind(this);
   }
 
@@ -41,10 +40,6 @@ export default class ReviewForm extends Component {
 
       this.resetError("rating", value);
     }
-  }
-
-  handleCancel() {
-    browserHistory.push("/users/" + (this.props.review ? this.props.review.reviewee.id : this.props.revieweeId));
   }
 
   handleInputChange(event) {
@@ -154,7 +149,7 @@ export default class ReviewForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="uk-width-1-2@m center">
         <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
           <fieldset className="uk-fieldset uk-grid-small" data-uk-grid>
             <div>
@@ -187,7 +182,7 @@ export default class ReviewForm extends Component {
                 <div className="uk-margin">
                   <label className="uk-form-label form-label" htmlFor="review-comments">Comments</label>
                   <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="review-comments"
+                    <textarea className="uk-textarea" id="review-comments" rows="3"
                       placeholder="Any comments you want to make with the review" name="comments"
                       value={this.state.comments} onChange={this.handleInputChange}/>
                   </div>
@@ -195,12 +190,9 @@ export default class ReviewForm extends Component {
               </div>
             </div>
 
-            <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
+            <div className="uk-width-1-3@s uk-align-center">
               <div className="uk-margin-medium-top">
                 <button ref="submitreviewbtn" className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
-              </div>
-              <div className="uk-margin-small-top">
-                <a onClick={this.handleCancel} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
               </div>
               {
                 this.props.review ?

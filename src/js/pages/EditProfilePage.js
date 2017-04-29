@@ -42,7 +42,7 @@ export default class EditProfilePage extends Component {
           <div className="app-body uk-container uk-text-break">
 
             <div className="uk-margin-medium-bottom">
-              <h2 className="uk-heading-line uk-text-center"><span>Edit Profile</span></h2>
+              <h2 className="uk-heading-line uk-text-center" id="editprofileheader"><span>Edit Profile</span></h2>
             </div>
 
             <div className="uk-child-width-1-2@m" data-uk-grid>

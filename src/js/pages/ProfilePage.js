@@ -159,7 +159,7 @@ export default class ProfilePage extends Component {
                     {
                       this.state.myProfile ?
                       <tr className="user-profile-borderless-row">
-                        <td colSpan="3" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be hidden to other users</td>
+                        <td colSpan="3" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be private</td>
                       </tr>
                       : null
                     }

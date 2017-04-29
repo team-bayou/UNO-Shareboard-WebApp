@@ -79,7 +79,7 @@ export default class AddAdvertisementPage extends Component {
       <div id="listing-add" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center">
+          <h2 className="uk-heading-line uk-text-center" id="addlistingheader">
             <span>{!this.props.edit ? "Create New Listing" : "Edit Listing '" + this.state.ad.title + "'"}</span>
           </h2>
           <AdForm id={this.props.id}

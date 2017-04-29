@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Dropzone from 'react-dropzone';
+import $ from 'jquery';
 
 import constants from '../../utility/constants';
 import utils from '../../utility/utilities';
@@ -84,6 +85,7 @@ export default class AdvertisementForm extends Component {
             });
             this.errorMsg = "There was a problem when creating your listing. Please try again, or contact us if the problem continues.";
             this.refs.submitlistingbtn.removeAttribute("disabled");
+            $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
           }
         }.bind(this));
       }
@@ -98,6 +100,7 @@ export default class AdvertisementForm extends Component {
             });
             this.errorMsg = "There was a problem when updating your listing. Please try again, or contact us if the problem continues.";
             this.refs.submitlistingbtn.removeAttribute("disabled");
+            $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
           }
         }.bind(this));
       }
@@ -124,6 +127,7 @@ export default class AdvertisementForm extends Component {
       radioLabelStyle: rls,
       adTypeStyle: ats
     });
+    $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
   }
 
   // Reset all of our error indicators so that we have a clean form to
@@ -161,7 +165,11 @@ export default class AdvertisementForm extends Component {
   }
 
   onDropRejected(files) {
-
+    this.setState({
+      dropRejected: true
+    });
+    this.errorMsg = "You can only upload images";
+    $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
   }
 
   removeImage(event) {
@@ -188,6 +196,7 @@ export default class AdvertisementForm extends Component {
         });
         this.errorMsg = "There was a problem deleting this listing. Please try again, or contact us if the problem continues.";
         this.refs.deletelistingbtn.removeAttribute("disabled");
+        $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
       }
     }.bind(this));
   }
@@ -226,7 +235,7 @@ export default class AdvertisementForm extends Component {
           : null
         }
         {
-          this.state.submissionFailed ?
+          this.state.submissionFailed || this.state.dropRejected ?
           <div className="uk-alert-danger uk-text-center" data-uk-alert>
             <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
           </div>
@@ -359,9 +368,6 @@ export default class AdvertisementForm extends Component {
               <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
                 <div className="uk-margin-medium-top">
                   <button ref="submitlistingbtn" className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
-                </div>
-                <div className="uk-margin-small-top">
-                  <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
                 </div>
                 {
                   this.props.edit ?

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
+import $ from 'jquery';
 
 const utils = require('../utility/utilities');
 const constants = require('../utility/constants');
@@ -38,8 +40,7 @@ export default class EditProfileForm extends Component {
       newPassword: "",
       newPasswordConfirm: "",
 
-      updateFailed: false,
-      updateSuccess: false
+      updateFailed: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -95,6 +96,7 @@ export default class EditProfileForm extends Component {
             accountNameStyle: this.inputInvalid
           });
           this.refs.editprofilebtn.removeAttribute("disabled");
+          $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
         }
         else {
           utils.checkForExistingUsername(this.state.accountName, function(exists, response) {
@@ -105,6 +107,7 @@ export default class EditProfileForm extends Component {
                 accountNameStyle: this.inputInvalid
               });
               this.refs.editprofilebtn.removeAttribute("disabled");
+              $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
             }
             else {
               utils.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
@@ -120,6 +123,7 @@ export default class EditProfileForm extends Component {
                         currentPasswordStyle: this.inputInvalid
                       });
                       this.refs.editprofilebtn.removeAttribute("disabled");
+                      $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
                     }
                   }.bind(this));
                 }
@@ -158,19 +162,11 @@ export default class EditProfileForm extends Component {
         if (passChanged) {
           utils.clearCookies();
           utils.bakeCookies(data.accountName, function() {
-            this.setState({
-              updateSuccess: true,
-              currentPassword: ""
-            });
-            this.refs.editprofilebtn.removeAttribute("disabled");
-          }.bind(this));
+            browserHistory.push("/profile");
+          });
         }
         else {
-          this.setState({
-            updateSuccess: true,
-            currentPassword: ""
-          });
-          this.refs.editprofilebtn.removeAttribute("disabled");
+          browserHistory.push("/profile");
         }
       }
       else {
@@ -178,6 +174,7 @@ export default class EditProfileForm extends Component {
           updateFailed: true
         });
         this.refs.editprofilebtn.removeAttribute("disabled");
+        $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
       }
     }.bind(this));
   }
@@ -196,8 +193,7 @@ export default class EditProfileForm extends Component {
       currentPasswordStyle: this.inputValid,
       newPasswordStyle: this.inputValid,
       newPasswordConfirmStyle: this.inputValid,
-      updateFailed: false,
-      updateSuccess: false
+      updateFailed: false
     });
   }
 
@@ -209,6 +205,7 @@ export default class EditProfileForm extends Component {
         accountNameStyle: !!this.state.accountName ? this.inputValid : this.inputInvalid,
         currentPasswordStyle: !!this.state.currentPassword ? this.inputValid : this.inputInvalid
       });
+      $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
     }
   }
 
@@ -228,14 +225,6 @@ export default class EditProfileForm extends Component {
             this.state.updateFailed ?
             <div className="uk-alert-danger uk-text-center" data-uk-alert>
               <p><span data-uk-icon="icon: warning"></span> There was a problem updating your account. Please try again or contact us if the problem continues.</p>
-            </div>
-            : null
-          }
-          {
-            this.state.updateSuccess ?
-            <div className="uk-alert-success uk-text-center" data-uk-alert>
-              <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
-              <p>Account updated successfully!</p>
             </div>
             : null
           }
@@ -390,8 +379,8 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label label-invalid" hidden={this.passwordsMatch}>Passwords don't match</label>
           </div>
 
-          <div className="uk-margin">
-            <button ref="editprofilebtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Save Changes">Save Changes</button>
+          <div className="uk-margin uk-text-center">
+            <button ref="editprofilebtn" className="uk-button uk-button-secondary" type="submit" value="Save Changes">Save Changes</button>
           </div>
 
         </fieldset>
