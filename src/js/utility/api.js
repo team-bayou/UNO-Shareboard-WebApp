@@ -264,6 +264,10 @@ module.exports = {
     performGet(constants.HOST + endpoint, callback);
   },
 
+  sendMassEmail: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/users/emailUsers/', data, callback);
+  },
+
   //================//
   //     IMAGES     //
   //================//

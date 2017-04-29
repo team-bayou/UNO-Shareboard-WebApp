@@ -3,6 +3,7 @@ import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import FindUserForm from '../components/FindUserForm';
 import EditCategories from '../components/EditCategories';
+import MassEmailForm from '../components/MassEmailForm';
 
 export default class AdminPage extends Component {
   render() {
@@ -24,6 +25,15 @@ export default class AdminPage extends Component {
               <h3 className="uk-heading uk-text-center"><span>Ad Categories</span></h3>
               <EditCategories />
             </div>
+          </div>
+
+          <hr />
+
+          <div data-uk-grid>
+            <div className="uk-text-center uk-width-1-1">
+              <h3 className="uk-heading"><span>Mass E-mail Users</span></h3>
+            </div>
+            <MassEmailForm />
           </div>
 
         </div>
