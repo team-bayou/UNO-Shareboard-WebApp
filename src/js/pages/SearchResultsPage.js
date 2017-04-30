@@ -83,7 +83,8 @@ export default class SearchResultsPage extends Component {
           <AppHeader />
           <div className="app-body uk-container">
             <h2 className="uk-heading-line uk-text-center"><span>{"Search Results (0)"}</span></h2>
-            <p className="uk-margin-large-top uk-margin-large-bottom uk-text-center">Your search returned no listings.</p>
+            <p className="uk-margin-large-top uk-margin-small-bottom uk-text-center">Your search returned no listings</p>
+            <p className="uk-margin-small-top uk-margin-large-bottom uk-text-center"><a href={"/advertisements/" + this.props.location.query.adType}>Search again</a></p>
           </div>
           <AppFooter />
         </div>
