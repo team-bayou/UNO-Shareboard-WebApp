@@ -100,13 +100,13 @@ export default class NavBar extends Component {
                     <li>
                       <a href={routeToUserReviewsReviewer}>
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: comments"></span>
-                        My submitted Reviews
+                        My Submitted Reviews
                       </a>
                     </li>
                     <li>
                       <a href={routeToUserReviewsReviewee}>
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: comments"></span>
-                        My received Reviews
+                        My Received Reviews
                       </a>
                     </li>
                   </ul>
