@@ -15,11 +15,33 @@ export default class CategoryAdvertisementsPage extends Component {
       pages: -1,
       category: "",
       advertisements: [],
-      totalNumAds: 0
+      totalNumAds: 0,
+
+      problemLoadingPage: false
     };
   }
 
   componentDidMount() {
+
+    api.getCategories(function(success, response) {
+      if (response.data.length > 0) {
+        var catFound = false;
+        for (var i = 0; i < response.data.length; i++) {
+          if (response.data[i].id + "" === this.props.params.id + "") {
+            this.setState({
+              category: response.data[i].title
+            });
+            catFound = true;
+          }
+        }
+        if (!catFound) {
+          this.setState({
+            problemLoadingPage: true
+          });
+        }
+      }
+    }.bind(this));
+
     // Try to get a list of category's advertisements and extract length.
     api.getCategoryAdvertisements(this.props.params.id, function(exists, response) {
       if (exists && response) {
@@ -32,7 +54,9 @@ export default class CategoryAdvertisementsPage extends Component {
           totalNumAds: numOfAds
         });
       } else {
-        console.log("No listings found");
+        this.setState({
+          problemLoadingPage: true
+        });
       }
     }.bind(this));
 
@@ -40,24 +64,56 @@ export default class CategoryAdvertisementsPage extends Component {
     api.getCategoryAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
       if (exists && response) {
         this.setState({
-          category: response.data[0].category.title,
           advertisements: response.data
         });
       } else {
-        console.log("No listings found");
+        this.setState({
+          problemLoadingPage: true
+        });
       }
     }.bind(this));
   }
 
   render() {
+
+    if (this.state.problemLoadingPage)
+      return (
+        <div id="listing-list" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.totalNumAds + ")"}</span></h2>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                <p><span data-uk-icon="icon: warning"></span> There was a problem loading the category's listings. Please try again, or contact us if the problem continues.</p>
+              </div>
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
+
     if (this.state.pages < 0 || !this.state.advertisements)
       return (<LoadingNotification />);
+
+    if (this.state.pages === 0)
+      return (
+        <div id="listing-list" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              There are currently no listings available to show
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
 
     return (
       <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings of Category \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/categories/" + this.props.params.id}/>
         </div>

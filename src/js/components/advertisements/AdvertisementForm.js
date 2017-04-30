@@ -112,6 +112,7 @@ export default class AdvertisementForm extends Component {
 
     if (data.title === '' || data.category === '' || data.adType === '') {
       this.emptyFields = true;
+      $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
     } else {
       this.emptyFields = false;
     }
@@ -127,7 +128,6 @@ export default class AdvertisementForm extends Component {
       radioLabelStyle: rls,
       adTypeStyle: ats
     });
-    $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
   }
 
   // Reset all of our error indicators so that we have a clean form to

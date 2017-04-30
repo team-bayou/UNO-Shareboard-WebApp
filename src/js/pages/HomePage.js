@@ -11,7 +11,8 @@ export default class HomePage extends Component {
     super(props);
 
     this.state = {
-      advertisements: []
+      advertisements: [],
+      noListingsFound: false
     };
   }
 
@@ -19,9 +20,16 @@ export default class HomePage extends Component {
     // Try to get a list of the top 10 recent advertisements.
     api.getAdvertisementsByPage(1, function(exists, response) {
       if (exists && response) {
-        this.setState({
-          advertisements: response.data
-        });
+        if (response.data.length === 0) {
+          this.setState({
+            noListingsFound: true
+          });
+        }
+        else {
+          this.setState({
+            advertisements: response.data
+          });
+        }
       }
     }.bind(this));
   }
@@ -69,7 +77,13 @@ export default class HomePage extends Component {
           </div>
 
           <h2 className="uk-heading-line uk-text-center"><span>Most Recent Listings</span></h2>
-          <AdvertisementFeed advertisements={this.state.advertisements}/>
+          {
+            this.state.noListingsFound ?
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              There are currently no listings available to show
+            </div>
+            : <AdvertisementFeed advertisements={this.state.advertisements} />
+          }
         </div>
 
         <AppFooter />

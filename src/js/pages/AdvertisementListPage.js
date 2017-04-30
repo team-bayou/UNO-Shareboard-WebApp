@@ -16,7 +16,9 @@ export default class AdvertisementsListPage extends Component {
       currentPage: this.props.page ? this.props.page : 1,
       pages: -1,
       advertisements: [],
-      totalNumAds: 0
+      totalNumAds: 0,
+
+      problemLoadingPage: false
     };
   }
 
@@ -30,7 +32,9 @@ export default class AdvertisementsListPage extends Component {
           totalNumAds: response.data.length
         });
       } else {
-        console.log("No listings found");
+        this.setState({
+          problemLoadingPage: true
+        });
       }
     }.bind(this));
 
@@ -41,21 +45,57 @@ export default class AdvertisementsListPage extends Component {
           advertisements: response.data
         });
       } else {
-        console.log("No listings found");
+        this.setState({
+          problemLoadingPage: true
+        });
       }
     }.bind(this));
   }
 
   render() {
+    var listingType = this.props.adType === "seek" ? "Seeking" : "Offering";
+
     if (this.state.pages < 0 || !this.state.advertisements)
       return (<LoadingNotification />);
+
+    if (this.state.pages === 0)
+      return (
+        <div id="listing-list" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <FilterComponent adType={this.props.adType} />
+            <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : " + listingType + " (" + this.state.totalNumAds + ")"}</span></h2>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              There are currently no listings available to show
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
+
+    if (this.state.problemLoadingPage)
+      return (
+        <div id="listing-list" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <FilterComponent adType={this.props.adType} />
+            <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : " + listingType + " (" + this.state.totalNumAds + ")"}</span></h2>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                <p><span data-uk-icon="icon: warning"></span> There was a problem loading the listings. Please try again, or contact us if the problem continues.</p>
+              </div>
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
 
     return (
       <div id="listing-list" className="app">
         <AppHeader />
         <div className="app-body uk-container">
           <FilterComponent adType={this.props.adType} />
-          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings (" + this.state.totalNumAds + ")"}</span></h2>
+          <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : " + listingType + " (" + this.state.totalNumAds + ")"}</span></h2>
           <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
             currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType} />
         </div>

@@ -70,7 +70,7 @@ export default class RevieweeReviewsPage extends Component {
 
     return (
       <ReviewsPage id={this.props.params.id} page={this.props.params.page} isReviewer={false}
-        headerText={this.state.name + " received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
+        headerText={this.state.name + " Received"} createReview={this.state.createReview} backToAd={this.state.backToAd}/>
     );
   }
 }

@@ -12,7 +12,9 @@ export default class AdvertisementDetailsPage extends Component {
 
     this.state = {
       advertisement: null,
-      numberOfReviews: 0
+      numberOfReviews: 0,
+
+      adNotFound: false
     };
   }
 
@@ -20,28 +22,47 @@ export default class AdvertisementDetailsPage extends Component {
     // Try to get an advertisement by id.
     api.getAdvertisement(this.props.params.id, function(exists, response) {
       if (exists && response) {
-        let advertisement = response.data;
+        this.setState({
+          advertisement: response.data,
+        });
 
         // Try to get a list of the owner's reviews and extract only the number of reviews.
         api.getRevieweeReviews(response.data.owner.id, function(exists, response) {
           if (exists && response) {
             this.setState({
-              advertisement: advertisement,
               numberOfReviews: response.data.length
             });
           }
           else {
-            console.log("No reviews found");
+            this.setState({
+              numberOfReviews: 0
+            });
           }
         }.bind(this));
       }
       else {
-        console.log("No advertisement found");
+        this.setState({
+          adNotFound: true
+        });
       }
     }.bind(this));
   }
 
   render() {
+
+    if (this.state.adNotFound)
+      return (
+        <div id="listing-details" className="app">
+          <AppHeader />
+          <div className="app-body uk-container">
+            <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
+              A listing with the given ID does not exist
+            </div>
+          </div>
+          <AppFooter />
+        </div>
+      );
+
     if (!this.state.advertisement)
       return (<LoadingNotification />);
 
