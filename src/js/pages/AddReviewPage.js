@@ -63,7 +63,7 @@ export default class AddReviewPage extends Component {
         <div id="review-add" className="app">
           <AppHeader />
             <div className="app-body uk-container uk-text-center">
-              <div className="uk-margin-medium-top uk-margin-medium-bottom">The user you are trying to review does not exist.</div>
+              <div className="uk-margin-medium-top uk-margin-medium-bottom">The user you are trying to review does not exist</div>
             </div>
           <AppFooter />
         </div>

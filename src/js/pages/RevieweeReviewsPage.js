@@ -59,7 +59,7 @@ export default class RevieweeReviewsPage extends Component {
         <div id="reviews" className="app">
           <AppHeader />
           <div className="app-body uk-container uk-text-center">
-            <div className="uk-margin-medium-top uk-margin-medium-bottom">The user whose reviews you were looking for does not exist.</div>
+            <div className="uk-margin-medium-top uk-margin-medium-bottom">The user whose reviews you were looking for does not exist</div>
           </div>
           <AppFooter />
         </div>
