@@ -54,7 +54,7 @@ export default class ReportForm extends Component {
       };
 
       if (!!this.props.reportedAdID) {
-        data.advertisementId = this.props.reportedAdID;
+        data.listingId = this.props.reportedAdID;
       }
 
       api.submitReport(data, function(success, response) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class AdvertisementMedia extends Component {
+export default class ListingMedia extends Component {
 
   constructor(props) {
     super(props);

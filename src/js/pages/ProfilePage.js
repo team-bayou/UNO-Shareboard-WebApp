@@ -172,9 +172,9 @@ export default class ProfilePage extends Component {
                   <li>
                     {
                       this.state.myProfile ?
-                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/advertisements"}><span data-uk-icon="icon: list"></span> View your listings</a>
+                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/listings"}><span data-uk-icon="icon: list"></span> View your listings</a>
                       :
-                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/advertisements"}><span data-uk-icon="icon: list"></span> View this user's listings</a>
+                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/listings"}><span data-uk-icon="icon: list"></span> View this user's listings</a>
                     }
                   </li>
                   <li>

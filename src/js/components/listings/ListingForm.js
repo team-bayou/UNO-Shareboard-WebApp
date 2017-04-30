@@ -6,7 +6,7 @@ import $ from 'jquery';
 import constants from '../../utility/constants';
 import utils from '../../utility/utilities';
 
-export default class AdvertisementForm extends Component {
+export default class ListingForm extends Component {
   constructor(props) {
     super(props);
 
@@ -77,7 +77,7 @@ export default class AdvertisementForm extends Component {
       if (!this.props.edit) {
         utils.addNewListing(this.state, function(exists, response) {
           if (exists && response) {
-            browserHistory.push("/advertisements/" + response.data);
+            browserHistory.push("/listings/" + response.data);
           }
           else {
             this.setState({
@@ -92,7 +92,7 @@ export default class AdvertisementForm extends Component {
       else {
         utils.updateListing(this.state, function(exists, response) {
           if (exists && response) {
-            browserHistory.push("/advertisements/" + this.state.id);
+            browserHistory.push("/listings/" + this.state.id);
           }
           else {
             this.setState({
@@ -275,7 +275,7 @@ export default class AdvertisementForm extends Component {
                   <label className="uk-form-label form-label" htmlFor="ad-title">Title <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
                     <input className={this.state.titleStyle} id="listing-title" type="text"
-                      placeholder="The title of your advertisement" name="title"
+                      placeholder="The title of your listing" name="title"
                       value={this.state.title} onChange={this.handleInputChange}/>
                   </div>
                 </div>

@@ -469,7 +469,7 @@ module.exports = {
           counter++;
           toSend.imageIDsStr.push(response.data + "");
           if (counter === data.newImages.length) {
-            api.addAdvertisement(toSend, function(success, response) {
+            api.addListing(toSend, function(success, response) {
               callback(success, response);
             });
           }
@@ -488,7 +488,7 @@ module.exports = {
       }
     }
     else {
-      api.addAdvertisement(toSend, function(success, response) {
+      api.addListing(toSend, function(success, response) {
         callback(success, response);
       });
     }
@@ -513,12 +513,12 @@ module.exports = {
 
     // Get our listing as it currently exists in the database so that we can
     // compare our new `existing image array` to the one currently in the database
-    api.getAdvertisement(data.id, function(success, response) {
+    api.getListing(data.id, function(success, response) {
       if (success) {
 
         // If there were no images on the listing and we haven't added any new ones, just update the listing
         if (response.data.imageIDs.length < 1 && data.existingImages.length < 1 && data.newImages.length < 1) {
-          api.updateAdvertisement(toSend, function(success, response) {
+          api.updateListing(toSend, function(success, response) {
             callback(success, response);
           });
         }
@@ -551,7 +551,7 @@ module.exports = {
                   for (let i = 0; i < newImageIDs.length; i++)
                     toSend.imageIDsStr.push(newImageIDs[i]);
 
-                  api.updateAdvertisement(toSend, function(success, response) {
+                  api.updateListing(toSend, function(success, response) {
                     if (toRemove.length < 1) callback(success, response);
                     else {
                       if (success) deleteImages(toRemove, callback);
@@ -575,7 +575,7 @@ module.exports = {
           }
 
           else {
-            api.updateAdvertisement(toSend, function(success, response) {
+            api.updateListing(toSend, function(success, response) {
               if (toRemove.length < 1) callback(success, response);
               else {
                 if (success) deleteImages(toRemove, callback);
@@ -593,7 +593,7 @@ module.exports = {
   },
 
   deleteListing: function(id, callback) {
-    api.getAdvertisement(id, function(success, response) {
+    api.getListing(id, function(success, response) {
       if (success) {
         var ad = response.data;
 

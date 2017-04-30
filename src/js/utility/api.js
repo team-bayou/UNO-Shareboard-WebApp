@@ -89,52 +89,52 @@ module.exports = {
   //======================//
   //    ADVERTISEMENTS    //
   //======================//
-  getAdvertisements: function(callback) {
-    performGet(constants.HOST + '/service/v1/advertisements', callback);
+  getListings: function(callback) {
+    performGet(constants.HOST + '/service/v1/listings', callback);
   },
 
-  getAdvertisementsByPage: function(page, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/page/' + page, callback);
+  getListingsByPage: function(page, callback) {
+    performGet(constants.HOST + '/service/v1/listings/page/' + page, callback);
   },
 
-  getUserAdvertisements: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/users/' + id, callback);
+  getUserListings: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/listings/users/' + id, callback);
   },
 
-  getUserAdvertisementsByPage: function(id, page, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/users/' + id + '/page/' + page, callback);
+  getUserListingsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/listings/users/' + id + '/page/' + page, callback);
   },
 
-  getCategoryAdvertisements: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/categories/' + id, callback);
+  getCategoryListings: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/listings/categories/' + id, callback);
   },
 
-  getCategoryAdvertisementsByPage: function(id, page, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/categories/' + id + '/page/' + page, callback);
+  getCategoryListingsByPage: function(id, page, callback) {
+    performGet(constants.HOST + '/service/v1/listings/categories/' + id + '/page/' + page, callback);
   },
 
-  getAdTypeAdvertisements: function(adType, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/adType/' + adType, callback);
+  getAdTypeListings: function(adType, callback) {
+    performGet(constants.HOST + '/service/v1/listings/adType/' + adType, callback);
   },
 
-  getAdTypeAdvertisementsByPage: function(adType, page, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/adType/' + adType + '/page/' + page, callback);
+  getAdTypeListingsByPage: function(adType, page, callback) {
+    performGet(constants.HOST + '/service/v1/listings/adType/' + adType + '/page/' + page, callback);
   },
 
-  getAdvertisement: function(id, callback) {
-    performGet(constants.HOST + '/service/v1/advertisements/' + id, callback);
+  getListing: function(id, callback) {
+    performGet(constants.HOST + '/service/v1/listings/' + id, callback);
   },
 
-  addAdvertisement: function(data, callback) {
-    performPost(constants.HOST + '/service/v1/advertisements/add', data, callback);
+  addListing: function(data, callback) {
+    performPost(constants.HOST + '/service/v1/listings/add', data, callback);
   },
 
-  updateAdvertisement: function(data, callback) {
-    performPut(constants.HOST + '/service/v1/advertisements/update', data, callback);
+  updateListing: function(data, callback) {
+    performPut(constants.HOST + '/service/v1/listings/update', data, callback);
   },
 
   deleteListing: function(id, callback) {
-    performDelete(constants.HOST + '/service/v1/advertisements/' + id + '/delete', callback);
+    performDelete(constants.HOST + '/service/v1/listings/' + id + '/delete', callback);
   },
 
   //======================//
@@ -254,7 +254,7 @@ module.exports = {
   },
 
   search: function(data, callback) {
-    let endpoint = '/service/v1/advertisements/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
+    let endpoint = '/service/v1/listings/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
 
     if (!!data.description)
       endpoint = endpoint.concat('&description=' + data.title);
@@ -306,11 +306,11 @@ module.exports = {
   },
 
   addImageToListing: function(listingID, imgID, callback) {
-    performPut(constants.HOST + '/service/v1/advertisements/addImage/' + listingID + '/' + imgID + '/', {}, callback);
+    performPut(constants.HOST + '/service/v1/listings/addImage/' + listingID + '/' + imgID + '/', {}, callback);
   },
 
   removeImageFromListing: function(listingID, imgID, callback) {
-    performPut(constants.HOST + '/service/v1/advertisements/removeImage/' + listingID + '/' + imgID + '/', {}, callback);
+    performPut(constants.HOST + '/service/v1/listings/removeImage/' + listingID + '/' + imgID + '/', {}, callback);
   },
 
   deleteImage: function(imageID, callback) {

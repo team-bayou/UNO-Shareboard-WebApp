@@ -225,7 +225,7 @@ export default class EditCategories extends Component {
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
           <td className="uk-text-center uk-text-nowrap uk-table-link">
-            <a href={"/advertisements/categories/" + cat.id} className="uk-link-reset" title="View Category" data-uk-tooltip>{cat.id}</a>
+            <a href={"/listings/categories/" + cat.id} className="uk-link-reset" title="View Category" data-uk-tooltip>{cat.id}</a>
           </td>
           <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
             <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget} title="Change Color" data-uk-tooltip>&nbsp;</a>

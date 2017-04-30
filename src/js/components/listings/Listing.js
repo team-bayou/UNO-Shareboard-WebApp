@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import AdCard from './AdvertisementCard';
-import AdOwnerDetails from './AdvertisementOwnerDetails';
+import AdCard from './ListingCard';
+import AdOwnerDetails from './ListingOwnerDetails';
 import Slideshow from '../Slideshow';
 import ReportForm from '../ReportForm';
 
 const utils = require('../../utility/utilities');
 const constants = require('../../utility/constants');
 
-export default class Advertisement extends Component {
+export default class Listing extends Component {
   constructor(props) {
     super(props);
 
@@ -42,7 +42,7 @@ export default class Advertisement extends Component {
           {
             this.props.ad.owner.id + "" === utils.getCookie(constants.COOKIE_A) + "" || this.state.isAdmin ?
             <div className="uk-width-1-1 uk-margin-small-top uk-text-center">
-              <a href={"/advertisements/" + this.props.ad.id + "/edit"} className="listing-link">Edit Listing</a>
+              <a href={"/listings/" + this.props.ad.id + "/edit"} className="listing-link">Edit Listing</a>
             </div>
             : null
           }

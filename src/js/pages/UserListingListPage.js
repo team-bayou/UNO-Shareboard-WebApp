@@ -5,17 +5,17 @@ import constants from '../utility/constants';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import AdPageList from '../components/advertisements/AdvertisementPaginationList';
+import AdPageList from '../components/listings/ListingPaginationList';
 import LoadingNotification from '../components/LoadingNotification';
 
-export default class UserAdvertisementsPage extends Component {
+export default class UserListingsPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       currentPage: this.props.params.page ? this.props.params.page : 1,
       pages: -1,
-      advertisements: [],
+      listings: [],
       user: null,
       userExists: false,
       myListings: false,
@@ -24,8 +24,8 @@ export default class UserAdvertisementsPage extends Component {
   }
 
   componentDidMount() {
-    // Try to get a list of user's advertisements and extract length.
-    api.getUserAdvertisements(this.props.params.id, function(exists, response) {
+    // Try to get a list of user's listings and extract length.
+    api.getUserListings(this.props.params.id, function(exists, response) {
       if (exists && response) {
         let numOfAds = response.data.length;
         // Determine number of pages.
@@ -38,11 +38,11 @@ export default class UserAdvertisementsPage extends Component {
       }
     }.bind(this));
 
-    // Try to get a list of user's advertisements by page number.
-    api.getUserAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
+    // Try to get a list of user's listings by page number.
+    api.getUserListingsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
       if (exists && response) {
         this.setState({
-          advertisements: response.data
+          listings: response.data
         });
       }
     }.bind(this));
@@ -65,7 +65,7 @@ export default class UserAdvertisementsPage extends Component {
   }
 
   render() {
-    if (this.state.pages < 0 || !this.state.advertisements || !this.state.user)
+    if (this.state.pages < 0 || !this.state.listings || !this.state.user)
       return (<LoadingNotification />);
 
     if (!this.state.userExists) {
@@ -82,7 +82,7 @@ export default class UserAdvertisementsPage extends Component {
       );
     }
 
-    if (this.state.advertisements.length === 0)
+    if (this.state.listings.length === 0)
       return (
       <div id="listing-list" className="app">
         <AppHeader />
@@ -100,7 +100,7 @@ export default class UserAdvertisementsPage extends Component {
           {
             this.state.myListings ?
             <div className="uk-width-1-3@m uk-margin-large-bottom uk-align-center">
-              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
+              <a href="/listings/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
             : null
           }
@@ -136,12 +136,12 @@ export default class UserAdvertisementsPage extends Component {
           {
             this.state.myListings ?
             <div className="uk-width-1-3@m uk-margin-large-bottom uk-align-center">
-              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
+              <a href="/listings/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
             : null
           }
-          <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
-            currentPage={parseInt(this.state.currentPage, 10)} resource={"users/" + this.props.params.id + "/advertisements"}
+          <AdPageList listings={this.state.listings} pages={parseInt(this.state.pages, 10)}
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"users/" + this.props.params.id + "/listings"}
             edit={true} />
         </div>
         <AppFooter />

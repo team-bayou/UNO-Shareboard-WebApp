@@ -32,7 +32,7 @@ export default class NavBar extends Component {
   render() {
     // Get user id from cookie.
     var id = utils.getCookie(constants.COOKIE_A);
-    var routeToUserAds = "/users/" + id + "/advertisements";
+    var routeToUserAds = "/users/" + id + "/listings";
     var routeToUserReviewsReviewer = "/reviews/reviewer/" + id;
     var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
@@ -65,13 +65,13 @@ export default class NavBar extends Component {
                 <div className="navbar-listings uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li>
-                      <a href="/advertisements/seek">
+                      <a href="/listings/seek">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: search"></span>
                         Buying / Seeking
                       </a>
                     </li>
                     <li>
-                      <a href="/advertisements/offer">
+                      <a href="/listings/offer">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: credit-card"></span>
                         Selling / Offering
                       </a>
@@ -82,7 +82,7 @@ export default class NavBar extends Component {
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: bookmark"></span>
                         My Listings
                       </a>
-                      <a href="/advertisements/add">
+                      <a href="/listings/add">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: file-edit"></span>
                         Create New Listing
                       </a>
@@ -179,10 +179,10 @@ export default class NavBar extends Component {
                       <li className="uk-nav-header">Listings</li>
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
-                          <li><a href="/advertisements/seek"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buying / Seeking</a></li>
-                          <li><a href="/advertisements/offer"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Selling / Offering</a></li>
+                          <li><a href="/listings/seek"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buying / Seeking</a></li>
+                          <li><a href="/listings/offer"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Selling / Offering</a></li>
                           <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
-                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
+                          <li><a href="/listings/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
                         </ul>
                       </li>
 

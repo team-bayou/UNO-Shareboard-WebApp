@@ -3,7 +3,7 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import AdvertisementFeed from '../components/advertisements/AdvertisementFeed';
+import ListingFeed from '../components/listings/ListingFeed';
 import LoadingNotification from '../components/LoadingNotification';
 
 export default class HomePage extends Component {
@@ -11,14 +11,14 @@ export default class HomePage extends Component {
     super(props);
 
     this.state = {
-      advertisements: [],
+      listings: [],
       noListingsFound: false
     };
   }
 
   componentDidMount() {
-    // Try to get a list of the top 10 recent advertisements.
-    api.getAdvertisementsByPage(1, function(exists, response) {
+    // Try to get a list of the top 10 recent listings.
+    api.getListingsByPage(1, function(exists, response) {
       if (exists && response) {
         if (response.data.length === 0) {
           this.setState({
@@ -27,7 +27,7 @@ export default class HomePage extends Component {
         }
         else {
           this.setState({
-            advertisements: response.data
+            listings: response.data
           });
         }
       }
@@ -35,7 +35,7 @@ export default class HomePage extends Component {
   }
 
   render() {
-    if (!this.state.advertisements)
+    if (!this.state.listings)
       return (<LoadingNotification />);
 
     return (
@@ -45,13 +45,13 @@ export default class HomePage extends Component {
 
           <div className="uk-child-width-1-3@m" data-uk-grid>
             <div>
-              <a href="/advertisements/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buying / Seeking</a>
+              <a href="/listings/seek" className="uk-button uk-button-primary uk-button-large uk-width-1-1">Buying / Seeking</a>
             </div>
             <div>
-              <a href="/advertisements/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Selling / Offering</a>
+              <a href="/listings/offer" className="uk-button uk-button-danger uk-button-large uk-width-1-1">Selling / Offering</a>
             </div>
             <div>
-              <a href="/advertisements/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
+              <a href="/listings/add" className="uk-button button-success uk-button-large uk-width-1-1">Create New Listing</a>
             </div>
           </div>
 
@@ -82,7 +82,7 @@ export default class HomePage extends Component {
             <div className="uk-margin-medium-top uk-margin-medium-bottom uk-text-center">
               There are currently no listings available to show
             </div>
-            : <AdvertisementFeed advertisements={this.state.advertisements} />
+            : <ListingFeed listings={this.state.listings} />
           }
         </div>
 

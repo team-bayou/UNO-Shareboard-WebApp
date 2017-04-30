@@ -3,15 +3,15 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import Ad from '../components/advertisements/Advertisement';
+import Ad from '../components/listings/Listing';
 import LoadingNotification from '../components/LoadingNotification';
 
-export default class AdvertisementDetailsPage extends Component {
+export default class ListingDetailsPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      advertisement: null,
+      listing: null,
       numberOfReviews: 0,
 
       adNotFound: false
@@ -19,11 +19,11 @@ export default class AdvertisementDetailsPage extends Component {
   }
 
   componentDidMount() {
-    // Try to get an advertisement by id.
-    api.getAdvertisement(this.props.params.id, function(exists, response) {
+    // Try to get an listing by id.
+    api.getListing(this.props.params.id, function(exists, response) {
       if (exists && response) {
         this.setState({
-          advertisement: response.data,
+          listing: response.data,
         });
 
         // Try to get a list of the owner's reviews and extract only the number of reviews.
@@ -63,14 +63,14 @@ export default class AdvertisementDetailsPage extends Component {
         </div>
       );
 
-    if (!this.state.advertisement)
+    if (!this.state.listing)
       return (<LoadingNotification />);
 
     return (
       <div id="listing-details" className="app">
         <AppHeader />
         <div className="app-body uk-container">
-          <Ad key={this.state.advertisement.id} ad={this.state.advertisement} reviews={this.state.numberOfReviews}/>
+          <Ad key={this.state.listing.id} ad={this.state.listing} reviews={this.state.numberOfReviews}/>
         </div>
         <AppFooter />
       </div>

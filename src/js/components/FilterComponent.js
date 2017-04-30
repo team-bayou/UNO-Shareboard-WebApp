@@ -61,7 +61,7 @@ export default class FilterComponent extends Component {
       if (this.state.description)
         data.description = this.state.title;
 
-      let endpoint = '/advertisements/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
+      let endpoint = '/listings/search?page=' + data.page + '&title=' + data.title + '&adType=' + data.adType;
       if (!!data.description)
         endpoint = endpoint.concat('&description=' + data.title);
       if (!!data.categoryId)

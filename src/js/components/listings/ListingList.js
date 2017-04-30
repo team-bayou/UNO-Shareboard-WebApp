@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Ad from './AdvertisementListElement';
+import Ad from './ListingListElement';
 
-export default class AdvertisementList extends Component {
+export default class ListingList extends Component {
   render() {
-    var ads = this.props.advertisements.map(
+    var ads = this.props.listings.map(
       ad => <Ad key={ad.id} ad={ad} edit={this.props.edit}/>
     );
 

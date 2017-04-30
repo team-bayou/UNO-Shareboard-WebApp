@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-export default class AdvertisementFooter extends Component {
+export default class ListingBody extends Component {
   render() {
     return (
-      <div className="listing-footer uk-card-footer">
+      <div className="listing-body uk-card-body">
         {this.props.content}
       </div>
     );

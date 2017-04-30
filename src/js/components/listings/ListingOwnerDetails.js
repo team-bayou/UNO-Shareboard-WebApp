@@ -5,7 +5,7 @@ import placeholder from '../../../media/images/avatar_placeholder.png';
 const utils = require('../../utility/utilities');
 const constants = require('../../utility/constants');
 
-export default class AdvertisementOwnerDetails extends Component {
+export default class ListingOwnerDetails extends Component {
   render() {
     var routeToUser = "/users/" + this.props.owner.id;
     var routeToReviews = routeToUser + "/reviews";

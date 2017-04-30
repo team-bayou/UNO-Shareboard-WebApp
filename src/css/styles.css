@@ -197,7 +197,7 @@ blue with black
   height: 40px;
 }
 
-/* Advertisement */
+/* Listing */
 .listing-category {
   margin-right: 0.5em;
 }
@@ -317,9 +317,9 @@ blue with black
 
 /* Home Page */
 
-/* User Advertisements Page */
+/* User Listings Page */
 
-/* Add Advertisement Page */
+/* Add Listing Page */
 .new-listing-image-dropper {
   height: 150px;
   border: 1px dashed #666;
@@ -339,7 +339,7 @@ blue with black
 }
 
 
-/* Advertisement Details Page */
+/* Listing Details Page */
 
 .listing-item-ele {
   border-top: 1px solid #e5e5e5;

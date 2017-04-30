@@ -2,7 +2,7 @@ import utils from '../../utility/utilities';
 
 import React, { Component } from 'react';
 
-export default class AdvertisementTradeItem extends Component {
+export default class ListingTradeItem extends Component {
   constructor(props) {
     super(props);
 

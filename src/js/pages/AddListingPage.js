@@ -5,11 +5,11 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import AppHeader from '../components/AppHeader';
-import AdForm from '../components/advertisements/AdvertisementForm';
+import AdForm from '../components/listings/ListingForm';
 import AppFooter from '../components/AppFooter';
 import LoadingNotification from '../components/LoadingNotification';
 
-export default class AddAdvertisementPage extends Component {
+export default class AddListingPage extends Component {
   constructor(props) {
     super(props);
 
@@ -36,9 +36,9 @@ export default class AddAdvertisementPage extends Component {
       }
     }.bind(this));
 
-    // If user wants to edit his/her advertisement, fetch it by id.
+    // If user wants to edit his/her listing, fetch it by id.
     if (this.props.edit) {
-      api.getAdvertisement(this.props.id, function(exists, response) {
+      api.getListing(this.props.id, function(exists, response) {
         if (exists && response) {
           let ad = response.data;
           // Check if the current user is allowed to edit the requested ad, i.e.
@@ -61,7 +61,7 @@ export default class AddAdvertisementPage extends Component {
             }.bind(this));
           }
         } else {
-          browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/advertisements");
+          browserHistory.push("/users/" + utils.getCookie(constants.COOKIE_A) + "/listings");
         }
       }.bind(this));
     }

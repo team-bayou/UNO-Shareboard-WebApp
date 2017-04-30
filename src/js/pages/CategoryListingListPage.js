@@ -3,10 +3,10 @@ import api from '../utility/api';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import AdPageList from '../components/advertisements/AdvertisementPaginationList';
+import AdPageList from '../components/listings/ListingPaginationList';
 import LoadingNotification from '../components/LoadingNotification';
 
-export default class CategoryAdvertisementsPage extends Component {
+export default class CategoryListingsPage extends Component {
   constructor(props) {
     super(props);
 
@@ -14,7 +14,7 @@ export default class CategoryAdvertisementsPage extends Component {
       currentPage: this.props.params.page ? this.props.params.page : 1,
       pages: -1,
       category: "",
-      advertisements: [],
+      listings: [],
       totalNumAds: 0,
 
       problemLoadingPage: false
@@ -42,8 +42,8 @@ export default class CategoryAdvertisementsPage extends Component {
       }
     }.bind(this));
 
-    // Try to get a list of category's advertisements and extract length.
-    api.getCategoryAdvertisements(this.props.params.id, function(exists, response) {
+    // Try to get a list of category's listings and extract length.
+    api.getCategoryListings(this.props.params.id, function(exists, response) {
       if (exists && response) {
         let numOfAds = response.data.length;
         // Determine number of pages.
@@ -60,11 +60,11 @@ export default class CategoryAdvertisementsPage extends Component {
       }
     }.bind(this));
 
-    // Try to get a list of category's advertisements by page number.
-    api.getCategoryAdvertisementsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
+    // Try to get a list of category's listings by page number.
+    api.getCategoryListingsByPage(this.props.params.id, this.state.currentPage, function(exists, response) {
       if (exists && response) {
         this.setState({
-          advertisements: response.data
+          listings: response.data
         });
       } else {
         this.setState({
@@ -92,7 +92,7 @@ export default class CategoryAdvertisementsPage extends Component {
         </div>
       );
 
-    if (this.state.pages < 0 || !this.state.advertisements)
+    if (this.state.pages < 0 || !this.state.listings)
       return (<LoadingNotification />);
 
     if (this.state.pages === 0)
@@ -114,8 +114,8 @@ export default class CategoryAdvertisementsPage extends Component {
         <AppHeader />
         <div className="app-body uk-container">
           <h2 className="uk-heading-line uk-text-center"><span>{"Current Listings : \"" + this.state.category + "\" (" + this.state.totalNumAds + ")"}</span></h2>
-          <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)}
-            currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/categories/" + this.props.params.id}/>
+          <AdPageList listings={this.state.listings} pages={parseInt(this.state.pages, 10)}
+            currentPage={parseInt(this.state.currentPage, 10)} resource={"listings/categories/" + this.props.params.id}/>
         </div>
         <AppFooter />
       </div>

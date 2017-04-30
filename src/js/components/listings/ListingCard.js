@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import AdTradeItem from './AdvertisementTradeItem';
-import AdHeader from './AdvertisementHeader';
-import AdMedia from './AdvertisementMedia';
-import AdBody from './AdvertisementBody';
-import AdFooter from './AdvertisementFooter';
+import AdTradeItem from './ListingTradeItem';
+import AdHeader from './ListingHeader';
+import AdMedia from './ListingMedia';
+import AdBody from './ListingBody';
+import AdFooter from './ListingFooter';
 import EditButton from '../buttons/EditButton';
 
-export default class AdvertisementCard extends Component {
+export default class ListingCard extends Component {
   render() {
     return (
       <div id={"listing-" + this.props.ad.id} className="listing">
@@ -14,7 +14,7 @@ export default class AdvertisementCard extends Component {
           {
             this.props.edit ?
               <div className="uk-card-badge" title="Edit Listing" data-uk-tooltip>
-                <EditButton href={"/advertisements/" + this.props.ad.id + "/edit"} />
+                <EditButton href={"/listings/" + this.props.ad.id + "/edit"} />
               </div>
               :
               ''
