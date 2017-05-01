@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import '../../css/styles.css';
 
 const utilities = require('../utility/utilities');
@@ -119,7 +118,7 @@ export default class UserVerificationForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields && this.usernameValid && (this.phone === "" || this.phoneNumberValid)) {
-      // perform form submission
+      this.refs.verifyuserbtn.setAttribute("disabled", "disabled");
 
       utilities.checkForExistingUsername(this.state.username, function(usernameExists) {
         if (usernameExists) {
@@ -127,6 +126,7 @@ export default class UserVerificationForm extends Component {
           this.setState({
             usernameStyle: this.inputInvalid
           });
+          this.refs.verifyuserbtn.removeAttribute("disabled");
         }
         else {
           this.usernameExists = false;
@@ -155,11 +155,13 @@ export default class UserVerificationForm extends Component {
               this.setState({
                 verifycodeStyle: this.inputInvalid
               });
+              this.refs.verifyuserbtn.removeAttribute("disabled");
             }
             else {
               this.setState({
                 verifyFailed: true
               });
+              this.refs.verifyuserbtn.removeAttribute("disabled");
             }
 
           }.bind(this));
@@ -213,7 +215,7 @@ export default class UserVerificationForm extends Component {
           <div className="uk-text-center">
             <h2 className="uk-heading-line uk-text-center"><span>Verification Complete</span></h2>
             <p>You have successfully verified your account.</p>
-            <p>You may now login with your account by clicking <Link to="/">here</Link>.</p>
+            <p>You may now login with your account by clicking <a href="/">here</a>.</p>
           </div>
         );
       }
@@ -235,13 +237,24 @@ export default class UserVerificationForm extends Component {
             <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
               <fieldset className="uk-fieldset">
                 <legend className="uk-legend uk-text-center">Verify Account</legend>
-
-                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-                <label className="uk-form-label label-invalid" hidden={!this.state.verifyFailed}>There was an error when attempting to verify your account. Please try again or contact us if the problem persists.</label>
-
+                {
+                  this.emptyFields ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+                  </div>
+                  : null
+                }
+                {
+                  this.state.verifyFailed ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> There was an error when attempting to verify your account<br />Please try again or contact us if the problem persists</p>
+                  </div>
+                  : null
+                }
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="verifycode">Verification Code <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code (required)" value={this.state.verifycode} onChange={this.handleInputChange} />
+                    <input id="verifycode" name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
                 </div>
@@ -253,34 +266,38 @@ export default class UserVerificationForm extends Component {
                 <legend className="uk-legend uk-text-center">Profile Information</legend>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="username">Username <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="username" className={this.state.usernameStyle} type="text" placeholder="Username (required)" value={this.state.username} onChange={this.handleInputChange} />
+                    <input id="username" name="username" className={this.state.usernameStyle} type="text" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.usernameValid}>Username is too short (minimum 3 characters)</label>
                   <label className="uk-form-label label-invalid" hidden={!this.usernameExists}>That username has already been taken</label>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="firstname">First Name</label>
                   <div className="uk-form-controls">
-                    <input name="firstname" className="uk-input" type="text" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} />
+                    <input id="firstname" name="firstname" className="uk-input" type="text" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange} />
                   </div>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="lastname">Last Name</label>
                   <div className="uk-form-controls">
-                    <input name="lastname" className="uk-input" type="text" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} />
+                    <input id="lastname" name="lastname" className="uk-input" type="text" placeholder="Last Name" value={this.state.lastname} onChange={this.handleInputChange} />
                   </div>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="phone">Phone Number</label>
                   <div className="uk-form-controls">
-                    <input name="phone" className={this.state.phoneStyle} type="tel" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+                    <input id="phone" name="phone" className={this.state.phoneStyle} type="tel" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.phoneNumberValid}>Not a valid phone number</label>
                 </div>
 
                 <div className="uk-margin">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
+                  <button ref="verifyuserbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Complete Registration</button>
                 </div>
 
               </fieldset>

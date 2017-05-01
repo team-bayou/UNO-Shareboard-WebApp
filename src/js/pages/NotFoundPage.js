@@ -4,9 +4,12 @@ import AppFooter from '../components/AppFooter';
 export default class NotFound extends Component {
   render() {
     return (
-      <div id="landing" className="app">
+      <div className="app">
+        <div className="app-header">
+          <h1 className="uk-heading uk-text-center"><a href="/" className="header-link">UNO Shareboard</a></h1>
+        </div>
         <div className="app-body uk-container">
-          <div className="landing-form uk-card uk-card-default uk-width-large uk-align-center">
+          <div className="landing-form uk-card uk-card-default center">
             <div className="uk-card-body">
               <div className="uk-text-center">
                 <h2 className="uk-heading-line uk-text-center"><span>Page Not Found</span></h2>

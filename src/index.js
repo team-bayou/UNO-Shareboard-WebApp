@@ -5,13 +5,13 @@ import { Router, Route, browserHistory } from 'react-router';
 import Landing from './js/pages/LandingPage';
 import UserVerificationPage from './js/pages/UserVerificationPage';
 import Home from './js/pages/HomePage';
-import OfferAdvertisements from './js/pages/OfferAdvertisementListPage';
-import SeekAdvertisements from './js/pages/SeekAdvertisementListPage';
-import AdvertisementDetails from './js/pages/AdvertisementDetailsPage';
-import UserAdvertisements from './js/pages/UserAdvertisementListPage';
-import CategoryAdvertisements from './js/pages/CategoryAdvertisementListPage';
-import AddAdvertisement from './js/pages/AddAdvertisementPage';
-import EditAdvertisement from './js/pages/EditAdvertisementPage';
+import OfferListings from './js/pages/OfferListingListPage';
+import SeekListings from './js/pages/SeekListingListPage';
+import ListingDetails from './js/pages/ListingDetailsPage';
+import UserListings from './js/pages/UserListingListPage';
+import CategoryListings from './js/pages/CategoryListingListPage';
+import AddListing from './js/pages/AddListingPage';
+import EditListing from './js/pages/EditListingPage';
 import SearchResultsPage from './js/pages/SearchResultsPage';
 import ReviewerReviews from './js/pages/ReviewerReviewsPage';
 import RevieweeReviews from './js/pages/RevieweeReviewsPage';
@@ -23,7 +23,6 @@ import EditProfile from './js/pages/EditProfilePage';
 import EditProfilePicture from './js/pages/EditProfilePicturePage';
 import ForgotPasswordPage from './js/pages/ForgotPasswordPage';
 import ResetPasswordPage from './js/pages/ResetPasswordPage';
-import ReportProblem from './js/pages/ReportProblemPage';
 import NotFound from './js/pages/NotFoundPage';
 import './css/styles.css';
 
@@ -61,18 +60,18 @@ ReactDOM.render((
     <Route path="profile/edit" component={EditProfile} onEnter={checkLoggedInStatus} />
     <Route path="profile/edit/picture" component={EditProfilePicture} onEnter={checkLoggedInStatus} />
     <Route path="users/:id" component={Profile} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/seek" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/seek/page/:page" component={SeekAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/offer" component={OfferAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/offer/page/:page" component={OfferAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/add" component={AddAdvertisement} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/categories/:id" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/categories/:id/page/:page" component={CategoryAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/search" component={SearchResultsPage} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/:id" component={AdvertisementDetails} onEnter={checkLoggedInStatus} />
-    <Route path="advertisements/:id/edit" component={EditAdvertisement} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/advertisements" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
-    <Route path="users/:id/advertisements/page/:page" component={UserAdvertisements} onEnter={checkLoggedInStatus} />
+    <Route path="listings/seek" component={SeekListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/seek/page/:page" component={SeekListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/offer" component={OfferListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/offer/page/:page" component={OfferListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/add" component={AddListing} onEnter={checkLoggedInStatus} />
+    <Route path="listings/categories/:id" component={CategoryListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/categories/:id/page/:page" component={CategoryListings} onEnter={checkLoggedInStatus} />
+    <Route path="listings/search" component={SearchResultsPage} onEnter={checkLoggedInStatus} />
+    <Route path="listings/:id" component={ListingDetails} onEnter={checkLoggedInStatus} />
+    <Route path="listings/:id/edit" component={EditListing} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/listings" component={UserListings} onEnter={checkLoggedInStatus} />
+    <Route path="users/:id/listings/page/:page" component={UserListings} onEnter={checkLoggedInStatus} />
     <Route path="reviews/:id/edit" component={EditReview} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
     <Route path="reviews/reviewer/:id/page/:page" component={ReviewerReviews} onEnter={checkLoggedInStatus} />
@@ -81,7 +80,6 @@ ReactDOM.render((
     <Route path="users/:id/reviews" component={RevieweeReviews} onEnter={checkLoggedInStatus} />
     <Route path="users/:id/reviews/add" component={AddReview} onEnter={checkLoggedInStatus} />
     <Route path="admin" component={Admin} onEnter={checkAdmin} />
-    <Route path="reportproblem" component={ReportProblem} />
     <Route path="logout" onEnter={logout} />
     <Route path="forgotpassword" component={ForgotPasswordPage} onEnter={checkLoggedInStatus} />
     <Route path="resetpassword" component={ResetPasswordPage} onEnter={checkLoggedInStatus} />

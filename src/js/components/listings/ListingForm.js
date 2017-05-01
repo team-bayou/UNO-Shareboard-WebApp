@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import Dropzone from 'react-dropzone';
+import $ from 'jquery';
 
-const constants = require('../../utility/constants');
+import constants from '../../utility/constants';
+import utils from '../../utility/utilities';
 
-export default class AdvertisementForm extends Component {
-  constructor(props){
+export default class ListingForm extends Component {
+  constructor(props) {
     super(props);
 
     this.emptyFields = false;
@@ -17,6 +19,8 @@ export default class AdvertisementForm extends Component {
     this.radioLabelInvalid = "label-invalid";
     this.radioValid = "uk-radio";
     this.radioInvalid = "uk-radio radio-invalid";
+
+    this.errorMsg = "";
 
     this.state = {
       id: this.props.ad ? this.props.ad.id : '',
@@ -34,6 +38,8 @@ export default class AdvertisementForm extends Component {
       radioLabelStyle: this.radioLabelValid,
       adTypeStyle: this.radioValid,
 
+      submissionFailed: false,
+
       existingImages: this.props.ad ? this.props.ad.imageIDs : [],
       newImages: []
     };
@@ -43,6 +49,7 @@ export default class AdvertisementForm extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onDropRejected = this.onDropRejected.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.deleteListing = this.deleteListing.bind(this);
   }
 
   handleInputChange(event) {
@@ -60,13 +67,43 @@ export default class AdvertisementForm extends Component {
     this.resetError(name, value);
   }
 
-  handleSubmit(event){
+  handleSubmit(event) {
     event.preventDefault();
-
     this.checkForEmptyFields();
 
-    if (!this.emptyFields){
-      this.props.handleSubmit(this.state);
+    if (!this.emptyFields) {
+      this.refs.submitlistingbtn.setAttribute("disabled", "disabled");
+
+      if (!this.props.edit) {
+        utils.addNewListing(this.state, function(exists, response) {
+          if (exists && response) {
+            browserHistory.push("/listings/" + response.data);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when creating your listing. Please try again, or contact us if the problem continues.";
+            this.refs.submitlistingbtn.removeAttribute("disabled");
+            $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
+          }
+        }.bind(this));
+      }
+      else {
+        utils.updateListing(this.state, function(exists, response) {
+          if (exists && response) {
+            browserHistory.push("/listings/" + this.state.id);
+          }
+          else {
+            this.setState({
+              submissionFailed: true
+            });
+            this.errorMsg = "There was a problem when updating your listing. Please try again, or contact us if the problem continues.";
+            this.refs.submitlistingbtn.removeAttribute("disabled");
+            $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
+          }
+        }.bind(this));
+      }
     }
   }
 
@@ -75,6 +112,7 @@ export default class AdvertisementForm extends Component {
 
     if (data.title === '' || data.category === '' || data.adType === '') {
       this.emptyFields = true;
+      $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
     } else {
       this.emptyFields = false;
     }
@@ -96,13 +134,13 @@ export default class AdvertisementForm extends Component {
   //   check for errors on.
   resetError(name, value) {
     let style;
-    if (name === 'title'){
+    if (name === 'title') {
       style = value === '' ? this.inputInvalid : this.inputValid;
     }
-    else if (name === 'category'){
+    else if (name === 'category') {
       style = value === '' ? this.selectInvalid : this.selectValid;
     }
-    else if (name === 'adType'){
+    else if (name === 'adType') {
       style = value === '' ? this.radioLabelInvalid : this.radioLabelValid;
       this.setState({
         radioLabelStyle: style
@@ -127,7 +165,11 @@ export default class AdvertisementForm extends Component {
   }
 
   onDropRejected(files) {
-
+    this.setState({
+      dropRejected: true
+    });
+    this.errorMsg = "You can only upload images";
+    $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
   }
 
   removeImage(event) {
@@ -140,6 +182,23 @@ export default class AdvertisementForm extends Component {
       this.state.existingImages.splice(index, 1);
     }
     this.setState({}); // We call an empty setState just to force a re-render
+  }
+
+  deleteListing() {
+    this.refs.deletelistingbtn.setAttribute("disabled", "disabled");
+    utils.deleteListing(this.state.id, function(success, response) {
+      if (success) {
+        window.location.reload();
+      }
+      else {
+        this.setState({
+          submissionFailed: true
+        });
+        this.errorMsg = "There was a problem deleting this listing. Please try again, or contact us if the problem continues.";
+        this.refs.deletelistingbtn.removeAttribute("disabled");
+        $('html, body').animate({ scrollTop: $("#addlistingheader").offset().top - 25 }, 'fast');
+      }
+    }.bind(this));
   }
 
   render() {
@@ -168,13 +227,20 @@ export default class AdvertisementForm extends Component {
     return (
       <div>
 
-        <div>
-          <div className="uk-width-1-1 uk-text-center">
-            <div className="uk-margin">
-              <label className="uk-form-label label-invalid" htmlFor="ad-title" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-            </div>
+        {
+          this.emptyFields ?
+          <div className="uk-alert-danger uk-text-center" data-uk-alert>
+            <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
           </div>
-        </div>
+          : null
+        }
+        {
+          this.state.submissionFailed || this.state.dropRejected ?
+          <div className="uk-alert-danger uk-text-center" data-uk-alert>
+            <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+          </div>
+          : null
+        }
 
         <div className="uk-grid uk-margin-medium-bottom" data-uk-grid>
           <div className="uk-width-1-4@m">
@@ -206,10 +272,10 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-title">Title</label>
+                  <label className="uk-form-label form-label" htmlFor="ad-title">Title <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input className={this.state.titleStyle} id="ad-title" type="text"
-                      placeholder="The title of your advertisement" name="title"
+                    <input className={this.state.titleStyle} id="listing-title" type="text"
+                      placeholder="The title of your listing" name="title"
                       value={this.state.title} onChange={this.handleInputChange}/>
                   </div>
                 </div>
@@ -219,9 +285,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-description">Description</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-description">Description</label>
                   <div className="uk-form-controls">
-                    <textarea className="uk-textarea" id="ad-description"
+                    <textarea className="uk-textarea" id="listing-description"
                       placeholder="The description of the item you're seeking / offering" name="description"
                       value={this.state.description} onChange={this.handleInputChange}/>
                   </div>
@@ -232,9 +298,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-categories">Category</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-categories">Category <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <select className={this.state.categoryStyle} id="ad-categories" name="category"
+                    <select className={this.state.categoryStyle} id="listing-categories" name="category"
                       defaultValue={this.state.category ? this.state.category : "-1"} onChange={this.handleInputChange}>
                       <option disabled value="-1"> -- Select a category -- </option>
                       {this.props.categories}
@@ -246,8 +312,8 @@ export default class AdvertisementForm extends Component {
 
             <div>
               <div className="uk-margin">
-                <div className="uk-form-label form-label">What kind of ad is this?</div>
-                <div className="ad-type uk-form-controls">
+                <div className="uk-form-label form-label">What kind of listing is this? <span className="label-invalid">*</span></div>
+                <div className="listing-type uk-form-controls">
                   <label className={this.state.radioLabelStyle}>
                     <input className={this.state.adTypeStyle} type="radio" name="adType"
                       value="offer" onChange={this.handleInputChange}
@@ -275,9 +341,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-price">Price</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-price">Price</label>
                   <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-price" type="number" step="0.01"
+                    <input className="uk-input" id="listing-price" type="number" step="0.01"
                       placeholder="Amount you want / are offering in dollars" name="price"
                       value={this.state.price} onChange={this.handleInputChange}/>
                   </div>
@@ -288,9 +354,9 @@ export default class AdvertisementForm extends Component {
             <div>
               <div className="uk-width-1-1">
                 <div className="uk-margin">
-                  <label className="uk-form-label form-label" htmlFor="ad-trade-item">Trade Item</label>
+                  <label className="uk-form-label form-label" htmlFor="listing-trade-item">Trade Item</label>
                   <div className="uk-form-controls">
-                    <input className="uk-input" id="ad-trade-item" type="text"
+                    <input className="uk-input" id="listing-trade-item" type="text"
                       placeholder="An item you want / are offering as trade" name="tradeItem"
                       value={this.state.tradeItem} onChange={this.handleInputChange}/>
                   </div>
@@ -299,17 +365,35 @@ export default class AdvertisementForm extends Component {
             </div>
 
             <div>
-              <div className="uk-width-1-4 uk-align-center">
+              <div className="uk-width-1-3@s uk-width-1-4@m uk-align-center">
                 <div className="uk-margin-medium-top">
-                  <button className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
+                  <button ref="submitlistingbtn" className="button-success uk-button uk-button-large uk-width-1-1" type="submit" value="Submit">Submit</button>
                 </div>
-                <div className="uk-margin-small-top">
-                  <a onClick={browserHistory.goBack} className="uk-button uk-button-danger uk-button-large uk-width-1-1">Cancel</a>
-                </div>
+                {
+                  this.props.edit ?
+                  <div className="uk-margin-small-top">
+                    <a href="#confirm-delete-listing" className="uk-button uk-button-secondary uk-button-large uk-width-1-1" data-uk-toggle>Delete Listing</a>
+                  </div>
+                  : null
+                }
+
               </div>
             </div>
           </fieldset>
         </form>
+        {
+          this.props.edit ?
+          <div id="confirm-delete-listing" data-uk-modal="center: true">
+            <div className="uk-modal-dialog uk-modal-body uk-text-center">
+              <p>Are you sure you want to delete this listing?<br />This cannot be undone.</p>
+              <p className="uk-text-right">
+                <button ref="deletelistingbtn" className="uk-button uk-button-secondary" type="button" onClick={this.deleteListing}>Yes</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
+              </p>
+            </div>
+          </div>
+          : null
+        }
       </div>
     );
   }

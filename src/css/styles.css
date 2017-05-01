@@ -145,6 +145,20 @@ blue with black
 /*****************************************
  * COMPONENTS
  *****************************************/
+
+.center-page {
+  position:absolute;
+  top:50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+	right: 0;
+}
+
+
 /* NavBar */
 #navbar {
   background-color: #f8f8f8;
@@ -178,19 +192,34 @@ blue with black
   width: 300px;
 }
 
-/* Advertisement */
-.ad-category {
+.small-profile-image {
+  width: 40px;
+  height: 40px;
+}
+
+/* Listing */
+.listing-category {
   margin-right: 0.5em;
 }
 
-.ad-category:active,
-.ad-category:focus,
-.ad-category:hover {
+.listing-category:active,
+.listing-category:focus,
+.listing-category:hover {
   color: white;
   text-decoration: none;
 }
 
-.ad-images {
+.listing-media {
+  height: 280px;
+  overflow-y: hidden;
+}
+
+.ad-owner-image {
+  width: 80px;
+  height: 80px;
+}
+
+.listing-images {
   border-bottom: 1px solid #e5e5e5;
 }
 
@@ -249,17 +278,20 @@ blue with black
 /* Landing Page */
 #landing {
   position:absolute;
-  /*width: 100%;*/
   top:50%;
-  left:50%;
-  -ms-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+	right: 0;
 }
 
 .landing-form {
   box-shadow: none;
   border: 1px solid #000000;
+  max-width: 500px;
 }
 
 .landing-header {
@@ -285,9 +317,9 @@ blue with black
 
 /* Home Page */
 
-/* User Advertisements Page */
+/* User Listings Page */
 
-/* Add Advertisement Page */
+/* Add Listing Page */
 .new-listing-image-dropper {
   height: 150px;
   border: 1px dashed #666;
@@ -307,34 +339,64 @@ blue with black
 }
 
 
-/* Advertisement Details Page */
-.ad-item span {
-  border-radius: 2px;
-  color: #E77600;
-  display: inline-block;
-  line-height: 1.5;
-  text-transform: uppercase;
-  vertical-align: middle;
+/* Listing Details Page */
+
+.listing-item-ele {
+  border-top: 1px solid #e5e5e5;
 }
 
-#ad-details .ad-owner-contact .uk-icon-button {
+.listing-item {
+  font-weight: bold;
+}
+
+.listing-item span {
+  color: #E77600;
+  text-transform: uppercase;
+}
+
+.listing-link {
+  /*
+  display: block;
+  color: #999;
+  font-size: .875rem;
+  text-transform: uppercase;
+  -webkit-transition: .1s ease-in-out;
+  transition: .1s ease-in-out;
+  -webkit-transition-property: color,background-color;
+  transition-property: color,background-color;
+  */
+  color: #999;
+  text-decoration: none;
+}
+
+.listing-link:hover,
+.listing-link:focus {
+  /*
+  color: #666;
+  text-decoration: none;
+  */
+  color: #666;
+  text-decoration: none;
+}
+
+#listing-details .listing-owner-contact .uk-icon-button {
   color: white;
   display: inherit;
 }
 
-#ad-details .ad-owner-email {
+#listing-details .listing-owner-email {
   background-color: #f4c20d;
 }
 
-#ad-details .ad-owner-phone {
+#listing-details .listing-owner-phone {
   background-color: #4dc247;
 }
 
-#ad-details .ad-owner-facebook {
+#listing-details .listing-owner-facebook {
   background-color: #3b5998;
 }
 
-#ad-details .ad-owner-twitter {
+#listing-details .listing-owner-twitter {
   background-color: #55acee;
 }
 

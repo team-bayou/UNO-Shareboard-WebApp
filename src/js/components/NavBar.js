@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import utils from '../utility/utilities';
 import constants from '../utility/constants';
 import api from '../utility/api';
-import logo from '../../media/images/logo.svg';
 import avatar from '../../media/images/avatar_placeholder.png';
 
 export default class NavBar extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -30,10 +29,10 @@ export default class NavBar extends Component {
     }.bind(this));
   }
 
-  render(){
+  render() {
     // Get user id from cookie.
     var id = utils.getCookie(constants.COOKIE_A);
-    var routeToUserAds = "/users/" + id + "/advertisements";
+    var routeToUserAds = "/users/" + id + "/listings";
     var routeToUserReviewsReviewer = "/reviews/reviewer/" + id;
     var routeToUserReviewsReviewee = "/reviews/reviewee/" + id;
 
@@ -51,9 +50,8 @@ export default class NavBar extends Component {
         */}
         <nav id="navbar" className="uk-navbar-container uk-visible@m" data-uk-navbar="mode: click" data-uk-sticky>
           <div className="uk-navbar-left">
-            <img className="uk-navbar-item uk-logo" alt="Logo" src={logo}/>
             <ul className="uk-navbar-nav">
-              <li>
+              <li className="uk-margin-large-left">
                 <a href="/home">
                   <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: home"></span>
                   Home
@@ -67,15 +65,15 @@ export default class NavBar extends Component {
                 <div className="navbar-listings uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
                     <li>
-                      <a href="/advertisements/seek">
+                      <a href="/listings/seek">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: search"></span>
-                        Buy / Seek
+                        Buying / Seeking
                       </a>
                     </li>
                     <li>
-                      <a href="/advertisements/offer">
+                      <a href="/listings/offer">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: credit-card"></span>
-                        Sell / Offer
+                        Selling / Offering
                       </a>
                     </li>
                     <li className="uk-nav-divider"></li>
@@ -84,7 +82,7 @@ export default class NavBar extends Component {
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: bookmark"></span>
                         My Listings
                       </a>
-                      <a href="/advertisements/add">
+                      <a href="/listings/add">
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: file-edit"></span>
                         Create New Listing
                       </a>
@@ -102,13 +100,13 @@ export default class NavBar extends Component {
                     <li>
                       <a href={routeToUserReviewsReviewer}>
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: comments"></span>
-                        My submitted Reviews
+                        My Submitted Reviews
                       </a>
                     </li>
                     <li>
                       <a href={routeToUserReviewsReviewee}>
                         <span className="uk-icon uk-margin-small-right" data-uk-icon="icon: comments"></span>
-                        My received Reviews
+                        My Received Reviews
                       </a>
                     </li>
                   </ul>
@@ -131,7 +129,7 @@ export default class NavBar extends Component {
               <li>
                 <a>
                   <span className="uk-margin-small-right">My Account</span>
-                  <img className="uk-border-circle uk-margin-small-right" width="40" height="40" src={profileImage} alt=""/>
+                  <img className="uk-border-circle uk-margin-small-right small-profile-image" width="40" height="40" src={profileImage} alt=""/>
                 </a>
                 <div className="uk-navbar-dropdown">
                   <ul className="uk-nav uk-navbar-dropdown-nav">
@@ -181,10 +179,10 @@ export default class NavBar extends Component {
                       <li className="uk-nav-header">Listings</li>
                       <li className="uk-parent">
                         <ul className="uk-nav-sub">
-                          <li><a href="/advertisements/seek"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buy / Seek</a></li>
-                          <li><a href="/advertisements/offer"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Sell / Offer</a></li>
+                          <li><a href="/listings/seek"><span className="uk-margin-small-right" data-uk-icon="icon: search"></span>Buying / Seeking</a></li>
+                          <li><a href="/listings/offer"><span className="uk-margin-small-right" data-uk-icon="icon: credit-card"></span>Selling / Offering</a></li>
                           <li><a href={routeToUserAds}><span className="uk-margin-small-right" data-uk-icon="icon: bookmark"></span>My Listings</a></li>
-                          <li><a href="/advertisements/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
+                          <li><a href="/listings/add"><span className="uk-margin-small-right" data-uk-icon="icon: file-edit"></span>Create Listing</a></li>
                         </ul>
                       </li>
 

@@ -17,6 +17,7 @@ export default class EditProfileForm extends Component {
     this.inputInvalid = "uk-input uk-form-danger";
 
     this.errorMsg = "";
+    this.dropErrorMsg = "";
 
     this.state = {
       image: null,
@@ -32,7 +33,6 @@ export default class EditProfileForm extends Component {
 
   onDrop(files) {
     var file = files[0];
-    console.log(file);
     this.setState({
       image: file,
       dropRejected: false
@@ -40,16 +40,16 @@ export default class EditProfileForm extends Component {
   }
 
   onDropRejected(files) {
-    /*
-    console.log("Rejected file type");
     this.setState({
       dropRejected: true
     });
-    */
+    this.dropErrorMsg = "Only images are allowed to be uploaded";
     //UIkit.notification("Only images allowed", {status:'danger'}) // We can use these now. Let's consider it.
   }
 
   deleteProfilePicture() {
+    this.refs.deleteimagebtn.setAttribute("disabled", "disabled");
+
     this.setState({
       updateFailed: false
     });
@@ -65,6 +65,7 @@ export default class EditProfileForm extends Component {
         this.setState({
           updateFailed: true
         });
+        this.refs.deleteimagebtn.removeAttribute("disabled");
       }
     }.bind(this));
   }
@@ -77,6 +78,8 @@ export default class EditProfileForm extends Component {
     });
 
     if (!!this.state.image) {
+      this.refs.uploadimagebtn.setAttribute("disabled", "disabled");
+
       var data = new FormData();
       data.append("description", this.props.user.accountName + "'s Profile Picture");
       data.append("owner", utils.getCookie(constants.COOKIE_A));
@@ -98,6 +101,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             updateFailed: true
           });
+          this.refs.uploadimagebtn.removeAttribute("disabled");
         }
       }.bind(this));
     }
@@ -111,7 +115,16 @@ export default class EditProfileForm extends Component {
           this.state.updateFailed ?
           <div className="uk-text-center" data-uk-grid>
             <div className="uk-width-1-1 uk-alert-danger uk-text-center" data-uk-alert>
-              <p>{this.errorMsg}</p>
+              <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+            </div>
+          </div>
+          : null
+        }
+        {
+          this.state.dropRejected ?
+          <div className="uk-text-center" data-uk-grid>
+            <div className="uk-width-1-1 uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> {this.dropErrorMsg}</p>
             </div>
           </div>
           : null
@@ -137,7 +150,7 @@ export default class EditProfileForm extends Component {
                   Drag and drop or click to select an image to upload
                 </div>
               </Dropzone>
-              <button className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload"><span data-uk-icon="icon: upload"></span> Upload</button>
+              <button ref="uploadimagebtn" className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload"><span data-uk-icon="icon: upload"></span> Upload</button>
             </div>
           </div>
 
@@ -157,7 +170,7 @@ export default class EditProfileForm extends Component {
             <h2 className="uk-modal-title">Delete Profile Picture</h2>
             <p>Are you sure you want to delete your profile picture?</p>
             <p className="uk-text-right">
-              <button className="uk-button uk-button-secondary" type="button" value="Yes" onClick={this.deleteProfilePicture}>Yes</button>
+              <button ref="deleteimagebtn" className="uk-button uk-button-secondary" type="button" value="Yes" onClick={this.deleteProfilePicture}>Yes</button>
               <button className="uk-button uk-button-default uk-modal-close" type="button" value="No">No</button>
             </p>
           </div>

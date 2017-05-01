@@ -14,9 +14,11 @@ export default class EditCategories extends Component {
       showColorPicker: false,
       colorPickerStartColor: "#FFFFFF",
 
-      newcatcolor: '',
+      newcatcolor: '#FFFFFF',
       newcattitle: '',
-      newcatdesc: ''
+      newcatdesc: '',
+
+      submitFailed: false
     }
 
     this.catToDelete = -1;
@@ -24,6 +26,8 @@ export default class EditCategories extends Component {
 
     this.catColorTarget = -1;
     this.newColor = "";
+
+    this.errorMsg = "";
 
     this.performDelete = this.performDelete.bind(this);
     this.setDeleteTarget = this.setDeleteTarget.bind(this);
@@ -85,21 +89,24 @@ export default class EditCategories extends Component {
       this.setState({
         [catid]: this.newColor
       });
-      console.log(catid);
     }
     this.closeColorPicker(event);
   }
 
   performDelete(event) {
     event.preventDefault();
+    this.refs.deletecategorybtn.setAttribute("disabled", "disabled");
 
     api.deleteCategory(this.catToDelete, function(success, response) {
       if (success) {
         window.location.reload();
       }
       else {
-        console.log("There was a problem deleting the category:");
-        console.log(response);
+        this.setState({
+          submitFailed: true
+        });
+        this.errorMsg = "There was a problem deleting the category";
+        this.refs.deletecategorybtn.removeAttribute("disabled");
       }
     });
   }
@@ -157,15 +164,21 @@ export default class EditCategories extends Component {
       }
     }
 
+    if (updates.length > 0)
+      this.refs.editcategorybtn.setAttribute("disabled", "disabled");
+
     utils.updateCategories(updates, function(success, response) {
       if (success) {
         window.location.reload();
       }
       else {
-        console.log("There was a problem updating the category/ies");
-        console.log(response);
+        this.setState({
+          submitFailed: true
+        });
+        this.errorMsg = "There was a problem updating the category/ies";
+        this.refs.editcategorybtn.removeAttribute("disabled");
       }
-    });
+    }.bind(this));
   }
 
   addNewCategory(event) {
@@ -184,10 +197,12 @@ export default class EditCategories extends Component {
           window.location.reload();
         }
         else {
-          console.log("There was a problem adding the category:");
-          console.log(response);
+          this.setState({
+            submitFailed: true
+          });
+          this.errorMsg = "There was a problem adding the new category";
         }
-      });
+      }.bind(this));
     }
   }
 
@@ -210,7 +225,7 @@ export default class EditCategories extends Component {
             <a id={"cat" + cat.id} href="#confirm-delete-category" className="cross-icon" data-uk-icon="icon: close; ratio: 1.5" onClick={this.setDeleteTarget} data-uk-toggle title="Delete Category" data-uk-tooltip></a>
           </td>
           <td className="uk-text-center uk-text-nowrap uk-table-link">
-            <a href={"/advertisements/categories/" + cat.id} className="uk-link-reset" title="View Category" data-uk-tooltip>{cat.id}</a>
+            <a href={"/listings/categories/" + cat.id} className="uk-link-reset" title="View Category" data-uk-tooltip>{cat.id}</a>
           </td>
           <td name={"catcolorbg" + cat.id} className="uk-table-link" style={{backgroundColor: cat.color}}>
             <a name={"catcolor" + cat.id} className="uk-link-reset" onClick={this.setColorTarget} title="Change Color" data-uk-tooltip>&nbsp;</a>
@@ -226,6 +241,13 @@ export default class EditCategories extends Component {
 
       return (
         <div className="uk-overflow-auto">
+          {
+            this.state.submitFailed ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> {this.errorMsg}</p>
+            </div>
+            : null
+          }
           <table className="uk-table uk-table-small uk-table-middle">
             <thead>
               <tr>
@@ -255,7 +277,7 @@ export default class EditCategories extends Component {
               </tr>
               <tr>
                 <td colSpan="5">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
+                  <button ref="editcategorybtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="button" value="Save Changes" onClick={this.submitCategoryEdit}>Save Changes</button>
                 </td>
               </tr>
             </tbody>
@@ -265,7 +287,7 @@ export default class EditCategories extends Component {
             <div className="uk-modal-dialog uk-modal-body uk-text-center">
               <p>Are you sure you want to delete this category?<br />This cannot be undone.</p>
               <p className="uk-text-right">
-                <button className="uk-button uk-button-secondary" type="button" onClick={this.performDelete}>Yes</button>
+                <button ref="deletecategorybtn" className="uk-button uk-button-secondary" type="button" onClick={this.performDelete}>Yes</button>
                 <button className="uk-button uk-button-default uk-modal-close" type="button">No</button>
               </p>
             </div>

@@ -6,9 +6,12 @@ import '../../css/styles.css';
 export default class UserVerificationPage extends Component {
   render() {
     return (
-      <div id="landing" className="app">
+      <div className="app">
+        <div className="app-header">
+          <h1 className="uk-heading uk-text-center"><a href="/" className="header-link">UNO Shareboard</a></h1>
+        </div>
         <div className="app-body uk-container">
-          <div className="landing-form uk-card uk-card-default uk-width-large uk-align-center">
+          <div className="landing-form uk-card uk-card-default center">
             <div className="uk-card-body">
               <UserVerificationForm email={this.props.location.query.email} />
             </div>

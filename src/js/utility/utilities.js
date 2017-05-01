@@ -70,7 +70,7 @@ module.exports = {
     const phone = this.validatePhone(num);
 
     if (!phone.isValid)
-      return null;
+      return num;
 
     const number = phone.number.toString();
     if (number.length === 11) {
@@ -453,7 +453,7 @@ module.exports = {
       title: data.title,
       description: data.description,
       categoryId: data.category,
-      ownerId: data.owner,
+      ownerId: !!data.owner ? data.owner : this.getCookie(constants.COOKIE_A),
       timePublished: data.timePublished,
       expirationDate: data.expirationDate,
       adType: data.adType,
@@ -469,7 +469,7 @@ module.exports = {
           counter++;
           toSend.imageIDsStr.push(response.data + "");
           if (counter === data.newImages.length) {
-            api.addAdvertisement(toSend, function(success, response) {
+            api.addListing(toSend, function(success, response) {
               callback(success, response);
             });
           }
@@ -482,13 +482,13 @@ module.exports = {
       for (var i = 0; i < data.newImages.length; i++) {
         var imgData = new FormData();
         imgData.append("description", "");
-        imgData.append("owner", parseInt(data.owner, 10));
+        imgData.append("owner", parseInt(toSend.ownerId, 10));
         imgData.append("image_data", data.newImages[i]);
         api.uploadImage(imgData, cb);
       }
     }
     else {
-      api.addAdvertisement(toSend, function(success, response) {
+      api.addListing(toSend, function(success, response) {
         callback(success, response);
       });
     }
@@ -513,12 +513,12 @@ module.exports = {
 
     // Get our listing as it currently exists in the database so that we can
     // compare our new `existing image array` to the one currently in the database
-    api.getAdvertisement(data.id, function(success, response) {
+    api.getListing(data.id, function(success, response) {
       if (success) {
 
         // If there were no images on the listing and we haven't added any new ones, just update the listing
         if (response.data.imageIDs.length < 1 && data.existingImages.length < 1 && data.newImages.length < 1) {
-          api.updateAdvertisement(toSend, function(success, response) {
+          api.updateListing(toSend, function(success, response) {
             callback(success, response);
           });
         }
@@ -551,7 +551,7 @@ module.exports = {
                   for (let i = 0; i < newImageIDs.length; i++)
                     toSend.imageIDsStr.push(newImageIDs[i]);
 
-                  api.updateAdvertisement(toSend, function(success, response) {
+                  api.updateListing(toSend, function(success, response) {
                     if (toRemove.length < 1) callback(success, response);
                     else {
                       if (success) deleteImages(toRemove, callback);
@@ -575,7 +575,7 @@ module.exports = {
           }
 
           else {
-            api.updateAdvertisement(toSend, function(success, response) {
+            api.updateListing(toSend, function(success, response) {
               if (toRemove.length < 1) callback(success, response);
               else {
                 if (success) deleteImages(toRemove, callback);
@@ -592,13 +592,46 @@ module.exports = {
     });
   },
 
-  getPrice: function(ad){
+  deleteListing: function(id, callback) {
+    api.getListing(id, function(success, response) {
+      if (success) {
+        var ad = response.data;
+
+        if (ad.imageIDs.length > 0) {
+          let counter = 0;
+          let cb = function(success, response) {
+            if (success) {
+              counter++;
+              if (counter === ad.imageIDs.length) {
+                api.deleteListing(id, callback);
+              }
+            }
+            else {
+              callback(false, response);
+            }
+          };
+
+          for (let i = 0; i < ad.imageIDs.length; i++) {
+            api.deleteImage(ad.imageIDs[i], cb);
+          }
+        }
+        else {
+          api.deleteListing(id, callback);
+        }
+      }
+      else {
+        callback(false, response);
+      }
+    });
+  },
+
+  getPrice: function(ad) {
     if (ad.price)
       return '$' + ad.price;
     return 'Free';
   },
 
-  getDateTime: function(ad){
+  getDateTime: function(ad) {
     var t = new Date(ad.timePublished);
     return t.toLocaleDateString();
   },

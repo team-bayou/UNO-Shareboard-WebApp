@@ -4,16 +4,17 @@ import utils from '../utility/utilities';
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
-import AdPageList from '../components/advertisements/AdvertisementPaginationList';
+import AdPageList from '../components/listings/ListingPaginationList';
+import LoadingNotification from '../components/LoadingNotification';
 
 export default class SearchResultsPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       currentPage: 1,
       pages: -1,
-      advertisements: [],
+      listings: [],
       totalNumAds: 0,
 
       noResultsFound: false
@@ -54,7 +55,7 @@ export default class SearchResultsPage extends Component {
           api.search(data, function(success, response) {
             if (success) {
               this.setState({
-                advertisements: response.data
+                listings: response.data
               });
             }
             else {
@@ -82,11 +83,16 @@ export default class SearchResultsPage extends Component {
           <AppHeader />
           <div className="app-body uk-container">
             <h2 className="uk-heading-line uk-text-center"><span>{"Search Results (0)"}</span></h2>
-            <p className="uk-margin-large-top uk-margin-large-bottom uk-text-center">Your search returned no listings.</p>
+            <p className="uk-margin-large-top uk-margin-small-bottom uk-text-center">Your search returned no listings</p>
+            <p className="uk-margin-small-top uk-margin-large-bottom uk-text-center"><a href={"/listings/" + this.props.location.query.adType}>Search again</a></p>
           </div>
           <AppFooter />
         </div>
       );
+    }
+
+    else if (this.state.pages < 0) {
+      return (<LoadingNotification />);
     }
 
     else {
@@ -95,7 +101,7 @@ export default class SearchResultsPage extends Component {
           <AppHeader />
           <div className="app-body uk-container">
             <h2 className="uk-heading-line uk-text-center"><span>{"Search Results (" + this.state.totalNumAds + ")"}</span></h2>
-            <AdPageList advertisements={this.state.advertisements} pages={parseInt(this.state.pages, 10)} currentPage={parseInt(this.state.currentPage, 10)} resource={"advertisements/" + this.props.adType}/>
+            <AdPageList listings={this.state.listings} pages={parseInt(this.state.pages, 10)} currentPage={parseInt(this.state.currentPage, 10)} resource={"listings/" + this.props.adType}/>
           </div>
           <AppFooter />
         </div>

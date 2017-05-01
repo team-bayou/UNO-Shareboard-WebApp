@@ -45,6 +45,8 @@ export default class ReportForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.reportbtn.setAttribute("disabled", "disabled");
+
       let data = {
         reportingUserId: utils.getCookie(constants.COOKIE_A),
         offendingUserId: this.props.reportedUserID,
@@ -52,7 +54,7 @@ export default class ReportForm extends Component {
       };
 
       if (!!this.props.reportedAdID) {
-        data.advertisementId = this.props.reportedAdID;
+        data.listingId = this.props.reportedAdID;
       }
 
       api.submitReport(data, function(success, response) {
@@ -67,6 +69,7 @@ export default class ReportForm extends Component {
             submissionSuccessful: false,
             submissionFailed: true
           });
+          this.refs.reportbtn.removeAttribute("disabled");
         }
       }.bind(this));
     }
@@ -122,7 +125,7 @@ export default class ReportForm extends Component {
             </div>
 
             <div className="uk-margin uk-text-right">
-              <button className="uk-button uk-button-secondary" type="submit" value="Submit">Submit</button>
+              <button ref="reportbtn" className="uk-button uk-button-secondary" type="submit" value="Submit">Submit</button>
               <button className="uk-button uk-button-default uk-modal-close" type="button" value="Cancel">Cancel</button>
             </div>
 

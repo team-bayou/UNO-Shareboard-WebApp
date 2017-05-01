@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import EditProfileForm from '../components/EditProfileForm';
+import LoadingNotification from '../components/LoadingNotification';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -30,7 +31,7 @@ export default class EditProfilePage extends Component {
   render() {
     if (!this.state.user) {
       return (
-        <div className="uk-text-center">Loading...</div>
+        <LoadingNotification />
       );
     }
 
@@ -41,7 +42,7 @@ export default class EditProfilePage extends Component {
           <div className="app-body uk-container uk-text-break">
 
             <div className="uk-margin-medium-bottom">
-              <h2 className="uk-heading-line uk-text-center"><span>Edit Profile</span></h2>
+              <h2 className="uk-heading-line uk-text-center" id="editprofileheader"><span>Edit Profile</span></h2>
             </div>
 
             <div className="uk-child-width-1-2@m" data-uk-grid>

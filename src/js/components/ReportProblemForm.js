@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import '../../css/styles.css';
 
 const utils = require('../utility/utilities');
@@ -73,9 +72,11 @@ export default class ReportProblemForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.reportproblembtn.setAttribute("disabled", "disabled");
+
       let data = {
         reportingUserId: this.state.userID,
-        comments: this.state.description
+        comments: this.state.description + "\n\nRe: " + window.location.href
       };
       api.submitReport(data, function(success, response) {
         if (success) {
@@ -89,6 +90,7 @@ export default class ReportProblemForm extends Component {
             submissionSuccessful: false,
             submissionFailed: true
           });
+          this.refs.reportproblembtn.removeAttribute("disabled");
         }
       }.bind(this));
     }
@@ -118,7 +120,7 @@ export default class ReportProblemForm extends Component {
         return (
           <div className="uk-text-center">
             <p>Your report has successfully been submitted!<br />We'll review it as soon as possible.</p>
-            <p><a onClick={browserHistory.goBack} className="unauth-link">Back</a></p>
+            <p><button className="uk-button uk-button-secondary uk-modal-close" type="button" value="Close">Close</button></p>
           </div>
         );
       }
@@ -144,12 +146,9 @@ export default class ReportProblemForm extends Component {
                 <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure you fill our the description of your problem</label>
               </div>
 
-              <div className="uk-margin">
-                <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Submit">Submit</button>
-              </div>
-
-              <div className="uk-margin-top uk-text-center">
-                <a onClick={browserHistory.goBack} className="unauth-link">Back</a>
+              <div className="uk-margin uk-text-right">
+                <button ref="reportproblembtn" className="uk-button uk-button-secondary" type="submit" value="Submit">Submit</button>
+                <button className="uk-button uk-button-default uk-modal-close" type="button" value="Cancel">Cancel</button>
               </div>
 
             </fieldset>

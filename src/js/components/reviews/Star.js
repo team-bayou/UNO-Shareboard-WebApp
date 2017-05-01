@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Review extends Component {
-  render(){
+  render() {
     let style = this.props.full ? "full" : "star";
 
     return (

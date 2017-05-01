@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
+import $ from 'jquery';
 
 const utils = require('../utility/utilities');
 const constants = require('../utility/constants');
@@ -38,11 +40,8 @@ export default class EditProfileForm extends Component {
       newPassword: "",
       newPasswordConfirm: "",
 
-      updateFailed: false,
-      updateSuccess: false
+      updateFailed: false
     };
-
-    console.log(this.state);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,6 +67,7 @@ export default class EditProfileForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.editprofilebtn.setAttribute("disabled", "disabled");
 
       if (!!this.state.newPassword) {
         if (this.state.newPassword.length < 6) {
@@ -76,6 +76,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             newPasswordStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
         else if (this.state.newPassword !== this.state.newPasswordConfirm) {
           this.passwordsMatch = false;
@@ -83,6 +84,7 @@ export default class EditProfileForm extends Component {
           this.setState({
             newPasswordConfirmStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
         }
       }
 
@@ -93,6 +95,8 @@ export default class EditProfileForm extends Component {
           this.setState({
             accountNameStyle: this.inputInvalid
           });
+          this.refs.editprofilebtn.removeAttribute("disabled");
+          $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
         }
         else {
           utils.checkForExistingUsername(this.state.accountName, function(exists, response) {
@@ -102,6 +106,8 @@ export default class EditProfileForm extends Component {
               this.setState({
                 accountNameStyle: this.inputInvalid
               });
+              this.refs.editprofilebtn.removeAttribute("disabled");
+              $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
             }
             else {
               utils.getUserByID(utils.getCookie(constants.COOKIE_A), function(exists, response) {
@@ -116,6 +122,8 @@ export default class EditProfileForm extends Component {
                       this.setState({
                         currentPasswordStyle: this.inputInvalid
                       });
+                      this.refs.editprofilebtn.removeAttribute("disabled");
+                      $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
                     }
                   }.bind(this));
                 }
@@ -154,21 +162,19 @@ export default class EditProfileForm extends Component {
         if (passChanged) {
           utils.clearCookies();
           utils.bakeCookies(data.accountName, function() {
-            this.setState({
-              updateSuccess: true
-            });
-          }.bind(this));
+            browserHistory.push("/profile");
+          });
         }
         else {
-          this.setState({
-            updateSuccess: true
-          });
+          browserHistory.push("/profile");
         }
       }
       else {
         this.setState({
           updateFailed: true
         });
+        this.refs.editprofilebtn.removeAttribute("disabled");
+        $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
       }
     }.bind(this));
   }
@@ -187,8 +193,7 @@ export default class EditProfileForm extends Component {
       currentPasswordStyle: this.inputValid,
       newPasswordStyle: this.inputValid,
       newPasswordConfirmStyle: this.inputValid,
-      updateFailed: false,
-      updateSuccess: false
+      updateFailed: false
     });
   }
 
@@ -200,6 +205,7 @@ export default class EditProfileForm extends Component {
         accountNameStyle: !!this.state.accountName ? this.inputValid : this.inputInvalid,
         currentPasswordStyle: !!this.state.currentPassword ? this.inputValid : this.inputInvalid
       });
+      $('html, body').animate({ scrollTop: $("#editprofileheader").offset().top - 15 }, 'fast');
     }
   }
 
@@ -208,15 +214,20 @@ export default class EditProfileForm extends Component {
       <form className="uk-form-stacked uk-align-center" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
 
-          <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all required fields are filled out</label>
-          <div className="uk-alert-danger uk-text-center" data-uk-alert hidden={!this.state.updateFailed}>
-            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
-            <p>There was a problem updating your account. Please try again or contact us if the problem continues.</p>
-          </div>
-          <div className="uk-alert-success uk-text-center" data-uk-alert hidden={!this.state.updateSuccess}>
-            <a className="uk-alert-close" data-uk-close data-uk-icon="icon: close"></a>
-            <p>Account updated successfully!</p>
-          </div>
+          {
+            this.emptyFields ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+            </div>
+            : null
+          }
+          {
+            this.state.updateFailed ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> There was a problem updating your account. Please try again or contact us if the problem continues.</p>
+            </div>
+            : null
+          }
 
           <div className="uk-margin">
             <div className="uk-placeholder uk-padding-small uk-background-muted">
@@ -228,7 +239,7 @@ export default class EditProfileForm extends Component {
           </div>
 
           <div className="uk-margin">
-            <label className="uk-form-label form-label" htmlFor="currentPassword">Current Password</label>
+            <label className="uk-form-label form-label" htmlFor="currentPassword">Current Password <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
               <input name="currentPassword" className={this.state.currentPasswordStyle} type="password"
                 placeholder="Current Password" value={this.state.currentPassword} onChange={this.handleInputChange} />
@@ -239,9 +250,9 @@ export default class EditProfileForm extends Component {
           <hr className="uk-divider-icon" />
 
           <div className="uk-margin">
-            <label className="uk-form-label form-label" htmlFor="accountName">Username</label>
+            <label className="uk-form-label form-label" htmlFor="accountName">Username <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
-              <input name="accountName" className={this.state.accountNameStyle} type="text"
+              <input id="accountName" name="accountName" className={this.state.accountNameStyle} type="text"
                 placeholder="Username" value={this.state.accountName} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={!this.usernameTaken}>That username has already been taken</label>
@@ -252,7 +263,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="firstName">First Name</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="firstName" className={this.inputValid} type="text"
+                <input id="firstName" name="firstName" className={this.inputValid} type="text"
                   placeholder="First Name" value={this.state.firstName} onChange={this.handleInputChange} />
               </div>
             </div>
@@ -262,7 +273,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="lastName">Last Name</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="lastName" className={this.inputValid} type="text"
+                <input id="lastName" name="lastName" className={this.inputValid} type="text"
                   placeholder="Last Name" value={this.state.lastName} onChange={this.handleInputChange} />
               </div>
             </div>
@@ -272,7 +283,7 @@ export default class EditProfileForm extends Component {
             <label className="uk-form-label form-label" htmlFor="phone">Phone Number</label>
             <div className="uk-form-controls">
               <div className="uk-inline uk-width-1">
-                <input name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
+                <input id="phone" name="phone" className={this.inputValid} type="text" placeholder="Phone Number" value={this.state.phone} onChange={this.handleInputChange} />
               </div>
             </div>
           </div>
@@ -355,7 +366,7 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="newPassword">New Password</label>
             <div className="uk-form-controls">
-              <input name="newPassword" className={this.state.newPasswordStyle} type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleInputChange} />
+              <input id="newPassword" name="newPassword" className={this.state.newPasswordStyle} type="password" placeholder="New Password" value={this.state.newPassword} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
           </div>
@@ -363,13 +374,13 @@ export default class EditProfileForm extends Component {
           <div className="uk-margin">
             <label className="uk-form-label form-label" htmlFor="newPasswordConfirm">Confirm New Password</label>
             <div className="uk-form-controls">
-              <input name="newPasswordConfirm" className={this.state.newPasswordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleInputChange} />
+              <input id="newPasswordConfirm" name="newPasswordConfirm" className={this.state.newPasswordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.newPasswordConfirm} onChange={this.handleInputChange} />
             </div>
             <label className="uk-form-label label-invalid" hidden={this.passwordsMatch}>Passwords don't match</label>
           </div>
 
-          <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Save Changes">Save Changes</button>
+          <div className="uk-margin uk-text-center">
+            <button ref="editprofilebtn" className="uk-button uk-button-secondary" type="submit" value="Save Changes">Save Changes</button>
           </div>
 
         </fieldset>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import AdList from './AdvertisementList';
+import AdList from './ListingList';
 import Paginator from '../Paginator';
 
-export default class AdvertisementPaginationList extends Component {
-  render(){
+export default class ListingPaginationList extends Component {
+  render() {
     let paginator = this.props.pages > 1 ?
       <Paginator pages={this.props.pages} currentPage={this.props.currentPage} resource={this.props.resource}/>
       :
@@ -14,7 +14,7 @@ export default class AdvertisementPaginationList extends Component {
         <div className="uk-margin-small-bottom">
           {paginator}
         </div>
-        <AdList advertisements={this.props.advertisements} edit={this.props.edit}/>
+        <AdList listings={this.props.listings} edit={this.props.edit}/>
         <div className="uk-margin-medium-top">
           {paginator}
         </div>

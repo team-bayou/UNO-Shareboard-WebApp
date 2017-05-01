@@ -57,12 +57,15 @@ export default class LoginForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.loginbtn.setAttribute("disabled", "disabled");
+
       utilities.checkAccount(this.state.email, this.state.password, function(emailExists, loginSuccessful, unverifiedUser) {
         if (!emailExists) {
             this.emailExists = false;
             this.setState({
               emailStyle: this.inputInvalid
             });
+            this.refs.loginbtn.removeAttribute("disabled");
         }
 
         else if (!loginSuccessful) {
@@ -70,6 +73,7 @@ export default class LoginForm extends Component {
           this.setState({
             passwordStyle: this.inputInvalid
           });
+          this.refs.loginbtn.removeAttribute("disabled");
         }
 
         if (emailExists && loginSuccessful) {
@@ -79,6 +83,7 @@ export default class LoginForm extends Component {
               emailStyle: this.inputValid,
               passwordStyle: this.inputValid
             });
+            this.refs.loginbtn.removeAttribute("disabled");
           }
           else {
             // perform login
@@ -120,25 +125,45 @@ export default class LoginForm extends Component {
       <form className="uk-form-stacked" onSubmit={this.handleSubmit}>
         <fieldset className="uk-fieldset">
           <legend className="uk-legend landing-header">Login</legend>
-          <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-          <label className="uk-form-label label-invalid" hidden={!this.unverifiedUser}>Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</label>
+          {
+            this.emptyFields ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+            </div>
+            : null
+          }
+          {
+            this.unverifiedUser ?
+            <div className="uk-alert-danger uk-text-center" data-uk-alert>
+              <p><span data-uk-icon="icon: warning"></span> Your account exists but has not been verified<br />Please check the e-mail that you registered with for your verification instructions</p>
+            </div>
+            : null
+          }
           <div className="uk-margin">
+            <label className="uk-form-label form-label" htmlFor="email">E-mail / Username <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
-              <input name="email" className={this.state.emailStyle} type="text" placeholder="E-mail / Username" value={this.state.email} onChange={this.handleInputChange} />
+              <div className="uk-inline uk-width-1-1">
+                <span className="uk-form-icon" data-uk-icon="icon: user"></span>
+                <input id="email" name="email" className={this.state.emailStyle} type="text" placeholder="E-mail / Username" value={this.state.email} onChange={this.handleInputChange} />
+              </div>
             </div>
             <label className="uk-form-label label-invalid" hidden={this.emailExists}>No account exists with that e-mail / username</label>
           </div>
           <div className="uk-margin">
+            <label className="uk-form-label form-label" htmlFor="password">Password <span className="label-invalid">*</span></label>
             <div className="uk-form-controls">
-              <input name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+              <div className="uk-inline uk-width-1-1">
+                <span className="uk-form-icon" data-uk-icon="icon: lock"></span>
+                <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+              </div>
             </div>
             <label className="uk-form-label label-invalid" hidden={this.passwordCorrect}>Password is incorrect</label>
           </div>
           <div className="uk-margin">
-            <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Login">Login</button>
+            <button ref="loginbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Login">Login</button>
           </div>
           <div className="uk-margin-top uk-text-center">
-            <a href="/forgotpassword" className="unauth-link">Forgot Password?</a>
+            <a href="/forgotpassword">Forgot Password?</a>
           </div>
         </fieldset>
       </form>

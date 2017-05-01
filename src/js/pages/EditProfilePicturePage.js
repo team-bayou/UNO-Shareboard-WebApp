@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import EditProfilePictureForm from '../components/EditProfilePictureForm';
+import LoadingNotification from '../components/LoadingNotification';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -33,7 +34,7 @@ export default class EditProfilePicturePage extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className="uk-text-center">Loading...</div>
+        <LoadingNotification />
       );
     }
 

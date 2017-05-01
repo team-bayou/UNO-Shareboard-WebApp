@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import ReportForm from '../components/ReportForm';
+import LoadingNotification from '../components/LoadingNotification';
 
 const utils = require('../utility/utilities');
 const api = require('../utility/api');
@@ -40,7 +41,7 @@ export default class ProfilePage extends Component {
     }.bind(this));
   }
 
-  getVisibility(flag){
+  getVisibility(flag) {
     return flag ?
       (<td className="user-profile-public uk-table-shrink"><span title="Public" data-uk-icon="icon: world" data-uk-tooltip></span></td>)
       :
@@ -50,7 +51,7 @@ export default class ProfilePage extends Component {
   render() {
     if (!this.state.user) {
       return (
-        <div className="uk-text-center">Loading...</div>
+        <LoadingNotification />
       );
     }
 
@@ -60,7 +61,7 @@ export default class ProfilePage extends Component {
           <AppHeader />
           <div className="app-body uk-container uk-text-break">
             <div className="uk-grid-large uk-grid-divider" data-uk-grid>
-              <div className="uk-width-1-1 uk-text-center">
+              <div className="uk-width-1-1 uk-text-center uk-margin-medium-top uk-margin-medium-bottom">
                 The requested user does not exist.
               </div>
             </div>
@@ -158,7 +159,7 @@ export default class ProfilePage extends Component {
                     {
                       this.state.myProfile ?
                       <tr className="user-profile-borderless-row">
-                        <td colSpan="3" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be hidden to other users</td>
+                        <td colSpan="3" className="uk-text-small"><strong>Note:</strong> Any fields that are marked <span data-uk-icon="icon: world"></span> will be public and marked <span data-uk-icon="icon: ban"></span> will be private</td>
                       </tr>
                       : null
                     }
@@ -171,9 +172,9 @@ export default class ProfilePage extends Component {
                   <li>
                     {
                       this.state.myProfile ?
-                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/advertisements"}><span data-uk-icon="icon: list"></span> View your listings</a>
+                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/listings"}><span data-uk-icon="icon: list"></span> View your listings</a>
                       :
-                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/advertisements"}><span data-uk-icon="icon: list"></span> View this user's listings</a>
+                      <a className="uk-button uk-button-primary uk-width-1-1" href={"/users/" + this.state.user.id + "/listings"}><span data-uk-icon="icon: list"></span> View this user's listings</a>
                     }
                   </li>
                   <li>

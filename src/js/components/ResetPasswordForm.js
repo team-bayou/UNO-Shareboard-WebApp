@@ -79,17 +79,21 @@ export default class ForgotPasswordForm extends Component {
     this.checkForEmptyFields();
 
     if (!this.emptyFields) {
+      this.refs.resetpassbtn.setAttribute("disabled", "disabled");
+
       if (this.state.password.length < 6) {
         this.passwordValid = false;
         this.setState({
           passwordStyle: this.inputInvalid
         });
+        this.refs.resetpassbtn.removeAttribute("disabled");
       }
       else if (this.state.password !== this.state.passwordConfirm) {
         this.passwordMatch = false;
         this.setState({
           passwordConfirmStyle: this.inputInvalid
         });
+        this.refs.resetpassbtn.removeAttribute("disabled");
       }
       else {
         const hashedPassword = encryption.createHash(this.state.password);
@@ -110,11 +114,13 @@ export default class ForgotPasswordForm extends Component {
             this.setState({
               verifycodeStyle: this.inputInvalid
             });
+            this.refs.resetpassbtn.removeAttribute("disabled");
           }
           else {
             this.setState({
               errorWithReset: true
             });
+            this.refs.resetpassbtn.removeAttribute("disabled");
           }
         }.bind(this));
       }
@@ -193,32 +199,47 @@ export default class ForgotPasswordForm extends Component {
 
                 <legend className="uk-legend uk-text-center">Reset Password</legend>
 
-                <label className="uk-form-label label-invalid" hidden={!this.emptyFields}>Please make sure all fields are filled out</label>
-                <label className="uk-form-label label-invalid" hidden={!this.state.errorWithReset}>There was an error when attempting to reset your password. Please try again or contact us if the problem persists.</label>
+                {
+                  this.emptyFields ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> Please make sure all required fields are filled out</p>
+                  </div>
+                  : null
+                }
+                {
+                  this.state.errorWithReset ?
+                  <div className="uk-alert-danger uk-text-center" data-uk-alert>
+                    <p><span data-uk-icon="icon: warning"></span> There was an error when attempting to reset your password<br />Please try again or contact us if the problem persists</p>
+                  </div>
+                  : null
+                }
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="verifycode">Verification Code <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
+                    <input id="verifycode" name="verifycode" className={this.state.verifycodeStyle} type="text" placeholder="Verification Code" value={this.state.verifycode} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.verificationCorrect}>Verification code is incorrect</label>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="password">New Password <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="password" className={this.state.passwordStyle} type="password" placeholder="New Password" value={this.state.password} onChange={this.handleInputChange} />
+                    <input id="password" name="password" className={this.state.passwordStyle} type="password" placeholder="New Password" value={this.state.password} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.passwordValid}>Password is too short (minimum 6 characters)</label>
                 </div>
 
                 <div className="uk-margin">
+                  <label className="uk-form-label form-label" htmlFor="passwordConfirm">Confirm New Password <span className="label-invalid">*</span></label>
                   <div className="uk-form-controls">
-                    <input name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="New Password (Confirm)" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
+                    <input id="passwordConfirm" name="passwordConfirm" className={this.state.passwordConfirmStyle} type="password" placeholder="Confirm New Password" value={this.state.passwordConfirm} onChange={this.handleInputChange} />
                   </div>
                   <label className="uk-form-label label-invalid" hidden={this.passwordMatch}>Passwords don't match</label>
                 </div>
 
                 <div className="uk-margin">
-                  <button className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Set Password</button>
+                  <button ref="resetpassbtn" className="uk-button uk-button-secondary uk-align-center landing-submit-btn" type="submit" value="Complete Registration">Set Password</button>
                 </div>
 
               </fieldset>
