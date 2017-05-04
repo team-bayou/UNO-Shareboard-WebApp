@@ -150,7 +150,6 @@ export default class EditProfileForm extends Component {
                   Drag and drop or click to select an image to upload
                 </div>
               </Dropzone>
-              <button ref="uploadimagebtn" className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload"><span data-uk-icon="icon: upload"></span> Upload</button>
             </div>
           </div>
 
@@ -159,6 +158,11 @@ export default class EditProfileForm extends Component {
             {
               !!this.state.image ?
               <img src={this.state.image.preview} alt="New Profile Picture Preview" width="300" height="300" />
+              : null
+            }
+            {
+              !!this.state.image ?
+              <button ref="uploadimagebtn" className="uk-button uk-button-secondary uk-margin-small-top" type="button" onClick={this.handleSubmit} value="Upload"><span data-uk-icon="icon: upload"></span> Upload</button>
               : null
             }
           </div>
