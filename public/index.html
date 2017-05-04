@@ -4,25 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-
-    <!--
-    The newer versions of UI Kit are a bit unstable right now.
-    They fix some things and break others, including breaking things our site relies on.
-    So for the time being, we should stick to our local version (beta.11).
-    It's also important to note that our local version does not have an associated `uikit-icons` file. That file comes into play starting with version beta.13
-    -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/css/uikit.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.16/js/uikit-icons.min.js"></script> -->
-
     <script src="%PUBLIC_URL%/jquery.min.js"></script>
     <link rel="stylesheet" href="%PUBLIC_URL%/uikit.min.css" />
     <script src="%PUBLIC_URL%/uikit.min.js"></script>
-
+    <style type="text/css">
+      .noscript {
+        padding: 15px;
+        text-align: center;
+        font-size: 1.25em;
+        position:absolute;
+        top:50%;
+        -ms-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        margin: 0 auto 0 auto;
+        left: 0;
+      	right: 0;
+        background-color: rgba(255, 0, 0, 0.1);
+        color: red;
+      }
+    </style>
     <title>UNO Shareboard</title>
   </head>
   <body>
+    <noscript>
+      <div class="noscript uk-width-1-3@m">
+        JavaScript is required to use this site
+      </div>
+    </noscript>
     <div id="container"></div>
   </body>
 </html>
